@@ -23,7 +23,6 @@ class ImageService
         $image = new Image();
         $imagePath = $this->imageS3Manager->upload($file);
         $image->setPath($imagePath);
-        $image->setCreatedAt(new \DateTimeImmutable());
         $this->imageRepository->add($image, true);
         return $image;
     }
