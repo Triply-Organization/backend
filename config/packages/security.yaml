@@ -1,3 +1,9 @@
+parameters:
+    zoho.mail.host: '%env(ZOHO_MAIL_HOST)%'
+    zoho.mail.username: '%env(ZOHO_MAIL_USERNAME)%'
+    zoho.mail.password: '%env(ZOHO_MAIL_PASSWORD)%'
+    zoho.mail.port: '%env(ZOHO_MAIL_PORT)%'
+
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -26,6 +32,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/register,roles: PUBLIC_ACCESS }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
