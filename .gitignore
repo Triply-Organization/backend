@@ -20,3 +20,4 @@
 ###< phpunit/phpunit ###
 /coverage/
 /symfony.lock
+/composer.lock
