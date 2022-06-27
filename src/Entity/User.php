@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $image;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -186,6 +189,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
