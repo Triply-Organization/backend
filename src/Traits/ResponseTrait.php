@@ -19,7 +19,7 @@ trait ResponseTrait
         return $jsonResponse;
     }
 
-    public function error(array $data, int $status = Response::HTTP_BAD_REQUEST): JsonResponse
+    public function errors(array $data, int $status = Response::HTTP_BAD_REQUEST): JsonResponse
     {
         $jsonResponse = new JsonResponse();
 

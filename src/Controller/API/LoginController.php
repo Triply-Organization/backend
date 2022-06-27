@@ -22,7 +22,7 @@ class LoginController extends AbstractController
         $user = $this->getUser();
         if ($user === null) {
             $message = ['Unauthorized',Response::HTTP_UNAUTHORIZED];
-            return $this->error($message);
+            return $this->errors($message);
         }
         $token = $tokenManager->create($user);
         $userData = $userTransformer->transform($user);
