@@ -21,3 +21,6 @@
 /coverage/
 /symfony.lock
 /composer.lock
+/phpunit.xml.dist
+
+###< symfony/phpunit-bridge ###
