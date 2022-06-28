@@ -21,7 +21,7 @@ class LoginController extends AbstractController
     {
         $user = $this->getUser();
         if ($user === null) {
-            $message = ['Unauthorized',Response::HTTP_UNAUTHORIZED];
+            $message = ['Unauthorized', Response::HTTP_UNAUTHORIZED];
             return $this->errors($message);
         }
         $token = $tokenManager->create($user);
@@ -30,6 +30,7 @@ class LoginController extends AbstractController
             'data' => $userData,
             'token' => $token
         ];
+
         return $this->success($data);
     }
 }
