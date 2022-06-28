@@ -14,28 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Tour[]    findAll()
  * @method Tour[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TourRepository extends ServiceEntityRepository
+class TourRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tour::class);
-    }
-
-    public function add(Tour $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Tour $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
     }
 }

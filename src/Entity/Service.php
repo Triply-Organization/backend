@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
-class Service
+class Service extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,6 +32,7 @@ class Service
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->tours = new ArrayCollection();
     }
 

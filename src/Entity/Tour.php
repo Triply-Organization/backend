@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TourRepository::class)]
-class Tour
+class Tour extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -36,12 +36,6 @@ class Tour
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'tours')]
     private $services;
 
-    #[ORM\OneToOne(mappedBy: 'tour', targetEntity: Price::class, cascade: ['persist', 'remove'])]
-    private $price;
-
-    #[ORM\ManyToMany(targetEntity: Destination::class, mappedBy: 'tours')]
-    private $destinations;
-
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
@@ -51,11 +45,22 @@ class Tour
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tours')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $createdUser;
+
+    #[ORM\Column(type: 'float')]
+    private $price;
+
+    #[ORM\OneToMany(mappedBy: 'tour', targetEntity: TourImage::class)]
+    private $tourImages;
+
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->tourPlans = new ArrayCollection();
         $this->services = new ArrayCollection();
-        $this->destinations = new ArrayCollection();
+        $this->tourImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,7 +149,6 @@ class Tour
     public function removeTourPlan(TourPlan $tourPlan): self
     {
         if ($this->tourPlans->removeElement($tourPlan)) {
-            // set the owning side to null (unless already changed)
             if ($tourPlan->getTour() === $this) {
                 $tourPlan->setTour(null);
             }
@@ -175,50 +179,6 @@ class Tour
     {
         if ($this->services->removeElement($service)) {
             $service->removeTour($this);
-        }
-
-        return $this;
-    }
-
-    public function getPrice(): ?Price
-    {
-        return $this->price;
-    }
-
-    public function setPrice(Price $price): self
-    {
-        // set the owning side of the relation if necessary
-        if ($price->getTour() !== $this) {
-            $price->setTour($this);
-        }
-
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Destination>
-     */
-    public function getDestinations(): Collection
-    {
-        return $this->destinations;
-    }
-
-    public function addDestination(Destination $destination): self
-    {
-        if (!$this->destinations->contains($destination)) {
-            $this->destinations[] = $destination;
-            $destination->addTour($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDestination(Destination $destination): self
-    {
-        if ($this->destinations->removeElement($destination)) {
-            $destination->removeTour($this);
         }
 
         return $this;
@@ -256,6 +216,59 @@ class Tour
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getCreatedUser(): ?User
+    {
+        return $this->createdUser;
+    }
+
+    public function setCreatedUser(?User $createdUser): self
+    {
+        $this->createdUser = $createdUser;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TourImage>
+     */
+    public function getTourImages(): Collection
+    {
+        return $this->tourImages;
+    }
+
+    public function addTourImage(TourImage $tourImage): self
+    {
+        if (!$this->tourImages->contains($tourImage)) {
+            $this->tourImages[] = $tourImage;
+            $tourImage->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTourImage(TourImage $tourImage): self
+    {
+        if ($this->tourImages->removeElement($tourImage)) {
+            if ($tourImage->getTour() === $this) {
+                $tourImage->setTour(null);
+            }
+        }
 
         return $this;
     }

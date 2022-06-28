@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TourPlanRepository::class)]
-class TourPlan
+class TourPlan extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -36,6 +36,15 @@ class TourPlan
     #[ORM\ManyToOne(targetEntity: Tour::class, inversedBy: 'tourPlans')]
     #[ORM\JoinColumn(nullable: false)]
     private $tour;
+
+    #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'tourPlans')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $destination;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -122,6 +131,18 @@ class TourPlan
     public function setTour(?Tour $tour): self
     {
         $this->tour = $tour;
+
+        return $this;
+    }
+
+    public function getDestination(): ?Destination
+    {
+        return $this->destination;
+    }
+
+    public function setDestination(?Destination $destination): self
+    {
+        $this->destination = $destination;
 
         return $this;
     }

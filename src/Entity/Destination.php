@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DestinationRepository::class)]
-class Destination
+class Destination extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,12 +27,13 @@ class Destination
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\ManyToMany(targetEntity: Tour::class, inversedBy: 'destinations')]
-    private $tours;
+    #[ORM\OneToMany(mappedBy: 'destination', targetEntity: TourPlan::class)]
+    private $tourPlans;
 
     public function __construct()
     {
-        $this->tours = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->tourPlans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,25 +90,30 @@ class Destination
     }
 
     /**
-     * @return Collection<int, Tour>
+     * @return Collection<int, TourPlan>
      */
-    public function getTours(): Collection
+    public function getTourPlans(): Collection
     {
-        return $this->tours;
+        return $this->tourPlans;
     }
 
-    public function addTour(Tour $tour): self
+    public function addTourPlan(TourPlan $tourPlan): self
     {
-        if (!$this->tours->contains($tour)) {
-            $this->tours[] = $tour;
+        if (!$this->tourPlans->contains($tourPlan)) {
+            $this->tourPlans[] = $tourPlan;
+            $tourPlan->setDestination($this);
         }
 
         return $this;
     }
 
-    public function removeTour(Tour $tour): self
+    public function removeTourPlan(TourPlan $tourPlan): self
     {
-        $this->tours->removeElement($tour);
+        if ($this->tourPlans->removeElement($tourPlan)) {
+            if ($tourPlan->getDestination() === $this) {
+                $tourPlan->setDestination(null);
+            }
+        }
 
         return $this;
     }
