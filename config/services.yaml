@@ -8,6 +8,9 @@ parameters:
     s3url: '%env(S3_URL)%'
 
 services:
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
