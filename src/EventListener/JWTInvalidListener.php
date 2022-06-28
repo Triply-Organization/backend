@@ -13,7 +13,7 @@ class JWTInvalidListener
 
     public function onJWTInvalid(JWTInvalidEvent $event): void
     {
-        $response = $this->errors(['Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        $response = $this->errors(['Unauthorized'], Response::HTTP_FORBIDDEN);
         $event->setResponse($response);
     }
 
