@@ -19,4 +19,14 @@ abstract class BaseTransformer
 
         return $result;
     }
+
+    public function listToArray(array $entities): array
+    {
+        $result = [];
+        foreach ($entities as $entity) {
+            $result[] = $this->toArray($entity);
+        }
+
+        return $result;
+    }
 }
