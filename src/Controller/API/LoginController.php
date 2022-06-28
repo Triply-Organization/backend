@@ -25,7 +25,7 @@ class LoginController extends AbstractController
             return $this->errors($message);
         }
         $token = $tokenManager->create($user);
-        $userData = $userTransformer->transform($user);
+        $userData = $userTransformer->fromArray($user);
         $data = [
             'data' => $userData,
             'token' => $token
