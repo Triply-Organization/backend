@@ -12,6 +12,8 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "jms/serializer": "^3.17",
+        "jms/serializer-bundle": "^4.0",
         "lexik/jwt-authentication-bundle": "^2.16",
         "phpmailer/phpmailer": "^6.6",
         "sensio/framework-extra-bundle": "^6.2",
