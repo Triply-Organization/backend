@@ -18,7 +18,7 @@ class SendMailService
     /**
      * @throws Exception
      */
-    public function sendSimpleMail(string $email, string $subject): void
+    public function sendRegisterMail(string $email, string $subject): void
     {
         $mail = $this->mailConfig(
             $this->params->get('zoho.mail.host'),

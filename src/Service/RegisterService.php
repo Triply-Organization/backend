@@ -32,7 +32,7 @@ class RegisterService
         $user = $this->registerMapper->mapping($requestData);
         $emailSubject = 'Welcome';
         $this->userRepository->add($user, true);
-        $this->sendMailService->sendSimpleMail($user->getEmail(), $emailSubject);
+        $this->sendMailService->sendRegisterMail($user->getEmail(), $emailSubject);
 
         return $user;
     }
