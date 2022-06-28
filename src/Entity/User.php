@@ -186,7 +186,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         return $this->image;
     }
 
-    public function setImage(Image $image): self
+    public function setImage(?Image $image): self
     {
         $this->image = $image;
 

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[Route('/api/register', name: 'api_register')]
 class RegisterController extends AbstractController
 {
     use ResponseTrait;
@@ -20,7 +21,7 @@ class RegisterController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('/api/register', name: 'api_register', methods: 'POST')]
+    #[Route('', name: '', methods: 'POST')]
     public function register(
         Request            $request,
         ValidatorInterface $validator,
