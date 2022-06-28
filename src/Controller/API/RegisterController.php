@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/api/register', name: 'api_register')]
+#[Route('/api', name: 'api_')]
 class RegisterController extends AbstractController
 {
     use ResponseTrait;
@@ -21,7 +21,7 @@ class RegisterController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('', name: '', methods: 'POST')]
+    #[Route('/register', name: 'register', methods: 'POST')]
     public function register(
         Request            $request,
         ValidatorInterface $validator,
@@ -35,6 +35,7 @@ class RegisterController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['errors' => 'Something wrong']);
         }
+
         $registerService->register($requestData);
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
