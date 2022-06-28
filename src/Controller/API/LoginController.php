@@ -20,14 +20,12 @@ class LoginController extends AbstractController
     public function login(JWTTokenManagerInterface $tokenManager, UserTransformer $userTransformer): JsonResponse
     {
         $user = $this->getUser();
-        dd($user);
         if ($user === null) {
-            $message = ['Unauthorized',Response::HTTP_UNAUTHORIZED];
+            $message = ['Unauthorized', Response::HTTP_UNAUTHORIZED];
             return $this->errors($message);
         }
         $token = $tokenManager->create($user);
         $userData = $userTransformer->transform($user);
-        dd($userData);
         $data = [
             'data' => $userData,
             'token' => $token
