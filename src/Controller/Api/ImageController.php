@@ -7,7 +7,6 @@ use App\Traits\ResponseTrait;
 use App\Request\ImageRequest;
 use App\Transformer\ImageTransformer;
 use App\Validator\ImageValidator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,6 @@ class ImageController extends AbstractController
     use ResponseTrait;
 
     #[Route('/', name: 'add_image', methods: 'POST')]
-    #[IsGranted('ROLE_ADMIN')]
     public function addImage(
         Request $request,
         ImageService $imageService,
