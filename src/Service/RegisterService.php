@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Service;
 
 use App\Entity\User;
+use App\Mapper\RegisterMapper;
 use App\Repository\UserRepository;
 use App\Request\BaseRequest;
-use App\Mapper\RegisterMapper;
 use PHPMailer\PHPMailer\Exception;
 
 class RegisterService

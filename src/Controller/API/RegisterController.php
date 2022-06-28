@@ -3,7 +3,7 @@
 namespace App\Controller\API;
 
 use App\Request\RegisterRequest;
-use App\Services\RegisterService;
+use App\Service\RegisterService;
 use App\Traits\ResponseTrait;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

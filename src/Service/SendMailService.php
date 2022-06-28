@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Service;
 
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class SendMailService
 {
     private ParameterBagInterface $params;
-
     public function __construct(ParameterBagInterface $params)
     {
         $this->params = $params;
