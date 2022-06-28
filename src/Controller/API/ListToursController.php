@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/api/tours', name: 'app_')]
+#[Route('/api/tours', name: 'tour_')]
 class ListToursController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/', name: 'tour_lists', methods: 'GET')]
+    #[Route('/', name: 'lists', methods: 'GET')]
     public function index(
         Request            $request,
         TourRequest        $tourRequest,
@@ -28,7 +28,6 @@ class ListToursController extends AbstractController
     {
         $query = $request->query->all();
         $tourRequest = $tourRequest->fromArray($query);
-
         $errors = $validator->validate($tourRequest);
         if (count($errors) > 0) {
             return $this->errors(['errors' => 'Bad request']);
