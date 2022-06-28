@@ -16,6 +16,7 @@ abstract class BaseTransformer
             }
             $result[$value] = $entity->{$getProperty}();
         }
+
         return $result;
     }
 }
