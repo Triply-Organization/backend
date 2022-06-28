@@ -35,6 +35,7 @@ class RegisterController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['errors' => 'Something wrong']);
         }
+
         $registerService->register($requestData);
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
