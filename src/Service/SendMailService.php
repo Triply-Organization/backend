@@ -2,17 +2,26 @@
 
 namespace App\Service;
 
+use App\Event\EmailEvent;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SendMailService
 {
     private ParameterBagInterface $params;
-    public function __construct(ParameterBagInterface $params)
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private EventDispatcherInterface $dispatcher;
+
+    public function __construct(ParameterBagInterface $params, EventDispatcherInterface $dispatcher)
     {
         $this->params = $params;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -35,6 +44,9 @@ class SendMailService
             $mail->Subject = $subject;
             $mail->Body = 'Welcome to our Website';
             $mail->send();
+
+            $event = new EmailEvent($mail);
+            $this->dispatcher->dispatch($event, CarEvent::SET);
         } catch (Exception $e) {
             throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
