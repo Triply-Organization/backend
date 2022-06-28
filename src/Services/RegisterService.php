@@ -30,12 +30,9 @@ class RegisterService
     public function register(BaseRequest $requestData): User
     {
         $user = $this->registerMapper->mapping($requestData);
-
-        var_dump($user);die();
-
         $emailSubject = 'Welcome';
         $this->userRepository->add($user, true);
-        $this->sendMailService->sendSimpleMail($user->getEmail(), $emailSubject, $code);
+        $this->sendMailService->sendSimpleMail($user->getEmail(), $emailSubject);
 
         return $user;
     }

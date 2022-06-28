@@ -35,6 +35,8 @@ class RegisterRequest extends BaseRequest
     )]
     private $roles;
 
+    #[Assert\Type('numeric')]
+    private $imageId;
     /**
      * @return mixed
      */
@@ -113,5 +115,21 @@ class RegisterRequest extends BaseRequest
     public function setRoles($roles): void
     {
         $this->roles = $roles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageId()
+    {
+        return $this->imageId;
+    }
+
+    /**
+     * @param mixed $imageId
+     */
+    public function setImageId($imageId): void
+    {
+        $this->imageId = $imageId;
     }
 }

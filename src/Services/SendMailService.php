@@ -19,7 +19,7 @@ class SendMailService
     /**
      * @throws Exception
      */
-    public function sendSimpleMail(string $email, string $subject, string $code): void
+    public function sendSimpleMail(string $email, string $subject): void
     {
         $mail = $this->mailConfig(
             $this->params->get('zoho.mail.host'),
@@ -34,7 +34,7 @@ class SendMailService
             //Content
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body = "This is your code: <b>$code</b>";
+            $mail->Body = 'Welcome to our Website';
             $mail->send();
         } catch (Exception $e) {
             throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");

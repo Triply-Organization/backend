@@ -40,7 +40,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     private $deletedAt;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $image;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -186,7 +186,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         return $this->image;
     }
 
-    public function setImage(Image $image): self
+    public function setImage(?Image $image): self
     {
         $this->image = $image;
 

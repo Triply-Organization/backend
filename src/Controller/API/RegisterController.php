@@ -18,9 +18,9 @@ class RegisterController extends AbstractController
     use ResponseTrait;
 
     /**
-     * @Route("/api/register", name="api_register", methods={"POST"})
      * @throws Exception
      */
+    #[Route('/api/register', name: 'api_register', methods: 'POST')]
     public function register(
         Request            $request,
         ValidatorInterface $validator,
