@@ -7,6 +7,7 @@ use App\Manager\Logger\EmailLogger;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+
 class EmailSubscriber implements EventSubscriberInterface
 {
     private EmailLogger $emailLogger;
@@ -20,7 +21,7 @@ class EmailSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'email.send' => 'onSendMail',
+            'email.send' => 'onEmailSend',
         ];
     }
 
@@ -28,7 +29,7 @@ class EmailSubscriber implements EventSubscriberInterface
      * @param EmailEvent $event
      * @return void
      */
-    public function onSendEmail(EmailEvent $event): void
+    public function onEmailSend(EmailEvent $event): void
     {
         $this->emailLogger->emailSend($event->getEmail());
     }
