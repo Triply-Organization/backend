@@ -48,7 +48,6 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     private $tours;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
     private $avatar;
 
     public function __construct()
@@ -228,19 +227,15 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAvatar()
+    public function getAvatar(): ?Image
     {
         return $this->avatar;
     }
 
-    /**
-     * @param mixed $avatar
-     */
-    public function setAvatar($avatar): void
+    public function setAvatar(?Image $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
     }
 }
