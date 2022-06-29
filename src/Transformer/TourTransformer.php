@@ -6,7 +6,7 @@ use App\Entity\Tour;
 
 class TourTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id' ,'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
+    private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
 
     public function fromArray(Tour $tour): array
     {

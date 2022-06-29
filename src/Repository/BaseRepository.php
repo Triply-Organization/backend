@@ -23,7 +23,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
-            $this->getEntityManager()->flush();
+                $this->getEntityManager()->flush();
         }
     }
 

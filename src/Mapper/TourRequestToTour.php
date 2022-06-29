@@ -5,6 +5,7 @@ namespace App\Mapper;
 use App\Entity\Tour;
 use App\Entity\User;
 use App\Repository\ImageRepository;
+use App\Repository\ServiceRepository;
 use App\Request\TourRequest;
 use Symfony\Component\Security\Core\Security;
 
@@ -17,7 +18,7 @@ class TourRequestToTour
         $this->security = $security;
     }
 
-    public function mapper(TourRequest $tourRequest)
+    public function mapper(TourRequest $tourRequest): Tour
     {
         /**
          * @var User $currentUser
