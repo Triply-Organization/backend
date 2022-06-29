@@ -41,15 +41,14 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $image;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     #[ORM\OneToMany(mappedBy: 'createdUser', targetEntity: Tour::class)]
     private $tours;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private $avatar;
 
     public function __construct()
     {
@@ -187,18 +186,6 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         return $this;
     }
 
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -236,6 +223,18 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
                 $tour->setCreatedUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Image
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Image $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
