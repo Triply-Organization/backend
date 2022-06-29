@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Manager\Logger;
 
-use JMS\Serializer\SerializerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class BaseLogger.
