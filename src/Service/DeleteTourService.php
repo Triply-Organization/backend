@@ -26,21 +26,10 @@ class DeleteTourService
 
     public function delete(Tour $tour):void
     {
-        $thisTime = new \DateTimeImmutable();
-        $tourPlans = $this->tourPlanRepository->findBy(['tour' => $tour]);
-        $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
+        $this->tourPlanRepository->deleteWithRelation('tour', $tour->getId());
 
-        foreach ($tourPlans as $tourPlan) {
-            $tourPlan->setDeletedAt($thisTime);
-            $this->tourPlanRepository->add($tourPlan, true);
-        }
+        $this->tourImageRepository->deleteWithRelation('tour', $tour->getId());
 
-        foreach ($tourImages as $tourImage) {
-            $tourImage->setDeletedAt($thisTime);
-            $this->tourImageRepository->add($tourImage, true);
-        }
-
-        $tour->setDeletedAt($thisTime);
-        $this->tourRepository->add($tour, true);
+        $this->tourRepository->delete($tour->getId());
     }
 }

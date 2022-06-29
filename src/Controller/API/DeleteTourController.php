@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Entity\Tour;
 use App\Service\DeleteTourService;
 use App\Traits\ResponseTrait;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class DeleteTourController extends AbstractController
 {
     use ResponseTrait;
 
+    #[isGranted('ROLE_CUSTOMER')]
     #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
     public function deleteTour(Tour $tour, DeleteTourService $tourService ):JsonResponse
     {
