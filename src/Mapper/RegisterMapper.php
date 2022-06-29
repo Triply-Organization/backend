@@ -24,7 +24,7 @@ class RegisterMapper
             ->setPassword(password_hash($registerRequest->getPassword(), PASSWORD_DEFAULT))
             ->setRoles($registerRequest->getRoles())
             ->setPhone($registerRequest->getPhone())
-            ->setImage($image);
+            ->setAvatar($image);
 
         return $user;
     }
