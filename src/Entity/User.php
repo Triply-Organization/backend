@@ -42,7 +42,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     private $deletedAt;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $image;
 
     #[ORM\Column(type: 'string', length: 255)]
