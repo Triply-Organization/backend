@@ -23,7 +23,7 @@ class TourService
     public function addTour(TourRequest $tourRequest)
     {
         $tour = $this->tourRequestToTour->mapper($tourRequest);
-        $this->tourRepository->add($tour);
+        $this->tourRepository->add($tour, true);
         return $tour;
     }
 }

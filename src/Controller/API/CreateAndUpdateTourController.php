@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Entity\User;
 use App\Request\TourRequest;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
@@ -9,6 +10,7 @@ use App\Transformer\TourTransformer;
 use App\Validator\TourValidator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,7 +26,7 @@ class CreateAndUpdateTourController extends AbstractController
         TourValidator $tourValidator,
         TourService $tourService,
         TourTransformer $tourTransformer,
-    )
+    ): JsonResponse
     {
         $dataRequest = json_decode($request->getContent(), true);
         $tour = $tourRequest->fromArray($dataRequest);

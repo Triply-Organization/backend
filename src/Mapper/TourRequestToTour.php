@@ -17,7 +17,7 @@ class TourRequestToTour
         $this->security = $security;
     }
 
-    public function mapper(TourRequest $tourRequest)
+    public function mapper(TourRequest $tourRequest): Tour
     {
         /**
          * @var User $currentUser

@@ -36,6 +36,7 @@ class TourRequest extends BaseRequest
     #[Assert\NotNull]
     private $price;
 
+
     /**
      * @return mixed
      */
