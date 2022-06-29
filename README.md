@@ -7,10 +7,9 @@ About Project
 
 Unlock Programing This is a new repository for unlock training
 
-**The** **car for rent project** is written by Symfony version 6.1 with the instruction of **Mr. Bang
-Dinh** and **Mr. Tinh Le**
+**The** **triply project** is written by Symfony version 6.1 with Back-end Team includes **Nhi Vo**, **Kha Nguyen**,and **Quoc Thang** with the instruction of **Mr. Bang Dinh** and **Mr. Tinh Le**
 
-This is RentCar Project built on Symfony framework.
+This is Tour Booking Project built on Symfony framework.
 
 Requirements
 ------------
