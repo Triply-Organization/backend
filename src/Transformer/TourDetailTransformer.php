@@ -3,13 +3,11 @@
 namespace App\Transformer;
 
 use App\Entity\Tour;
-use App\Entity\TourImage;
-use App\Entity\TourPlan;
-use App\Repository\TourRepository;
 use App\Service\TourService;
 
-class TourTransformer extends BaseTransformer
+class TourDetailTransformer extends BaseTransformer
 {
+
     private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
     private TourService $tourService;
 
@@ -22,7 +20,9 @@ class TourTransformer extends BaseTransformer
     {
         $result = $this->transform($tour, static::PARAMS);
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();
-        $result['tourImages'] = $this->tourService->getCover($tour);
+        $result['tourImages'] = $this->tourService->getGallary($tour);
+        $result['tourPlans'] = $this->tourService->getTourPlan($tour);
+        $result['services'] = $this->tourService->getServices($tour);
 
         return $result;
     }

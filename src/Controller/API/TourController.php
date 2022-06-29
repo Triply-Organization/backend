@@ -6,7 +6,9 @@ use App\Entity\Tour;
 use App\Request\TourRequest;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
+use App\Transformer\TourDetailTransformer;
 use App\Transformer\TourTransformer;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/tours', name: 'tour_')]
-class ListToursController extends AbstractController
+class TourController extends AbstractController
 {
     use ResponseTrait;
 
@@ -36,5 +38,11 @@ class ListToursController extends AbstractController
         $result = $tourTransformer->listToArray($tours);
 
         return $this->success($result);
+    }
+
+    #[Route('/{id}', name: 'details', methods: 'GET')]
+    public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
+    {
+        return $this->success($tourDetailTransformer->toArray($tour));
     }
 }

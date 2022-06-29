@@ -33,4 +33,5 @@ class TourRepository extends BaseRepository
 
         return $tours->getQuery()->getResult();
     }
+
 }
