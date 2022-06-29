@@ -31,7 +31,6 @@ abstract class BaseRepository extends ServiceEntityRepository
 
     public function delete(int $id)
     {
-
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
             "UPDATE $this->entityClass $this->alias 
@@ -50,6 +49,29 @@ abstract class BaseRepository extends ServiceEntityRepository
                 SET $this->alias.deletedAt = :date 
                 WHERE $this->alias.$field = $id"
         )->setParameter('date', new DateTimeImmutable());
+
+        return $query->getResult();
+    }
+
+    public function undoDelete($id) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            "UPDATE $this->entityClass $this->alias 
+                SET $this->alias.deletedAt = NULL
+                WHERE $this->alias.id = $id"
+        );
+
+        return $query->getResult();
+    }
+
+    public function undoDeleteWithRelation(string $field, int $id)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            "UPDATE $this->entityClass $this->alias 
+                SET $this->alias.deletedAt = NULL
+                WHERE $this->alias.$field = $id"
+        );
 
         return $query->getResult();
     }

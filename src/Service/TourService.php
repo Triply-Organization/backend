@@ -7,7 +7,7 @@ use App\Repository\TourImageRepository;
 use App\Repository\TourPlanRepository;
 use App\Repository\TourRepository;
 
-class DeleteTourService
+class TourService
 {
     private TourRepository $tourRepository;
     private TourPlanRepository $tourPlanRepository;
@@ -31,5 +31,14 @@ class DeleteTourService
         $this->tourImageRepository->deleteWithRelation('tour', $tour->getId());
 
         $this->tourRepository->delete($tour->getId());
+    }
+
+    public function undoDelete(Tour $tour):void
+    {
+        $this->tourPlanRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->undoDelete($tour->getId());
     }
 }
