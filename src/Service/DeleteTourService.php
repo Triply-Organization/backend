@@ -24,18 +24,23 @@ class DeleteTourService
         $this->tourImageRepository = $tourImageRepository;
     }
 
-    public function delete(Tour $tour)
+    public function delete(Tour $tour):void
     {
         $thisTime = new \DateTimeImmutable();
-        $tourPlans = $this->tourPlanRepository->findBy(['tour_id' => $tour->getId()]);
-        $tourImages = $this->tourImageRepository->findBy(['tour_id' => $tour->getId()]);
-        $tour->setDeletedAt($thisTime);
+        $tourPlans = $this->tourPlanRepository->findBy(['tour' => $tour]);
+        $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
+
         foreach ($tourPlans as $tourPlan) {
             $tourPlan->setDeletedAt($thisTime);
+            $this->tourPlanRepository->add($tourPlan, true);
         }
 
         foreach ($tourImages as $tourImage) {
             $tourImage->setDeletedAt($thisTime);
+            $this->tourImageRepository->add($tourImage, true);
         }
+
+        $tour->setDeletedAt($thisTime);
+        $this->tourRepository->add($tour, true);
     }
 }
