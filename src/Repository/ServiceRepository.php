@@ -27,12 +27,12 @@ class ServiceRepository extends BaseRepository
     public function getServices(int $id)
     {
         $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT b.id 
-            FROM App\Entity\Tour a, App\Entity\TourPlan b, App\Entity\Destination c
-            WHERE :id = a.id and a.id = b.id and b.id = c.id '
+        $query = $entityManager->createQuery('
+        SELECT b.name service
+        FROM App\Entity\Tour AS a, App\Entity\Service AS b
+        WHERE a.id = :id AND a.id = b.id'
         )->setParameter('id', $id);
+
         return $query->execute();
     }
 }

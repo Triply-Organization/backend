@@ -5,7 +5,7 @@ namespace App\Transformer;
 use App\Entity\TourImage;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class TourImageGallaryTransformer
+class TourImageTransformer
 {
 
     private ParameterBagInterface $params;
