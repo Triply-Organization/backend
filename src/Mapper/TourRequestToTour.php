@@ -5,6 +5,7 @@ namespace App\Mapper;
 use App\Entity\Tour;
 use App\Entity\User;
 use App\Repository\ImageRepository;
+use App\Repository\ServiceRepository;
 use App\Request\TourRequest;
 use Symfony\Component\Security\Core\Security;
 

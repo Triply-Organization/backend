@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/tours', name: 'api_tour_')]
-class CreateAndUpdateTourController extends AbstractController
+class TourController extends AbstractController
 {
     use ResponseTrait;
 

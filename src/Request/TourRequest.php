@@ -36,6 +36,20 @@ class TourRequest extends BaseRequest
     #[Assert\NotNull]
     private $price;
 
+    #[Assert\Type('array')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $service;
+
+    #[Assert\Type('array')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $tourPlan;
+
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $tourImage;
+
 
     /**
      * @return mixed
@@ -131,5 +145,53 @@ class TourRequest extends BaseRequest
     public function setPrice($price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * @param mixed $service
+     */
+    public function setService($service): void
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTourPlan()
+    {
+        return $this->tourPlan;
+    }
+
+    /**
+     * @param mixed $tourPlan
+     */
+    public function setTourPlan($tourPlan): void
+    {
+        $this->tourPlan = $tourPlan;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTourImage()
+    {
+        return $this->tourImage;
+    }
+
+    /**
+     * @param mixed $tourImage
+     */
+    public function setTourImage($tourImage): void
+    {
+        $this->tourImage = $tourImage;
     }
 }
