@@ -6,7 +6,7 @@ use App\Repository\TourImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TourImageRepository::class)]
-class TourImage
+class TourImage extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
