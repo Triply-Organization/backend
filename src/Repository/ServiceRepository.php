@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\TourPlan;
+use App\Entity\Tour;
+use App\Entity\Destination;
 
 /**
  * @extends ServiceEntityRepository<Service>
