@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Entity\Tour;
 use App\Request\TourRequest;
 use App\Service\DestinationService;
+use App\Service\FacilityService;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
 use App\Transformer\TourDetailTransformer;
@@ -29,18 +30,19 @@ class TourController extends AbstractController
         ValidatorInterface $validator,
         TourTransformer    $tourTransformer,
         DestinationService $destinationService,
-        TourService        $tourService
+        TourService        $tourService,
+        FacilityService    $facilityService
     ): JsonResponse
     {
         $query = $request->query->all();
         $tourRequest = $tourRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
         if (count($errors) > 0) {
-            return $this->errors(['errors' => 'Bad request']);
+            return $this->errors(['Bad request']);
         }
         $tours = $tourService->findAll($tourRequest);
         $result['tours'] = $tourTransformer->listToArray($tours);
-        $result['services'] = $tourService->getAllService();
+        $result['services'] = $facilityService->getAllService();
         $result['destinations'] = $destinationService->getAllDestination();
 
         return $this->success($result);

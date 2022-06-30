@@ -6,13 +6,13 @@ use App\Entity\Service;
 use App\Entity\Tour;
 use App\Service\TourService;
 
-class TourServicesTransformer
+class TourServicesTransformer extends BaseTransformer
 {
+    private const PARAMS = ['id', 'name'];
+
     public function toArray(Service $service): array
     {
-        return [
-            'id' => $service->getId(),
-            'name' => $service->getName()
-        ];
+        $serviceData = $this->transform($service, static::PARAMS);
+        return $serviceData;
     }
 }

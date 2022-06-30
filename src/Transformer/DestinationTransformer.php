@@ -4,13 +4,13 @@ namespace App\Transformer;
 
 use App\Entity\Destination;
 
-class DestinationTransformer
+class DestinationTransformer extends BaseTransformer
 {
+    private const PARAMS = ['id', 'name'];
+
     public function toArray(Destination $destination): array
     {
-        return [
-            'id' => $destination->getId(),
-            'name' => $destination->getName()
-        ];
+        $destinationData = $this->transform($destination, static::PARAMS);
+        return $destinationData;
     }
 }

@@ -2,44 +2,27 @@
 
 namespace App\Service;
 
-use App\Repository\ServiceRepository;
 use App\Repository\TourRepository;
 use App\Entity\Tour;
 use App\Request\TourRequest;
 use App\Repository\TourImageRepository;
-use App\Transformer\TourImageTransformer;
 use App\Repository\TourPlanRepository;
-use App\Transformer\TourPlansTransformer;
-use App\Transformer\TourServicesTransformer;
-
 
 class TourService
 {
     private TourPlanRepository $tourPlanRepository;
     private TourRepository $tourRepository;
     private TourImageRepository $tourImageRepository;
-    private TourImageTransformer $tourImageTransformer;
-    private TourServicesTransformer $tourServicesTransformer;
-    private TourPlansTransformer $tourPlansTransformer;
-    private ServiceRepository $serviceRepository;
 
     public function __construct(
-        TourRepository          $tourRepository,
-        TourImageRepository     $tourImageRepository,
-        TourImageTransformer    $tourImageTransformer,
-        TourPlansTransformer    $tourPlansTransformer,
-        TourPlanRepository      $tourPlanRepository,
-        TourServicesTransformer $tourServicesTransformer,
-        ServiceRepository       $serviceRepository,
+        TourRepository      $tourRepository,
+        TourImageRepository $tourImageRepository,
+        TourPlanRepository  $tourPlanRepository,
     )
     {
         $this->tourRepository = $tourRepository;
         $this->tourImageRepository = $tourImageRepository;
-        $this->tourImageTransformer = $tourImageTransformer;
-        $this->tourServicesTransformer = $tourServicesTransformer;
-        $this->tourPlansTransformer = $tourPlansTransformer;
         $this->tourPlanRepository = $tourPlanRepository;
-        $this->serviceRepository = $serviceRepository;
     }
 
     public function findAll(TourRequest $tourRequest): array
@@ -58,43 +41,6 @@ class TourService
         }
 
         return $path;
-    }
-
-    public function getGallary(Tour $tour): array
-    {
-        $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
-        $gallery = [];
-        foreach ($tourImages as $tourImage) {
-            $gallery[] = $this->tourImageTransformer->toArray($tourImage);
-        }
-
-        return $gallery;
-    }
-
-    public function getTourPlan($plans): array
-    {
-        $tourPlans = [];
-        foreach ($plans as $plan) {
-            $tourPlans[] = $this->tourPlansTransformer->toArray($plan);
-        }
-
-        return $tourPlans;
-    }
-
-    public function getServices($services): array
-    {
-        $tourServiceList = [];
-        foreach ($services as $service) {
-            $tourServiceList[] = $this->tourServicesTransformer->toArray($service);
-        }
-
-        return $tourServiceList;
-    }
-
-    public function getAllService()
-    {
-        $services = $this->getServices($this->serviceRepository->findAll());
-        return $services;
     }
 
     public function delete(Tour $tour): void

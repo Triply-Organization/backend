@@ -14,9 +14,8 @@ class TourRequest extends BaseRequest
     public const DEFAULT_OFFSET = 0;
     public const MIN_GUESTS = 1;
 
-    #[Assert\Type('integer')]
+    #[Assert\Type('numeric')]
     private $limit = self::DEFAULT_LIMIT;
-
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -30,10 +29,10 @@ class TourRequest extends BaseRequest
     #[Assert\Type('string')]
     private $orderBy = self::DEFAULT_ORDER_BY;
 
-    #[Assert\Type('integer')]
+    #[Assert\Type('numeric')]
     private $destination;
 
-    #[Assert\Type('integer')]
+    #[Assert\Type('numeric')]
     private $guests = self::MIN_GUESTS;
 
     /**
@@ -97,7 +96,7 @@ class TourRequest extends BaseRequest
      */
     public function setDestination($destination): void
     {
-        $this->destination = is_numeric($destination) ? (int)$destination : $destination;
+        $this->destination = $destination;
     }
 
     /**
@@ -115,4 +114,5 @@ class TourRequest extends BaseRequest
     {
         $this->guests = $guests;
     }
+
 }

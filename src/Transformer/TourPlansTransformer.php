@@ -17,5 +17,4 @@ class TourPlansTransformer
             'description' => $tourPlan->getDescription()
         ];
     }
-
 }

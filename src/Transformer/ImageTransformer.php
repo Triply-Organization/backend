@@ -7,8 +7,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id' ,'path'];
+    private const PARAMS = ['id', 'path'];
     private ParameterBagInterface $params;
+
     public function __construct(ParameterBagInterface $params)
     {
         $this->params = $params;
