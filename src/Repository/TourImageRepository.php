@@ -18,6 +18,6 @@ class TourImageRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TourImage::class);
+        parent::__construct($registry, TourImage::class, 'i');
     }
 }
