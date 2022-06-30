@@ -95,5 +95,4 @@ abstract class BaseRepository extends ServiceEntityRepository
 
         return $query->orderBy($this->alias . ".$orderType", $orderBy);
     }
-
 }
