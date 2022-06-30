@@ -2,14 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Service;
 use App\Repository\TourRepository;
 use App\Entity\Tour;
 use App\Request\TourRequest;
 use App\Repository\TourImageRepository;
-use App\Repository\ImageRepository;
 use App\Transformer\TourImageTransformer;
-use App\Repository\ServiceRepository;
 use App\Repository\TourPlanRepository;
 use App\Transformer\TourPlansTransformer;
 use App\Transformer\TourServicesTransformer;
@@ -29,7 +26,7 @@ class TourService
         TourImageRepository     $tourImageRepository,
         TourImageTransformer    $tourImageTransformer,
         TourPlansTransformer    $tourPlansTransformer,
-        TourPlanRepository  $tourPlanRepository,
+        TourPlanRepository      $tourPlanRepository,
         TourServicesTransformer $tourServicesTransformer
     )
     {
@@ -90,7 +87,7 @@ class TourService
         return $tourServiceList;
     }
 
-    public function delete(Tour $tour):void
+    public function delete(Tour $tour): void
     {
         $this->tourPlanRepository->deleteWithRelation('tour', $tour->getId());
 
@@ -99,7 +96,7 @@ class TourService
         $this->tourRepository->delete($tour->getId());
     }
 
-    public function undoDelete(Tour $tour):void
+    public function undoDelete(Tour $tour): void
     {
         $this->tourPlanRepository->undoDeleteWithRelation('tour', $tour->getId());
 

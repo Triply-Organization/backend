@@ -18,7 +18,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use  Symfony\Component\HttpFoundation\Response;
 
 #[Route('/api/tours', name: 'tour_')]
-
 class TourController extends AbstractController
 {
     use ResponseTrait;
@@ -51,7 +50,7 @@ class TourController extends AbstractController
 
     #[isGranted('ROLE_CUSTOMER')]
     #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
-    public function deleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    public function deleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->delete($tour);
         return $this->success([], Response::HTTP_NO_CONTENT);
@@ -59,7 +58,7 @@ class TourController extends AbstractController
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/undo/{id<\d+>}', name: 'undo_delete', methods: 'PATCH')]
-    public function undoDeleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    public function undoDeleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->undoDelete($tour);
         return $this->success([], Response::HTTP_NO_CONTENT);
