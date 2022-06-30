@@ -19,6 +19,16 @@ class TourRequest extends BaseRequest
     #[Assert\Type('integer')]
     private $duration;
 
+    #[Assert\Choice(
+        choices: self::ORDER_TYPE_LIST,
+    )]
+    private string $orderType = self::DEFAULT_ORDER_TYPE;
+
+    #[Assert\Choice(
+        choices: self::ORDER_BY_LIST,
+    )]
+    private string $orderBy = self::DEFAULT_ORDER_BY;
+
     /**
      * @return int
      */
@@ -82,14 +92,4 @@ class TourRequest extends BaseRequest
     {
         $this->orderBy = $orderBy;
     }
-
-    #[Assert\Choice(
-        choices: self::ORDER_TYPE_LIST,
-    )]
-    private string $orderType = self::DEFAULT_ORDER_TYPE;
-
-    #[Assert\Choice(
-        choices: self::ORDER_BY_LIST,
-    )]
-    private string $orderBy = self::DEFAULT_ORDER_BY;
 }

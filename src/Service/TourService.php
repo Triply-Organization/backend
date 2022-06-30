@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Service;
 use App\Repository\TourRepository;
 use App\Entity\Tour;
 use App\Request\TourRequest;
@@ -18,22 +19,22 @@ class TourService
     private TourRepository $tourRepository;
     private TourImageRepository $tourImageRepository;
     private TourImageTransformer $tourImageTransformer;
-    private TourPlanRepository $tourPlanRepository;
-    private ServiceRepository $serviceRepository;
+    private TourServicesTransformer $tourServicesTransformer;
+    private TourPlansTransformer $tourPlansTransformer;
 
     public function __construct(
-        TourRepository       $tourRepository,
-        TourImageRepository  $tourImageRepository,
-        TourImageTransformer $tourImageTransformer,
-        TourPlanRepository   $tourPlanRepository,
-        ServiceRepository    $serviceRepository,
+        TourRepository          $tourRepository,
+        TourImageRepository     $tourImageRepository,
+        TourImageTransformer    $tourImageTransformer,
+        TourPlansTransformer    $tourPlansTransformer,
+        TourServicesTransformer $tourServicesTransformer
     )
     {
         $this->tourRepository = $tourRepository;
         $this->tourImageRepository = $tourImageRepository;
         $this->tourImageTransformer = $tourImageTransformer;
-        $this->tourPlanRepository = $tourPlanRepository;
-        $this->serviceRepository = $serviceRepository;
+        $this->tourServicesTransformer = $tourServicesTransformer;
+        $this->tourPlansTransformer = $tourPlansTransformer;
     }
 
     public function findAll(TourRequest $tourRequest): array
@@ -65,13 +66,23 @@ class TourService
         return $gallery;
     }
 
-    public function getTourPlan(Tour $tour): array
+    public function getTourPlan($plans): array
     {
-        return $this->tourPlanRepository->getTourPlans($tour->getId());
+        $tourPlans = [];
+        foreach ($plans as $plan) {
+            $tourPlans[] = $this->tourPlansTransformer->toArray($plan);
+        }
+
+        return $tourPlans;
     }
 
-    public function getServices(Tour $tour): array
+    public function getServices($services): array
     {
-        return $this->serviceRepository->getServices($tour->getId());
+        $tourServiceList = [];
+        foreach ($services as $service) {
+            $tourServiceList[] = $this->tourServicesTransformer->toArray($service);
+        }
+
+        return $tourServiceList;
     }
 }

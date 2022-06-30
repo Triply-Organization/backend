@@ -21,8 +21,8 @@ class TourDetailTransformer extends BaseTransformer
         $result = $this->transform($tour, static::PARAMS);
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();
         $result['tourImages'] = $this->tourService->getGallary($tour);
-        $result['tourPlans'] = $this->tourService->getTourPlan($tour);
-        $result['services'] = $this->tourService->getServices($tour);
+        $result['tourPlans'] = $this->tourService->getTourPlan($tour->getTourPlans());
+        $result['services'] = $this->tourService->getServices($tour->getServices());
 
         return $result;
     }

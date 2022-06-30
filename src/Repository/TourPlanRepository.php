@@ -20,16 +20,4 @@ class TourPlanRepository extends BaseRepository
     {
         parent::__construct($registry, TourPlan::class);
     }
-
-    public function getTourPlans(int $id)
-    {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('
-        SELECT c.name destination, b.day, b.title activities, b.description 
-        FROM App\Entity\Tour AS a, App\Entity\TourPlan AS b, App\Entity\Destination AS c 
-        WHERE a.id = :id AND a.id = b.tour AND b.destination = c.id'
-        )->setParameter('id', $id);
-
-        return $query->execute();
-    }
 }

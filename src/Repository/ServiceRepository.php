@@ -23,16 +23,4 @@ class ServiceRepository extends BaseRepository
     {
         parent::__construct($registry, Service::class);
     }
-
-    public function getServices(int $id)
-    {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('
-        SELECT b.name service
-        FROM App\Entity\Tour AS a, App\Entity\Service AS b
-        WHERE a.id = :id AND a.id = b.id'
-        )->setParameter('id', $id);
-
-        return $query->execute();
-    }
 }

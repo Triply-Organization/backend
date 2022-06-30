@@ -18,6 +18,7 @@ class TourImageTransformer
     public function toArray(TourImage $tourImage): array
     {
         return [
+            'id' => $tourImage->getId(),
             'path' => $this->params->get('s3url') . $tourImage->getImage()->getPath(),
             'type' => $tourImage->getType()
         ];
