@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Tour;
+use App\Request\TourRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,8 +17,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TourRepository extends BaseRepository
 {
+    public const TOUR_ALIAS = 't';
+
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tour::class, 't');
+        parent::__construct($registry, Tour::class, static::TOUR_ALIAS);
     }
+
+    public function getAll(TourRequest $tourRequest): array
+    {
+        $tours = $this->createQueryBuilder(static::TOUR_ALIAS);
+        $tours = $this->filter($tours, 'maxPeople', $tourRequest->getGuests());
+        $tours = $this->andFilter($tours, 'id', $tourRequest->getDestination());
+        $tours = $this->sortBy($tours, $tourRequest->getOrderType(), $tourRequest->getOrderBy());
+        $tours->setMaxResults($tourRequest->getLimit())->setFirstResult(TourRequest::DEFAULT_OFFSET);
+
+        return $tours->getQuery()->getResult();
+    }
+
 }
