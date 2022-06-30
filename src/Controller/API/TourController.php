@@ -14,8 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use  Symfony\Component\HttpFoundation\Response;
 
 #[Route('/api/tours', name: 'tour_')]
+
 class TourController extends AbstractController
 {
     use ResponseTrait;
@@ -44,5 +47,21 @@ class TourController extends AbstractController
     public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
     {
         return $this->success($tourDetailTransformer->toArray($tour));
+    }
+
+    #[isGranted('ROLE_CUSTOMER')]
+    #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
+    public function deleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    {
+        $tourService->delete($tour);
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/undo/{id<\d+>}', name: 'undo_delete', methods: 'PATCH')]
+    public function undoDeleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    {
+        $tourService->undoDelete($tour);
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }

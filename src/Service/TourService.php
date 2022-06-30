@@ -14,8 +14,10 @@ use App\Repository\TourPlanRepository;
 use App\Transformer\TourPlansTransformer;
 use App\Transformer\TourServicesTransformer;
 
+
 class TourService
 {
+    private TourPlanRepository $tourPlanRepository;
     private TourRepository $tourRepository;
     private TourImageRepository $tourImageRepository;
     private TourImageTransformer $tourImageTransformer;
@@ -27,6 +29,7 @@ class TourService
         TourImageRepository     $tourImageRepository,
         TourImageTransformer    $tourImageTransformer,
         TourPlansTransformer    $tourPlansTransformer,
+        TourPlanRepository  $tourPlanRepository,
         TourServicesTransformer $tourServicesTransformer
     )
     {
@@ -35,6 +38,7 @@ class TourService
         $this->tourImageTransformer = $tourImageTransformer;
         $this->tourServicesTransformer = $tourServicesTransformer;
         $this->tourPlansTransformer = $tourPlansTransformer;
+        $this->tourPlanRepository = $tourPlanRepository;
     }
 
     public function findAll(TourRequest $tourRequest): array
@@ -84,5 +88,23 @@ class TourService
         }
 
         return $tourServiceList;
+    }
+
+    public function delete(Tour $tour):void
+    {
+        $this->tourPlanRepository->deleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->deleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->delete($tour->getId());
+    }
+
+    public function undoDelete(Tour $tour):void
+    {
+        $this->tourPlanRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->undoDelete($tour->getId());
     }
 }
