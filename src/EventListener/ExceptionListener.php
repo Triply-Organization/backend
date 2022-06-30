@@ -30,6 +30,7 @@ class ExceptionListener
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
+        var_dump($exception->getTraceAsString());
         [$statusCode, $message] = $this->getStatusCodeAndMessage($exception);
         $response = $this->errors([$message], $statusCode);
 

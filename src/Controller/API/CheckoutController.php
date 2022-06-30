@@ -3,7 +3,7 @@
 namespace App\Controller\API;
 
 use App\Request\CheckoutRequest;
-use App\Service\PaymentService;
+use App\Service\StripeService;
 use App\Traits\ResponseTrait;
 use Stripe\Exception\ApiErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,11 +21,12 @@ class CheckoutController
      */
     #[Route('/', name: 'checkout', methods: 'POST')]
     public function checkout(
-        Request         $request,
-        CheckoutRequest $checkoutRequest,
+        Request            $request,
+        CheckoutRequest    $checkoutRequest,
         ValidatorInterface $validator,
-        PaymentService  $paymentService
-    ): JsonResponse {
+        StripeService      $stripeService
+    ): JsonResponse
+    {
         $requestData = $request->toArray();
         $checkoutRequestData = $checkoutRequest->fromArray($requestData);
         $errors = $validator->validate($checkoutRequestData);
@@ -34,7 +35,10 @@ class CheckoutController
             return $this->errors(['Something wrong']);
         }
 
-        $checkoutURL = $paymentService->stripeCheckout($checkoutRequestData);
-        return $this->success(['checkoutURL' => $checkoutURL]);
+        $checkoutSession = $stripeService->checkout($checkoutRequestData);
+        return $this->success([[
+            'id' => $checkoutSession->id,
+            'checkoutURL' => $checkoutSession->url,
+        ]]);
     }
 }

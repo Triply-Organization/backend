@@ -11,6 +11,11 @@ class CheckoutRequest extends BaseRequest
     #[Assert\NotNull]
     private $name;
 
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $currency;
+
     #[Assert\Type('numeric')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
@@ -68,5 +73,21 @@ class CheckoutRequest extends BaseRequest
     public function setQuantity($quantity): void
     {
         $this->quantity = $quantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param mixed $currency
+     */
+    public function setCurrency($currency): void
+    {
+        $this->currency = $currency;
     }
 }
