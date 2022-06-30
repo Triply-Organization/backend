@@ -3,9 +3,13 @@
 namespace App\Transformer;
 
 use App\Entity\AbstractEntity;
+use App\Repository\DestinationRepository;
+use App\Repository\ServiceRepository;
+use App\Service\TourService;
 
 abstract class BaseTransformer
 {
+
     public function transform(AbstractEntity $entity, array $params): array
     {
         $result = [];
@@ -22,9 +26,8 @@ abstract class BaseTransformer
 
     public function listToArray(array $entities): array
     {
-        $result = [];
-        foreach ($entities as $entity) {
-            $result[] = $this->toArray($entity);
+        foreach ($entities as $key => $entity) {
+            $result[$key] = $this->toArray($entity);
         }
 
         return $result;

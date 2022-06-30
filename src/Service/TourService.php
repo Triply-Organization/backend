@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Repository\ServiceRepository;
 use App\Repository\TourRepository;
 use App\Entity\Tour;
 use App\Request\TourRequest;
@@ -20,6 +21,7 @@ class TourService
     private TourImageTransformer $tourImageTransformer;
     private TourServicesTransformer $tourServicesTransformer;
     private TourPlansTransformer $tourPlansTransformer;
+    private ServiceRepository $serviceRepository;
 
     public function __construct(
         TourRepository          $tourRepository,
@@ -27,7 +29,8 @@ class TourService
         TourImageTransformer    $tourImageTransformer,
         TourPlansTransformer    $tourPlansTransformer,
         TourPlanRepository      $tourPlanRepository,
-        TourServicesTransformer $tourServicesTransformer
+        TourServicesTransformer $tourServicesTransformer,
+        ServiceRepository       $serviceRepository,
     )
     {
         $this->tourRepository = $tourRepository;
@@ -36,6 +39,7 @@ class TourService
         $this->tourServicesTransformer = $tourServicesTransformer;
         $this->tourPlansTransformer = $tourPlansTransformer;
         $this->tourPlanRepository = $tourPlanRepository;
+        $this->serviceRepository = $serviceRepository;
     }
 
     public function findAll(TourRequest $tourRequest): array
@@ -85,6 +89,12 @@ class TourService
         }
 
         return $tourServiceList;
+    }
+
+    public function getAllService()
+    {
+        $services = $this->getServices($this->serviceRepository->findAll());
+        return $services;
     }
 
     public function delete(Tour $tour): void

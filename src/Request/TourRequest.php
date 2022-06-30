@@ -15,75 +15,26 @@ class TourRequest extends BaseRequest
     public const MIN_GUESTS = 1;
 
     #[Assert\Type('integer')]
-    private int $limit = self::DEFAULT_LIMIT;
+    private $limit = self::DEFAULT_LIMIT;
 
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
     )]
-    private string $orderType = self::DEFAULT_ORDER_TYPE;
+    #[Assert\Type('string')]
+    private $orderType = self::DEFAULT_ORDER_TYPE;
 
     #[Assert\Choice(
         choices: self::ORDER_BY_LIST,
     )]
-    private string $orderBy = self::DEFAULT_ORDER_BY;
-
-    #[Assert\Type('int')]
-    private int $sevices;
+    #[Assert\Type('string')]
+    private $orderBy = self::DEFAULT_ORDER_BY;
 
     #[Assert\Type('integer')]
     private $destination;
 
     #[Assert\Type('integer')]
-    private int $guests = self::MIN_GUESTS;
-
-    /**
-     * @return mixed
-     */
-    public function getDestination()
-    {
-        return $this->destination;
-    }
-
-    /**
-     * @param mixed $destination
-     */
-    public function setDestination($destination): void
-    {
-        $this->destination = is_numeric($destination) ? (int)$destination : $destination;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSevices(): int
-    {
-        return $this->sevices;
-    }
-
-    /**
-     * @param int $sevices
-     */
-    public function setSevices(int $sevices): void
-    {
-        $this->sevices = $sevices;
-    }
-
-    /**
-     * @return int
-     */
-    public function getGuests(): int
-    {
-        return $this->guests;
-    }
-
-    /**
-     * @param int $guests
-     */
-    public function setGuests(int $guests): void
-    {
-        $this->guests = $guests;
-    }
+    private $guests = self::MIN_GUESTS;
 
     /**
      * @return int
@@ -99,22 +50,6 @@ class TourRequest extends BaseRequest
     public function setLimit(int $limit): void
     {
         $this->limit = $limit;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration): void
-    {
-        $this->duration = is_numeric($duration) ? (int)$duration : null;
     }
 
     /**
@@ -147,5 +82,37 @@ class TourRequest extends BaseRequest
     public function setOrderBy(string $orderBy): void
     {
         $this->orderBy = $orderBy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDestination()
+    {
+        return $this->destination;
+    }
+
+    /**
+     * @param mixed $destination
+     */
+    public function setDestination($destination): void
+    {
+        $this->destination = is_numeric($destination) ? (int)$destination : $destination;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGuests(): int
+    {
+        return $this->guests;
+    }
+
+    /**
+     * @param int $guests
+     */
+    public function setGuests(int $guests): void
+    {
+        $this->guests = $guests;
     }
 }

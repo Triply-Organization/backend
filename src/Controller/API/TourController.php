@@ -4,11 +4,11 @@ namespace App\Controller\API;
 
 use App\Entity\Tour;
 use App\Request\TourRequest;
+use App\Service\DestinationService;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
 use App\Transformer\TourDetailTransformer;
 use App\Transformer\TourTransformer;
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,7 +28,9 @@ class TourController extends AbstractController
         TourRequest        $tourRequest,
         ValidatorInterface $validator,
         TourTransformer    $tourTransformer,
-        TourService        $tourService): JsonResponse
+        DestinationService $destinationService,
+        TourService        $tourService
+    ): JsonResponse
     {
         $query = $request->query->all();
         $tourRequest = $tourRequest->fromArray($query);
@@ -37,7 +39,9 @@ class TourController extends AbstractController
             return $this->errors(['errors' => 'Bad request']);
         }
         $tours = $tourService->findAll($tourRequest);
-        $result = $tourTransformer->listToArray($tours);
+        $result['tours'] = $tourTransformer->listToArray($tours);
+        $result['services'] = $tourService->getAllService();
+        $result['destinations'] = $destinationService->getAllDestination();
 
         return $this->success($result);
     }
