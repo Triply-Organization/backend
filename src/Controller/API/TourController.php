@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\User;
 use App\Request\TourRequest;
+use App\Request\TourUpdateRequest;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
 use App\Transformer\TourTransformer;
@@ -21,7 +22,8 @@ class TourController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/', name: 'add')]
+    #[Route('/', name: 'add', methods: 'POST')]
+    #[IsGranted('ROLE_ADMIN')]
     public function addTour(
         Request $request,
         TourRequest $tourRequest,

@@ -43,17 +43,17 @@ class TourService
         $this->tourImageRepository = $tourImageRepository;
     }
 
-    public function addTour(TourRequest $tourRequest)
+    public function addTour(TourRequest $tourRequest): Tour
     {
         $tourMapper = $this->tourRequestToTour->mapper($tourRequest);
-        $tourService = $this->addServiceToTour($tourRequest, $tourMapper);
-        $tourPlan = $this->addTourPlan($tourRequest, $tourService);
-        $tour = $this->addTourImage($tourRequest, $tourPlan);
+        $tourImage = $this->addTourImage($tourRequest, $tourMapper);
+        $tourService = $this->addServiceToTour($tourRequest, $tourImage);
+        $tour = $this->addTourPlan($tourRequest, $tourService);
         $this->tourRepository->add($tour, true);
         return $tour;
     }
 
-    private function addServiceToTour(TourRequest $tourRequest, Tour $tour)
+    private function addServiceToTour(TourRequest $tourRequest, Tour $tour): Tour
     {
         foreach ($tourRequest->getService() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
@@ -62,7 +62,7 @@ class TourService
         return $tour;
     }
 
-    private function addTourPlan(TourRequest $tourRequest, Tour $tour)
+    private function addTourPlan(TourRequest $tourRequest, Tour $tour): Tour
     {
         foreach ($tourRequest->getTourPlan() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
@@ -73,13 +73,13 @@ class TourService
                 $tourPlan->setDay($tourPlanRequest['day']);
                 $tourPlan->setDestination($destination);
                 $tourPlan->setTour($tour);
+                $this->tourPlanRepository->add($tourPlan);
             }
-            $this->tourPlanRepository->add($tourPlan);
         }
         return $tour;
     }
 
-    private function addTourImage(TourRequest $tourRequest, Tour $tour)
+    private function addTourImage(TourRequest $tourRequest, Tour $tour): Tour
     {
         foreach ($tourRequest->getTourImage() as $tourImageRequest) {
             $image = $this->imageRepository->find($tourImageRequest['id']);
@@ -87,7 +87,7 @@ class TourService
             $tourImage->setType($tourImageRequest['type']);
             $tourImage->setTour($tour);
             $tourImage->setImage($image);
-            $this->tourImageRepository->add($tourImage, true);
+            $this->tourImageRepository->add($tourImage);
         }
         return $tour;
     }

@@ -228,14 +228,6 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         return $this;
     }
 
-    #[ArrayShape(['id' => "int|null", 'name' => "mixed"])]
-    public function jsonParse(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName()
-        ];
-    }
     public function getAvatar(): ?Image
     {
         return $this->avatar;
@@ -246,5 +238,15 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+
+    #[ArrayShape(['id' => "int|null", 'name' => "mixed"])]
+    public function jsonParse(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName()
+        ];
     }
 }

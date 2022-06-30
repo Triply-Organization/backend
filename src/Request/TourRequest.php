@@ -31,7 +31,7 @@ class TourRequest extends BaseRequest
     #[Assert\NotNull]
     private $overView;
 
-    #[Assert\Type('float')]
+    #[Assert\Type('numeric')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private $price;
@@ -46,6 +46,7 @@ class TourRequest extends BaseRequest
     #[Assert\NotNull]
     private $tourPlan;
 
+    #[Assert\Type('array')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private $tourImage;
