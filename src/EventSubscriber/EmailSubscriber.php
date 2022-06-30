@@ -7,7 +7,6 @@ use App\Manager\Logger\EmailLogger;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-
 class EmailSubscriber implements EventSubscriberInterface
 {
     private EmailLogger $emailLogger;

@@ -12,18 +12,15 @@ class TourDetailTransformer extends BaseTransformer
 {
 
     private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
-    private TourService $tourService;
     private FacilityService $facilityService;
     private TourImageService $tourImageService;
     private TourPlanService $tourPlanService;
 
     public function __construct(
-        TourService      $tourService,
         FacilityService  $facilityService,
         TourImageService $tourImageService,
         TourPlanService  $tourPlanService)
     {
-        $this->tourService = $tourService;
         $this->facilityService = $facilityService;
         $this->tourImageService = $tourImageService;
         $this->tourPlanService = $tourPlanService;

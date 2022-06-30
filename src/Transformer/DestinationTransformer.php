@@ -10,7 +10,6 @@ class DestinationTransformer extends BaseTransformer
 
     public function toArray(Destination $destination): array
     {
-        $destinationData = $this->transform($destination, static::PARAMS);
-        return $destinationData;
+        return $this->transform($destination, static::PARAMS);
     }
 }
