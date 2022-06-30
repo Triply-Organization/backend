@@ -2,35 +2,71 @@
 
 namespace App\Controller\API;
 
-use App\Entity\User;
+use App\Entity\Tour;
+use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
+use App\Service\DestinationService;
+use App\Service\FacilityService;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
+use App\Transformer\TourDetailTransformer;
 use App\Transformer\TourTransformer;
 use App\Validator\TourValidator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Tour;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/api/tours', name: 'api_tour_')]
+#[Route('/api/tours', name: 'tour_')]
 class TourController extends AbstractController
 {
     use ResponseTrait;
 
+    #[Route('/', name: 'lists', methods: 'GET')]
+    public function getAllTours(
+        Request            $request,
+        ListTourRequest    $listTourRequest,
+        ValidatorInterface $validator,
+        TourTransformer    $tourTransformer,
+        DestinationService $destinationService,
+        TourService        $tourService,
+        FacilityService    $facilityService
+    ): JsonResponse
+    {
+        $query = $request->query->all();
+        $tourRequest = $listTourRequest->fromArray($query);
+        $errors = $validator->validate($tourRequest);
+        if (count($errors) > 0) {
+            return $this->errors(['Bad request']);
+        }
+        $tours = $tourService->findAll($tourRequest);
+        $result['tours'] = $tourTransformer->listToArray($tours);
+        $result['services'] = $facilityService->getAllService();
+        $result['destinations'] = $destinationService->getAllDestination();
+
+        return $this->success($result);
+    }
+
+    #[Route('/{id}', name: 'details', methods: 'GET')]
+    public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
+    {
+        return $this->success($tourDetailTransformer->toArray($tour));
+    }
+
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
-        Request $request,
-        TourRequest $tourRequest,
-        TourValidator $tourValidator,
-        TourService $tourService,
+        Request         $request,
+        TourRequest     $tourRequest,
+        TourValidator   $tourValidator,
+        TourService     $tourService,
         TourTransformer $tourTransformer,
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $requestData = $request->toArray();
         $tour = $tourRequest->fromArray($requestData);
         $errors = $tourValidator->validatorTourRequest($tour);
@@ -46,13 +82,14 @@ class TourController extends AbstractController
     #[Route('/{id}', name: 'update', methods: 'PATCH')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
-        Tour $tour,
-        Request $request,
+        Tour              $tour,
+        Request           $request,
         TourUpdateRequest $tourUpdateRequest,
-        TourValidator $tourValidator,
-        TourService $tourService,
-        TourTransformer $tourTransformer,
-    ): JsonResponse {
+        TourValidator     $tourValidator,
+        TourService       $tourService,
+        TourTransformer   $tourTransformer,
+    ): JsonResponse
+    {
         $dataRequest = $request->toArray();
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
         $errors = $tourValidator->validatorTourRequest($tour);

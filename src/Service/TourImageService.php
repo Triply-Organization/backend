@@ -8,19 +8,34 @@ use App\Repository\ImageRepository;
 use App\Repository\TourImageRepository;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
+use App\Transformer\TourImageTransformer;
 
 class TourImageService
 {
     private ImageRepository $imageRepository;
     private TourImageRepository $tourImageRepository;
+    private TourImageTransformer $tourImageTransformer;
 
     public function __construct(
-        ImageRepository     $imageRepository,
-        TourImageRepository $tourImageRepository
+        ImageRepository      $imageRepository,
+        TourImageRepository  $tourImageRepository,
+        TourImageTransformer $tourImageTransformer
     )
     {
         $this->imageRepository = $imageRepository;
         $this->tourImageRepository = $tourImageRepository;
+        $this->tourImageTransformer = $tourImageTransformer;
+    }
+
+    public function getGallary(Tour $tour): array
+    {
+        $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
+        $gallery = [];
+        foreach ($tourImages as $tourImage) {
+            $gallery[] = $this->tourImageTransformer->toArray($tourImage);
+        }
+
+        return $gallery;
     }
 
     public function addTourImage(TourRequest $tourRequest, Tour $tour): Tour
@@ -77,6 +92,7 @@ class TourImageService
     {
         $image = $this->imageRepository->find($tourImageRequest['id']);
         if (!is_object($image)) {
+
             return $tour;
         }
         $tourImage = new TourImage();

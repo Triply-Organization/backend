@@ -8,19 +8,24 @@ use App\Repository\DestinationRepository;
 use App\Repository\TourPlanRepository;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
+use App\Transformer\TourPlansTransformer;
+
 
 class TourPlanService
 {
     private DestinationRepository $destinationRepository;
     private TourPlanRepository $tourPlanRepository;
+    private TourPlansTransformer $tourPlansTransformer;
 
     public function __construct(
-        DestinationRepository   $destinationRepository,
-        TourPlanRepository      $tourPlanRepository,
+        DestinationRepository $destinationRepository,
+        TourPlanRepository    $tourPlanRepository,
+        TourPlansTransformer  $tourPlansTransformer
     )
     {
         $this->destinationRepository = $destinationRepository;
         $this->tourPlanRepository = $tourPlanRepository;
+        $this->tourPlansTransformer = $tourPlansTransformer;
     }
 
     public function addTourPlan(TourRequest $tourRequest, Tour $tour): Tour
@@ -40,6 +45,16 @@ class TourPlanService
         }
 
         return $tour;
+    }
+
+    public function getTourPlan($plans): array
+    {
+        $tourPlans = [];
+        foreach ($plans as $plan) {
+            $tourPlans[] = $this->tourPlansTransformer->toArray($plan);
+        }
+
+        return $tourPlans;
     }
 
     public function updateTourPlan(TourUpdateRequest $tourUpdateRequest): void

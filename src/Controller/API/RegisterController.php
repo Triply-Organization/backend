@@ -23,19 +23,20 @@ class RegisterController extends AbstractController
      */
     #[Route('/register', name: 'register', methods: 'POST')]
     public function register(
-        Request $request,
+        Request            $request,
         ValidatorInterface $validator,
-        RegisterRequest $registerRequest,
-        RegisterService $registerService,
-    ): JsonResponse {
+        RegisterRequest    $registerRequest,
+        RegisterService    $registerService,
+    ): JsonResponse
+    {
         $requestData = $request->toArray();
         $requestData = $registerRequest->fromArray($requestData);
         $errors = $validator->validate($requestData);
         if (count($errors) > 0) {
             return $this->errors(['errors' => 'Something wrong']);
         }
-
         $registerService->register($requestData);
+
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }

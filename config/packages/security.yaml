@@ -48,7 +48,8 @@ security:
     access_control:
         - { path: ^/api/register,roles: PUBLIC_ACCESS }
         - { path: ^/api/login,roles: PUBLIC_ACCESS }
-
+        - { path: ^/api/tours,roles: PUBLIC_ACCESS }
+        - { path: ^/api/register,roles: PUBLIC_ACCESS }
 
 when@test:
     security:

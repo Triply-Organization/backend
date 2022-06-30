@@ -2,37 +2,36 @@
 
 namespace App\Service;
 
-use App\Entity\Image;
-use App\Entity\Tour;
-use App\Entity\TourImage;
-use App\Entity\TourPlan;
 use App\Mapper\TourRequestToTour;
 use App\Mapper\TourUpdateRequestToTour;
-use App\Repository\DestinationRepository;
-use App\Repository\ImageRepository;
-use App\Repository\ServiceRepository;
+use App\Repository\TourRepository;
+use App\Entity\Tour;
 use App\Repository\TourImageRepository;
 use App\Repository\TourPlanRepository;
-use App\Repository\TourRepository;
+use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
 
 class TourService
 {
-    private TourRequestToTour $tourRequestToTour;
     private TourRepository $tourRepository;
+    private TourRequestToTour $tourRequestToTour;
     private TourUpdateRequestToTour $tourUpdateRequestToTour;
     private TourPlanService $tourPlanService;
     private TourImageService $tourImageService;
     private TourServiceService $tourServiceService;
+    private TourImageRepository $tourImageRepository;
+    private TourPlanRepository $tourPlanRepository;
 
     public function __construct(
-        TourRequestToTour       $tourRequestToTour,
         TourRepository          $tourRepository,
+        TourImageRepository     $tourImageRepository,
+        TourPlanRepository      $tourPlanRepository,
+        TourRequestToTour       $tourRequestToTour,
         TourUpdateRequestToTour $tourUpdateRequestToTour,
         TourPlanService         $tourPlanService,
         TourImageService        $tourImageService,
-        TourServiceService $tourServiceService
+        TourServiceService      $tourServiceService
     )
     {
         $this->tourRequestToTour = $tourRequestToTour;
@@ -41,6 +40,44 @@ class TourService
         $this->tourPlanService = $tourPlanService;
         $this->tourImageService = $tourImageService;
         $this->tourServiceService = $tourServiceService;
+        $this->tourImageRepository = $tourImageRepository;
+        $this->tourPlanRepository = $tourPlanRepository;
+    }
+
+    public function findAll(ListTourRequest $listTourRequest): array
+    {
+        return $this->tourRepository->getAll($listTourRequest);
+    }
+
+    public function getCover(Tour $tour): string
+    {
+        $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
+        $path = '';
+        foreach ($tourImages as $tourImage) {
+            if ($tourImage->getType() === 'cover') {
+                $path = $tourImage->getImage()->getPath();
+            }
+        }
+
+        return $path;
+    }
+
+    public function delete(Tour $tour): void
+    {
+        $this->tourPlanRepository->deleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->deleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->delete($tour->getId());
+    }
+
+    public function undoDelete(Tour $tour): void
+    {
+        $this->tourPlanRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->undoDelete($tour->getId());
     }
 
     public function addTour(TourRequest $tourRequest): Tour
