@@ -91,4 +91,22 @@ class TourService
         }
         return $tour;
     }
+
+    public function delete(Tour $tour):void
+    {
+        $this->tourPlanRepository->deleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->deleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->delete($tour->getId());
+    }
+
+    public function undoDelete(Tour $tour):void
+    {
+        $this->tourPlanRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourImageRepository->undoDeleteWithRelation('tour', $tour->getId());
+
+        $this->tourRepository->undoDelete($tour->getId());
+    }
 }

@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Tour;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/tours', name: 'api_tour_')]
@@ -38,5 +40,21 @@ class TourController extends AbstractController
         $result =$tourTransformer->fromArray($tourService);
 
         return $this->success($result);
+    }
+
+    #[isGranted('ROLE_CUSTOMER')]
+    #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
+    public function deleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    {
+        $tourService->delete($tour);
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/undo/{id<\d+>}', name: 'undo_delete', methods: 'PATCH')]
+    public function undoDeleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    {
+        $tourService->undoDelete($tour);
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }
