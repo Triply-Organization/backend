@@ -17,11 +17,12 @@ class UploadImageS3Manager
     private ContainerBagInterface $params;
 
     public function __construct(
-        $targetDirectory, $bucketName,
-        S3Client $s3Client, SluggerInterface $slugger,
+        $targetDirectory,
+        $bucketName,
+        S3Client $s3Client,
+        SluggerInterface $slugger,
         ContainerBagInterface $params
-    )
-    {
+    ) {
         $this->targetDirectory = $targetDirectory;
         $this->bucketName = $bucketName;
         $this->s3Client = $s3Client;

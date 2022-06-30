@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Tour;
+use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,13 +25,13 @@ class TourRepository extends BaseRepository
         parent::__construct($registry, Tour::class, static::TOUR_ALIAS);
     }
 
-    public function getAll(TourRequest $tourRequest): array
+    public function getAll(ListTourRequest $listTourRequest): array
     {
         $tours = $this->createQueryBuilder(static::TOUR_ALIAS);
-        $tours = $this->filter($tours, 'maxPeople', $tourRequest->getGuests());
-        $tours = $this->andFilter($tours, 'id', $tourRequest->getDestination());
-        $tours = $this->sortBy($tours, $tourRequest->getOrderType(), $tourRequest->getOrderBy());
-        $tours->setMaxResults($tourRequest->getLimit())->setFirstResult(TourRequest::DEFAULT_OFFSET);
+        $tours = $this->filter($tours, 'maxPeople', $listTourRequest->getGuests());
+        $tours = $this->andFilter($tours, 'id', $listTourRequest->getDestination());
+        $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        $tours->setMaxResults($listTourRequest->getLimit())->setFirstResult(ListTourRequest::DEFAULT_OFFSET);
 
         return $tours->getQuery()->getResult();
     }

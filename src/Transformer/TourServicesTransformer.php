@@ -12,7 +12,6 @@ class TourServicesTransformer extends BaseTransformer
 
     public function toArray(Service $service): array
     {
-        $serviceData = $this->transform($service, static::PARAMS);
-        return $serviceData;
+        return $this->transform($service, static::PARAMS);
     }
 }

@@ -4,56 +4,36 @@ namespace App\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TourRequest extends BaseRequest
+class TourUpdateRequest extends BaseRequest
 {
     #[Assert\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $title;
+    private $title = self::STRING_DEFAULT;
+    #[Assert\Type('integer')]
+    private $duration = self::INT_DEFAULT;
 
     #[Assert\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $duration;
+    private $maxPeople = self::INT_DEFAULT;
 
     #[Assert\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $maxPeople;
-
-    #[Assert\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $minAge;
+    private $minAge = self::INT_DEFAULT;
 
     #[Assert\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $overView;
+    private $overView = self::STRING_DEFAULT;
 
     #[Assert\Type('numeric')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $price;
+    private $price = self::NUMERIC_DEFAULT;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $services;
+    private $tourPlans = self::ARRAY_DEFAULT;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $tourPlans;
+    private $services = self::ARRAY_DEFAULT;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $tourImages;
-
+    private $tourImages = self::ARRAY_DEFAULT;
 
     /**
-     * @return mixed
+     * @return null
      */
     public function getTitle()
     {
@@ -61,7 +41,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @param mixed $title
+     * @param null $title
      */
     public function setTitle($title): void
     {
@@ -69,7 +49,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return null
      */
     public function getDuration()
     {
@@ -77,7 +57,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @param mixed $duration
+     * @param null $duration
      */
     public function setDuration($duration): void
     {
@@ -85,7 +65,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return null
      */
     public function getMaxPeople()
     {
@@ -93,7 +73,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @param mixed $maxPeople
+     * @param null $maxPeople
      */
     public function setMaxPeople($maxPeople): void
     {
@@ -101,7 +81,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return null
      */
     public function getMinAge()
     {
@@ -109,7 +89,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @param mixed $minAge
+     * @param null $minAge
      */
     public function setMinAge($minAge): void
     {
@@ -117,7 +97,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return null
      */
     public function getOverView()
     {
@@ -125,7 +105,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @param mixed $overView
+     * @param null $overView
      */
     public function setOverView($overView): void
     {
@@ -133,7 +113,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return null
      */
     public function getPrice()
     {
@@ -141,7 +121,7 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @param mixed $price
+     * @param null $price
      */
     public function setPrice($price): void
     {
@@ -149,49 +129,49 @@ class TourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getServices()
-    {
-        return $this->services;
-    }
-
-    /**
-     * @param mixed $services
-     */
-    public function setServices($services): void
-    {
-        $this->services = $services;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTourPlans()
+    public function getTourPlans(): array
     {
         return $this->tourPlans;
     }
 
     /**
-     * @param mixed $tourPlans
+     * @param array $tourPlan
      */
-    public function setTourPlans($tourPlans): void
+    public function setTourPlans(array $tourPlans): void
     {
         $this->tourPlans = $tourPlans;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getTourImages()
+    public function getServices(): array
+    {
+        return $this->services;
+    }
+
+    /**
+     * @param array $service
+     */
+    public function setServices(array $services): void
+    {
+        $this->services = $services;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTourImages(): array
     {
         return $this->tourImages;
     }
 
     /**
-     * @param mixed $tourImages
+     * @param array $tourImage
      */
-    public function setTourImages($tourImages): void
+    public function setTourImages(array $tourImages): void
     {
         $this->tourImages = $tourImages;
     }

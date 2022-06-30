@@ -10,7 +10,8 @@ class RegisterMapper
 {
     private ImageRepository $imageRepository;
 
-    public function __construct(ImageRepository $imageRepository) {
+    public function __construct(ImageRepository $imageRepository)
+    {
         $this->imageRepository = $imageRepository;
     }
 
