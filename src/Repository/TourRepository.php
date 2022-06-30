@@ -27,7 +27,8 @@ class TourRepository extends BaseRepository
     public function getAll(TourRequest $tourRequest): array
     {
         $tours = $this->createQueryBuilder(static::TOUR_ALIAS);
-        $tours = $this->filter($tours, 'duration', $tourRequest->getDuration());
+        $tours = $this->filter($tours, 'maxPeople', $tourRequest->getGuests());
+        $tours = $this->andFilter($tours, 'id', $tourRequest->getDestination());
         $tours = $this->sortBy($tours, $tourRequest->getOrderType(), $tourRequest->getOrderBy());
         $tours->setMaxResults($tourRequest->getLimit())->setFirstResult(TourRequest::DEFAULT_OFFSET);
 

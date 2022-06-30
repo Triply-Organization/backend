@@ -21,7 +21,7 @@ class TourController extends AbstractController
     use ResponseTrait;
 
     #[Route('/', name: 'lists', methods: 'GET')]
-    public function index(
+    public function getAllTours(
         Request            $request,
         TourRequest        $tourRequest,
         ValidatorInterface $validator,

@@ -12,12 +12,11 @@ class TourRequest extends BaseRequest
     public const DEFAULT_ORDER_TYPE = 'createdAt';
     public const DEFAULT_ORDER_BY = 'desc';
     public const DEFAULT_OFFSET = 0;
+    public const MIN_GUESTS = 1;
 
     #[Assert\Type('integer')]
     private int $limit = self::DEFAULT_LIMIT;
 
-    #[Assert\Type('integer')]
-    private $duration;
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -28,6 +27,63 @@ class TourRequest extends BaseRequest
         choices: self::ORDER_BY_LIST,
     )]
     private string $orderBy = self::DEFAULT_ORDER_BY;
+
+    #[Assert\Type('int')]
+    private int $sevices;
+
+    #[Assert\Type('integer')]
+    private $destination;
+
+    #[Assert\Type('integer')]
+    private int $guests = self::MIN_GUESTS;
+
+    /**
+     * @return mixed
+     */
+    public function getDestination()
+    {
+        return $this->destination;
+    }
+
+    /**
+     * @param mixed $destination
+     */
+    public function setDestination($destination): void
+    {
+        $this->destination = is_numeric($destination) ? (int)$destination : $destination;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSevices(): int
+    {
+        return $this->sevices;
+    }
+
+    /**
+     * @param int $sevices
+     */
+    public function setSevices(int $sevices): void
+    {
+        $this->sevices = $sevices;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGuests(): int
+    {
+        return $this->guests;
+    }
+
+    /**
+     * @param int $guests
+     */
+    public function setGuests(int $guests): void
+    {
+        $this->guests = $guests;
+    }
 
     /**
      * @return int

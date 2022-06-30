@@ -43,7 +43,7 @@ abstract class BaseRepository extends ServiceEntityRepository
             return $query;
         }
 
-        return $query->where($this->alias . ".$field = :$field")->setParameter($field, $value);
+        return $query->where($this->alias . ".$field >= :$field")->setParameter($field, $value);
     }
 
     protected function andFilter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
@@ -52,7 +52,12 @@ abstract class BaseRepository extends ServiceEntityRepository
             return $query;
         }
 
-        return $query->andWhere($this->alias . ".$field = :$field")->setParameter($field, $value);
+        return $query->innerJoin("App\Entity\TourPlan", "p")
+            ->innerJoin("App\Entity\Destination", "d")
+            ->andWhere($this->alias . ".id = p.tour")
+            ->andWhere("p" . ".destination = d.id")
+            ->andWhere("d" . ".$field = :$field")
+            ->setParameter($field, $value);
     }
 
     protected function sortBy(QueryBuilder $query, string $orderType, string $orderBy): QueryBuilder
