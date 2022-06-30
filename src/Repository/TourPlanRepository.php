@@ -20,6 +20,4 @@ class TourPlanRepository extends BaseRepository
     {
         parent::__construct($registry, TourPlan::class, 'p');
     }
-
-
 }

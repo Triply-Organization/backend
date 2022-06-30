@@ -24,13 +24,13 @@ class TourUpdateRequest extends BaseRequest
     private $price = self::NUMERIC_DEFAULT;
 
     #[Assert\Type('array')]
-    private $tourPlan = self::ARRAY_DEFAULT;
+    private $tourPlans = self::ARRAY_DEFAULT;
 
     #[Assert\Type('array')]
-    private $service = self::ARRAY_DEFAULT;
+    private $services = self::ARRAY_DEFAULT;
 
     #[Assert\Type('array')]
-    private $tourImage = self::ARRAY_DEFAULT;
+    private $tourImages = self::ARRAY_DEFAULT;
 
     /**
      * @return null
@@ -131,48 +131,48 @@ class TourUpdateRequest extends BaseRequest
     /**
      * @return array
      */
-    public function getTourPlan(): array
+    public function getTourPlans(): array
     {
-        return $this->tourPlan;
+        return $this->tourPlans;
     }
 
     /**
      * @param array $tourPlan
      */
-    public function setTourPlan(array $tourPlan): void
+    public function setTourPlans(array $tourPlans): void
     {
-        $this->tourPlan = $tourPlan;
+        $this->tourPlans = $tourPlans;
     }
 
     /**
      * @return array
      */
-    public function getService(): array
+    public function getServices(): array
     {
-        return $this->service;
+        return $this->services;
     }
 
     /**
      * @param array $service
      */
-    public function setService(array $service): void
+    public function setServices(array $services): void
     {
-        $this->service = $service;
+        $this->services = $services;
     }
 
     /**
      * @return array
      */
-    public function getTourImage(): array
+    public function getTourImages(): array
     {
-        return $this->tourImage;
+        return $this->tourImages;
     }
 
     /**
      * @param array $tourImage
      */
-    public function setTourImage(array $tourImage): void
+    public function setTourImages(array $tourImages): void
     {
-        $this->tourImage = $tourImage;
+        $this->tourImages = $tourImages;
     }
 }

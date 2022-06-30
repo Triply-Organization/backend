@@ -23,29 +23,28 @@ class TourController extends AbstractController
     use ResponseTrait;
 
     #[Route('/', name: 'add', methods: 'POST')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
         Request $request,
         TourRequest $tourRequest,
         TourValidator $tourValidator,
         TourService $tourService,
         TourTransformer $tourTransformer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $requestData = $request->toArray();
         $tour = $tourRequest->fromArray($requestData);
         $errors = $tourValidator->validatorTourRequest($tour);
         if (count($errors) > 0) {
-            return $this->errors(['errors' => 'Something wrong']);
+            return $this->errors(['Something wrong']);
         }
         $tourService = $tourService->addTour($tour);
-        $result =$tourTransformer->toArray($tourService);
+        $result = $tourTransformer->toArray($tourService);
 
         return $this->success($result);
     }
 
     #[Route('/{id}', name: 'update', methods: 'PATCH')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
         Tour $tour,
         Request $request,
@@ -53,23 +52,22 @@ class TourController extends AbstractController
         TourValidator $tourValidator,
         TourService $tourService,
         TourTransformer $tourTransformer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $dataRequest = $request->toArray();
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
         $errors = $tourValidator->validatorTourRequest($tour);
         if (count($errors) > 0) {
-            return $this->errors(['errors' => 'Something wrong']);
+            return $this->errors(['Something wrong']);
         }
-        $tourService = $tourService->updateTour($tour,$tourUpdateRequest);
-        $result =$tourTransformer->toArray($tourService);
+        $tourService = $tourService->updateTour($tour, $tourUpdateRequest);
+        $result = $tourTransformer->toArray($tourService);
 
         return $this->success($result);
     }
 
     #[isGranted('ROLE_CUSTOMER')]
     #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
-    public function deleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    public function deleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->delete($tour);
         return $this->success([], Response::HTTP_NO_CONTENT);
@@ -77,7 +75,7 @@ class TourController extends AbstractController
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/undo/{id<\d+>}', name: 'undo_delete', methods: 'PATCH')]
-    public function undoDeleteTour(Tour $tour, TourService $tourService ):JsonResponse
+    public function undoDeleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->undoDelete($tour);
         return $this->success([], Response::HTTP_NO_CONTENT);

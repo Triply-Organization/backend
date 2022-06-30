@@ -29,16 +29,15 @@ class TourService
     private TourUpdateRequestToTour $tourUpdateRequestToTour;
 
     public function __construct(
-        TourRequestToTour       $tourRequestToTour,
-        TourRepository          $tourRepository,
-        ServiceRepository       $serviceRepository,
-        DestinationRepository   $destinationRepository,
-        TourPlanRepository      $tourPlanRepository,
-        ImageRepository         $imageRepository,
-        TourImageRepository     $tourImageRepository,
+        TourRequestToTour $tourRequestToTour,
+        TourRepository $tourRepository,
+        ServiceRepository $serviceRepository,
+        DestinationRepository $destinationRepository,
+        TourPlanRepository $tourPlanRepository,
+        ImageRepository $imageRepository,
+        TourImageRepository $tourImageRepository,
         TourUpdateRequestToTour $tourUpdateRequestToTour
-    )
-    {
+    ) {
         $this->tourRequestToTour = $tourRequestToTour;
         $this->tourRepository = $tourRepository;
         $this->serviceRepository = $serviceRepository;
@@ -56,6 +55,7 @@ class TourService
         $tourService = $this->addServiceToTour($tourRequest, $tourImage);
         $tour = $this->addTourPlan($tourRequest, $tourService);
         $this->tourRepository->add($tour, true);
+
         return $tour;
     }
 
@@ -63,13 +63,14 @@ class TourService
     {
         $tourUpdateMapper = $this->tourUpdateRequestToTour->mapper($tour, $tourUpdateRequest);
         $this->updateTourPlan($tourUpdateRequest);
-        if ($tourUpdateRequest->getService()) {
+        if ($tourUpdateRequest->getServices()) {
             $this->updateServiceFromTour($tour, $tourUpdateRequest);
         }
-        if($tourUpdateRequest->getTourImage()){
+        if ($tourUpdateRequest->getTourImages()) {
             $this->updateTourImage($tour, $tourUpdateRequest);
         }
         $this->tourRepository->add($tourUpdateMapper, true);
+
         return $tour;
     }
 
@@ -93,19 +94,20 @@ class TourService
 
     private function addServiceToTour(TourRequest $tourRequest, Tour $tour): Tour
     {
-        foreach ($tourRequest->getService() as $serviceRequest) {
+        foreach ($tourRequest->getServices() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
-            if(!is_object($service)){
+            if (!is_object($service)) {
                 continue;
             }
             $tour->addService($service);
         }
+
         return $tour;
     }
 
     private function addTourPlan(TourRequest $tourRequest, Tour $tour): Tour
     {
-        foreach ($tourRequest->getTourPlan() as $tourPlanRequest) {
+        foreach ($tourRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
             if (!is_object($destination)) {
                 continue;
@@ -118,12 +120,13 @@ class TourService
             $tourPlan->setTour($tour);
             $this->tourPlanRepository->add($tourPlan);
         }
+
         return $tour;
     }
 
     private function addTourImage(TourRequest $tourRequest, Tour $tour): Tour
     {
-        foreach ($tourRequest->getTourImage() as $tourImageRequest) {
+        foreach ($tourRequest->getTourImages() as $tourImageRequest) {
             $image = $this->imageRepository->find($tourImageRequest['id']);
             if (!is_object($image)) {
                 continue;
@@ -134,12 +137,13 @@ class TourService
             $tourImage->setImage($image);
             $this->tourImageRepository->add($tourImage);
         }
+
         return $tour;
     }
 
     private function updateTourPlan(TourUpdateRequest $tourUpdateRequest): void
     {
-        foreach ($tourUpdateRequest->getTourPlan() as $tourPlanRequest) {
+        foreach ($tourUpdateRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
             if (!is_object($destination)) {
                 continue;
@@ -152,13 +156,14 @@ class TourService
             $tourPlan->setDescription($tourPlanRequest['description'] ?? $tourPlan->getDescription());
             $tourPlan->setDay($tourPlanRequest['day'] ?? $tourPlan->getDay());
             $tourPlan->setDestination($destination ?? $tourPlan->getDestination());
+            $tourPlan->setUpdatedAt(new \DateTimeImmutable());
             $this->tourPlanRepository->add($tourPlan);
         }
     }
 
     private function updateServiceFromTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): void
     {
-        $newServices = $tourUpdateRequest->getService()['newServiceToTour'];
+        $newServices = $tourUpdateRequest->getServices()['newServiceToTour'];
         foreach ($newServices as $newService) {
             $service = $this->serviceRepository->find($newService);
             if (!is_object($service)) {
@@ -166,7 +171,7 @@ class TourService
             }
             $tour->addService($service);
         }
-        $deleteServices = $tourUpdateRequest->getService()['deleteServiceFromTour'];
+        $deleteServices = $tourUpdateRequest->getServices()['deleteServiceFromTour'];
         foreach ($deleteServices as $deleteService) {
             $service = $this->serviceRepository->find($deleteService);
             if (!is_object($deleteServices)) {
@@ -178,57 +183,64 @@ class TourService
 
     private function updateTourImage(Tour $tour, TourUpdateRequest $tourUpdateRequest)
     {
-        foreach ($tourUpdateRequest->getTourImage() as $tourImageRequest) {
-            if(!$tourImageRequest['delete'] && !$tourImageRequest['type']) {
+        foreach ($tourUpdateRequest->getTourImages() as $tourImageRequest) {
+            if (!$tourImageRequest['delete'] && !$tourImageRequest['type']) {
                 continue;
             }
             if ($tourImageRequest['delete'] === true) {
                 $this->deleteTourIamge($tourImageRequest);
+
                 continue;
             }
             if ($tourImageRequest['type'] === "COVER") {
                 $this->addTourImageTypeCover($tourImageRequest);
+
                 continue;
             }
             $this->addTourImageTypeGallery($tour, $tourImageRequest);
         }
+
         return $tour;
     }
 
     private function deleteTourIamge(array $tourImageRequest)
     {
         $tourImageDelete = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
-        if(!is_object($tourImageDelete)) {
+        if (!is_object($tourImageDelete)) {
             return;
         }
-        $this->tourImageRepository->remove($tourImageDelete);
+        $tourImageDelete->setDeletedAt(new \DateTimeImmutable());
+        $this->tourImageRepository->add($tourImageDelete);
     }
 
     private function addTourImageTypeGallery(Tour $tour, array $tourImageRequest)
     {
         $image = $this->imageRepository->find($tourImageRequest['id']);
-        if(!is_object($image)){
+        if (!is_object($image)) {
             return $tour;
         }
         $tourImage = new TourImage();
         $tourImage->setType($tourImageRequest['type']);
         $tourImage->setTour($tour);
         $tourImage->setImage($image);
+        $tourImage->setUpdatedAt(new \DateTimeImmutable());
         $this->tourImageRepository->add($tourImage);
+
         return $tour;
     }
 
     private function addTourImageTypeCover(array $tourImageRequest): void
     {
         $tourImage = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
-        if(!is_object($tourImage)){
+        if (!is_object($tourImage)) {
             return;
         }
         $image = $this->imageRepository->find($tourImageRequest['id']);
-        if(!is_object($image)){
+        if (!is_object($image)) {
             return;
         }
         $tourImage->setImage($image);
+        $tourImage->setUpdatedAt(new \DateTimeImmutable());
         $this->tourImageRepository->add($tourImage);
     }
 }

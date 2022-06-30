@@ -25,7 +25,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
-                $this->getEntityManager()->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
@@ -53,7 +53,8 @@ abstract class BaseRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function undoDelete($id) {
+    public function undoDelete($id)
+    {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
             "UPDATE $this->entityClass $this->alias 

@@ -39,17 +39,17 @@ class TourRequest extends BaseRequest
     #[Assert\Type('array')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    private $service;
+    private $services;
 
     #[Assert\Type('array')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    private $tourPlan;
+    private $tourPlans;
 
     #[Assert\Type('array')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    private $tourImage;
+    private $tourImages;
 
 
     /**
@@ -151,48 +151,48 @@ class TourRequest extends BaseRequest
     /**
      * @return mixed
      */
-    public function getService()
+    public function getServices()
     {
-        return $this->service;
+        return $this->services;
     }
 
     /**
-     * @param mixed $service
+     * @param mixed $services
      */
-    public function setService($service): void
+    public function setServices($services): void
     {
-        $this->service = $service;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTourPlan()
-    {
-        return $this->tourPlan;
-    }
-
-    /**
-     * @param mixed $tourPlan
-     */
-    public function setTourPlan($tourPlan): void
-    {
-        $this->tourPlan = $tourPlan;
+        $this->services = $services;
     }
 
     /**
      * @return mixed
      */
-    public function getTourImage()
+    public function getTourPlans()
     {
-        return $this->tourImage;
+        return $this->tourPlans;
     }
 
     /**
-     * @param mixed $tourImage
+     * @param mixed $tourPlans
      */
-    public function setTourImage($tourImage): void
+    public function setTourPlans($tourPlans): void
     {
-        $this->tourImage = $tourImage;
+        $this->tourPlans = $tourPlans;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTourImages()
+    {
+        return $this->tourImages;
+    }
+
+    /**
+     * @param mixed $tourImages
+     */
+    public function setTourImages($tourImages): void
+    {
+        $this->tourImages = $tourImages;
     }
 }
