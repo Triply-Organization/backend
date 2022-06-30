@@ -7,7 +7,7 @@ use App\Repository\ServiceRepository;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
 
-class TourServiceService
+class FacilityTourService
 {
 
     private ServiceRepository $serviceRepository;

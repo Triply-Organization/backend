@@ -14,7 +14,6 @@
         "doctrine/orm": "^2.12",
         "jms/serializer-bundle": "^4.0",
         "lexik/jwt-authentication-bundle": "^2.16",
-        "nelmio/api-doc-bundle": "^4.9",
         "phpmailer/phpmailer": "^6.6",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "6.1.*",

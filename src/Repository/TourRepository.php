@@ -31,7 +31,7 @@ class TourRepository extends BaseRepository
         $tours = $this->filter($tours, 'maxPeople', $listTourRequest->getGuests());
         $tours = $this->andFilter($tours, 'id', $listTourRequest->getDestination());
         $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
-        $tours->setMaxResults($listTourRequest->getLimit())->setFirstResult(TourRequest::DEFAULT_OFFSET);
+        $tours->setMaxResults($listTourRequest->getLimit())->setFirstResult(ListTourRequest::DEFAULT_OFFSET);
 
         return $tours->getQuery()->getResult();
     }

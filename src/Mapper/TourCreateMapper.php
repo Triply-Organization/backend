@@ -9,7 +9,7 @@ use App\Repository\ServiceRepository;
 use App\Request\TourRequest;
 use Symfony\Component\Security\Core\Security;
 
-class TourRequestToTour
+class TourCreateMapper
 {
     private Security $security;
 
@@ -18,7 +18,7 @@ class TourRequestToTour
         $this->security = $security;
     }
 
-    public function mapper(TourRequest $tourRequest): Tour
+    public function mapping(TourRequest $tourRequest): Tour
     {
         /**
          * @var User $currentUser

@@ -12,7 +12,6 @@ use App\Service\TourService;
 use App\Traits\ResponseTrait;
 use App\Transformer\TourDetailTransformer;
 use App\Transformer\TourTransformer;
-use App\Validator\TourValidator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -62,14 +61,14 @@ class TourController extends AbstractController
     public function addTour(
         Request         $request,
         TourRequest     $tourRequest,
-        TourValidator   $tourValidator,
         TourService     $tourService,
+        ValidatorInterface $validator,
         TourTransformer $tourTransformer,
     ): JsonResponse
     {
         $requestData = $request->toArray();
         $tour = $tourRequest->fromArray($requestData);
-        $errors = $tourValidator->validatorTourRequest($tour);
+        $errors = $validator->validate($tour);
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
@@ -85,14 +84,14 @@ class TourController extends AbstractController
         Tour              $tour,
         Request           $request,
         TourUpdateRequest $tourUpdateRequest,
-        TourValidator     $tourValidator,
+        ValidatorInterface $validator,
         TourService       $tourService,
         TourTransformer   $tourTransformer,
     ): JsonResponse
     {
         $dataRequest = $request->toArray();
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
-        $errors = $tourValidator->validatorTourRequest($tour);
+        $errors = $validator->validate($tour);
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
