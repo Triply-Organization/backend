@@ -239,14 +239,4 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
         return $this;
     }
-
-
-    #[ArrayShape(['id' => "int|null", 'name' => "mixed"])]
-    public function jsonParse(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName()
-        ];
-    }
 }

@@ -8,6 +8,7 @@ abstract class BaseRequest
     const VALUE_DEFAULT = null;
     const STRING_DEFAULT = null;
     const INT_DEFAULT = null;
+    const NUMERIC_DEFAULT = null;
     const ARRAY_DEFAULT = [];
 
     public function fromArray(?array $requests): self

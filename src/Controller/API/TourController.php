@@ -32,14 +32,37 @@ class TourController extends AbstractController
         TourTransformer $tourTransformer,
     ): JsonResponse
     {
-        $dataRequest = json_decode($request->getContent(), true);
-        $tour = $tourRequest->fromArray($dataRequest);
+        $requestData = $request->toArray();
+        $tour = $tourRequest->fromArray($requestData);
         $errors = $tourValidator->validatorTourRequest($tour);
-        if (!empty($errors)) {
-            return $this->errors($errors);
+        if (count($errors) > 0) {
+            return $this->errors(['errors' => 'Something wrong']);
         }
         $tourService = $tourService->addTour($tour);
-        $result =$tourTransformer->fromArray($tourService);
+        $result =$tourTransformer->toArray($tourService);
+
+        return $this->success($result);
+    }
+
+    #[Route('/{id}', name: 'update', methods: 'PATCH')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function updateTour(
+        Tour $tour,
+        Request $request,
+        TourUpdateRequest $tourUpdateRequest,
+        TourValidator $tourValidator,
+        TourService $tourService,
+        TourTransformer $tourTransformer,
+    ): JsonResponse
+    {
+        $dataRequest = $request->toArray();
+        $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
+        $errors = $tourValidator->validatorTourRequest($tour);
+        if (count($errors) > 0) {
+            return $this->errors(['errors' => 'Something wrong']);
+        }
+        $tourService = $tourService->updateTour($tour,$tourUpdateRequest);
+        $result =$tourTransformer->toArray($tourService);
 
         return $this->success($result);
     }
