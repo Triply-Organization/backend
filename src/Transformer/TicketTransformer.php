@@ -9,7 +9,7 @@ class TicketTransformer
     public function toArray(Ticket $ticket): array
     {
         return [
-            $ticket->getType() => $ticket->getPrice()
+            $ticket->getType()->getName() => $ticket->getPrice(),
         ];
     }
 }

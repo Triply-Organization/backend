@@ -42,7 +42,7 @@ class TourDetailTransformer extends BaseTransformer
         $result['tourImages'] = $this->tourImageService->getGallary($tour);
         $result['tourPlans'] = $this->tourPlanService->getTourPlan($tour->getTourPlans());
         $result['services'] = $this->facilityService->getServices($tour->getServices());
-        $result['tickets'] = $this->ticketService->getTicket($tour->getTickets());
+        $result['tickets'] = $this->ticketService->getTicket();
         $result['dateOpen'] =  $this->scheduleService->getDateOpen($tour->getSchedules());
 
         return $result;
