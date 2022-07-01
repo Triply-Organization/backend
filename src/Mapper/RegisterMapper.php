@@ -10,7 +10,8 @@ class RegisterMapper
 {
     private ImageRepository $imageRepository;
 
-    public function __construct(ImageRepository $imageRepository) {
+    public function __construct(ImageRepository $imageRepository)
+    {
         $this->imageRepository = $imageRepository;
     }
 
@@ -24,7 +25,7 @@ class RegisterMapper
             ->setPassword(password_hash($registerRequest->getPassword(), PASSWORD_DEFAULT))
             ->setRoles($registerRequest->getRoles())
             ->setPhone($registerRequest->getPhone())
-            ->setImage($image);
+            ->setAvatar($image);
 
         return $user;
     }

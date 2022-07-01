@@ -7,29 +7,32 @@ use App\Service\ImageService;
 use App\Traits\ResponseTrait;
 use App\Transformer\ImageTransformer;
 use App\Validator\ImageValidator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/images', name: 'image_')]
 class ImageController extends AbstractController
 {
     use ResponseTrait;
 
+    #[isGranted('ROLE_USER')]
     #[Route('/', name: 'add_image', methods: 'POST')]
     public function addImage(
         Request $request,
         ImageService $imageService,
         ImageTransformer $imageTransformer,
         ImageRequest $imageRequest,
-        ImageValidator $imageValidator
+        ValidatorInterface $validator,
     ): JsonResponse {
         $fileRequest = $request->files->get('image');
         $file = $imageRequest->setImage($fileRequest);
-        $errors = $imageValidator->validatorImageRequest($file);
+        $errors = $validator->validate($file);
         if (!empty($errors)) {
-            return $this->errors($errors);
+            return $this->errors(['Something wrong']);
         }
         $image = $imageService->addImage($fileRequest);
         $results = $imageTransformer->fromArray($image);

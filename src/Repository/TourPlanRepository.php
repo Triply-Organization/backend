@@ -18,6 +18,6 @@ class TourPlanRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TourPlan::class);
+        parent::__construct($registry, TourPlan::class, 'p');
     }
 }

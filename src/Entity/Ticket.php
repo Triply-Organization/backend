@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\TourImageRepository;
+use App\Repository\TicketRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TourImageRepository::class)]
-class TourImage extends AbstractEntity
+#[ORM\Entity(repositoryClass: TicketRepository::class)]
+class Ticket
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,13 +18,12 @@ class TourImage extends AbstractEntity
     #[ORM\Column(type: 'string', length: 255)]
     private $type;
 
-    #[ORM\ManyToOne(targetEntity: Tour::class, inversedBy: 'tourImages')]
+    #[ORM\Column(type: 'float')]
+    private $price;
+
+    #[ORM\ManyToOne(targetEntity: Tour::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
     private $tour;
-
-    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $image;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
@@ -33,9 +34,12 @@ class TourImage extends AbstractEntity
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
+    #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Order::class)]
+    private $orders;
+
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,6 +59,18 @@ class TourImage extends AbstractEntity
         return $this;
     }
 
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
     public function getTour(): ?Tour
     {
         return $this->tour;
@@ -63,18 +79,6 @@ class TourImage extends AbstractEntity
     public function setTour(?Tour $tour): self
     {
         $this->tour = $tour;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(Image $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -111,6 +115,36 @@ class TourImage extends AbstractEntity
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setTicket($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getTicket() === $this) {
+                $order->setTicket(null);
+            }
+        }
 
         return $this;
     }

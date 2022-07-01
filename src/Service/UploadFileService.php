@@ -16,10 +16,10 @@ class UploadFileService
 
     public function upload(?UploadedFile $file): string
     {
-        if ($file == null) {
+        if ($file === null) {
             return "";
         }
-        $fileName = uniqid() . '.' . $file->guessExtension();
+        $fileName = uniqid('', true) . '.' . $file->guessExtension();
         try {
             $file->move(
                 $this->targetDirectory,
