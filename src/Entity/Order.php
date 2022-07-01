@@ -34,6 +34,9 @@ class Order
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
+    #[ORM\ManyToOne(targetEntity: Bill::class, inversedBy: 'orders')]
+    private $bill;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -112,6 +115,18 @@ class Order
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getBill(): ?Bill
+    {
+        return $this->bill;
+    }
+
+    public function setBill(?Bill $bill): self
+    {
+        $this->bill = $bill;
 
         return $this;
     }
