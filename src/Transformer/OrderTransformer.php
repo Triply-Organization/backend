@@ -4,10 +4,16 @@ namespace App\Transformer;
 
 use App\Entity\Order;
 use App\Entity\User;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class OrderTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'amount'];
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }
 
     public function toArray(Order $order): array
     {
@@ -17,6 +23,10 @@ class OrderTransformer extends BaseTransformer
         $result['startDay'] = $order->getTicket()->getSchedule()->getStartDate();
         $result['price'] = $order->getTicket()->getPrice() * $result['amount'];
         $result['duration'] = $order->getTicket()->getSchedule()->getTour()->getDuration();
+        $images = $order->getTicket()->getSchedule()->getTour()->getTourImages();
+        foreach ( $images as  $image) {
+            $result['image'] = $this->params->get('s3url') . $image->getImage()->getPath();
+        }
 
         return $result;
     }
