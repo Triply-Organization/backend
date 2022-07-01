@@ -17,9 +17,6 @@ class Order
     #[ORM\Column(type: 'integer')]
     private $amount;
 
-    #[ORM\Column(type: 'float')]
-    private $totalPrice;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
@@ -54,18 +51,6 @@ class Order
     public function setAmount(int $amount): self
     {
         $this->amount = $amount;
-
-        return $this;
-    }
-
-    public function getTotalPrice(): ?float
-    {
-        return $this->totalPrice;
-    }
-
-    public function setTotalPrice(float $totalPrice): self
-    {
-        $this->totalPrice = $totalPrice;
 
         return $this;
     }
