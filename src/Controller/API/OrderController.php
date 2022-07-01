@@ -6,6 +6,7 @@ use App\Entity\Schedule;
 use App\Request\OrderRequest;
 use App\Service\OrderService;
 use App\Traits\ResponseTrait;
+use App\Transformer\OrderTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,8 +27,7 @@ class OrderController extends AbstractController
         OrderRequest     $orderRequest,
         OrderService     $orderService,
         ValidatorInterface $validator,
-        Schedule $schedule,
-//        TourTransformer $orderTransformer,
+        OrderTransformer $orderTransformer,
     ): JsonResponse
     {
         $requestData = $request->toArray();
@@ -36,10 +36,9 @@ class OrderController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
-        $orderService = $orderService->order($schedule, $order);
-        dd($orderService);
-//        $result = $orderTransformer->toArray($orderService);
+        $orderService = $orderService->order($order);
+        $result = $orderTransformer->result($orderTransformer, $orderService);
 
-        return $this->success($orderService);
+        return $this->success($result);
     }
 }

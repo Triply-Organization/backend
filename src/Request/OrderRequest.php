@@ -5,13 +5,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderRequest extends BaseRequest
 {
-    #[Assert\Type('integer')]
+    #[Assert\Type('array')]
     private $children;
 
-    #[Assert\Type('integer')]
+    #[Assert\Type('array')]
     private $youth;
 
-    #[Assert\Type('integer')]
+    #[Assert\Type('array')]
     private $adult;
 
     /**
@@ -61,6 +61,4 @@ class OrderRequest extends BaseRequest
     {
         $this->adult = $adult;
     }
-
-
 }
