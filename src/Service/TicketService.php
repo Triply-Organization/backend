@@ -10,7 +10,7 @@ class TicketService
 
     public function __construct(TicketTransformer $ticketTransformer)
     {
-        $this->$ticketTransformer = $ticketTransformer;
+        $this->ticketTransformer = $ticketTransformer;
     }
 
     public function getTicket($tickets): array

@@ -24,9 +24,9 @@ class TourDetailTransformer extends BaseTransformer
         FacilityService  $facilityService,
         TourImageService $tourImageService,
         TourPlanService  $tourPlanService,
-        ScheduleService $scheduleService,
-        TicketService  $ticketService
-     )
+        ScheduleService  $scheduleService,
+        TicketService    $ticketService
+    )
     {
         $this->facilityService = $facilityService;
         $this->tourImageService = $tourImageService;
@@ -42,8 +42,9 @@ class TourDetailTransformer extends BaseTransformer
         $result['tourImages'] = $this->tourImageService->getGallary($tour);
         $result['tourPlans'] = $this->tourPlanService->getTourPlan($tour->getTourPlans());
         $result['services'] = $this->facilityService->getServices($tour->getServices());
-        $result['tickets']  = $this->ticketService->getTicket($tour->getTickets());
-        $result['dateOpen'] = $this->scheduleService->getDateOpen($tour->getSchedules());
+        $result['tickets'] = $this->ticketService->getTicket($tour->getTickets());
+        $result['dateOpen'] =  $this->scheduleService->getDateOpen($tour->getSchedules());
+
         return $result;
     }
 }
