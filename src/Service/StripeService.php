@@ -28,24 +28,41 @@ class StripeService
     {
         $stripeSK = $this->params->get('stripe_secret_key');
         Stripe::setApiKey($stripeSK);
+
+        $taxRateId = 'txr_1LGNaYBshpup8grmjONnWYWz';
+
+        if ($checkoutRequestData->getCurrency() === 'usd')
+        {
+            $taxRateId = 'txr_1LGeepBshpup8grmsXrotsGu';
+        }
+
         return Session::create([
             'line_items' => [[
                 'price_data' => [
                     'currency' => $checkoutRequestData->getCurrency(),
                     'product_data' => [
                         'name' => $checkoutRequestData->getName(),
-                        'tax_code' => 'txcd_99999999'
                     ],
                     'unit_amount' => $checkoutRequestData->getAmount(),
                     'tax_behavior' => 'exclusive',
                 ],
-                'quantity' => $checkoutRequestData->getQuantity(),
+                'quantity' => 1,
+                'tax_rates' => [$taxRateId]
             ]],
             'mode' => 'payment',
             'allow_promotion_codes' => true,
-            'success_url' => 'https://example.com/success',
+            'success_url' => 'http://localhost:3000/confirmation/1',
             'cancel_url' => 'https://example.com/cancel',
         ]);
+    }
+
+    public function eventHandler(array $event): object
+    {
+        $obj = [];
+        if ($event['type'] === 'checkout.session.completed') {
+            $obj = (object)$event;
+        }
+        return $obj;
     }
 
     /**
@@ -74,7 +91,7 @@ class StripeService
     {
         return $this->stripe->taxRates->create([
             'display_name' => $taxName,
-            'description' => $taxName . ' ' , $taxOfCountry,
+            'description' => $taxName . ' ', $taxOfCountry,
             'jurisdiction' => 'DE',
             'percentage' => $taxPercentage,
             'inclusive' => false,
