@@ -95,27 +95,4 @@ abstract class BaseRepository extends ServiceEntityRepository
 
         return $query->orderBy($this->alias . ".$orderType", $orderBy);
     }
-
-    protected function filter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
-    {
-        if (empty($value)) {
-            return $query;
-        }
-
-        return $query->where($this->alias . ".$field >= :$field")->setParameter($field, $value);
-    }
-
-    protected function andFilter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
-    {
-        if (empty($value)) {
-            return $query;
-        }
-
-        return $query->innerJoin("App\Entity\TourPlan", "p")
-            ->innerJoin("App\Entity\Destination", "d")
-            ->andWhere($this->alias . ".id = p.tour")
-            ->andWhere("p" . ".destination = d.id")
-            ->andWhere("d" . ".$field = :$field")
-            ->setParameter($field, $value);
-    }
 }

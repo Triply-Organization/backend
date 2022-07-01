@@ -49,11 +49,11 @@ class Tour extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private $createdUser;
 
-    #[ORM\Column(type: 'float')]
-    private $price;
-
     #[ORM\OneToMany(mappedBy: 'tour', targetEntity: TourImage::class)]
     private $tourImages;
+
+    #[ORM\OneToMany(mappedBy: 'tour', targetEntity: Schedule::class)]
+    private $schedules;
 
     public function __construct()
     {
@@ -61,6 +61,7 @@ class Tour extends AbstractEntity
         $this->tourPlans = new ArrayCollection();
         $this->services = new ArrayCollection();
         $this->tourImages = new ArrayCollection();
+        $this->schedules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,18 +233,6 @@ class Tour extends AbstractEntity
         return $this;
     }
 
-    public function getPrice(): ?float
-    {
-        return $this->price;
-    }
-
-    public function setPrice(float $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, TourImage>
      */
@@ -267,6 +256,36 @@ class Tour extends AbstractEntity
         if ($this->tourImages->removeElement($tourImage)) {
             if ($tourImage->getTour() === $this) {
                 $tourImage->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Schedule>
+     */
+    public function getSchedules(): Collection
+    {
+        return $this->schedules;
+    }
+
+    public function addSchedule(Schedule $schedule): self
+    {
+        if (!$this->schedules->contains($schedule)) {
+            $this->schedules[] = $schedule;
+            $schedule->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedule(Schedule $schedule): self
+    {
+        if ($this->schedules->removeElement($schedule)) {
+            // set the owning side to null (unless already changed)
+            if ($schedule->getTour() === $this) {
+                $schedule->setTour(null);
             }
         }
 

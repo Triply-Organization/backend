@@ -30,7 +30,7 @@ class ListTourRequest extends BaseRequest
     private $orderBy = self::DEFAULT_ORDER_BY;
 
     #[Assert\Type('numeric')]
-    private $destination;
+    private $destination = null;
 
     #[Assert\Type('numeric')]
     private $guests = self::MIN_GUESTS;
