@@ -12,7 +12,6 @@ use App\Service\TourService;
 
 class TourDetailTransformer extends BaseTransformer
 {
-
     private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
     private FacilityService $facilityService;
     private TourImageService $tourImageService;
@@ -21,13 +20,12 @@ class TourDetailTransformer extends BaseTransformer
     private TicketService $ticketService;
 
     public function __construct(
-        FacilityService  $facilityService,
+        FacilityService $facilityService,
         TourImageService $tourImageService,
-        TourPlanService  $tourPlanService,
-        ScheduleService  $scheduleService,
-        TicketService    $ticketService
-    )
-    {
+        TourPlanService $tourPlanService,
+        ScheduleService $scheduleService,
+        TicketService $ticketService
+    ) {
         $this->facilityService = $facilityService;
         $this->tourImageService = $tourImageService;
         $this->tourPlanService = $tourPlanService;

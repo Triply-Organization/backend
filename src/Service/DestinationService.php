@@ -12,10 +12,9 @@ class DestinationService
     private DestinationTransformer $destinationTransformer;
 
     public function __construct(
-        DestinationRepository  $destinationRepository,
+        DestinationRepository $destinationRepository,
         DestinationTransformer $destinationTransformer
-    )
-    {
+    ) {
         $this->destinationRepository = $destinationRepository;
         $this->destinationTransformer = $destinationTransformer;
     }

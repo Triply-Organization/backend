@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TourImageTransformer
 {
-
     private ParameterBagInterface $params;
 
     public function __construct(ParameterBagInterface $params)

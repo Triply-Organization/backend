@@ -291,5 +291,4 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         $this->user = $user;
     }
-
 }

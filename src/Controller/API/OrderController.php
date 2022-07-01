@@ -23,13 +23,12 @@ class OrderController extends AbstractController
     #[Route('/{id}', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function orderTour(
-        Request         $request,
-        OrderRequest     $orderRequest,
-        OrderService     $orderService,
+        Request $request,
+        OrderRequest $orderRequest,
+        OrderService $orderService,
         ValidatorInterface $validator,
         OrderTransformer $orderTransformer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $requestData = $request->toArray();
         $order = $orderRequest->fromArray($requestData);
         $errors = $validator->validate($order);

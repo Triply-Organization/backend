@@ -17,11 +17,10 @@ class OrderService
     private TicketRepository $ticketRepository;
 
     public function __construct(
-        OrderRepository  $orderRepository,
-        Security         $security,
+        OrderRepository $orderRepository,
+        Security $security,
         TicketRepository $ticketRepository
-    )
-    {
+    ) {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
         $this->ticketRepository = $ticketRepository;
@@ -36,7 +35,6 @@ class OrderService
         $result = [];
         if ($orderRequest->getChildren() !== null) {
             $result['children'] = $this->orderTicketChildren($currentUser, $orderRequest);
-
         }
 
         if ($orderRequest->getYouth() !== null) {

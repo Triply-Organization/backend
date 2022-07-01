@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Request;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderRequest extends BaseRequest

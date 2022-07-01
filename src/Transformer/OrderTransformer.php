@@ -24,7 +24,7 @@ class OrderTransformer extends BaseTransformer
         $result['price'] = $order->getTicket()->getPrice() * $result['amount'];
         $result['duration'] = $order->getTicket()->getSchedule()->getTour()->getDuration();
         $images = $order->getTicket()->getSchedule()->getTour()->getTourImages();
-        foreach ( $images as  $image) {
+        foreach ($images as $image) {
             $result['image'] = $this->params->get('s3url') . $image->getImage()->getPath();
         }
 

@@ -31,5 +31,4 @@ class FacilityService
         $services = $this->getServices($this->serviceRepository->findAll());
         return $services;
     }
-
 }

@@ -9,7 +9,6 @@ use App\Service\TourService;
 
 abstract class BaseTransformer
 {
-
     public function transform(AbstractEntity $entity, array $params): array
     {
         $result = [];
