@@ -20,9 +20,6 @@ class TourUpdateRequest extends BaseRequest
     #[Assert\Type('string')]
     private $overView = self::STRING_DEFAULT;
 
-    #[Assert\Type('numeric')]
-    private $price = self::NUMERIC_DEFAULT;
-
     #[Assert\Type('array')]
     private $tourPlans = self::ARRAY_DEFAULT;
 
@@ -110,22 +107,6 @@ class TourUpdateRequest extends BaseRequest
     public function setOverView($overView): void
     {
         $this->overView = $overView;
-    }
-
-    /**
-     * @return null
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param null $price
-     */
-    public function setPrice($price): void
-    {
-        $this->price = $price;
     }
 
     /**

@@ -30,7 +30,6 @@ class TourCreateMapper
             ->setMaxPeople($tourRequest->getMaxPeople())
             ->setMinAge($tourRequest->getMinAge())
             ->setOverView($tourRequest->getOverView())
-            ->setPrice($tourRequest->getPrice())
             ->setCreatedUser($currentUser);
         return $tour;
     }

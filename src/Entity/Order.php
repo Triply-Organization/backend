@@ -38,6 +38,11 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private $schedule;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
