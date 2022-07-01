@@ -15,15 +15,8 @@ class Ticket
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $type;
-
     #[ORM\Column(type: 'float')]
     private $price;
-
-    #[ORM\ManyToOne(targetEntity: Tour::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $tour;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
@@ -37,26 +30,23 @@ class Ticket
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Order::class)]
     private $orders;
 
+    #[ORM\ManyToOne(targetEntity: TicketType::class, inversedBy: 'tickets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $type;
+
+    #[ORM\ManyToOne(targetEntity: Schedule::class, inversedBy: 'tickets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $schedule;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     public function getPrice(): ?float
@@ -67,18 +57,6 @@ class Ticket
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getTour(): ?Tour
-    {
-        return $this->tour;
-    }
-
-    public function setTour(?Tour $tour): self
-    {
-        $this->tour = $tour;
 
         return $this;
     }
@@ -145,6 +123,30 @@ class Ticket
                 $order->setTicket(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?TicketType
+    {
+        return $this->type;
+    }
+
+    public function setType(?TicketType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getSchedule(): ?Schedule
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule(?Schedule $schedule): self
+    {
+        $this->schedule = $schedule;
 
         return $this;
     }
