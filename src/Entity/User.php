@@ -54,7 +54,6 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private $orders;
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();

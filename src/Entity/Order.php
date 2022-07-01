@@ -34,9 +34,10 @@ class Order
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\ManyToOne(targetEntity: Schedule::class, inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $schedule;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -111,18 +112,6 @@ class Order
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    public function getSchedule(): ?Schedule
-    {
-        return $this->schedule;
-    }
-
-    public function setSchedule(?Schedule $schedule): self
-    {
-        $this->schedule = $schedule;
 
         return $this;
     }

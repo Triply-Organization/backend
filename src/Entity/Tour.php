@@ -52,9 +52,6 @@ class Tour extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'tour', targetEntity: TourImage::class)]
     private $tourImages;
 
-    #[ORM\OneToMany(mappedBy: 'tour', targetEntity: Ticket::class)]
-    private $tickets;
-
     #[ORM\OneToMany(mappedBy: 'tour', targetEntity: Schedule::class)]
     private $schedules;
 
@@ -64,9 +61,7 @@ class Tour extends AbstractEntity
         $this->tourPlans = new ArrayCollection();
         $this->services = new ArrayCollection();
         $this->tourImages = new ArrayCollection();
-        $this->tickets = new ArrayCollection();
         $this->schedules = new ArrayCollection();
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -261,36 +256,6 @@ class Tour extends AbstractEntity
         if ($this->tourImages->removeElement($tourImage)) {
             if ($tourImage->getTour() === $this) {
                 $tourImage->setTour(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Ticket>
-     */
-    public function getTickets(): Collection
-    {
-        return $this->tickets;
-    }
-
-    public function addTicket(Ticket $ticket): self
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets[] = $ticket;
-            $ticket->setTour($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): self
-    {
-        if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
-            if ($ticket->getTour() === $this) {
-                $ticket->setTour(null);
             }
         }
 
