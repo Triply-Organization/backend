@@ -18,6 +18,6 @@ class WebhookController extends AbstractController
         $payment = $stripeService->eventHandler($event);
         $logger->debug($request->getContent());
 
-        return $this->json([]);
+        return $this->json(['']);
     }
 }
