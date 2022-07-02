@@ -26,13 +26,14 @@ class TourService
     public function __construct(
         TourRepository      $tourRepository,
         TourImageRepository $tourImageRepository,
-        TourPlanRepository $tourPlanRepository,
-        TourCreateMapper $tourCreateMapper,
-        TourUpdateMapper $tourUpdateMapper,
-        TourPlanService $tourPlanService,
-        TourImageService $tourImageService,
+        TourPlanRepository  $tourPlanRepository,
+        TourCreateMapper    $tourCreateMapper,
+        TourUpdateMapper    $tourUpdateMapper,
+        TourPlanService     $tourPlanService,
+        TourImageService    $tourImageService,
         FacilityTourService $facilityTourService
-    ) {
+    )
+    {
         $this->tourCreateMapper = $tourCreateMapper;
         $this->tourRepository = $tourRepository;
         $this->tourUpdateMapper = $tourUpdateMapper;

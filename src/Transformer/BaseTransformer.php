@@ -26,7 +26,6 @@ abstract class BaseTransformer
         foreach ($entities as $key => $entity) {
             $result[$key] = $this->toArray($entity);
         }
-
         return $result;
     }
 }

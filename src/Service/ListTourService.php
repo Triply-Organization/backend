@@ -14,18 +14,21 @@ class ListTourService
     private TourTransformer $tourTransformer;
     private FacilityService $facilityService;
     private DestinationService $destinationService;
+    private TicketTypeService $ticketTypeService;
 
     public function __construct(
         TourRepository     $tourRepository,
         TourTransformer    $tourTransformer,
         FacilityService    $facilityService,
-        DestinationService $destinationService
+        DestinationService $destinationService,
+        TicketTypeService  $ticketTypeService
     )
     {
         $this->tourTransformer = $tourTransformer;
         $this->tourRepository = $tourRepository;
         $this->facilityService = $facilityService;
         $this->destinationService = $destinationService;
+        $this->ticketTypeService = $ticketTypeService;
     }
 
     public function findAll(ListTourRequest $listTourRequest): array
@@ -33,10 +36,12 @@ class ListTourService
         $result = [];
         $tours = $this->tourRepository->getAll($listTourRequest);
         foreach ($tours as $tour) {
-            $result[] = $this->tourTransformer->listToArray($tour);
+            $result[] = $this->tourTransformer->toArray($tour);
         }
-        $result['services'] = $this->facilityService->getAllService();
         $result['destinations'] = $this->destinationService->getAllDestination();
+        $result['services'] = $this->facilityService->getAllService();
+        $result['tickets'] = $this->ticketTypeService->getTicket();
+        $result['pagination'] = $this->tourRepository->pagination($listTourRequest);
 
         return $result;
     }

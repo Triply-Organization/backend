@@ -7,7 +7,7 @@ use App\Repository\TicketRepository;
 use App\Repository\TicketTypeRepository;
 use App\Transformer\TicketTransformer;
 
-class TicketService
+class TicketTypeService
 {
     private TicketTransformer $ticketTransformer;
     private TicketTypeRepository $ticketTypeRepository;
@@ -23,8 +23,9 @@ class TicketService
         $ticketTypes = $this->ticketTypeRepository->findAll();
         $result = [];
         foreach ($ticketTypes as $ticketType) {
-            $result = $this->ticketTransformer->toArray($ticketType);
+            $result [] = $this->ticketTransformer->toArray($ticketType);
         }
+
         return $result;
     }
 
