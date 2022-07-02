@@ -27,13 +27,13 @@ class Service extends AbstractEntity
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\ManyToMany(targetEntity: Tour::class, inversedBy: 'services')]
-    private $tours;
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: TourService::class)]
+    private $tourServices;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->tours = new ArrayCollection();
+        $this->tourServices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,25 +90,31 @@ class Service extends AbstractEntity
     }
 
     /**
-     * @return Collection<int, Tour>
+     * @return Collection<int, TourService>
      */
-    public function getTours(): Collection
+    public function getTourServices(): Collection
     {
-        return $this->tours;
+        return $this->tourServices;
     }
 
-    public function addTour(Tour $tour): self
+    public function addTourService(TourService $tourService): self
     {
-        if (!$this->tours->contains($tour)) {
-            $this->tours[] = $tour;
+        if (!$this->tourServices->contains($tourService)) {
+            $this->tourServices[] = $tourService;
+            $tourService->setService($this);
         }
 
         return $this;
     }
 
-    public function removeTour(Tour $tour): self
+    public function removeTourService(TourService $tourService): self
     {
-        $this->tours->removeElement($tour);
+        if ($this->tourServices->removeElement($tourService)) {
+            // set the owning side to null (unless already changed)
+            if ($tourService->getService() === $this) {
+                $tourService->setService(null);
+            }
+        }
 
         return $this;
     }

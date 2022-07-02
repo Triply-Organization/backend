@@ -3,27 +3,24 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
-class Order
+class Order extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $amount;
+    #[ORM\OneToMany(mappedBy: 'orderName', targetEntity: Ticket::class)]
+    private $tickets;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $user;
-
-    #[ORM\ManyToOne(targetEntity: Ticket::class, inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $ticket;
+    #[ORM\Column(type: 'float')]
+    private $totalPrice;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
@@ -34,12 +31,22 @@ class Order
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\ManyToOne(targetEntity: Bill::class, inversedBy: 'orders')]
+    #[ORM\OneToOne(inversedBy: 'orderName', targetEntity: Bill::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $bill;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
+
+    #[ORM\ManyToOne(targetEntity: Voucher::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $discount;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,38 +54,44 @@ class Order
         return $this->id;
     }
 
-    public function getAmount(): ?int
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
     {
-        return $this->amount;
+        return $this->tickets;
     }
 
-    public function setAmount(int $amount): self
+    public function addTicket(Ticket $ticket): self
     {
-        $this->amount = $amount;
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setOrderName($this);
+        }
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function removeTicket(Ticket $ticket): self
     {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
+        if ($this->tickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getOrderName() === $this) {
+                $ticket->setOrderName(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getTicket(): ?Ticket
+    public function getTotalPrice(): ?float
     {
-        return $this->ticket;
+        return $this->totalPrice;
     }
 
-    public function setTicket(?Ticket $ticket): self
+    public function setTotalPrice(float $totalPrice): self
     {
-        $this->ticket = $ticket;
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }
@@ -124,9 +137,33 @@ class Order
         return $this->bill;
     }
 
-    public function setBill(?Bill $bill): self
+    public function setBill(Bill $bill): self
     {
         $this->bill = $bill;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDiscount(): ?Voucher
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?Voucher $discount): self
+    {
+        $this->discount = $discount;
 
         return $this;
     }

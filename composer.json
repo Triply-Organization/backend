@@ -16,6 +16,7 @@
         "lexik/jwt-authentication-bundle": "^2.16",
         "phpmailer/phpmailer": "^6.6",
         "sensio/framework-extra-bundle": "^6.2",
+        "stripe/stripe-php": "^8.8",
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
@@ -81,9 +82,9 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
-        ,
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9",
+        "roave/security-advisories": "dev-latest",
         "symfony/maker-bundle": "^1.43",
         "symfony/phpunit-bridge": "^6.1"
     }

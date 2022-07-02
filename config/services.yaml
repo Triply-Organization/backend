@@ -6,11 +6,9 @@
 parameters:
     brochures_directory: '%kernel.project_dir%/public/images/'
     s3url: '%env(S3_URL)%'
+    stripe_secret_key: "%env(STRIPE_SECRET_KEY)%"
 
 services:
-    App\Controller\:
-        resource: '../src/Controller'
-        tags: [ 'controller.service_arguments' ]
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -25,6 +23,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
+
     Aws\S3\S3Client:
         arguments:
             - version: 'latest'
@@ -38,19 +40,19 @@ services:
             $targetDirectory: '%brochures_directory%'
             $bucketName: '%env(S3_BUCKET_NAME)%'
 
-#    App\EventListener\ExceptionListener:
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.exception }
-#    App\EventListener\AuthenticationFailureListener:
-#        tags:
-#            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
-#    App\EventListener\AuthenticationSuccessListener:
-#        tags:
-#            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
-#    App\EventListener\JWTInvalidListener:
-#        tags:
-#            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_invalid, method: onJWTInvalid }
-#            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_not_found, method: onJWTNotFound }
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+    App\EventListener\AuthenticationFailureListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
+    App\EventListener\AuthenticationSuccessListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+    App\EventListener\JWTInvalidListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_invalid, method: onJWTInvalid }
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_not_found, method: onJWTNotFound }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

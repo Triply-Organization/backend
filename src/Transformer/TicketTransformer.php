@@ -2,11 +2,11 @@
 
 namespace App\Transformer;
 
-use App\Entity\Ticket;
+use App\Entity\PriceList;
 
 class TicketTransformer
 {
-    public function toArray(Ticket $ticket): array
+    public function toArray(PriceList $ticket): array
     {
         return [
             $ticket->getType()->getName() => $ticket->getPrice(),

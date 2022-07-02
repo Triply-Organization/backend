@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketTypeRepository::class)]
-class TicketType
+class TicketType extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,7 +27,7 @@ class TicketType
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Ticket::class)]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: PriceList::class)]
     private $tickets;
 
     public function __construct()
@@ -90,14 +90,14 @@ class TicketType
     }
 
     /**
-     * @return Collection<int, Ticket>
+     * @return Collection<int, PriceList>
      */
     public function getTickets(): Collection
     {
         return $this->tickets;
     }
 
-    public function addTicket(Ticket $ticket): self
+    public function addTicket(PriceList $ticket): self
     {
         if (!$this->tickets->contains($ticket)) {
             $this->tickets[] = $ticket;
@@ -107,7 +107,7 @@ class TicketType
         return $this;
     }
 
-    public function removeTicket(Ticket $ticket): self
+    public function removeTicket(PriceList $ticket): self
     {
         if ($this->tickets->removeElement($ticket)) {
             // set the owning side to null (unless already changed)

@@ -33,9 +33,6 @@ class Tour extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'tour', targetEntity: TourPlan::class)]
     private $tourPlans;
 
-    #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'tours')]
-    private $services;
-
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
@@ -55,13 +52,19 @@ class Tour extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'tour', targetEntity: Schedule::class)]
     private $schedules;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $status;
+
+    #[ORM\OneToMany(mappedBy: 'tour', targetEntity: TourService::class)]
+    private $tourServices;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->tourPlans = new ArrayCollection();
-        $this->services = new ArrayCollection();
         $this->tourImages = new ArrayCollection();
         $this->schedules = new ArrayCollection();
+        $this->tourServices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,33 +156,6 @@ class Tour extends AbstractEntity
             if ($tourPlan->getTour() === $this) {
                 $tourPlan->setTour(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Service>
-     */
-    public function getServices(): Collection
-    {
-        return $this->services;
-    }
-
-    public function addService(Service $service): self
-    {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-            $service->addTour($this);
-        }
-
-        return $this;
-    }
-
-    public function removeService(Service $service): self
-    {
-        if ($this->services->removeElement($service)) {
-            $service->removeTour($this);
         }
 
         return $this;
@@ -286,6 +262,48 @@ class Tour extends AbstractEntity
             // set the owning side to null (unless already changed)
             if ($schedule->getTour() === $this) {
                 $schedule->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TourService>
+     */
+    public function getTourServices(): Collection
+    {
+        return $this->tourServices;
+    }
+
+    public function addTourService(TourService $tourService): self
+    {
+        if (!$this->tourServices->contains($tourService)) {
+            $this->tourServices[] = $tourService;
+            $tourService->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTourService(TourService $tourService): self
+    {
+        if ($this->tourServices->removeElement($tourService)) {
+            // set the owning side to null (unless already changed)
+            if ($tourService->getTour() === $this) {
+                $tourService->setTour(null);
             }
         }
 

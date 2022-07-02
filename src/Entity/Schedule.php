@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ScheduleRepository::class)]
-class Schedule
+class Schedule extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,13 +34,13 @@ class Schedule
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: Ticket::class)]
-    private $tickets;
+    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: PriceList::class)]
+    private $priceLists;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->tickets = new ArrayCollection();
+        $this->priceLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,29 +121,29 @@ class Schedule
     }
 
     /**
-     * @return Collection<int, Ticket>
+     * @return Collection<int, PriceList>
      */
-    public function getTickets(): Collection
+    public function getPriceLists(): Collection
     {
-        return $this->tickets;
+        return $this->priceLists;
     }
 
-    public function addTicket(Ticket $ticket): self
+    public function addPriceList(PriceList $priceList): self
     {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets[] = $ticket;
-            $ticket->setSchedule($this);
+        if (!$this->priceLists->contains($priceList)) {
+            $this->priceLists[] = $priceList;
+            $priceList->setSchedule($this);
         }
 
         return $this;
     }
 
-    public function removeTicket(Ticket $ticket): self
+    public function removePriceList(PriceList $priceList): self
     {
-        if ($this->tickets->removeElement($ticket)) {
+        if ($this->priceLists->removeElement($priceList)) {
             // set the owning side to null (unless already changed)
-            if ($ticket->getSchedule() === $this) {
-                $ticket->setSchedule(null);
+            if ($priceList->getSchedule() === $this) {
+                $priceList->setSchedule(null);
             }
         }
 

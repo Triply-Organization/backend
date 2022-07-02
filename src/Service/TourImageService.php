@@ -17,11 +17,10 @@ class TourImageService
     private TourImageTransformer $tourImageTransformer;
 
     public function __construct(
-        ImageRepository      $imageRepository,
-        TourImageRepository  $tourImageRepository,
+        ImageRepository $imageRepository,
+        TourImageRepository $tourImageRepository,
         TourImageTransformer $tourImageTransformer
-    )
-    {
+    ) {
         $this->imageRepository = $imageRepository;
         $this->tourImageRepository = $tourImageRepository;
         $this->tourImageTransformer = $tourImageTransformer;
@@ -81,7 +80,6 @@ class TourImageService
     {
         $tourImageDelete = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
         if (!is_object($tourImageDelete)) {
-
             return;
         }
         $tourImageDelete->setDeletedAt(new \DateTimeImmutable());
@@ -92,7 +90,6 @@ class TourImageService
     {
         $image = $this->imageRepository->find($tourImageRequest['id']);
         if (!is_object($image)) {
-
             return $tour;
         }
         $tourImage = new TourImage();
@@ -109,12 +106,10 @@ class TourImageService
     {
         $tourImage = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
         if (!is_object($tourImage)) {
-
             return;
         }
         $image = $this->imageRepository->find($tourImageRequest['id']);
         if (!is_object($image)) {
-
             return;
         }
         $tourImage->setImage($image);

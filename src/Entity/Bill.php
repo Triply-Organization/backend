@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BillRepository::class)]
-class Bill
+class Bill extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,12 +24,15 @@ class Bill
     #[ORM\Column(type: 'float')]
     private $tax;
 
-    #[ORM\OneToMany(mappedBy: 'bill', targetEntity: Order::class)]
-    private $orders;
+    #[ORM\OneToOne(mappedBy: 'bill', targetEntity: Order::class, cascade: ['persist', 'remove'])]
+    private $orderName;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $createdAt;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -73,32 +76,31 @@ class Bill
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
+    public function getOrderName(): ?Order
     {
-        return $this->orders;
+        return $this->orderName;
     }
 
-    public function addOrder(Order $order): self
+    public function setOrderName(Order $orderName): self
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setBill($this);
+        // set the owning side of the relation if necessary
+        if ($orderName->getBill() !== $this) {
+            $orderName->setBill($this);
         }
+
+        $this->orderName = $orderName;
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getBill() === $this) {
-                $order->setBill(null);
-            }
-        }
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -2,21 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\TicketRepository;
+use App\Repository\PriceListRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TicketRepository::class)]
-class Ticket extends AbstractEntity
+#[ORM\Entity(repositoryClass: PriceListRepository::class)]
+class PriceList extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $amount;
+    #[ORM\Column(type: 'float')]
+    private $price;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
@@ -27,21 +27,21 @@ class Ticket extends AbstractEntity
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\ManyToOne(targetEntity: PriceList::class, inversedBy: 'tickets')]
+    #[ORM\ManyToOne(targetEntity: TicketType::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private $priceList;
+    private $type;
 
-    #[ORM\Column(type: 'float')]
-    private $totalPrice;
+    #[ORM\OneToMany(mappedBy: 'priceList', targetEntity: Ticket::class)]
+    private $tickets;
 
-    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'tickets')]
+    #[ORM\ManyToOne(targetEntity: Schedule::class, inversedBy: 'priceLists')]
     #[ORM\JoinColumn(nullable: false)]
-    private $orderName;
+    private $schedule;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->priceLists = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,14 +49,14 @@ class Ticket extends AbstractEntity
         return $this->id;
     }
 
-    public function getAmount(): ?int
+    public function getPrice(): ?float
     {
-        return $this->amount;
+        return $this->price;
     }
 
-    public function setAmount(int $amount): self
+    public function setPrice(float $price): self
     {
-        $this->amount = $amount;
+        $this->price = $price;
 
         return $this;
     }
@@ -97,38 +97,56 @@ class Ticket extends AbstractEntity
         return $this;
     }
 
-    public function getPriceList(): ?PriceList
+    public function getType(): ?TicketType
     {
-        return $this->priceList;
+        return $this->type;
     }
 
-    public function setPriceList(?PriceList $priceList): self
+    public function setType(?TicketType $type): self
     {
-        $this->priceList = $priceList;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getTotalPrice(): ?float
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
     {
-        return $this->totalPrice;
+        return $this->tickets;
     }
 
-    public function setTotalPrice(float $totalPrice): self
+    public function addTicket(Ticket $ticket): self
     {
-        $this->totalPrice = $totalPrice;
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setPriceList($this);
+        }
 
         return $this;
     }
 
-    public function getOrderName(): ?Order
+    public function removeTicket(Ticket $ticket): self
     {
-        return $this->orderName;
+        if ($this->tickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getPriceList() === $this) {
+                $ticket->setPriceList(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setOrderName(?Order $orderName): self
+    public function getSchedule(): ?Schedule
     {
-        $this->orderName = $orderName;
+        return $this->schedule;
+    }
+
+    public function setSchedule(?Schedule $schedule): self
+    {
+        $this->schedule = $schedule;
 
         return $this;
     }

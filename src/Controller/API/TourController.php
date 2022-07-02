@@ -34,6 +34,11 @@ class TourController extends AbstractController
         ListTourService    $tourService,
     ): JsonResponse
     {
+        TourTransformer $tourTransformer,
+        DestinationService $destinationService,
+        TourService $tourService,
+        FacilityService $facilityService
+    ): JsonResponse {
         $query = $request->query->all();
         $tourRequest = $listTourRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
@@ -54,10 +59,15 @@ class TourController extends AbstractController
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
+        Request $request,
+        TourRequest $tourRequest,
+        TourService $tourService,
         Request            $request,
         TourRequest        $tourRequest,
         TourService        $tourService,
         ValidatorInterface $validator,
+        TourTransformer $tourTransformer,
+    ): JsonResponse {
         TourTransformer    $tourTransformer,
     ): JsonResponse
     {
@@ -76,14 +86,17 @@ class TourController extends AbstractController
     #[Route('/{id}', name: 'update', methods: 'PATCH')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
-        Tour               $tour,
-        Request            $request,
-        TourUpdateRequest  $tourUpdateRequest,
+        Tour $tour,
+        Request $request,
+        TourUpdateRequest $tourUpdateRequest,
         ValidatorInterface $validator,
         TourService        $tourService,
         TourTransformer    $tourTransformer,
     ): JsonResponse
     {
+        TourService $tourService,
+        TourTransformer $tourTransformer,
+    ): JsonResponse {
         $dataRequest = $request->toArray();
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
         $errors = $validator->validate($tour);
