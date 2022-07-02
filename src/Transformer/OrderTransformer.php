@@ -2,7 +2,7 @@
 
 namespace App\Transformer;
 
-use App\Entity\Order;
+use App\Entity\Ticket;
 use App\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -15,7 +15,7 @@ class OrderTransformer extends BaseTransformer
         $this->params = $params;
     }
 
-    public function toArray(Order $order): array
+    public function toArray(Ticket $order): array
     {
         $result = $this->transform($order, static::PARAMS);
         $result['user'] = $order->getUser()->getId();

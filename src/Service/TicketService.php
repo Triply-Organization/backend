@@ -2,15 +2,15 @@
 
 namespace App\Service;
 
-use App\Repository\TicketRepository;
+use App\Repository\PriceListRepository;
 use App\Transformer\TicketTransformer;
 
 class TicketService
 {
     private TicketTransformer $ticketTransformer;
-    private TicketRepository $ticketRepository;
+    private PriceListRepository $ticketRepository;
 
-    public function __construct(TicketTransformer $ticketTransformer, TicketRepository $ticketRepository)
+    public function __construct(TicketTransformer $ticketTransformer, PriceListRepository $ticketRepository)
     {
         $this->ticketTransformer = $ticketTransformer;
         $this->ticketRepository = $ticketRepository;

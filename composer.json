@@ -81,9 +81,9 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
-        ,
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9",
+        "roave/security-advisories": "dev-latest",
         "symfony/maker-bundle": "^1.43",
         "symfony/phpunit-bridge": "^6.1"
     }
