@@ -32,18 +32,12 @@ class TourRequest extends BaseRequest
     private $overView;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $services;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $tourPlans;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $tourImages;
 
 
