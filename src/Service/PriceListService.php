@@ -32,5 +32,4 @@ class PriceListService
         $ticketPrice = $this->priceListRepository->find($ticketType);
         return $ticketPrice->getPrice();
     }
-
 }

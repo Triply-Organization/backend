@@ -27,5 +27,4 @@ class TicketService
         }
         return $result;
     }
-
 }
