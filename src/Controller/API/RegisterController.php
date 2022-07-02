@@ -23,12 +23,11 @@ class RegisterController extends AbstractController
      */
     #[Route('/register', name: 'register', methods: 'POST')]
     public function register(
-        Request            $request,
+        Request $request,
         ValidatorInterface $validator,
-        RegisterRequest    $registerRequest,
-        RegisterService    $registerService,
-    ): JsonResponse
-    {
+        RegisterRequest $registerRequest,
+        RegisterService $registerService,
+    ): JsonResponse {
         $requestData = $request->toArray();
         $requestData = $registerRequest->fromArray($requestData);
         $errors = $validator->validate($requestData);

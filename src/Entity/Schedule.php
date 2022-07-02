@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ScheduleRepository::class)]
-class Schedule
+class Schedule extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

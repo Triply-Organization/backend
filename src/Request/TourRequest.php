@@ -31,11 +31,6 @@ class TourRequest extends BaseRequest
     #[Assert\NotNull]
     private $overView;
 
-    #[Assert\Type('numeric')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $price;
-
     #[Assert\Type('array')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
@@ -130,22 +125,6 @@ class TourRequest extends BaseRequest
     public function setOverView($overView): void
     {
         $this->overView = $overView;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param mixed $price
-     */
-    public function setPrice($price): void
-    {
-        $this->price = $price;
     }
 
     /**

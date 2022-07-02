@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
-class Ticket
+class Ticket extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -10,7 +10,6 @@ use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
 use App\Transformer\TourPlansTransformer;
 
-
 class TourPlanService
 {
     private DestinationRepository $destinationRepository;
@@ -19,10 +18,9 @@ class TourPlanService
 
     public function __construct(
         DestinationRepository $destinationRepository,
-        TourPlanRepository    $tourPlanRepository,
-        TourPlansTransformer  $tourPlansTransformer
-    )
-    {
+        TourPlanRepository $tourPlanRepository,
+        TourPlansTransformer $tourPlansTransformer
+    ) {
         $this->destinationRepository = $destinationRepository;
         $this->tourPlanRepository = $tourPlanRepository;
         $this->tourPlansTransformer = $tourPlansTransformer;
@@ -62,12 +60,10 @@ class TourPlanService
         foreach ($tourUpdateRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
             if (!is_object($destination)) {
-
                 continue;
             }
             $tourPlan = $this->tourPlanRepository->find($tourPlanRequest['id']);
             if (!is_object($tourPlan)) {
-
                 continue;
             }
             $tourPlan->setTitle($tourPlanRequest['title'] ?? $tourPlan->getTitle());

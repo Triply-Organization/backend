@@ -9,13 +9,11 @@ use App\Request\TourUpdateRequest;
 
 class FacilityTourService
 {
-
     private ServiceRepository $serviceRepository;
 
     public function __construct(
         ServiceRepository $serviceRepository
-    )
-    {
+    ) {
         $this->serviceRepository = $serviceRepository;
     }
 
@@ -45,7 +43,6 @@ class FacilityTourService
             foreach ($newServices as $newService) {
                 $service = $this->serviceRepository->find($newService);
                 if (!is_object($service)) {
-
                     continue;
                 }
                 $tour->addService($service);
@@ -60,7 +57,6 @@ class FacilityTourService
             foreach ($deleteServices as $deleteService) {
                 $service = $this->serviceRepository->find($deleteService);
                 if (!is_object($deleteServices)) {
-
                     continue;
                 }
                 $tour->removeService($service);

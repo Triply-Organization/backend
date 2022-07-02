@@ -28,7 +28,6 @@ class TourUpdateMapper
             ->setMaxPeople($tourUpdateRequest->getMaxPeople() ?? $tour->getMaxPeople())
             ->setMinAge($tourUpdateRequest->getMinAge() ?? $tour->getMinAge())
             ->setOverView($tourUpdateRequest->getOverView() ?? $tour->getOverView())
-            ->setPrice($tourUpdateRequest->getPrice() ?? $tour->getPrice())
             ->setUpdatedAt(new \DateTimeImmutable())
             ->setCreatedUser($currentUser);
         return $tour;

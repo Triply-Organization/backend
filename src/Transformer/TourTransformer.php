@@ -15,8 +15,7 @@ class TourTransformer extends BaseTransformer
 
     public function __construct(
         TourService $tourService
-    )
-    {
+    ) {
         $this->tourService = $tourService;
     }
 
