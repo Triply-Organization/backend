@@ -63,7 +63,7 @@ class StripeService
     public function eventHandler(array $event, string $type): void
     {
         $bill = new Bill;
-        if ($type === 'charge.succeeded') {
+        if ($type === 'checkout.session.completed') {
             $bill->setTotalPrice($event['amount_total']);
             $bill->setTax($event['total_details']['amount_tax']);
             $bill->setDiscount($event['total_details']['amount_discount']);
