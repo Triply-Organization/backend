@@ -30,11 +30,11 @@ class OrderService
     private VoucherRepository $voucherRepository;
 
     public function __construct(
-        OrderRepository    $orderRepository,
+        OrderRepository     $orderRepository,
         Security            $security,
-        TicketRepository $ticketRepository,
+        TicketRepository    $ticketRepository,
         PriceListRepository $priceListRepository,
-        VoucherRepository $voucherRepository,
+        VoucherRepository   $voucherRepository,
     )
     {
         $this->orderRepository = $orderRepository;
@@ -55,35 +55,35 @@ class OrderService
         $order->setDiscount($orderRequest->getDiscountId() ?? $discount)
             ->setUser($currentUser)
             ->setTotalPrice(0);
-        $this->orderRepository->add($order,true);
+        $this->orderRepository->add($order, true);
         $totalPrice = $this->addTicket($orderRequest, $order);
-        $this->orderRepository->add($order->setTotalPrice($totalPrice),true);
+        $this->orderRepository->add($order->setTotalPrice($totalPrice), true);
 
         return $order;
     }
 
     public function findOneTicketOfOrder(Order $order)
     {
-        return $this->ticketRepository->findOneBy(array('orderName'=>$order));
+        return $this->ticketRepository->findOneBy(array('orderName' => $order));
     }
 
     public function findTicketsOfOrder(Order $order)
     {
-        return $this->ticketRepository->findBy(array('orderName'=>$order));
+        return $this->ticketRepository->findBy(array('orderName' => $order));
     }
 
     private function addTicket(OrderRequest $orderRequest, Order $order)
     {
         $totalpirce = 0;
-        if($orderRequest->getChildren() !== null) {
+        if ($orderRequest->getChildren() !== null) {
             $priceTicketChildren = $this->addChildrenTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketChildren;
         }
-        if($orderRequest->getYouth() !== null) {
+        if ($orderRequest->getYouth() !== null) {
             $priceTicketYouth = $this->addYouthTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketYouth;
         }
-        if($orderRequest->getAdult() !== null) {
+        if ($orderRequest->getAdult() !== null) {
             $priceTicketAdult = $this->addAdultTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketAdult;
         }
@@ -103,7 +103,7 @@ class OrderService
     {
         $price = 0;
         $priceListChildren = $this->priceListRepository->find($orderRequest->getChildren()['priceListId']);
-        if($priceListChildren !== null) {
+        if ($priceListChildren !== null) {
             $ticket = $this->createTicket($priceListChildren, $orderRequest->getChildren()['amount']);
             $ticket->setOrderName($order);
             $this->ticketRepository->add($ticket, true);
@@ -116,7 +116,7 @@ class OrderService
     {
         $price = 0;
         $priceListYouth = $this->priceListRepository->find($orderRequest->getYouth()['priceListId']);
-        if($priceListYouth !== null) {
+        if ($priceListYouth !== null) {
             $ticket = $this->createTicket($priceListYouth, $orderRequest->getYouth()['amount']);
             $ticket->setOrderName($order);
             $this->ticketRepository->add($ticket, true);
@@ -129,7 +129,7 @@ class OrderService
     {
         $price = 0;
         $priceListAdult = $this->priceListRepository->find($orderRequest->getAdult()['priceListId']);
-        if($priceListAdult !== null) {
+        if ($priceListAdult !== null) {
             $ticket = $this->createTicket($priceListAdult, $orderRequest->getAdult()['amount']);
             $ticket->setOrderName($order);
             $this->ticketRepository->add($ticket, true);

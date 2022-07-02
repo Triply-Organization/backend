@@ -10,9 +10,10 @@ class OrderTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'amount'];
     private OrderService $orderService;
+
     public function __construct(
         ParameterBagInterface $params,
-        OrderService $orderService
+        OrderService          $orderService
     )
     {
         $this->orderService = $orderService;
