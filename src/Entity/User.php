@@ -49,13 +49,12 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     private $tours;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $avatar;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private $orders;
 
-    private $user;
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -274,21 +273,5 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         }
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user): void
-    {
-        $this->user = $user;
     }
 }
