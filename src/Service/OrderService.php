@@ -2,24 +2,24 @@
 
 namespace App\Service;
 
-use App\Entity\Order;
+use App\Entity\Ticket;
 use App\Entity\Schedule;
 use App\Entity\User;
-use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
+use App\Repository\PriceListRepository;
 use App\Request\OrderRequest;
 use Symfony\Component\Security\Core\Security;
 
 class OrderService
 {
-    private OrderRepository $orderRepository;
+    private TicketRepository $orderRepository;
     private Security $security;
-    private TicketRepository $ticketRepository;
+    private PriceListRepository $ticketRepository;
 
     public function __construct(
-        OrderRepository $orderRepository,
-        Security $security,
-        TicketRepository $ticketRepository
+        TicketRepository    $orderRepository,
+        Security            $security,
+        PriceListRepository $ticketRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
@@ -47,9 +47,9 @@ class OrderService
         return $result;
     }
 
-    private function orderTicketChildren($currentUser, OrderRequest $orderRequest): Order
+    private function orderTicketChildren($currentUser, OrderRequest $orderRequest): Ticket
     {
-        $order = new Order();
+        $order = new Ticket();
         $order->setUser($currentUser);
         $ticket = $this->ticketRepository->find($orderRequest->getChildren()['id']);
         $order->setAmount($orderRequest->getChildren()['amount'])
@@ -61,7 +61,7 @@ class OrderService
 
     private function orderTicketYouth($currentUser, OrderRequest $orderRequest)
     {
-        $order = new Order();
+        $order = new Ticket();
         $order->setUser($currentUser);
         $ticket = $this->ticketRepository->find($orderRequest->getYouth()['id']);
         $order->setAmount($orderRequest->getYouth()['amount'])
@@ -73,7 +73,7 @@ class OrderService
 
     private function orderTicketAdult($currentUser, OrderRequest $orderRequest)
     {
-        $order = new Order();
+        $order = new Ticket();
         $order->setUser($currentUser);
         $ticket = $this->ticketRepository->find($orderRequest->getAdult()['id']);
         $order->setAmount($orderRequest->getAdult()['amount'])
