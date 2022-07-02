@@ -2,52 +2,46 @@
 
 namespace App\Transformer;
 
-use App\Entity\Ticket;
-use App\Entity\User;
+use App\Entity\Order;
+use App\Service\OrderService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class OrderTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'amount'];
-
-    public function __construct(ParameterBagInterface $params)
+    private OrderService $orderService;
+    public function __construct(
+        ParameterBagInterface $params,
+        OrderService $orderService
+    )
     {
+        $this->orderService = $orderService;
         $this->params = $params;
     }
 
-    public function toArray(Ticket $order): array
+    public function toArray(Order $order): array
     {
         $result = $this->transform($order, static::PARAMS);
         $result['user'] = $order->getUser()->getId();
-        $result['tour'] = $order->getTicket()->getSchedule()->getTour()->getTitle();
-        $result['startDay'] = $order->getTicket()->getSchedule()->getStartDate();
-        $result['price'] = $order->getTicket()->getPrice() * $result['amount'];
-        $result['duration'] = $order->getTicket()->getSchedule()->getTour()->getDuration();
-        $images = $order->getTicket()->getSchedule()->getTour()->getTourImages();
+        $firstTicket = $this->orderService->findOneTicketOfOrder($order);
+        $result['tourTitle'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getTitle();
+        $result['startDay'] = $firstTicket->getPriceList()->getSchedule()->getStartDate();
+        $result['duration'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getDuration();
+        $images = $firstTicket->getPriceList()->getSchedule()->getTour()->getTourImages();
         foreach ($images as $image) {
-            $result['image'] = $this->params->get('s3url') . $image->getImage()->getPath();
+            $result['imageTour']['path'] = $this->params->get('s3url') . $image->getImage()->getPath();
+            $result['imageTour']['type'] = $image->getType();
         }
-
-        return $result;
-    }
-
-    public function result($orderTransformer, $orderService)
-    {
-        if (key_exists('children', $orderService)) {
-            $result['children'] = $orderTransformer->toArray($orderService['children']);
+        $ticketsOfOrder = $this->orderService->findTicketsOfOrder($order);
+        $subTotal = 0;
+        foreach ($ticketsOfOrder as $key => $ticket) {
+            $result['tickets'][$key]['idTicket'] = $ticket->getId();
+            $result['tickets'][$key]['amount'] = $ticket->getAmount();
+            $result['tickets'][$key]['typeTicket'] = $ticket->getPriceList()->getType()->getName();
+            $result['tickets'][$key]['priceTick'] = $ticket->getPriceList()->getPrice();
+            $subTotal = $subTotal + $ticket->getPriceList()->getPrice();
         }
-        if (key_exists('youth', $orderService)) {
-            $result['youth'] = $orderTransformer->toArray($orderService['youth']);
-        }
-        if (key_exists('adult', $orderService)) {
-            $result['adult'] = $orderTransformer->toArray($orderService['adult']);
-        }
-        $result['totalPrice'] = $result['children']['price'] ?? 0 +
-            $result['youth']['price'] ?? 0 +
-            $result['adult']['price'] ?? 0;
-        $result['VAT'] = 0.3;
-        $result['subTotal'] = $result['totalPrice'] + $result['VAT'] * $result['totalPrice'];
-
+        $result['subTotal'] = $subTotal;
         return $result;
     }
 }

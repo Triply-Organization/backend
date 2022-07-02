@@ -2,28 +2,46 @@
 
 namespace App\Service;
 
+use App\Entity\Bill;
+use App\Entity\Order;
+use App\Entity\PriceList;
 use App\Entity\Ticket;
 use App\Entity\Schedule;
 use App\Entity\User;
+use App\Entity\Voucher;
+use App\FindException\findTicketException;
+use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
 use App\Repository\PriceListRepository;
+use App\Repository\VoucherRepository;
 use App\Request\OrderRequest;
+use App\Traits\ResponseTrait;
 use Symfony\Component\Security\Core\Security;
+use function PHPUnit\Framework\throwException;
 
 class OrderService
 {
-    private TicketRepository $orderRepository;
+    use ResponseTrait;
+
+    private OrderRepository $orderRepository;
     private Security $security;
-    private PriceListRepository $ticketRepository;
+    private TicketRepository $ticketRepository;
+    private PriceListRepository $priceListRepository;
+    private VoucherRepository $voucherRepository;
 
     public function __construct(
-        TicketRepository    $orderRepository,
+        OrderRepository    $orderRepository,
         Security            $security,
-        PriceListRepository $ticketRepository
-    ) {
+        TicketRepository $ticketRepository,
+        PriceListRepository $priceListRepository,
+        VoucherRepository $voucherRepository,
+    )
+    {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
         $this->ticketRepository = $ticketRepository;
+        $this->priceListRepository = $priceListRepository;
+        $this->voucherRepository = $voucherRepository;
     }
 
     public function order(OrderRequest $orderRequest)
@@ -32,54 +50,91 @@ class OrderService
          * @var User $currentUser
          */
         $currentUser = $this->security->getUser();
-        $result = [];
-        if ($orderRequest->getChildren() !== null) {
-            $result['children'] = $this->orderTicketChildren($currentUser, $orderRequest);
-        }
-
-        if ($orderRequest->getYouth() !== null) {
-            $result['youth'] = $this->orderTicketYouth($currentUser, $orderRequest);
-        }
-
-        if ($orderRequest->getAdult() !== null) {
-            $result['adult'] = $this->orderTicketAdult($currentUser, $orderRequest);
-        }
-        return $result;
-    }
-
-    private function orderTicketChildren($currentUser, OrderRequest $orderRequest): Ticket
-    {
-        $order = new Ticket();
-        $order->setUser($currentUser);
-        $ticket = $this->ticketRepository->find($orderRequest->getChildren()['id']);
-        $order->setAmount($orderRequest->getChildren()['amount'])
-            ->setTicket($ticket);
-        $this->orderRepository->add($order, true);
+        $order = new Order();
+        $discount = $this->voucherRepository->find(1);
+        $order->setDiscount($orderRequest->getDiscountId() ?? $discount)
+            ->setUser($currentUser)
+            ->setTotalPrice(0);
+        $this->orderRepository->add($order,true);
+        $totalPrice = $this->addTicket($orderRequest, $order);
+        $this->orderRepository->add($order->setTotalPrice($totalPrice),true);
 
         return $order;
     }
 
-    private function orderTicketYouth($currentUser, OrderRequest $orderRequest)
+    public function findOneTicketOfOrder(Order $order)
     {
-        $order = new Ticket();
-        $order->setUser($currentUser);
-        $ticket = $this->ticketRepository->find($orderRequest->getYouth()['id']);
-        $order->setAmount($orderRequest->getYouth()['amount'])
-            ->setTicket($ticket);
-        $this->orderRepository->add($order, true);
-
-        return $order;
+        return $this->ticketRepository->findOneBy(array('orderName'=>$order));
     }
 
-    private function orderTicketAdult($currentUser, OrderRequest $orderRequest)
+    public function findTicketsOfOrder(Order $order)
     {
-        $order = new Ticket();
-        $order->setUser($currentUser);
-        $ticket = $this->ticketRepository->find($orderRequest->getAdult()['id']);
-        $order->setAmount($orderRequest->getAdult()['amount'])
-            ->setTicket($ticket);
-        $this->orderRepository->add($order, true);
+        return $this->ticketRepository->findBy(array('orderName'=>$order));
+    }
 
-        return $order;
+    private function addTicket(OrderRequest $orderRequest, Order $order)
+    {
+        $totalpirce = 0;
+        if($orderRequest->getChildren() !== null) {
+            $priceTicketChildren = $this->addChildrenTicket($orderRequest, $order);
+            $totalpirce = $totalpirce + $priceTicketChildren;
+        }
+        if($orderRequest->getYouth() !== null) {
+            $priceTicketYouth = $this->addYouthTicket($orderRequest, $order);
+            $totalpirce = $totalpirce + $priceTicketYouth;
+        }
+        if($orderRequest->getAdult() !== null) {
+            $priceTicketAdult = $this->addAdultTicket($orderRequest, $order);
+            $totalpirce = $totalpirce + $priceTicketAdult;
+        }
+        return $totalpirce;
+    }
+
+    private function createTicket(PriceList $priceList, $amount)
+    {
+        $ticket = new Ticket();
+        $ticket->setPriceList($priceList)
+            ->setAmount($amount)
+            ->setTotalPrice($priceList->getPrice() * $amount);
+        return $ticket;
+    }
+
+    private function addChildrenTicket(OrderRequest $orderRequest, Order $order)
+    {
+        $price = 0;
+        $priceListChildren = $this->priceListRepository->find($orderRequest->getChildren()['priceListId']);
+        if($priceListChildren !== null) {
+            $ticket = $this->createTicket($priceListChildren, $orderRequest->getChildren()['amount']);
+            $ticket->setOrderName($order);
+            $this->ticketRepository->add($ticket, true);
+            $price = $ticket->getTotalPrice();
+        }
+        return $price;
+    }
+
+    private function addYouthTicket(OrderRequest $orderRequest, Order $order)
+    {
+        $price = 0;
+        $priceListYouth = $this->priceListRepository->find($orderRequest->getYouth()['priceListId']);
+        if($priceListYouth !== null) {
+            $ticket = $this->createTicket($priceListYouth, $orderRequest->getYouth()['amount']);
+            $ticket->setOrderName($order);
+            $this->ticketRepository->add($ticket, true);
+            $price = $ticket->getTotalPrice();
+        }
+        return $price;
+    }
+
+    private function addAdultTicket(OrderRequest $orderRequest, Order $order)
+    {
+        $price = 0;
+        $priceListAdult = $this->priceListRepository->find($orderRequest->getAdult()['priceListId']);
+        if($priceListAdult !== null) {
+            $ticket = $this->createTicket($priceListAdult, $orderRequest->getAdult()['amount']);
+            $ticket->setOrderName($order);
+            $this->ticketRepository->add($ticket, true);
+            $price = $ticket->getTotalPrice();
+        }
+        return $price;
     }
 }
