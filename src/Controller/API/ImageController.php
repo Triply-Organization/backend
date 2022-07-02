@@ -29,18 +29,14 @@ class ImageController extends AbstractController
         ValidatorInterface $validator,
     ): JsonResponse
     {
-        $filesRequest = $request->files->get('image');
-        $results = [];
-
-        foreach ($filesRequest as $fileRequest) {
-            $file = $imageRequest->setImage($fileRequest);
-            $errors = $validator->validate($file);
-            if (count($errors) > 0) {
-                return $this->errors(['Something wrong']);
-            }
-            $image = $imageService->addImage($fileRequest);
-            $results[] = $imageTransformer->fromArray($image);
+        $fileRequest = $request->files->get('image');
+        $file = $imageRequest->setImage($fileRequest);
+        $errors = $validator->validate($file);
+        if (count($errors) > 0) {
+            return $this->errors(['Something wrong']);
         }
+        $image = $imageService->addImage($fileRequest);
+        $results = $imageTransformer->fromArray($image);
 
         return $this->success($results);
     }
