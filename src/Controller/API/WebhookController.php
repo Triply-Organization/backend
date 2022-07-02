@@ -12,11 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebhookController extends AbstractController
 {
     #[Route('', name: 'webhook')]
-    public function getData(Request $request, LoggerInterface $logger, StripeService $stripeService)
+    public function getData(Request $request,LoggerInterface $logger,StripeService $stripeService)
     {
         $event = $request->toArray();
-        $payment = $stripeService->eventHandler($event);
-        $logger->debug($request->getContent());
+        $data = $event['data']['object'];
+        $type = $event['type'];
+
+        $stripeService->eventHandler($data, $type);
 
         return $this->json(['']);
     }

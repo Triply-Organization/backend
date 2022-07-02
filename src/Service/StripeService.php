@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Bill;
+use App\Repository\BillRepository;
 use App\Request\CheckoutRequest;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
@@ -14,11 +16,13 @@ class StripeService
 {
     private ParameterBagInterface $params;
     private StripeClient $stripe;
+    private BillRepository $billRepository;
 
-    public function __construct(ParameterBagInterface $params)
+    public function __construct(ParameterBagInterface $params, BillRepository $billRepository)
     {
         $this->params = $params;
         $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
+        $this->billRepository = $billRepository;
     }
 
     /**
@@ -56,13 +60,15 @@ class StripeService
         ]);
     }
 
-    public function eventHandler(array $event): object
+    public function eventHandler(array $event, string $type): void
     {
-        $obj = [];
-        if ($event['type'] === 'checkout.session.completed') {
-            $obj = (object)$event;
+        $bill = new Bill;
+        if ($type === 'charge.succeeded') {
+            $bill->setTotalPrice($event['amount_total']);
+            $bill->setTax($event['total_details']['amount_tax']);
+            $bill->setDiscount($event['total_details']['amount_discount']);
+            $this->billRepository->add($bill, true);
         }
-        return $obj;
     }
 
     /**
