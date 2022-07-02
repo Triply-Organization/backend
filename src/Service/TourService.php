@@ -11,6 +11,7 @@ use App\Repository\TourPlanRepository;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
+use App\Transformer\TourTransformer;
 
 class TourService
 {
@@ -31,7 +32,7 @@ class TourService
         TourUpdateMapper    $tourUpdateMapper,
         TourPlanService     $tourPlanService,
         TourImageService    $tourImageService,
-        FacilityTourService $facilityTourService
+        FacilityTourService $facilityTourService,
     )
     {
         $this->tourCreateMapper = $tourCreateMapper;
@@ -44,10 +45,6 @@ class TourService
         $this->tourPlanRepository = $tourPlanRepository;
     }
 
-    public function findAll(ListTourRequest $listTourRequest): array
-    {
-        return $this->tourRepository->getAll($listTourRequest);
-    }
 
     public function getCover(Tour $tour): string
     {

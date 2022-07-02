@@ -8,6 +8,7 @@ use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
 use App\Service\DestinationService;
 use App\Service\FacilityService;
+use App\Service\ListTourService;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
 use App\Transformer\TourDetailTransformer;
@@ -30,10 +31,7 @@ class TourController extends AbstractController
         Request            $request,
         ListTourRequest    $listTourRequest,
         ValidatorInterface $validator,
-        TourTransformer    $tourTransformer,
-        DestinationService $destinationService,
-        TourService        $tourService,
-        FacilityService    $facilityService
+        ListTourService    $tourService,
     ): JsonResponse
     {
         $query = $request->query->all();
@@ -42,12 +40,9 @@ class TourController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['Bad request']);
         }
-        $tours = $tourService->findAll($tourRequest);
-        $result['tours'] = $tourTransformer->listToArray($tours);
-        $result['services'] = $facilityService->getAllService();
-        $result['destinations'] = $destinationService->getAllDestination();
+        $results = $tourService->findAll($tourRequest);
 
-        return $this->success($result);
+        return $this->success($results);
     }
 
     #[Route('/{id}', name: 'details', methods: 'GET')]
@@ -59,11 +54,11 @@ class TourController extends AbstractController
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
-        Request         $request,
-        TourRequest     $tourRequest,
-        TourService     $tourService,
+        Request            $request,
+        TourRequest        $tourRequest,
+        TourService        $tourService,
         ValidatorInterface $validator,
-        TourTransformer $tourTransformer,
+        TourTransformer    $tourTransformer,
     ): JsonResponse
     {
         $requestData = $request->toArray();
@@ -81,12 +76,12 @@ class TourController extends AbstractController
     #[Route('/{id}', name: 'update', methods: 'PATCH')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
-        Tour              $tour,
-        Request           $request,
-        TourUpdateRequest $tourUpdateRequest,
+        Tour               $tour,
+        Request            $request,
+        TourUpdateRequest  $tourUpdateRequest,
         ValidatorInterface $validator,
-        TourService       $tourService,
-        TourTransformer   $tourTransformer,
+        TourService        $tourService,
+        TourTransformer    $tourTransformer,
     ): JsonResponse
     {
         $dataRequest = $request->toArray();
