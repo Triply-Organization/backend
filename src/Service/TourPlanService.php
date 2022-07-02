@@ -18,15 +18,16 @@ class TourPlanService
 
     public function __construct(
         DestinationRepository $destinationRepository,
-        TourPlanRepository $tourPlanRepository,
-        TourPlansTransformer $tourPlansTransformer
-    ) {
+        TourPlanRepository    $tourPlanRepository,
+        TourPlansTransformer  $tourPlansTransformer
+    )
+    {
         $this->destinationRepository = $destinationRepository;
         $this->tourPlanRepository = $tourPlanRepository;
         $this->tourPlansTransformer = $tourPlansTransformer;
     }
 
-    public function addTourPlan(TourRequest $tourRequest, Tour $tour): Tour
+    public function addTourPlan(TourRequest $tourRequest, Tour $tour)
     {
         foreach ($tourRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
@@ -41,8 +42,6 @@ class TourPlanService
             $tourPlan->setTour($tour);
             $this->tourPlanRepository->add($tourPlan);
         }
-
-        return $tour;
     }
 
     public function getTourPlan($plans): array

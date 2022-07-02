@@ -22,16 +22,17 @@ class ImageController extends AbstractController
     #[isGranted('ROLE_USER')]
     #[Route('/', name: 'add_image', methods: 'POST')]
     public function addImage(
-        Request $request,
-        ImageService $imageService,
-        ImageTransformer $imageTransformer,
-        ImageRequest $imageRequest,
+        Request            $request,
+        ImageService       $imageService,
+        ImageTransformer   $imageTransformer,
+        ImageRequest       $imageRequest,
         ValidatorInterface $validator,
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $fileRequest = $request->files->get('image');
         $file = $imageRequest->setImage($fileRequest);
         $errors = $validator->validate($file);
-        if (!empty($errors)) {
+        if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
         $image = $imageService->addImage($fileRequest);
