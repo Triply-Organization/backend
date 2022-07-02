@@ -24,15 +24,16 @@ class TourService
     private TourPlanRepository $tourPlanRepository;
 
     public function __construct(
-        TourRepository $tourRepository,
+        TourRepository      $tourRepository,
         TourImageRepository $tourImageRepository,
-        TourPlanRepository $tourPlanRepository,
-        TourCreateMapper $tourCreateMapper,
-        TourUpdateMapper $tourUpdateMapper,
-        TourPlanService $tourPlanService,
-        TourImageService $tourImageService,
+        TourPlanRepository  $tourPlanRepository,
+        TourCreateMapper    $tourCreateMapper,
+        TourUpdateMapper    $tourUpdateMapper,
+        TourPlanService     $tourPlanService,
+        TourImageService    $tourImageService,
         FacilityTourService $facilityTourService
-    ) {
+    )
+    {
         $this->tourCreateMapper = $tourCreateMapper;
         $this->tourRepository = $tourRepository;
         $this->tourUpdateMapper = $tourUpdateMapper;
@@ -81,10 +82,16 @@ class TourService
 
     public function addTour(TourRequest $tourRequest): Tour
     {
-        $tourMapper = $this->tourCreateMapper->mapping($tourRequest);
-        $tourImage = $this->tourImageService->addTourImage($tourRequest, $tourMapper);
-        $tourService = $this->facilityTourService->addServiceToTour($tourRequest, $tourImage);
-        $tour = $this->tourPlanService->addTourPlan($tourRequest, $tourService);
+        $tour = $this->tourCreateMapper->mapping($tourRequest);
+        if ($tourRequest->getTourImages() !== null) {
+            $this->tourImageService->addTourImage($tourRequest, $tour);
+        }
+        if ($tourRequest->getTourPlans() !== null) {
+            $this->tourPlanService->addTourPlan($tourRequest, $tour);
+        }
+        if ($tourRequest->getServices() !== null) {
+            $this->facilityTourService->addServiceToTour($tourRequest, $tour);
+        }
         $this->tourRepository->add($tour, true);
 
         return $tour;

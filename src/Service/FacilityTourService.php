@@ -4,30 +4,36 @@ namespace App\Service;
 
 use App\Entity\Tour;
 use App\Repository\ServiceRepository;
+use App\Repository\TourServiceRepository;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
 
 class FacilityTourService
 {
     private ServiceRepository $serviceRepository;
+    private TourServiceRepository $tourServiceRepository;
 
     public function __construct(
-        ServiceRepository $serviceRepository
-    ) {
+        ServiceRepository     $serviceRepository,
+        TourServiceRepository $tourServiceRepository
+    )
+    {
         $this->serviceRepository = $serviceRepository;
+        $this->tourServiceRepository = $tourServiceRepository;
     }
 
-    public function addServiceToTour(TourRequest $tourRequest, Tour $tour): Tour
+    public function addServiceToTour(TourRequest $tourRequest, Tour $tour): void
     {
         foreach ($tourRequest->getServices() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
             if (!is_object($service)) {
                 continue;
             }
-            $tour->addService($service);
+            $tourService = new \App\Entity\TourService();
+            $tourService->setService($service);
+            $tourService->setTour($tour);
+            $this->tourServiceRepository->add($tourService);
         }
-
-        return $tour;
     }
 
     public function updateServiceFromTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): void

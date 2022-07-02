@@ -17,10 +17,11 @@ class TourImageService
     private TourImageTransformer $tourImageTransformer;
 
     public function __construct(
-        ImageRepository $imageRepository,
-        TourImageRepository $tourImageRepository,
+        ImageRepository      $imageRepository,
+        TourImageRepository  $tourImageRepository,
         TourImageTransformer $tourImageTransformer
-    ) {
+    )
+    {
         $this->imageRepository = $imageRepository;
         $this->tourImageRepository = $tourImageRepository;
         $this->tourImageTransformer = $tourImageTransformer;
@@ -37,7 +38,7 @@ class TourImageService
         return $gallery;
     }
 
-    public function addTourImage(TourRequest $tourRequest, Tour $tour): Tour
+    public function addTourImage(TourRequest $tourRequest, Tour $tour)
     {
         foreach ($tourRequest->getTourImages() as $tourImageRequest) {
             $image = $this->imageRepository->find($tourImageRequest['id']);
@@ -50,8 +51,6 @@ class TourImageService
             $tourImage->setImage($image);
             $this->tourImageRepository->add($tourImage);
         }
-
-        return $tour;
     }
 
     public function updateTourImage(Tour $tour, TourUpdateRequest $tourUpdateRequest)
