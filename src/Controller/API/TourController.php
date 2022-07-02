@@ -87,6 +87,7 @@ class TourController extends AbstractController
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
         $errors = $validator->validate($tour);
         if (count($errors) > 0) {
+
             return $this->errors(['Something wrong']);
         }
         $tourService = $tourService->updateTour($tour, $tourUpdateRequest);
@@ -100,6 +101,7 @@ class TourController extends AbstractController
     public function deleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->delete($tour);
+
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 
@@ -108,6 +110,7 @@ class TourController extends AbstractController
     public function undoDeleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->undoDelete($tour);
+
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }
