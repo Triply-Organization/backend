@@ -107,6 +107,7 @@ class TourController extends AbstractController
     public function deleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->delete($tour);
+
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 
@@ -115,6 +116,7 @@ class TourController extends AbstractController
     public function undoDeleteTour(Tour $tour, TourService $tourService): JsonResponse
     {
         $tourService->undoDelete($tour);
+
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }

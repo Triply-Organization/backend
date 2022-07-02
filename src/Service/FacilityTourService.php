@@ -27,6 +27,7 @@ class FacilityTourService
         foreach ($tourRequest->getServices() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
             if (!is_object($service)) {
+
                 continue;
             }
             $tourService = new \App\Entity\TourService();
@@ -39,33 +40,40 @@ class FacilityTourService
     public function updateServiceFromTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): void
     {
         $this->addNewServiceToTour($tour, $tourUpdateRequest);
-        $this->deleteServiceFromTour($tour, $tourUpdateRequest);
+        $this->deleteServiceFromTour($tourUpdateRequest);
     }
 
-    private function addNewServiceToTour(Tour $tour, TourUpdateRequest $tourUpdateRequest)
+    private function addNewServiceToTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): void
     {
-        if ($tourUpdateRequest->getServices()['newServiceToTour']) {
+        if ($tourUpdateRequest->getServices()['newServiceToTour'] !== null) {
             $newServices = $tourUpdateRequest->getServices()['newServiceToTour'];
             foreach ($newServices as $newService) {
                 $service = $this->serviceRepository->find($newService);
                 if (!is_object($service)) {
+
                     continue;
                 }
-                $tour->addService($service);
+                $newTourService = new \App\Entity\TourService();
+                $newTourService->setService($service);
+                $newTourService->setTour($tour);
+                $newTourService->setUpdatedAt(new \DateTimeImmutable());
+                $this->tourServiceRepository->add($newTourService);
             }
         }
     }
 
-    private function deleteServiceFromTour(Tour $tour, TourUpdateRequest $tourUpdateRequest)
+    private function deleteServiceFromTour(TourUpdateRequest $tourUpdateRequest): void
     {
-        if ($tourUpdateRequest->getServices()['deleteServiceFromTour']) {
+        if ($tourUpdateRequest->getServices()['deleteServiceFromTour'] !== null) {
             $deleteServices = $tourUpdateRequest->getServices()['deleteServiceFromTour'];
             foreach ($deleteServices as $deleteService) {
-                $service = $this->serviceRepository->find($deleteService);
-                if (!is_object($deleteServices)) {
+                $tourService = $this->tourServiceRepository->find($deleteService);
+                if (!is_object($tourService)) {
+
                     continue;
                 }
-                $tour->removeService($service);
+                $tourService->setDeletedAt(new \DateTimeImmutable());
+                $this->tourServiceRepository->add($tourService);
             }
         }
     }
