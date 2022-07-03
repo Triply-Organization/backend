@@ -6,14 +6,39 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderRequest extends BaseRequest
 {
+    #[Assert\Type('integer')]
+    private $discountId;
+
     #[Assert\Type('array')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private $children;
 
     #[Assert\Type('array')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private $youth;
 
     #[Assert\Type('array')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private $adult;
+
+    /**
+     * @return mixed
+     */
+    public function getDiscountId()
+    {
+        return $this->discountId;
+    }
+
+    /**
+     * @param mixed $discountId
+     */
+    public function setDiscountId($discountId): void
+    {
+        $this->discountId = $discountId;
+    }
 
     /**
      * @return mixed
@@ -62,4 +87,5 @@ class OrderRequest extends BaseRequest
     {
         $this->adult = $adult;
     }
+
 }

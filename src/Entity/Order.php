@@ -32,7 +32,7 @@ class Order extends AbstractEntity
     private $deletedAt;
 
     #[ORM\OneToOne(inversedBy: 'orderName', targetEntity: Bill::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $bill;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
@@ -40,7 +40,7 @@ class Order extends AbstractEntity
     private $user;
 
     #[ORM\ManyToOne(targetEntity: Voucher::class, inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $discount;
 
     public function __construct()
