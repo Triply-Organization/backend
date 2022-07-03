@@ -9,6 +9,7 @@ class PriceListTransformer
     public function toArray(PriceList $priceList)
     {
         return [
+            'id' => $priceList->getId(),
             'type' => $priceList->getType()->getName(),
             'price' => $priceList->getPrice(),
         ];
