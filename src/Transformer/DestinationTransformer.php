@@ -3,6 +3,7 @@
 namespace App\Transformer;
 
 use App\Entity\Destination;
+use App\Entity\TourPlan;
 
 class DestinationTransformer extends BaseTransformer
 {
@@ -12,4 +13,13 @@ class DestinationTransformer extends BaseTransformer
     {
         return $this->transform($destination, static::PARAMS);
     }
+
+    public function listToArray(TourPlan|array $tourPlan): array
+    {
+        return [
+            'id' => $tourPlan->getDestination()->getId(),
+            'destination' => $tourPlan->getDestination()->getName(),
+        ];
+    }
 }
+

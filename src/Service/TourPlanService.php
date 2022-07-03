@@ -8,6 +8,7 @@ use App\Repository\DestinationRepository;
 use App\Repository\TourPlanRepository;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
+use App\Transformer\DestinationTransformer;
 use App\Transformer\TourPlansTransformer;
 
 class TourPlanService
@@ -15,15 +16,19 @@ class TourPlanService
     private DestinationRepository $destinationRepository;
     private TourPlanRepository $tourPlanRepository;
     private TourPlansTransformer $tourPlansTransformer;
+    private DestinationTransformer $destinationTransformer;
 
     public function __construct(
         DestinationRepository $destinationRepository,
-        TourPlanRepository $tourPlanRepository,
-        TourPlansTransformer $tourPlansTransformer
-    ) {
+        TourPlanRepository    $tourPlanRepository,
+        TourPlansTransformer  $tourPlansTransformer,
+        DestinationTransformer $destinationTransformer
+    )
+    {
         $this->destinationRepository = $destinationRepository;
         $this->tourPlanRepository = $tourPlanRepository;
         $this->tourPlansTransformer = $tourPlansTransformer;
+        $this->destinationTransformer = $destinationTransformer;
     }
 
     public function addTourPlan(TourRequest $tourRequest, Tour $tour)
@@ -47,10 +52,20 @@ class TourPlanService
     {
         $tourPlans = [];
         foreach ($plans as $plan) {
-            $tourPlans[] = $this->tourPlansTransformer->toArray($plan);
+            $tourPlans [] = $this->tourPlansTransformer->toArray($plan);
         }
 
         return $tourPlans;
+    }
+
+    public function getDestination($plans): array
+    {
+        $listDestinations = [];
+        foreach ($plans as $plan) {
+            $listDestinations[] = $this->destinationTransformer->listToArray($plan);
+        }
+
+        return $listDestinations;
     }
 
     public function updateTourPlan(TourUpdateRequest $tourUpdateRequest): void
