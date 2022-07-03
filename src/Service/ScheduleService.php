@@ -30,8 +30,8 @@ class ScheduleService
     public function getPrice(array $schedules)
     {
         $prices = [];
-        foreach ($schedules as $schedule){
-            $prices = $this->scheduleTransformer->toArray($schedule);
+        foreach ($schedules as $schedule) {
+            $prices[] = $this->scheduleTransformer->toArray($schedule);
         }
         return $prices;
     }

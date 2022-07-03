@@ -7,12 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ListTourRequest extends BaseRequest
 {
     public const DEFAULT_LIMIT = 6;
-    public const ORDER_TYPE_LIST = ['createdAt', 'price'];
+    public const ORDER_TYPE_LIST = ['createdAt'];
     public const ORDER_BY_LIST = ['asc', 'desc'];
     public const DEFAULT_ORDER_TYPE = 'createdAt';
     public const DEFAULT_ORDER_BY = 'desc';
     public const DEFAULT_OFFSET = 1;
-    public const MIN_GUESTS = 1;
     public const DEFAULT_PAGE = 1;
     #[Assert\Type('numeric')]
     private $limit = self::DEFAULT_LIMIT;
@@ -22,7 +21,10 @@ class ListTourRequest extends BaseRequest
 
     #[Assert\Type('numeric')]
     private $page = self::DEFAULT_PAGE;
-    
+
+    #[Assert\Type('float')]
+    private float $price = 0;
+
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
     )]
@@ -39,7 +41,7 @@ class ListTourRequest extends BaseRequest
     private $destination;
 
     #[Assert\Type('numeric')]
-    private $guests = self::MIN_GUESTS;
+    private $guests ;
 
     #[Assert\Type('numeric')]
     private $service;
@@ -63,6 +65,21 @@ class ListTourRequest extends BaseRequest
         $this->startDate = $startDate;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getGuests()
+    {
+        return $this->guests;
+    }
+
+    /**
+     * @param mixed $guests
+     */
+    public function setGuests($guests): void
+    {
+        $this->guests = $guests;
+    }
 
     /**
      * @return mixed
@@ -177,18 +194,18 @@ class ListTourRequest extends BaseRequest
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getGuests(): int
+    public function getPrice(): float
     {
-        return $this->guests;
+        return $this->price;
     }
 
     /**
-     * @param int $guests
+     * @param float $price
      */
-    public function setGuests(int $guests): void
+    public function setPrice(float $price): void
     {
-        $this->guests = $guests;
+        $this->price = $price;
     }
 }

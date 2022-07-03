@@ -120,7 +120,7 @@ abstract class BaseRepository extends ServiceEntityRepository
             return $tours;
         }
 
-        return $tours->andWhere($alias . ".$field = DATE($field)")->setParameter($field, $value);
+        return $tours->andWhere($alias . ".$field = :$field%")->setParameter($field, $value);
     }
 
 }
