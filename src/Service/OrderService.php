@@ -51,8 +51,13 @@ class OrderService
          */
         $currentUser = $this->security->getUser();
         $order = new Order();
-        $discount = $this->voucherRepository->find(1);
-        $order->setDiscount($orderRequest->getDiscountId() ?? $discount)
+        if ($orderRequest->getDiscountId() === null) {
+            $discount = null;
+        } else {
+            $discount = $this->voucherRepository->find($orderRequest->getDiscountId());
+        }
+
+        $order->setDiscount($discount)
             ->setUser($currentUser)
             ->setTotalPrice(0);
         $this->orderRepository->add($order, true);

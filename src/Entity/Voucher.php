@@ -33,11 +33,8 @@ class Voucher extends AbstractEntity
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\Column(type: 'datetime')]
-    private $start;
-
-    #[ORM\Column(type: 'datetime')]
-    private $end;
+    #[ORM\Column(type: 'integer')]
+    private $remain;
 
     public function __construct()
     {
@@ -140,26 +137,14 @@ class Voucher extends AbstractEntity
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getRemain(): ?int
     {
-        return $this->start;
+        return $this->remain;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setRemain(int $remain): self
     {
-        $this->start = $start;
-
-        return $this;
-    }
-
-    public function getEnd(): ?\DateTimeInterface
-    {
-        return $this->end;
-    }
-
-    public function setEnd(\DateTimeInterface $end): self
-    {
-        $this->end = $end;
+        $this->remain = $remain;
 
         return $this;
     }
