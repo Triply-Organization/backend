@@ -56,6 +56,7 @@ class OrderService
         } else {
             $discount = $this->voucherRepository->find($orderRequest->getDiscountId());
         }
+
         $order->setDiscount($discount)
             ->setUser($currentUser)
             ->setTotalPrice(0);
