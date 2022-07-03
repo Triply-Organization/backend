@@ -114,13 +114,12 @@ abstract class BaseRepository extends ServiceEntityRepository
         return $tours->andWhere($alias . ".$field = :$field")->setParameter($field, $value);
     }
 
-    protected function andCustomFilter(QueryBuilder $tours, mixed $alias, string $field, mixed $values): QueryBuilder
+    protected function andCustomFilter(QueryBuilder $tours, mixed $alias, string $field, mixed $expression, mixed $value): QueryBuilder
     {
         if (empty($value)) {
             return $tours;
         }
-        
-        return $tours->andWhere($alias . ".$field = :$field%")->setParameter($field, $value);
-    }
 
+        return $tours->andWhere($alias . ".$field" . "$expression" . ":$field")->setParameter($field, $value);
+    }
 }

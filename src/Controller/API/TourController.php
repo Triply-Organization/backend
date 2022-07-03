@@ -35,6 +35,7 @@ class TourController extends AbstractController
         $query = $request->query->all();
         $tourRequest = $listTourRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
+
         if (count($errors) > 0) {
             return $this->errors(['Bad request']);
         }

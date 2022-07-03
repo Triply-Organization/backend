@@ -25,7 +25,6 @@ class TicketTypeService
         foreach ($ticketTypes as $ticketType) {
             $result [] = $this->ticketTransformer->toArray($ticketType);
         }
-
         return $result;
     }
 
