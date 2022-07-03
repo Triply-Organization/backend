@@ -4,6 +4,7 @@ namespace App\Transformer;
 
 use App\Entity\Tour;
 use App\Service\FacilityService;
+use App\Service\RelatedTourService;
 use App\Service\ScheduleService;
 use App\Service\TicketService;
 use App\Service\TourImageService;
@@ -17,21 +18,21 @@ class TourDetailTransformer extends BaseTransformer
     private TourImageService $tourImageService;
     private TourPlanService $tourPlanService;
     private ScheduleService $scheduleService;
-    private TicketService $ticketService;
+    private RelatedTourService $relatedTourService;
 
     public function __construct(
-        FacilityService  $facilityService,
-        TourImageService $tourImageService,
-        TourPlanService  $tourPlanService,
-        ScheduleService  $scheduleService,
-        TicketService    $ticketService
+        FacilityService    $facilityService,
+        TourImageService   $tourImageService,
+        TourPlanService    $tourPlanService,
+        ScheduleService    $scheduleService,
+        RelatedTourService $relatedTourService
     )
     {
         $this->facilityService = $facilityService;
         $this->tourImageService = $tourImageService;
         $this->tourPlanService = $tourPlanService;
         $this->scheduleService = $scheduleService;
-        $this->ticketService = $ticketService;
+        $this->relatedTourService = $relatedTourService;
     }
 
     public function toArray(Tour $tour): array
@@ -40,8 +41,9 @@ class TourDetailTransformer extends BaseTransformer
         $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();
         $result['tourImages'] = $this->tourImageService->getGallary($tour);
-        $result['tourPlans'] = $this->tourPlanService->getTourPlan($tour->getTourPlans());
         $result['services'] = $this->facilityService->getServices($tour->getTourServices());
+        $result['tourPlans'] = $this->tourPlanService->getTourPlan($tour->getTourPlans());
+        $result['relatedTour'] = $this->relatedTourService->getRelatedTour($tour->getTourPlans()->toArray(), $tour->getId());
 
         return $result;
     }

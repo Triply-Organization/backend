@@ -84,7 +84,8 @@ class TourRepository extends BaseRepository
             $listTourRequest->getStartPrice());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=',
             $listTourRequest->getEndPrice());
-        return $this->sortBy($query, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        $query = $this->sortBy($query, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        return $query;
     }
 
     private function join($query)
@@ -98,5 +99,14 @@ class TourRepository extends BaseRepository
         $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
 
         return $query;
+    }
+
+    public function getTourWithDestination(int $id, int $tourId)
+    {
+        $query = $this->createQueryBuilder(static::TOUR_ALIAS);
+        $query = $this->join($query);
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
+        $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
+        return $query->getQuery()->getResult();
     }
 }
