@@ -50,9 +50,10 @@ class TourRepository extends BaseRepository
         $tours = $this->filter($tours, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
         $tours = $this->moreFilter($tours, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
         $tours = $this->moreFilter($tours, self::TICKET_TYPE_ALIAS, 'id', $listTourRequest->getGuests());
-        $tours = $this->filterPrice($tours, self::PRICE_LIST_ALIAS, 'price', $listTourRequest->getPrice());
-        $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        $tours = $this->andCustomFilter($tours, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
+        $tours = $this->andCustomFilter($tours, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
 
+        $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
 
         return $tours->getQuery()->getResult();
     }

@@ -13,7 +13,7 @@ class ListTourRequest extends BaseRequest
     public const DEFAULT_ORDER_BY = 'asc';
     public const DEFAULT_OFFSET = 1;
     public const DEFAULT_PAGE = 1;
-    
+
     #[Assert\Type('numeric')]
     private $limit = self::DEFAULT_LIMIT;
 
@@ -23,11 +23,11 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('numeric')]
     private $page = self::DEFAULT_PAGE;
 
-    #[Assert\Type('float')]
-    private $price ;
+    #[Assert\Type('numeric')]
+    private $startPrice;
 
-//    #[Assert\Type('float')]
-//    private float $startPrice ;
+    #[Assert\Type('numeric')]
+    private $endPrice;
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -44,8 +44,8 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('numeric')]
     private $destination;
 
-    #[Assert\Type('numeric')]
-    private $guests ;
+    #[Assert\Type('array')]
+    private $guests;
 
     #[Assert\Type('numeric')]
     private $service;
@@ -200,18 +200,32 @@ class ListTourRequest extends BaseRequest
     /**
      * @return mixed
      */
-    public function getPrice()
+    public function getStartPrice()
     {
-        return $this->price;
+        return $this->startPrice;
     }
 
     /**
-     * @param mixed $price
+     * @param mixed $startPrice
      */
-    public function setPrice($price): void
+    public function setStartPrice($startPrice): void
     {
-        $this->price = $price;
+        $this->startPrice = $startPrice;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEndPrice()
+    {
+        return $this->endPrice;
+    }
 
+    /**
+     * @param mixed $endPrice
+     */
+    public function setEndPrice($endPrice): void
+    {
+        $this->endPrice = $endPrice;
+    }
 }

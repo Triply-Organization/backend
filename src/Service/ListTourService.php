@@ -35,8 +35,8 @@ class ListTourService
     {
         $result = [];
         $tours = $this->tourRepository->getAll($listTourRequest);
-        foreach ($tours as $tour) {
-            $result[] = $this->tourTransformer->toArray($tour);
+        foreach ($tours as $key => $tour) {
+            $result ['tour'][$key] = $this->tourTransformer->toArray($tour);
         }
         $result['destinations'] = $this->destinationService->getAllDestination();
         $result['services'] = $this->facilityService->getAllService();
