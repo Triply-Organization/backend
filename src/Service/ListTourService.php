@@ -41,7 +41,7 @@ class ListTourService
         $result['destinations'] = $this->destinationService->getAllDestination();
         $result['services'] = $this->facilityService->getAllService();
         $result['tickets'] = $this->ticketTypeService->getTicket();
-
+        
         return $result;
     }
 }

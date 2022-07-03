@@ -13,6 +13,7 @@ class ListTourRequest extends BaseRequest
     public const DEFAULT_ORDER_BY = 'desc';
     public const DEFAULT_OFFSET = 1;
     public const DEFAULT_PAGE = 1;
+    
     #[Assert\Type('numeric')]
     private $limit = self::DEFAULT_LIMIT;
 
@@ -22,8 +23,10 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('numeric')]
     private $page = self::DEFAULT_PAGE;
 
+
     #[Assert\Type('float')]
     private float $price = 0;
+
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -80,6 +83,77 @@ class ListTourRequest extends BaseRequest
     {
         $this->guests = $guests;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * @param mixed $service
+     */
+    public function setService($service): void
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+
+    /**
+     * @param int $offset
+     */
+    public function setOffset(int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param int $page
+     */
+    public function setPage(int $page): void
+    {
+        $this->page = $page;
+    }
+
+    #[Assert\Type('numeric')]
+    private $service;
+
+    #[Assert\Date]
+    private $startDate;
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
 
     /**
      * @return mixed

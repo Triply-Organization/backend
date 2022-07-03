@@ -119,7 +119,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         if (empty($value)) {
             return $tours;
         }
-
+        
         return $tours->andWhere($alias . ".$field = :$field%")->setParameter($field, $value);
     }
 
