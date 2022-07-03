@@ -83,7 +83,7 @@ class TourRepository extends BaseRepository
             $listTourRequest->getStartPrice());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=',
             $listTourRequest->getEndPrice());
-        return $this->sortBy($query, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
     }
 
     private function join($query)
