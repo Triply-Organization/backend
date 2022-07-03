@@ -18,6 +18,7 @@ class TicketTransformer
     public function toArray(TicketType $ticketType): array
     {
         return [
+            'id'  => $ticketType->getId(),
             'type' => $ticketType->getName(),
             'price' => $this->priceListService->getTicketPrice($ticketType)
         ];

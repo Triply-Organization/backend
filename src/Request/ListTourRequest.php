@@ -10,7 +10,7 @@ class ListTourRequest extends BaseRequest
     public const ORDER_TYPE_LIST = ['createdAt'];
     public const ORDER_BY_LIST = ['asc', 'desc'];
     public const DEFAULT_ORDER_TYPE = 'createdAt';
-    public const DEFAULT_ORDER_BY = 'desc';
+    public const DEFAULT_ORDER_BY = 'asc';
     public const DEFAULT_OFFSET = 1;
     public const DEFAULT_PAGE = 1;
     
