@@ -95,4 +95,32 @@ abstract class BaseRepository extends ServiceEntityRepository
 
         return $query->orderBy($this->alias . ".$orderType", $orderBy);
     }
+
+    protected function filter(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder
+    {
+        if (empty($value)) {
+            return $tours;
+        }
+
+        return $tours->where($alias . ".$field = :$field")->setParameter($field, $value);
+    }
+
+    protected function moreFilter(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder
+    {
+        if (empty($value)) {
+            return $tours;
+        }
+
+        return $tours->andWhere($alias . ".$field = :$field")->setParameter($field, $value);
+    }
+
+    protected function andCustomFilter(QueryBuilder $tours, mixed $alias, string $field, mixed $values): QueryBuilder
+    {
+        if (empty($value)) {
+            return $tours;
+        }
+
+        return $tours->andWhere($alias . ".$field = DATE($field)")->setParameter($field, $value);
+    }
+
 }

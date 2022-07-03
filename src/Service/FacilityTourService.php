@@ -50,7 +50,6 @@ class FacilityTourService
             foreach ($newServices as $newService) {
                 $service = $this->serviceRepository->find($newService);
                 if (!is_object($service)) {
-
                     continue;
                 }
                 $newTourService = new \App\Entity\TourService();
@@ -69,7 +68,7 @@ class FacilityTourService
             foreach ($deleteServices as $deleteService) {
                 $tourService = $this->tourServiceRepository->find($deleteService);
                 if (!is_object($tourService)) {
-
+                
                     continue;
                 }
                 $tourService->setDeletedAt(new \DateTimeImmutable());

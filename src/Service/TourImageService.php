@@ -17,11 +17,10 @@ class TourImageService
     private TourImageTransformer $tourImageTransformer;
 
     public function __construct(
-        ImageRepository      $imageRepository,
-        TourImageRepository  $tourImageRepository,
+        ImageRepository $imageRepository,
+        TourImageRepository $tourImageRepository,
         TourImageTransformer $tourImageTransformer
-    )
-    {
+    ) {
         $this->imageRepository = $imageRepository;
         $this->tourImageRepository = $tourImageRepository;
         $this->tourImageTransformer = $tourImageTransformer;

@@ -3,9 +3,7 @@
 namespace App\Transformer;
 
 use App\Entity\AbstractEntity;
-use App\Repository\DestinationRepository;
-use App\Repository\ServiceRepository;
-use App\Service\TourService;
+
 
 abstract class BaseTransformer
 {
@@ -28,7 +26,6 @@ abstract class BaseTransformer
         foreach ($entities as $key => $entity) {
             $result[$key] = $this->toArray($entity);
         }
-
         return $result;
     }
 }
