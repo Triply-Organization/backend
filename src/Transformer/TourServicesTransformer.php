@@ -4,14 +4,16 @@ namespace App\Transformer;
 
 use App\Entity\Service;
 use App\Entity\Tour;
-use App\Service\TourService;
+use App\Entity\TourService;
 
 class TourServicesTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id', 'name'];
 
-    public function toArray(Service $service): array
+    public function toArray(TourService $tourService)
     {
-        return $this->transform($service, static::PARAMS);
+        return [
+            'id' => $tourService->getId(),
+            'name' => $tourService->getService()->getName()
+        ];
     }
 }

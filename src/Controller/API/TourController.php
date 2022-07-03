@@ -6,8 +6,7 @@ use App\Entity\Tour;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
-use App\Service\DestinationService;
-use App\Service\FacilityService;
+use App\Service\ListTourService;
 use App\Service\TourService;
 use App\Traits\ResponseTrait;
 use App\Transformer\TourDetailTransformer;
@@ -30,10 +29,7 @@ class TourController extends AbstractController
         Request            $request,
         ListTourRequest    $listTourRequest,
         ValidatorInterface $validator,
-        TourTransformer    $tourTransformer,
-        DestinationService $destinationService,
-        TourService        $tourService,
-        FacilityService    $facilityService
+        ListTourService    $listTourService
     ): JsonResponse
     {
         $query = $request->query->all();
@@ -42,17 +38,15 @@ class TourController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['Bad request']);
         }
-        $tours = $tourService->findAll($tourRequest);
-        $result['tours'] = $tourTransformer->listToArray($tours);
-        $result['services'] = $facilityService->getAllService();
-        $result['destinations'] = $destinationService->getAllDestination();
+        $tours = $listTourService->findAll($tourRequest);
 
-        return $this->success($result);
+        return $this->success($tours);
     }
 
     #[Route('/{id}', name: 'details', methods: 'GET')]
     public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
     {
+
         return $this->success($tourDetailTransformer->toArray($tour));
     }
 

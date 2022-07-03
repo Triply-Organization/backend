@@ -22,3 +22,8 @@
 /symfony.lock
 /phpunit.xml.dist
 /composer.lock
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
