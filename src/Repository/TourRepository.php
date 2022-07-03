@@ -52,7 +52,6 @@ class TourRepository extends BaseRepository
         $tours = $this->moreFilter($tours, self::TICKET_TYPE_ALIAS, 'id', $listTourRequest->getGuests());
         $tours = $this->andCustomFilter($tours, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
         $tours = $this->andCustomFilter($tours, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
-
         $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
 
         return $tours->getQuery()->getResult();
@@ -65,7 +64,6 @@ class TourRepository extends BaseRepository
             'offset' => $listTourRequest->getOffset(),
             'total' => count($this->getAll($listTourRequest))
         ];
-
     }
 
     public function join($query)
@@ -88,8 +86,5 @@ class TourRepository extends BaseRepository
         }
 
         return $tours->andWhere($alias . ".$field >= :$field")->setParameter($field, $value);
-
     }
-
-
 }
