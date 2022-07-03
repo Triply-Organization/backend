@@ -42,6 +42,11 @@ class OrderTransformer extends BaseTransformer
             $result['tickets'][$key]['priceTick'] = $ticket->getPriceList()->getPrice();
             $subTotal = $subTotal + $ticket->getPriceList()->getPrice();
         }
+        $result['discount'] =null;
+        if($order->getDiscount() !== null){
+            $result['discount']['id'] = $order->getDiscount()->getId();
+            $result['discount']['code'] = $order->getDiscount()->getCode();
+        }
         $result['subTotal'] = $subTotal;
         return $result;
     }
