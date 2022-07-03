@@ -46,7 +46,6 @@ class TourController extends AbstractController
     #[Route('/{id}', name: 'details', methods: 'GET')]
     public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
     {
-
         return $this->success($tourDetailTransformer->toArray($tour));
     }
 

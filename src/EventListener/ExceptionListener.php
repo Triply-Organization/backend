@@ -4,7 +4,6 @@ namespace App\EventListener;
 
 use App\Constants\ExceptionMessageConstants;
 use App\Traits\ResponseTrait;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -28,7 +27,7 @@ class ExceptionListener
         $this->environment = $kernel->getEnvironment();
     }
 
-    public function onKernelException(ExceptionEvent $event, LoggerInterface $logger): void
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         [$statusCode, $message] = $this->getStatusCodeAndMessage($exception);
