@@ -58,6 +58,9 @@ class Tour extends AbstractEntity
     #[ORM\OneToMany(mappedBy: 'tour', targetEntity: TourService::class)]
     private $tourServices;
 
+    #[ORM\OneToMany(mappedBy: 'tour', targetEntity: Review::class)]
+    private $reviews;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -65,6 +68,7 @@ class Tour extends AbstractEntity
         $this->tourImages = new ArrayCollection();
         $this->schedules = new ArrayCollection();
         $this->tourServices = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -312,6 +316,36 @@ class Tour extends AbstractEntity
             // set the owning side to null (unless already changed)
             if ($tourService->getTour() === $this) {
                 $tourService->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getTour() === $this) {
+                $review->setTour(null);
             }
         }
 
