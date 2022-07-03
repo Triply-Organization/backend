@@ -78,7 +78,6 @@ class TourRepository extends BaseRepository
             }
         }
         $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
-        $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $listTourRequest->getGuests());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=',
             $listTourRequest->getStartPrice());
