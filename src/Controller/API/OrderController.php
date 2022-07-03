@@ -20,7 +20,7 @@ class OrderController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/{id}', name: 'add', methods: 'POST')]
+    #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function orderTour(
         Request            $request,
