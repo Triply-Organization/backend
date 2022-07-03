@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Bill;
 use App\Repository\BillRepository;
 use App\Request\CheckoutRequest;
+use PHPMailer\PHPMailer\Exception;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
@@ -14,15 +15,22 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StripeService
 {
+    private const CHECK_COMPLETED = 'checkout.session.completed';
+
     private ParameterBagInterface $params;
     private StripeClient $stripe;
     private BillRepository $billRepository;
+    private SendMailService $sendMailService;
 
-    public function __construct(ParameterBagInterface $params, BillRepository $billRepository)
-    {
+    public function __construct(
+        ParameterBagInterface $params,
+        BillRepository $billRepository,
+        SendMailService $sendMailService
+    ) {
         $this->params = $params;
         $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
         $this->billRepository = $billRepository;
+        $this->sendMailService = $sendMailService;
     }
 
     /**
@@ -60,14 +68,19 @@ class StripeService
         ]);
     }
 
-    public function eventHandler(array $event, string $type): void
+    /**
+     * @throws Exception
+     */
+    public function eventHandler(array $data, string $type): void
     {
         $bill = new Bill;
-        if ($type === 'checkout.session.completed') {
-            $bill->setTotalPrice($event['amount_total']);
-            $bill->setTax($event['total_details']['amount_tax']);
-            $bill->setDiscount($event['total_details']['amount_discount']);
+        if ($type === self::CHECK_COMPLETED) {
+            $bill->setTotalPrice($data['amount_total']);
+            $bill->setTax($data['total_details']['amount_tax']);
+            $bill->setDiscount($data['total_details']['amount_discount']);
             $this->billRepository->add($bill, true);
+
+            $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
         }
     }
 

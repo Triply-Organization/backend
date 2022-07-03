@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Bill;
 use App\Event\EmailEvent;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -29,12 +30,9 @@ class SendMailService
      */
     public function sendRegisterMail(string $email, string $subject): void
     {
-        $mail = $this->mailConfig(
-            $this->params->get('zoho.mail.host'),
-            $this->params->get('zoho.mail.username'),
-            $this->params->get('zoho.mail.password'),
-            $this->params->get('zoho.mail.port'),
-        );
+
+        $mail = $this->zohoMailConfig();
+
         try {
             //Recipients
             $mail->addAddress($email);
@@ -50,6 +48,43 @@ class SendMailService
         } catch (Exception $e) {
             throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function sendBillMail(string $email, string $subject, Bill $bill): void
+    {
+
+        $mail = $this->zohoMailConfig();
+
+        try {
+            //Recipients
+            $mail->addAddress($email);
+
+            //Content
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = 'This is your payment Total: ' . $bill->getTotalPrice();
+            $mail->send();
+
+            $event = new EmailEvent($mail);
+            $this->dispatcher->dispatch($event, EmailEvent::SEND);
+        } catch (Exception $e) {
+            throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function zohoMailConfig():PHPMailer {
+        return $this->mailConfig(
+            $this->params->get('zoho.mail.host'),
+            $this->params->get('zoho.mail.username'),
+            $this->params->get('zoho.mail.password'),
+            $this->params->get('zoho.mail.port'),
+        );
     }
 
     /**
