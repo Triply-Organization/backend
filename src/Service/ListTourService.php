@@ -8,8 +8,6 @@ use App\Transformer\TourTransformer;
 
 class ListTourService
 {
-
-
     private TourRepository $tourRepository;
     private TourTransformer $tourTransformer;
     private FacilityService $facilityService;
@@ -34,13 +32,17 @@ class ListTourService
     public function findAll(ListTourRequest $listTourRequest): array
     {
         $result = [];
-        $tours = $this->tourRepository->getAll($listTourRequest);
+        $data = $this->tourRepository->getAll($listTourRequest);
+        $tours = $data['tours'];
         foreach ($tours as $key => $tour) {
-            $result ['tour'][$key] = $this->tourTransformer->toArray($tour);
+            $result ['tours'][$key] = $this->tourTransformer->toArray($tour);
         }
         $result['destinations'] = $this->destinationService->getAllDestination();
         $result['services'] = $this->facilityService->getAllService();
         $result['tickets'] = $this->ticketTypeService->getTicket();
+        $result['totalPages'] = $data['totalPages'];
+        $result['page'] = $data['page'];
+        $result['totalTours'] = $data['totalTours'];
 
         if ($result === null) {
             $result = [];
