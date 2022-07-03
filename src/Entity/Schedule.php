@@ -15,7 +15,7 @@ class Schedule extends AbstractEntity
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'date')]
     private $startDate;
 
     #[ORM\ManyToOne(targetEntity: Tour::class, inversedBy: 'schedules')]
@@ -46,18 +46,6 @@ class Schedule extends AbstractEntity
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStartDate(): ?\DateTimeInterface
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(\DateTimeInterface $startDate): self
-    {
-        $this->startDate = $startDate;
-
-        return $this;
     }
 
     public function getTour(): ?Tour
@@ -148,5 +136,21 @@ class Schedule extends AbstractEntity
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate): void
+    {
+        $this->startDate = $startDate;
     }
 }
