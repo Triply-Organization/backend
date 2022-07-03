@@ -54,7 +54,7 @@ class TourService
         $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
         $path = '';
         foreach ($tourImages as $tourImage) {
-            if ($tourImage->getType() === 'COVER') {
+            if ($tourImage->getType() === 'cover') {
                 $path = $tourImage->getImage()->getPath();
             }
         }
