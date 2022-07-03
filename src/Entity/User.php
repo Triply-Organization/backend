@@ -55,11 +55,15 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private $orders;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Review::class)]
+    private $reviews;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->tours = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +273,36 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
             // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getUser() === $this) {
+                $review->setUser(null);
             }
         }
 
