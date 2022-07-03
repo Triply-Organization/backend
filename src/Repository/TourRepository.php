@@ -34,7 +34,6 @@ class TourRepository extends BaseRepository
     public const SERVICE_ALIAS = 's';
     public const TICKET_TYPE_ALIAS = 'tt';
     public const SCHEDULE_ALIAS = 'sch';
-    public const TICKET_ALIAS = 'tk';
     public const PRICE_LIST_ALIAS = 'pl';
     public const TOUR_SERVICE_ALIAS = 'ts';
     public DestinationRepository $destinationRepository;
@@ -48,13 +47,12 @@ class TourRepository extends BaseRepository
     {
         $tours = $this->createQueryBuilder(static::TOUR_ALIAS);
         $tours = $this->join($tours);
-        $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
         $tours = $this->filter($tours, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
         $tours = $this->moreFilter($tours, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
         $tours = $this->moreFilter($tours, self::TICKET_TYPE_ALIAS, 'id', $listTourRequest->getGuests());
-        $tours = $this->andCustomFilter($tours, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
-        $tours = $tours->setFirstResult(($listTourRequest->getLimit() - 1) * $listTourRequest->getOffset());
-        $tours = $tours->setMaxResults($listTourRequest->getOffset());
+        $tours = $this->filterPrice($tours, self::PRICE_LIST_ALIAS, 'price', $listTourRequest->getPrice());
+        $tours = $this->sortBy($tours, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+
 
         return $tours->getQuery()->getResult();
     }
@@ -66,6 +64,7 @@ class TourRepository extends BaseRepository
             'offset' => $listTourRequest->getOffset(),
             'total' => count($this->getAll($listTourRequest))
         ];
+
     }
 
     public function join($query)
@@ -79,6 +78,16 @@ class TourRepository extends BaseRepository
         $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
 
         return $query;
+    }
+
+    protected function filterPrice(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder
+    {
+        if (empty($value)) {
+            return $tours;
+        }
+
+        return $tours->andWhere($alias . ".$field >= :$field")->setParameter($field, $value);
+
     }
 
 
