@@ -24,10 +24,10 @@ class ListTourRequest extends BaseRequest
     private $page = self::DEFAULT_PAGE;
 
     #[Assert\Type('numeric')]
-    private $startPrice;
+    private int $startPrice = 0;
 
     #[Assert\Type('numeric')]
-    private $endPrice;
+    private int $endPrice = 0;
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -198,34 +198,36 @@ class ListTourRequest extends BaseRequest
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getStartPrice()
+    public function getStartPrice(): ?int
     {
         return $this->startPrice;
     }
 
     /**
-     * @param mixed $startPrice
+     * @param int $startPrice
      */
-    public function setStartPrice($startPrice): void
+    public function setStartPrice(?int $startPrice): void
     {
         $this->startPrice = $startPrice;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getEndPrice()
+    public function getEndPrice(): ?int
     {
         return $this->endPrice;
     }
 
     /**
-     * @param mixed $endPrice
+     * @param int $endPrice
      */
-    public function setEndPrice($endPrice): void
+    public function setEndPrice(?int $endPrice): void
     {
         $this->endPrice = $endPrice;
     }
+
+
 }
