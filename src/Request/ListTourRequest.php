@@ -23,10 +23,11 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('numeric')]
     private $page = self::DEFAULT_PAGE;
 
-
     #[Assert\Type('float')]
-    private float $price = 0;
+    private $price ;
 
+//    #[Assert\Type('float')]
+//    private float $startPrice ;
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -197,18 +198,20 @@ class ListTourRequest extends BaseRequest
     }
 
     /**
-     * @return float
+     * @return mixed
      */
-    public function getPrice(): float
+    public function getPrice()
     {
         return $this->price;
     }
 
     /**
-     * @param float $price
+     * @param mixed $price
      */
-    public function setPrice(float $price): void
+    public function setPrice($price): void
     {
         $this->price = $price;
     }
+
+
 }
