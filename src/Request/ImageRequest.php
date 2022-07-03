@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ImageRequest extends BaseRequest
 {
     #[Assert\Image(
-        maxSize: '2M',
+        maxSize: '10M',
         mimeTypes: [
             'image/jpg',
             'image/png',

@@ -281,6 +281,14 @@ class Tour extends AbstractEntity
     }
 
     /**
+     * @param ArrayCollection $tourServices
+     */
+    public function setTourServices(ArrayCollection $tourServices): void
+    {
+        $this->tourServices = $tourServices;
+    }
+
+    /**
      * @return Collection<int, TourService>
      */
     public function getTourServices(): Collection
