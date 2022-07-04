@@ -26,6 +26,7 @@ class OrderTransformer extends BaseTransformer
         $firstTicket = $this->orderService->findOneTicketOfOrder($order);
         $result['tourId'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getId();
         $result['tourTitle'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getTitle();
+        $result['scheduleId'] = $firstTicket->getPriceList()->getSchedule()->getId();
         $result['startDay'] = $firstTicket->getPriceList()->getSchedule()->getStartDate();
         $result['duration'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getDuration();
         $images = $firstTicket->getPriceList()->getSchedule()->getTour()->getTourImages();
