@@ -36,10 +36,6 @@ class Bill extends AbstractEntity
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $stripePaymentId;
 
-    #[ORM\OneToOne(inversedBy: 'bill', targetEntity: Order::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $orderDetail;
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -130,18 +126,6 @@ class Bill extends AbstractEntity
     public function setStripePaymentId(?string $stripePaymentId): self
     {
         $this->stripePaymentId = $stripePaymentId;
-
-        return $this;
-    }
-
-    public function getOrderDetail(): ?Order
-    {
-        return $this->orderDetail;
-    }
-
-    public function setOrderDetail(Order $orderDetail): self
-    {
-        $this->orderDetail = $orderDetail;
 
         return $this;
     }
