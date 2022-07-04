@@ -138,7 +138,7 @@ class ReviewService
 
         return true;
     }
-  
+
   public function getAllReviews(Tour $tour)
     {
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
@@ -170,7 +170,7 @@ class ReviewService
 
         return '' ;
     }
-  
+
     private function addRate(ReviewRequest $reviewRequest, Review $review)
     {
         $bool = true;
