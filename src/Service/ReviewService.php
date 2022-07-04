@@ -25,13 +25,14 @@ class ReviewService
     private ReviewDetailService $reviewDetailService;
 
     public function __construct(
-        Security $security,
-        OrderService $orderService,
-        ReviewRepository $reviewRepository,
-        TypeReviewRepository $typeReviewRepository,
+        Security               $security,
+        OrderService           $orderService,
+        ReviewRepository       $reviewRepository,
+        TypeReviewRepository   $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService $reviewDetailService
-    ) {
+        ReviewDetailService    $reviewDetailService
+    )
+    {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -58,20 +59,24 @@ class ReviewService
         $results = [];
         $location = $rooms = $services = $price = $amenities = 0;
         $ratings = $this->handleRating($tour);
+        $count = 0;
         foreach ($ratings as $rating) {
-            $location = $location + $rating['location'];
-            $rooms = $rooms + $rating['rooms'];
-            $services = $services + $rating['services'];
-            $price = $price + $rating['price'];
-            $amenities = $amenities + $rating['amenities'];
+            if (count($rating) > 0) {
+                $location = $location + $rating['location'];
+                $rooms = $rooms + $rating['rooms'];
+                $services = $services + $rating['services'];
+                $price = $price + $rating['price'];
+                $amenities = $amenities + $rating['amenities'];
+                $count = $count + 1;
+            }
         }
-        if (count($ratings) > 0) {
-            $results['location'] = $location / count($ratings);
-            $results['rooms'] = $rooms / count($ratings);
-            $results['price'] = $price / count($ratings);
-            $results['services'] = $services / count($ratings);
-            $results['amenities'] = $amenities / count($ratings);
-            $results['avg'] = ($location + $rooms + $services + $price) / (5 * count($ratings));
+        if ($count > 0) {
+            $results['location'] = $location / $count;
+            $results['rooms'] = $rooms / $count;
+            $results['price'] = $price / $count;
+            $results['services'] = $services / $count;
+            $results['amenities'] = $amenities / $count;
+            $results['avg'] = ($location + $rooms + $services + $price) / (5 * $count);
         }
 
         return $results;
@@ -82,15 +87,19 @@ class ReviewService
         $results = [];
         $location = $rooms = $services = $price = $amenities = 0;
         $ratings = $this->handleRating($tour);
+        $count = 0;
         foreach ($ratings as $rating) {
-            $location = $location + $rating['location'];
-            $rooms = $rooms + $rating['rooms'];
-            $services = $services + $rating['services'];
-            $price = $price + $rating['price'];
-            $amenities = $amenities + $rating['amenities'];
+            if (count($rating) > 0) {
+                $location = $location + $rating['location'];
+                $rooms = $rooms + $rating['rooms'];
+                $services = $services + $rating['services'];
+                $price = $price + $rating['price'];
+                $amenities = $amenities + $rating['amenities'];
+                $count = $count + 1;
+            }
         }
-        if (count($ratings) > 0) {
-            $results['avg'] = ($location + $rooms + $services + $price) / (5 * count($ratings));
+        if ($count > 0) {
+            $results['avg'] = ($location + $rooms + $services + $price) / (5 * $count);
         }
 
         return $results;
@@ -98,8 +107,9 @@ class ReviewService
 
     public function addReview(
         ReviewRequest $reviewRequest,
-        Order $order
-    ) {
+        Order         $order
+    )
+    {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -111,9 +121,9 @@ class ReviewService
         $firstTicket = $this->orderService->findOneTicketOfOrder($order);
         $review = new Review();
         $review->setUser($currentUser)
-        ->setTour($firstTicket->getPriceList()->getSchedule()->getTour())
-        ->setOrderDetail($order)
-        ->setComment($reviewRequest->getComment());
+            ->setTour($firstTicket->getPriceList()->getSchedule()->getTour())
+            ->setOrderDetail($order)
+            ->setComment($reviewRequest->getComment());
         $this->reviewRepository->add($review, true);
         $addReviewDetail = $this->addRate($reviewRequest, $review);
         if ($addReviewDetail === false) {
@@ -138,8 +148,8 @@ class ReviewService
 
         return true;
     }
-  
-  public function getAllReviews(Tour $tour)
+
+    public function getAllReviews(Tour $tour)
     {
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
@@ -168,9 +178,9 @@ class ReviewService
             return $avg / count($typeRatings);
         }
 
-        return '' ;
+        return '';
     }
-  
+
     private function addRate(ReviewRequest $reviewRequest, Review $review)
     {
         $bool = true;
