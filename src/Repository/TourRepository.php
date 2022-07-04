@@ -77,14 +77,13 @@ class TourRepository extends BaseRepository
             }
         }
         $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
-        $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $listTourRequest->getGuests());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=',
             $listTourRequest->getStartPrice());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=',
             $listTourRequest->getEndPrice());
         $query = $this->sortBy($query, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
-        return $query;
+
     }
 
     private function join($query)

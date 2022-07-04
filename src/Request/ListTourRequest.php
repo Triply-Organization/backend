@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ListTourRequest extends BaseRequest
 {
     public const DEFAULT_LIMIT = 6;
-    public const ORDER_TYPE_LIST = ['createdAt'];
+    public const ORDER_TYPE_LIST = ['createdAt','price'];
     public const ORDER_BY_LIST = ['asc', 'desc'];
-    public const DEFAULT_ORDER_TYPE = 'createdAt';
+    public const DEFAULT_ORDER_TYPE = 'price';
     public const DEFAULT_ORDER_BY = 'asc';
     public const DEFAULT_OFFSET = 1;
     public const DEFAULT_PAGE = 1;
@@ -228,6 +228,4 @@ class ListTourRequest extends BaseRequest
     {
         $this->endPrice = $endPrice;
     }
-
-
 }

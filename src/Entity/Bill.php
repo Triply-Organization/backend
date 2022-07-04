@@ -24,20 +24,17 @@ class Bill extends AbstractEntity
     #[ORM\Column(type: 'float')]
     private $tax;
 
-    #[ORM\OneToOne(mappedBy: 'bill', targetEntity: Order::class, cascade: ['persist', 'remove'])]
-    private $orderName;
-
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $status;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
 
     #[ORM\Column(type: 'string', length: 4)]
     private $currency;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $stripePaymentId;
 
     public function __construct()
     {
@@ -85,23 +82,6 @@ class Bill extends AbstractEntity
         return $this;
     }
 
-    public function getOrderName(): ?Order
-    {
-        return $this->orderName;
-    }
-
-    public function setOrderName(Order $orderName): self
-    {
-        // set the owning side of the relation if necessary
-        if ($orderName->getBill() !== $this) {
-            $orderName->setBill($this);
-        }
-
-        $this->orderName = $orderName;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -110,18 +90,6 @@ class Bill extends AbstractEntity
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -146,6 +114,18 @@ class Bill extends AbstractEntity
     public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getStripePaymentId(): ?string
+    {
+        return $this->stripePaymentId;
+    }
+
+    public function setStripePaymentId(?string $stripePaymentId): self
+    {
+        $this->stripePaymentId = $stripePaymentId;
 
         return $this;
     }

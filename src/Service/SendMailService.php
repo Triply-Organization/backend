@@ -78,7 +78,8 @@ class SendMailService
     /**
      * @throws Exception
      */
-    private function zohoMailConfig():PHPMailer {
+    private function zohoMailConfig(): PHPMailer
+    {
         return $this->mailConfig(
             $this->params->get('zoho.mail.host'),
             $this->params->get('zoho.mail.username'),

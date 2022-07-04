@@ -14,13 +14,12 @@ class ListTourService
     private TicketTypeService $ticketTypeService;
 
     public function __construct(
-        TourRepository     $tourRepository,
-        TourTransformer    $tourTransformer,
-        FacilityService    $facilityService,
+        TourRepository $tourRepository,
+        TourTransformer $tourTransformer,
+        FacilityService $facilityService,
         DestinationService $destinationService,
-        TicketTypeService  $ticketTypeService
-    )
-    {
+        TicketTypeService $ticketTypeService
+    ) {
         $this->tourTransformer = $tourTransformer;
         $this->tourRepository = $tourRepository;
         $this->facilityService = $facilityService;

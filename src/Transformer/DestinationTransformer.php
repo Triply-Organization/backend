@@ -22,4 +22,3 @@ class DestinationTransformer extends BaseTransformer
         ];
     }
 }
-

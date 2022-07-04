@@ -87,13 +87,13 @@ abstract class BaseRepository extends ServiceEntityRepository
         }
     }
 
-    protected function sortBy(QueryBuilder $query, string $orderType, string $orderBy): QueryBuilder
+    protected function sortBy(QueryBuilder $query, mixed $alias, string $orderType, string $orderBy): QueryBuilder
     {
         if (empty($orderBy) || empty($orderType)) {
             return $query;
         }
 
-        return $query->orderBy($this->alias . ".$orderType", $orderBy);
+        return $query->orderBy($alias . ".$orderType", $orderBy);
     }
 
     protected function filter(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder

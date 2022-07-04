@@ -13,9 +13,8 @@ class OrderTransformer extends BaseTransformer
 
     public function __construct(
         ParameterBagInterface $params,
-        OrderService          $orderService
-    )
-    {
+        OrderService $orderService
+    ) {
         $this->orderService = $orderService;
         $this->params = $params;
     }
@@ -25,6 +24,7 @@ class OrderTransformer extends BaseTransformer
         $result = $this->transform($order, static::PARAMS);
         $result['user'] = $order->getUser()->getId();
         $firstTicket = $this->orderService->findOneTicketOfOrder($order);
+        $result['tourId'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getId();
         $result['tourTitle'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getTitle();
         $result['startDay'] = $firstTicket->getPriceList()->getSchedule()->getStartDate();
         $result['duration'] = $firstTicket->getPriceList()->getSchedule()->getTour()->getDuration();
@@ -34,20 +34,45 @@ class OrderTransformer extends BaseTransformer
             $result['imageTour']['type'] = $image->getType();
         }
         $ticketsOfOrder = $this->orderService->findTicketsOfOrder($order);
-        $subTotal = 0;
         foreach ($ticketsOfOrder as $key => $ticket) {
-            $result['tickets'][$key]['idTicket'] = $ticket->getId();
-            $result['tickets'][$key]['amount'] = $ticket->getAmount();
-            $result['tickets'][$key]['typeTicket'] = $ticket->getPriceList()->getType()->getName();
-            $result['tickets'][$key]['priceTick'] = $ticket->getPriceList()->getPrice();
-            $subTotal = $subTotal + $ticket->getPriceList()->getPrice();
+            $ticketInfos[$key]['idTicket'] = $ticket->getId();
+            $ticketInfos[$key]['amount'] = $ticket->getAmount();
+            $ticketInfos[$key]['typeTicket'] = $ticket->getPriceList()->getType()->getName();
+            $ticketInfos[$key]['priceTick'] = $ticket->getPriceList()->getPrice();
         }
-        $result['discount'] =null;
-        if($order->getDiscount() !== null){
+        $result['tickets'] =  $this->ticketInfoReturn($ticketInfos);
+
+        $result['discount'] = null;
+        if ($order->getDiscount() !== null) {
             $result['discount']['id'] = $order->getDiscount()->getId();
             $result['discount']['code'] = $order->getDiscount()->getCode();
         }
-        $result['subTotal'] = $subTotal;
+        $result['subTotal'] = $order->getTotalPrice();
+        $result['status'] = $order->getStatus();
         return $result;
+    }
+
+    private function ticketInfoReturn(array $ticketInfos): array
+    {
+        $arrayResult = [];
+        foreach ($ticketInfos as $ticketInfo) {
+            if ($ticketInfo['typeTicket'] === 'children') {
+                $arrayResult['children']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['children']['amount'] = $ticketInfo['amount'];
+                $arrayResult['children']['priceTick'] = $ticketInfo['priceTick'];
+            }
+            if ($ticketInfo['typeTicket'] === 'youth') {
+                $arrayResult['youth']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['youth']['amount'] = $ticketInfo['amount'];
+                $arrayResult['youth']['priceTick'] = $ticketInfo['priceTick'];
+            }
+            if ($ticketInfo['typeTicket'] === 'adult') {
+                $arrayResult['adult']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['adult']['amount'] = $ticketInfo['amount'];
+                $arrayResult['adult']['priceTick'] = $ticketInfo['priceTick'];
+            }
+        }
+
+        return $arrayResult;
     }
 }

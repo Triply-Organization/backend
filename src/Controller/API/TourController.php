@@ -26,12 +26,11 @@ class TourController extends AbstractController
 
     #[Route('/', name: 'lists', methods: 'GET')]
     public function getAllTours(
-        Request            $request,
-        ListTourRequest    $listTourRequest,
+        Request $request,
+        ListTourRequest $listTourRequest,
         ValidatorInterface $validator,
-        ListTourService    $listTourService
-    ): JsonResponse
-    {
+        ListTourService $listTourService
+    ): JsonResponse {
         $query = $request->query->all();
         $tourRequest = $listTourRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
@@ -44,7 +43,7 @@ class TourController extends AbstractController
         return $this->success($tours);
     }
 
-    #[Route('/{id}', name: 'details', methods: 'GET')]
+    #[Route('/{id<\d+>}', name: 'details', methods: 'GET')]
     public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
     {
         return $this->success($tourDetailTransformer->toArray($tour));
@@ -53,45 +52,42 @@ class TourController extends AbstractController
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
-        Request            $request,
-        TourRequest        $tourRequest,
-        TourService        $tourService,
+        Request $request,
+        TourRequest $tourRequest,
+        TourService $tourService,
         ValidatorInterface $validator,
-        TourTransformer    $tourTransformer,
-    ): JsonResponse
-    {
+        TourTransformer $tourTransformer,
+    ): JsonResponse {
         $requestData = $request->toArray();
         $tour = $tourRequest->fromArray($requestData);
         $errors = $validator->validate($tour);
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
-        $tourService = $tourService->addTour($tour);
-        $result = $tourTransformer->toArray($tourService);
+        $tourData = $tourService->addTour($tour);
+        $result = $tourTransformer->toArray($tourData);
 
         return $this->success($result);
     }
 
-    #[Route('/{id}', name: 'update', methods: 'PATCH')]
+    #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
-        Tour               $tour,
-        Request            $request,
-        TourUpdateRequest  $tourUpdateRequest,
+        Tour $tour,
+        Request $request,
+        TourUpdateRequest $tourUpdateRequest,
         ValidatorInterface $validator,
-        TourService        $tourService,
-        TourTransformer    $tourTransformer,
-    ): JsonResponse
-    {
+        TourService $tourService,
+        TourTransformer $tourTransformer,
+    ): JsonResponse {
         $dataRequest = $request->toArray();
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
         $errors = $validator->validate($tour);
         if (count($errors) > 0) {
-
             return $this->errors(['Something wrong']);
         }
-        $tourService = $tourService->updateTour($tour, $tourUpdateRequest);
-        $result = $tourTransformer->toArray($tourService);
+        $tourData = $tourService->updateTour($tour, $tourUpdateRequest);
+        $result = $tourTransformer->toArray($tourData);
 
         return $this->success($result);
     }

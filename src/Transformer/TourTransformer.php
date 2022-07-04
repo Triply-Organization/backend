@@ -19,8 +19,8 @@ class TourTransformer extends BaseTransformer
     private ReviewService $reviewService;
 
     public function __construct(
-        TourService           $tourService,
-        ScheduleService       $scheduleService,
+        TourService $tourService,
+        ScheduleService $scheduleService,
         ParameterBagInterface $params,
         TourPlanService       $tourPlanService,
         ReviewService         $reviewService
