@@ -93,7 +93,7 @@ abstract class BaseRepository extends ServiceEntityRepository
             return $query;
         }
 
-        return $query->orderBy($alias. ".$orderType", $orderBy);
+        return $query->orderBy($alias . ".$orderType", $orderBy);
     }
 
     protected function filter(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder

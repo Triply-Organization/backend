@@ -14,10 +14,9 @@ class FacilityTourService
     private TourServiceRepository $tourServiceRepository;
 
     public function __construct(
-        ServiceRepository     $serviceRepository,
+        ServiceRepository $serviceRepository,
         TourServiceRepository $tourServiceRepository
-    )
-    {
+    ) {
         $this->serviceRepository = $serviceRepository;
         $this->tourServiceRepository = $tourServiceRepository;
     }
@@ -27,7 +26,6 @@ class FacilityTourService
         foreach ($tourRequest->getServices() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
             if (!is_object($service)) {
-
                 continue;
             }
             $tourService = new \App\Entity\TourService();
@@ -68,7 +66,6 @@ class FacilityTourService
             foreach ($deleteServices as $deleteService) {
                 $tourService = $this->tourServiceRepository->find($deleteService);
                 if (!is_object($tourService)) {
-                
                     continue;
                 }
                 $tourService->setDeletedAt(new \DateTimeImmutable());

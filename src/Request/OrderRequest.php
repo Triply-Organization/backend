@@ -81,5 +81,4 @@ class OrderRequest extends BaseRequest
     {
         $this->adult = $adult;
     }
-
 }

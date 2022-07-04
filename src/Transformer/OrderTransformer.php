@@ -13,9 +13,8 @@ class OrderTransformer extends BaseTransformer
 
     public function __construct(
         ParameterBagInterface $params,
-        OrderService          $orderService
-    )
-    {
+        OrderService $orderService
+    ) {
         $this->orderService = $orderService;
         $this->params = $params;
     }
@@ -41,8 +40,8 @@ class OrderTransformer extends BaseTransformer
             $result['tickets'][$key]['typeTicket'] = $ticket->getPriceList()->getType()->getName();
             $result['tickets'][$key]['priceTick'] = $ticket->getPriceList()->getPrice();
         }
-        $result['discount'] =null;
-        if($order->getDiscount() !== null){
+        $result['discount'] = null;
+        if ($order->getDiscount() !== null) {
             $result['discount']['id'] = $order->getDiscount()->getId();
             $result['discount']['code'] = $order->getDiscount()->getCode();
         }

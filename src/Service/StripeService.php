@@ -43,8 +43,7 @@ class StripeService
 
         $taxRateId = 'txr_1LGNaYBshpup8grmjONnWYWz';
 
-        if ($checkoutRequestData->getCurrency() === 'usd')
-        {
+        if ($checkoutRequestData->getCurrency() === 'usd') {
             $taxRateId = 'txr_1LGeepBshpup8grmsXrotsGu';
         }
 
@@ -73,7 +72,7 @@ class StripeService
      */
     public function eventHandler(array $data, string $type): void
     {
-        $bill = new Bill;
+        $bill = new Bill();
         if ($type === self::CHECK_COMPLETED) {
             $bill->setTotalPrice($data['amount_total']);
             $bill->setTax($data['total_details']['amount_tax']);

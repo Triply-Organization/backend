@@ -16,7 +16,7 @@ class WebhookController extends AbstractController
      * @throws Exception
      */
     #[Route('', name: 'webhook')]
-    public function getData(Request $request,LoggerInterface $logger,StripeService $stripeService)
+    public function getData(Request $request, LoggerInterface $logger, StripeService $stripeService)
     {
         $event = $request->toArray();
         $data = $event['data']['object'];

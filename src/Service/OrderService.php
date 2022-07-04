@@ -17,6 +17,7 @@ use App\Repository\VoucherRepository;
 use App\Request\OrderRequest;
 use App\Traits\ResponseTrait;
 use Symfony\Component\Security\Core\Security;
+
 use function PHPUnit\Framework\throwException;
 
 class OrderService
@@ -30,13 +31,12 @@ class OrderService
     private VoucherRepository $voucherRepository;
 
     public function __construct(
-        OrderRepository     $orderRepository,
-        Security            $security,
-        TicketRepository    $ticketRepository,
+        OrderRepository $orderRepository,
+        Security $security,
+        TicketRepository $ticketRepository,
         PriceListRepository $priceListRepository,
-        VoucherRepository   $voucherRepository,
-    )
-    {
+        VoucherRepository $voucherRepository,
+    ) {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
         $this->ticketRepository = $ticketRepository;
@@ -84,7 +84,7 @@ class OrderService
             $priceTicketChildren = $this->addChildrenTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketChildren;
         }
-        if ($orderRequest->getYouth() !== [] ) {
+        if ($orderRequest->getYouth() !== []) {
             $priceTicketYouth = $this->addYouthTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketYouth;
         }

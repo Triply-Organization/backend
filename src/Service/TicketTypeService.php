@@ -27,5 +27,4 @@ class TicketTypeService
         }
         return $result;
     }
-
 }

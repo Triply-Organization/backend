@@ -17,12 +17,11 @@ class TourTransformer extends BaseTransformer
     private TourPlanService $tourPlanService;
 
     public function __construct(
-        TourService           $tourService,
-        ScheduleService       $scheduleService,
+        TourService $tourService,
+        ScheduleService $scheduleService,
         ParameterBagInterface $params,
-        TourPlanService       $tourPlanService
-    )
-    {
+        TourPlanService $tourPlanService
+    ) {
         $this->tourService = $tourService;
         $this->scheduleService = $scheduleService;
         $this->params = $params;

@@ -8,7 +8,6 @@ use App\Entity\TourService;
 
 class TourServicesTransformer extends BaseTransformer
 {
-
     public function toArray(TourService $tourService)
     {
         return [

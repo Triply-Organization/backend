@@ -33,7 +33,7 @@ class ScheduleService
         foreach ($schedules as $schedule) {
             $prices[] = $this->scheduleTransformer->toArray($schedule);
         }
-        
+
         return $prices;
     }
 }

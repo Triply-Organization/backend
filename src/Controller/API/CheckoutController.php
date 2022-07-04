@@ -21,12 +21,11 @@ class CheckoutController
      */
     #[Route('/', name: 'checkout', methods: 'POST')]
     public function checkout(
-        Request            $request,
-        CheckoutRequest    $checkoutRequest,
+        Request $request,
+        CheckoutRequest $checkoutRequest,
         ValidatorInterface $validator,
-        StripeService      $stripeService
-    ): JsonResponse
-    {
+        StripeService $stripeService
+    ): JsonResponse {
         $requestData = $request->toArray();
         $checkoutRequestData = $checkoutRequest->fromArray($requestData);
         $errors = $validator->validate($checkoutRequestData);
