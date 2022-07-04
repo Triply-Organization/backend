@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
-#[ORM\Table(name: 'order')]
+#[ORM\Table(name: '`order`')]
 class Order extends AbstractEntity
 {
     #[ORM\Id]
