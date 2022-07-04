@@ -38,6 +38,9 @@ class PriceList extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private $schedule;
 
+    #[ORM\Column(type: 'string', length: 4)]
+    private $currency;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -147,6 +150,18 @@ class PriceList extends AbstractEntity
     public function setSchedule(?Schedule $schedule): self
     {
         $this->schedule = $schedule;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(string $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }
