@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Order;
 use App\Entity\Schedule;
 use App\Request\OrderRequest;
 use App\Service\OrderService;
@@ -19,6 +20,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class OrderController extends AbstractController
 {
     use ResponseTrait;
+
+    #[Route('/{id<\d+>}', name: 'details', methods: 'GET')]
+    public function tourDetails(Order $order, OrderTransformer $orderTransformer): JsonResponse
+    {
+        return $this->success($orderTransformer->toArray($order));
+    }
 
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
