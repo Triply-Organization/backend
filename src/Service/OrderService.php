@@ -2,14 +2,10 @@
 
 namespace App\Service;
 
-use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\PriceList;
 use App\Entity\Ticket;
-use App\Entity\Schedule;
 use App\Entity\User;
-use App\Entity\Voucher;
-use App\FindException\findTicketException;
 use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
 use App\Repository\PriceListRepository;
@@ -18,11 +14,11 @@ use App\Request\OrderRequest;
 use App\Traits\ResponseTrait;
 use Symfony\Component\Security\Core\Security;
 
-use function PHPUnit\Framework\throwException;
-
 class OrderService
 {
     use ResponseTrait;
+
+    const STATUS_DEFAULT = 'unpaid';
 
     private OrderRepository $orderRepository;
     private Security $security;
@@ -48,8 +44,8 @@ class OrderService
     {
         $currentUser = $this->security->getUser();
         $roles = $currentUser->getRoles();
-        if($roles['role'] === 'ROLE_USER') {
-            if($currentUser->getId() !== $order->getUser()->getId()) {
+        if ($roles['role'] === 'ROLE_USER') {
+            if ($currentUser->getId() !== $order->getUser()->getId()) {
                 return false;
             }
         }
@@ -71,7 +67,8 @@ class OrderService
 
         $order->setDiscount($discount)
             ->setUser($currentUser)
-            ->setTotalPrice(0);
+            ->setTotalPrice(0)
+            ->setStatus(self::STATUS_DEFAULT);
         $this->orderRepository->add($order, true);
         $totalPrice = $this->addTicket($orderRequest, $order);
         $this->orderRepository->add($order->setTotalPrice($totalPrice), true);
