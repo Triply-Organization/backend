@@ -6,7 +6,7 @@ use App\Repository\ReviewDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReviewDetailRepository::class)]
-class ReviewDetail
+class ReviewDetail extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TypeReviewRepository::class)]
-class TypeReview
+class TypeReview extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
