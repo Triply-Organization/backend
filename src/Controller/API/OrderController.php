@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Order;
 use App\Entity\Schedule;
 use App\Request\OrderRequest;
 use App\Service\OrderService;
@@ -20,16 +21,31 @@ class OrderController extends AbstractController
 {
     use ResponseTrait;
 
+    #[Route('/{id<\d+>}', name: 'details', methods: 'GET')]
+    #[IsGranted('ROLE_USER')]
+    public function orderDetails(
+        Order $order,
+        OrderService $orderService,
+        OrderTransformer $orderTransformer
+
+    ): JsonResponse
+    {
+        $checkUser = $orderService->checkoutUserOfOrder($order);
+        if($checkUser === false) {
+            return $this->errors(['Something wrong']);
+        }
+        return $this->success($orderTransformer->toArray($order));
+    }
+
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function orderTour(
-        Request            $request,
-        OrderRequest       $orderRequest,
-        OrderService       $orderService,
+        Request $request,
+        OrderRequest $orderRequest,
+        OrderService $orderService,
         ValidatorInterface $validator,
-        OrderTransformer   $orderTransformer,
-    ): JsonResponse
-    {
+        OrderTransformer $orderTransformer,
+    ): JsonResponse {
         $requestData = $request->toArray();
         $order = $orderRequest->fromArray($requestData);
         $errors = $validator->validate($order);
@@ -37,8 +53,8 @@ class OrderController extends AbstractController
             return $this->errors(['Something wrong']);
         }
 
-        $orderService = $orderService->order($order);
-        $result = $orderTransformer->toArray($orderService);
+        $orderData = $orderService->order($order);
+        $result = $orderTransformer->toArray($orderData);
 
         return $this->success($result);
     }

@@ -10,18 +10,12 @@ class OrderRequest extends BaseRequest
     private $discountId;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $children;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $youth;
 
     #[Assert\Type('array')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $adult;
 
     /**
@@ -87,5 +81,4 @@ class OrderRequest extends BaseRequest
     {
         $this->adult = $adult;
     }
-
 }

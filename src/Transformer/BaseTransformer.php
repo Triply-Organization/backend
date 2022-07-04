@@ -4,7 +4,6 @@ namespace App\Transformer;
 
 use App\Entity\AbstractEntity;
 
-
 abstract class BaseTransformer
 {
     public function transform(AbstractEntity $entity, array $params): array

@@ -228,6 +228,4 @@ class ListTourRequest extends BaseRequest
     {
         $this->endPrice = $endPrice;
     }
-
-
 }
