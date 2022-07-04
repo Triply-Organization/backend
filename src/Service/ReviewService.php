@@ -3,9 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Tour;
-use App\Repository\ReviewRepository;
 use App\Repository\ReviewDetailRepository;
-use function Composer\Autoload\includeFile;
+use App\Repository\ReviewRepository;
 
 class ReviewService
 {
@@ -39,18 +38,18 @@ class ReviewService
         $location = $rooms = $services = $price = $amenities = 0;
         $ratings = $this->handleRating($tour);
         foreach ($ratings as $rating) {
-            $location = $location + $rating['location'];
-            $rooms = $rooms + $rating['rooms'];
-            $services = $services + $rating['services'];
-            $price = $price + $rating['price'];
-            $amenities = $amenities + $rating['amenities'];
+            $location += $rating['location'];
+            $rooms += $rating['rooms'];
+            $services += $rating['services'];
+            $price += $rating['price'];
+            $amenities += $rating['amenities'];
         }
-        $results['location'] = $location / count($ratings);
-        $results['rooms'] = $rooms / count($ratings);
-        $results['price'] = $price / count($ratings);
-        $results['services'] = $services / count($ratings);
-        $results['amenities'] = $amenities / count($ratings);
         if (count($ratings) > 0) {
+            $results['location'] = $location / count($ratings);
+            $results['rooms'] = $rooms / count($ratings);
+            $results['price'] = $price / count($ratings);
+            $results['services'] = $services / count($ratings);
+            $results['amenities'] = $amenities / count($ratings);
             $results['avg'] = ($location + $rooms + $services + $price) / (5 * count($ratings));
         }
         return $results;
@@ -62,8 +61,8 @@ class ReviewService
         $location = $rooms = $services = $price = $amenities = 0;
         $ratings = $this->handleRating($tour);
         foreach ($ratings as $rating) {
-            $location = $location + $rating['location'];
-            $rooms = $rooms + $rating['rooms'];
+            $location += $rating['location'];
+            $rooms += $rating['rooms'];
             $services = $services + $rating['services'];
             $price = $price + $rating['price'];
             $amenities = $amenities + $rating['amenities'];

@@ -11,14 +11,20 @@ class CheckoutRequest extends BaseRequest
     #[Assert\NotNull]
     private $tourId;
 
-    #[Assert\Date]
+    #[Assert\Type('numeric')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    private $date;
+    private $orderId;
 
+    #[Assert\Type('numeric')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    private $orderDetails;
+    private $scheduleId;
+
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $tourName;
 
     #[Assert\Type('string')]
     #[Assert\NotBlank]
@@ -34,6 +40,57 @@ class CheckoutRequest extends BaseRequest
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private $phone;
+
+
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $currency;
+
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $totalPrice;
+
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $discountPrice;
+
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $taxPrice;
+
+    /**
+     * @return mixed
+     */
+    public function getDiscountPrice()
+    {
+        return $this->discountPrice;
+    }
+
+    /**
+     * @param mixed $discountPrice
+     */
+    public function setDiscountPrice($discountPrice): void
+    {
+        $this->discountPrice = $discountPrice;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTaxPrice()
+    {
+        return $this->taxPrice;
+    }
+
+    /**
+     * @param mixed $taxPrice
+     */
+    public function setTaxPrice($taxPrice): void
+    {
+        $this->taxPrice = $taxPrice;
+    }
+
 
     /**
      * @return mixed
@@ -54,17 +111,17 @@ class CheckoutRequest extends BaseRequest
     /**
      * @return mixed
      */
-    public function getOrderDetails()
+    public function getOrderId()
     {
-        return $this->orderDetails;
+        return $this->orderId;
     }
 
     /**
-     * @param mixed $orderDetails
+     * @param mixed $orderId
      */
-    public function setOrderDetails($orderDetails): void
+    public function setOrderId($orderId): void
     {
-        $this->orderDetails = $orderDetails;
+        $this->orderId = $orderId;
     }
 
     /**
@@ -99,47 +156,36 @@ class CheckoutRequest extends BaseRequest
         $this->phone = $phone;
     }
 
-    #[Assert\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $currency;
-
-    #[Assert\Type('numeric')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $amount;
-
-
     /**
      * @return mixed
      */
-    public function getName()
+    public function getTourName()
     {
-        return $this->name;
+        return $this->tourName;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $tourName
      */
-    public function setName($name): void
+    public function setTourName($tourName): void
     {
-        $this->name = $name;
+        $this->tourName = $tourName;
     }
 
     /**
      * @return mixed
      */
-    public function getAmount()
+    public function getTotalPrice()
     {
-        return $this->amount;
+        return $this->totalPrice;
     }
 
     /**
-     * @param mixed $amount
+     * @param mixed $totalPrice
      */
-    public function setAmount($amount): void
+    public function setTotalPrice($totalPrice): void
     {
-        $this->amount = $amount;
+        $this->totalPrice = $totalPrice;
     }
 
     /**
@@ -172,5 +218,37 @@ class CheckoutRequest extends BaseRequest
     public function setDate($date): void
     {
         $this->date = $date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScheduleId()
+    {
+        return $this->scheduleId;
+    }
+
+    /**
+     * @param mixed $scheduleId
+     */
+    public function setScheduleId($scheduleId): void
+    {
+        $this->scheduleId = $scheduleId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
     }
 }
