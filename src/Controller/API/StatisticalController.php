@@ -3,11 +3,26 @@
 namespace App\Controller\API;
 
 use App\Service\StatisticalService;
+use App\Traits\ResponseTrait;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/statistical', name: 'statistical_')]
 class StatisticalController
 {
-    public function statisticalTotalRevenue(StatisticalService $statisticalService)
+    use ResponseTrait;
+
+    #[Route('/totalRevenue/{year<\d+>}', name: 'totalRevenue', methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function statisticalTotalRevenue(StatisticalService $statisticalService, $year)
     {
-        return $statisticalService->statisticalTotalRevenue();
+        return $this->success($statisticalService->statisticalTotalRevenue($year));
+    }
+
+    #[Route('/booking/{year<\d+>}', name: 'booking', methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function statisticalBooking(StatisticalService $statisticalService, $year)
+    {
+        return $this->success($statisticalService->statisticalBooking($year));
     }
 }
