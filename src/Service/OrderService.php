@@ -44,6 +44,18 @@ class OrderService
         $this->voucherRepository = $voucherRepository;
     }
 
+    public function checkoutUserOfOrder(Order $order)
+    {
+        $currentUser = $this->security->getUser();
+        $roles = $currentUser->getRoles();
+        if($roles['role'] === 'ROLE_USER') {
+            if($currentUser->getId() !== $order->getUser()->getId()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function order(OrderRequest $orderRequest)
     {
         /**

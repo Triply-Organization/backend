@@ -22,8 +22,18 @@ class OrderController extends AbstractController
     use ResponseTrait;
 
     #[Route('/{id<\d+>}', name: 'details', methods: 'GET')]
-    public function tourDetails(Order $order, OrderTransformer $orderTransformer): JsonResponse
+    #[IsGranted('ROLE_USER')]
+    public function orderDetails(
+        Order $order,
+        OrderService $orderService,
+        OrderTransformer $orderTransformer
+
+    ): JsonResponse
     {
+        $checkUser = $orderService->checkoutUserOfOrder($order);
+        if($checkUser === false) {
+            return $this->errors(['Something wrong']);
+        }
         return $this->success($orderTransformer->toArray($order));
     }
 
