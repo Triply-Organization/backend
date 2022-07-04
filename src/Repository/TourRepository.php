@@ -35,7 +35,6 @@ class TourRepository extends BaseRepository
     public const PRICE_LIST_ALIAS = 'pl';
     public const TOUR_SERVICE_ALIAS = 'ts';
     public const PAGE_SIZE = 6;
-    public DestinationRepository $destinationRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

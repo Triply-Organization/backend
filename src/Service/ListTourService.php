@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Request\ListTourRequest;
 use App\Repository\TourRepository;
 use App\Transformer\TourTransformer;
-
 class ListTourService
 {
     private TourRepository $tourRepository;
