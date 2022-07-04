@@ -23,6 +23,7 @@ use function PHPUnit\Framework\throwException;
 class OrderService
 {
     use ResponseTrait;
+    const STATUS_DEFAULT = 'unpaid';
 
     private OrderRepository $orderRepository;
     private Security $security;
@@ -71,7 +72,8 @@ class OrderService
 
         $order->setDiscount($discount)
             ->setUser($currentUser)
-            ->setTotalPrice(0);
+            ->setTotalPrice(0)
+            ->setStatus(self::STATUS_DEFAULT);
         $this->orderRepository->add($order, true);
         $totalPrice = $this->addTicket($orderRequest, $order);
         $this->orderRepository->add($order->setTotalPrice($totalPrice), true);
