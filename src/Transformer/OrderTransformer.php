@@ -48,6 +48,7 @@ class OrderTransformer extends BaseTransformer
             $result['discount']['code'] = $order->getDiscount()->getCode();
         }
         $result['subTotal'] = $order->getTotalPrice();
+        $result['status'] = $order->getStatus();
         return $result;
     }
 
@@ -56,22 +57,19 @@ class OrderTransformer extends BaseTransformer
         $arrayResult = [];
         foreach ($ticketInfos as $ticketInfo) {
             if ($ticketInfo['typeTicket'] === 'children') {
-                $arrayResult[1]['idTicket'] = $ticketInfo['idTicket'];
-                $arrayResult[1]['amount'] = $ticketInfo['amount'];
-                $arrayResult[1]['typeTicket'] = $ticketInfo['typeTicket'];
-                $arrayResult[1]['priceTick'] = $ticketInfo['priceTick'];
+                $arrayResult['children']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['children']['amount'] = $ticketInfo['amount'];
+                $arrayResult['children']['priceTick'] = $ticketInfo['priceTick'];
             }
-            if ($ticketInfo['typeTicket'] === 'young') {
-                $arrayResult[2]['idTicket'] = $ticketInfo['idTicket'];
-                $arrayResult[2]['amount'] = $ticketInfo['amount'];
-                $arrayResult[2]['typeTicket'] = $ticketInfo['typeTicket'];
-                $arrayResult[2]['priceTick'] = $ticketInfo['priceTick'];
+            if ($ticketInfo['typeTicket'] === 'youth') {
+                $arrayResult['youth']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['youth']['amount'] = $ticketInfo['amount'];
+                $arrayResult['youth']['priceTick'] = $ticketInfo['priceTick'];
             }
             if ($ticketInfo['typeTicket'] === 'adult') {
-                $arrayResult[3]['idTicket'] = $ticketInfo['idTicket'];
-                $arrayResult[3]['amount'] = $ticketInfo['amount'];
-                $arrayResult[3]['typeTicket'] = $ticketInfo['typeTicket'];
-                $arrayResult[3]['priceTick'] = $ticketInfo['priceTick'];
+                $arrayResult['adult']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['adult']['amount'] = $ticketInfo['amount'];
+                $arrayResult['adult']['priceTick'] = $ticketInfo['priceTick'];
             }
         }
 

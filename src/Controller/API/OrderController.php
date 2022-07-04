@@ -3,7 +3,6 @@
 namespace App\Controller\API;
 
 use App\Entity\Order;
-use App\Entity\Schedule;
 use App\Request\OrderRequest;
 use App\Service\OrderService;
 use App\Traits\ResponseTrait;
@@ -27,11 +26,9 @@ class OrderController extends AbstractController
         Order $order,
         OrderService $orderService,
         OrderTransformer $orderTransformer
-
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $checkUser = $orderService->checkoutUserOfOrder($order);
-        if($checkUser === false) {
+        if ($checkUser === false) {
             return $this->errors(['Something wrong']);
         }
         return $this->success($orderTransformer->toArray($order));
@@ -52,7 +49,6 @@ class OrderController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
-
         $orderData = $orderService->order($order);
         $result = $orderTransformer->toArray($orderData);
 

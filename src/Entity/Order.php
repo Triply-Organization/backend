@@ -31,10 +31,6 @@ class Order extends AbstractEntity
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $deletedAt;
 
-    #[ORM\OneToOne(inversedBy: 'orderName', targetEntity: Bill::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private $bill;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
@@ -42,6 +38,12 @@ class Order extends AbstractEntity
     #[ORM\ManyToOne(targetEntity: Voucher::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: true)]
     private $discount;
+
+    #[ORM\OneToOne(mappedBy: 'orderDetail', targetEntity: Bill::class, cascade: ['persist', 'remove'])]
+    private $bill;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $status;
 
     public function __construct()
     {
@@ -132,18 +134,6 @@ class Order extends AbstractEntity
         return $this;
     }
 
-    public function getBill(): ?Bill
-    {
-        return $this->bill;
-    }
-
-    public function setBill(Bill $bill): self
-    {
-        $this->bill = $bill;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -164,6 +154,34 @@ class Order extends AbstractEntity
     public function setDiscount(?Voucher $discount): self
     {
         $this->discount = $discount;
+
+        return $this;
+    }
+
+    public function getBill(): ?Bill
+    {
+        return $this->bill;
+    }
+
+    public function setBill(Bill $bill): self
+    {
+        // set the owning side of the relation if necessary
+        if ($bill->getOrderDetail() !== $this) {
+            $bill->setOrderDetail($this);
+        }
+
+        $this->bill = $bill;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
