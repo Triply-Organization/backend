@@ -63,20 +63,9 @@ class OrderService
          * @var User $currentUser
          */
         $currentUser = $this->security->getUser();
+        $tax = $this->taxRepository->findOneBy(['currency' => $orderRequest->getCurrency()]);
         $order = new Order();
-        if ($orderRequest->getDiscountId() === null) {
-            $discount = null;
-        } else {
-            $discount = $this->voucherRepository->find($orderRequest->getDiscountId());
-        }
-
-        if ($orderRequest->getTaxId() === null) {
-            $tax = null;
-        } else {
-            $tax = $this->taxRepository->find($orderRequest->getTaxId());
-        }
-
-        $order->setDiscount($discount)
+        $order->setDiscount(null)
             ->setUser($currentUser)
             ->setTotalPrice(0)
             ->setTax($tax)
@@ -84,7 +73,6 @@ class OrderService
         $this->orderRepository->add($order, true);
         $totalPrice = $this->addTicket($orderRequest, $order);
         $this->orderRepository->add($order->setTotalPrice($totalPrice), true);
-
         return $order;
     }
 

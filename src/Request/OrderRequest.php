@@ -6,11 +6,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class OrderRequest extends BaseRequest
 {
-    #[Assert\Type('integer')]
-    private $discountId;
-
-    #[Assert\Type('integer')]
-    private $taxId;
+    #[Assert\Type('string')]
+    private $currency;
 
     #[Assert\Type('array')]
     private $children;
@@ -20,22 +17,6 @@ class OrderRequest extends BaseRequest
 
     #[Assert\Type('array')]
     private $adult;
-
-    /**
-     * @return mixed
-     */
-    public function getDiscountId()
-    {
-        return $this->discountId;
-    }
-
-    /**
-     * @param mixed $discountId
-     */
-    public function setDiscountId($discountId): void
-    {
-        $this->discountId = $discountId;
-    }
 
     /**
      * @return mixed
@@ -88,16 +69,16 @@ class OrderRequest extends BaseRequest
     /**
      * @return mixed
      */
-    public function getTaxId()
+    public function getCurrency()
     {
-        return $this->taxId;
+        return $this->currency;
     }
 
     /**
-     * @param mixed $taxId
+     * @param mixed $currency
      */
-    public function setTaxId($taxId): void
+    public function setCurrency($currency): void
     {
-        $this->taxId = $taxId;
+        $this->currency = $currency;
     }
 }

@@ -4,19 +4,24 @@ namespace App\Transformer;
 
 use App\Entity\Order;
 use App\Service\OrderService;
+use App\Service\VoucherService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class OrderTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'amount'];
     private OrderService $orderService;
+    private VoucherService $voucherService;
 
     public function __construct(
         ParameterBagInterface $params,
-        OrderService $orderService
-    ) {
+        OrderService          $orderService,
+        VoucherService        $voucherService
+    )
+    {
         $this->orderService = $orderService;
         $this->params = $params;
+        $this->voucherService = $voucherService;
     }
 
     public function toArray(Order $order): array
@@ -41,14 +46,15 @@ class OrderTransformer extends BaseTransformer
             $ticketInfos[$key]['typeTicket'] = $ticket->getPriceList()->getType()->getName();
             $ticketInfos[$key]['priceTick'] = $ticket->getPriceList()->getPrice();
         }
-        $result['tickets'] =  $this->ticketInfoReturn($ticketInfos);
+        $result['tickets'] = $this->ticketInfoReturn($ticketInfos);
 
-        $result['discount'] = null;
-        if ($order->getDiscount() !== null) {
-            $result['discount']['id'] = $order->getDiscount()->getId();
-            $result['discount']['code'] = $order->getDiscount()->getCode();
-            $result['discount']['value'] = $order->getDiscount()->getDiscount();
+        foreach ($this->voucherService->getAllDisCount() as $key => $voucher) {
+            $result['voucher'][$key]['id'] = $voucher->getId();
+            $result['voucher'][$key]['code'] = $voucher->getCode();
+            $result['voucher'][$key]['discount'] = $voucher->getDiscount();
+            $result['voucher'][$key]['remain'] = $voucher->getRemain();
         }
+
         $result['tax'] = null;
         if ($order->getTax() !== null) {
             $result['tax']['id'] = $order->getTax()->getId();
