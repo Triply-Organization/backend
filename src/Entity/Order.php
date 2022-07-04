@@ -39,11 +39,11 @@ class Order extends AbstractEntity
     #[ORM\JoinColumn(nullable: true)]
     private $discount;
 
-    #[ORM\OneToOne(mappedBy: 'orderDetail', targetEntity: Bill::class, cascade: ['persist', 'remove'])]
-    private $bill;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $status;
+
+    #[ORM\OneToOne(targetEntity: Bill::class, cascade: ['persist', 'remove'])]
+    private $bill;
 
     public function __construct()
     {
@@ -158,23 +158,6 @@ class Order extends AbstractEntity
         return $this;
     }
 
-    public function getBill(): ?Bill
-    {
-        return $this->bill;
-    }
-
-    public function setBill(Bill $bill): self
-    {
-        // set the owning side of the relation if necessary
-        if ($bill->getOrderDetail() !== $this) {
-            $bill->setOrderDetail($this);
-        }
-
-        $this->bill = $bill;
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -182,6 +165,18 @@ class Order extends AbstractEntity
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getBill(): ?Bill
+    {
+        return $this->bill;
+    }
+
+    public function setBill(?Bill $bill): self
+    {
+        $this->bill = $bill;
 
         return $this;
     }

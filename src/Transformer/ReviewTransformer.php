@@ -9,7 +9,8 @@ class ReviewTransformer extends BaseTransformer
     public function toArray(Review $review)
     {
         return [
-            'idOrder' => $review->getOrderDetail()->getId()
+            'idOrder' => $review->getOrderDetail()->getId(),
+            'idReview' => $review->getId()
         ];
     }
 }

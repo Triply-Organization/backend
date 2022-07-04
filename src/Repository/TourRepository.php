@@ -35,7 +35,6 @@ class TourRepository extends BaseRepository
     public const PRICE_LIST_ALIAS = 'pl';
     public const TOUR_SERVICE_ALIAS = 'ts';
     public const PAGE_SIZE = 6;
-    public DestinationRepository $destinationRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -79,21 +78,9 @@ class TourRepository extends BaseRepository
         }
         $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
-        $query = $this->andCustomFilter(
-            $query,
-            self::PRICE_LIST_ALIAS,
-            'price',
-            '>=',
-            $listTourRequest->getStartPrice()
-        );
-        $query = $this->andCustomFilter(
-            $query,
-            self::PRICE_LIST_ALIAS,
-            'price',
-            '<=',
-            $listTourRequest->getEndPrice()
-        );
-        return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
+        $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
+            return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
     }
 
     private function join($query)
@@ -107,5 +94,14 @@ class TourRepository extends BaseRepository
         $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
 
         return $query;
+    }
+
+    public function getTourWithDestination(int $id, int $tourId)
+    {
+        $query = $this->createQueryBuilder(static::TOUR_ALIAS);
+        $query = $this->join($query);
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
+        $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
+        return $query->getQuery()->getResult();
     }
 }

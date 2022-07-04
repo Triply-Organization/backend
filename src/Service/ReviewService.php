@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Entity\Review;
 use App\Entity\ReviewDetail;
+use App\Entity\Tour;
 use App\Entity\TypeReview;
 use App\Repository\ReviewDetailRepository;
 use App\Repository\ReviewRepository;
@@ -19,21 +20,78 @@ class ReviewService
     private ReviewRepository $reviewRepository;
     private TypeReviewRepository $typeReviewRepository;
     private ReviewDetailRepository $reviewDetailRepository;
+    private ReviewDetailService $reviewDetailService;
 
     public function __construct(
         Security $security,
         OrderService $orderService,
         ReviewRepository $reviewRepository,
         TypeReviewRepository $typeReviewRepository,
-        ReviewDetailRepository $reviewDetailRepository
+        ReviewDetailRepository $reviewDetailRepository,
+        ReviewDetailService $reviewDetailService
     ) {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
         $this->typeReviewRepository = $typeReviewRepository;
         $this->reviewDetailRepository = $reviewDetailRepository;
+        $this->reviewDetailService = $reviewDetailService;
     }
 
+    public function handleRating(Tour $tour)
+    {
+        $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
+        $results = [];
+        foreach ($reviews as $review) {
+            $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
+            $typeRating = $this->reviewDetailService->getTypeRating($reviewDetails);
+            $results[] = $typeRating;
+        }
+
+        return $results;
+    }
+
+    public function getRatingDetail(Tour $tour)
+    {
+        $results = [];
+        $location = $rooms = $services = $price = $amenities = 0;
+        $ratings = $this->handleRating($tour);
+        foreach ($ratings as $rating) {
+            $location = $location + $rating['location'];
+            $rooms = $rooms + $rating['rooms'];
+            $services = $services + $rating['services'];
+            $price = $price + $rating['price'];
+            $amenities = $amenities + $rating['amenities'];
+        }
+        $results['location'] = $location / count($ratings);
+        $results['rooms'] = $rooms / count($ratings);
+        $results['price'] = $price / count($ratings);
+        $results['services'] = $services / count($ratings);
+        $results['amenities'] = $amenities / count($ratings);
+        if (count($ratings) > 0) {
+            $results['avg'] = ($location + $rooms + $services + $price) / (5 * count($ratings));
+        }
+        return $results;
+    }
+
+    public function getRatingOverrall(Tour $tour)
+    {
+        $results = [];
+        $location = $rooms = $services = $price = $amenities = 0;
+        $ratings = $this->handleRating($tour);
+        foreach ($ratings as $rating) {
+            $location = $location + $rating['location'];
+            $rooms = $rooms + $rating['rooms'];
+            $services = $services + $rating['services'];
+            $price = $price + $rating['price'];
+            $amenities = $amenities + $rating['amenities'];
+        }
+        if (count($ratings) > 0) {
+            $results['avg'] = ($location + $rooms + $services + $price) / (5 * count($ratings));
+        }
+
+        return $results;
+    }
 
     public function addReview(
         ReviewRequest $reviewRequest,
