@@ -80,15 +80,15 @@ class OrderService
     private function addTicket(OrderRequest $orderRequest, Order $order)
     {
         $totalpirce = 0;
-        if ($orderRequest->getChildren() !== null) {
+        if ($orderRequest->getChildren() !== []) {
             $priceTicketChildren = $this->addChildrenTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketChildren;
         }
-        if ($orderRequest->getYouth() !== null) {
+        if ($orderRequest->getYouth() !== [] ) {
             $priceTicketYouth = $this->addYouthTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketYouth;
         }
-        if ($orderRequest->getAdult() !== null) {
+        if ($orderRequest->getAdult() !== []) {
             $priceTicketAdult = $this->addAdultTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketAdult;
         }

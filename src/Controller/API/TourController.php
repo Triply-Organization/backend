@@ -44,7 +44,7 @@ class TourController extends AbstractController
         return $this->success($tours);
     }
 
-    #[Route('/{id}', name: 'details', methods: 'GET')]
+    #[Route('/{id<\d+>}', name: 'details', methods: 'GET')]
     public function tourDetails(Tour $tour, TourDetailTransformer $tourDetailTransformer): JsonResponse
     {
         return $this->success($tourDetailTransformer->toArray($tour));
@@ -66,13 +66,13 @@ class TourController extends AbstractController
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
-        $tourService = $tourService->addTour($tour);
-        $result = $tourTransformer->toArray($tourService);
+        $tourData = $tourService->addTour($tour);
+        $result = $tourTransformer->toArray($tourData);
 
         return $this->success($result);
     }
 
-    #[Route('/{id}', name: 'update', methods: 'PATCH')]
+    #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
         Tour               $tour,
@@ -90,8 +90,8 @@ class TourController extends AbstractController
 
             return $this->errors(['Something wrong']);
         }
-        $tourService = $tourService->updateTour($tour, $tourUpdateRequest);
-        $result = $tourTransformer->toArray($tourService);
+        $tourData = $tourService->updateTour($tour, $tourUpdateRequest);
+        $result = $tourTransformer->toArray($tourData);
 
         return $this->success($result);
     }

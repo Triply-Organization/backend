@@ -37,8 +37,8 @@ class OrderController extends AbstractController
             return $this->errors(['Something wrong']);
         }
 
-        $orderService = $orderService->order($order);
-        $result = $orderTransformer->toArray($orderService);
+        $orderData = $orderService->order($order);
+        $result = $orderTransformer->toArray($orderData);
 
         return $this->success($result);
     }
