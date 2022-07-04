@@ -61,10 +61,10 @@ class OrderTransformer extends BaseTransformer
                 $arrayResult['children']['amount'] = $ticketInfo['amount'];
                 $arrayResult['children']['priceTick'] = $ticketInfo['priceTick'];
             }
-            if ($ticketInfo['typeTicket'] === 'young') {
-                $arrayResult['young']['idTicket'] = $ticketInfo['idTicket'];
-                $arrayResult['young']['amount'] = $ticketInfo['amount'];
-                $arrayResult['young']['priceTick'] = $ticketInfo['priceTick'];
+            if ($ticketInfo['typeTicket'] === 'youth') {
+                $arrayResult['youth']['idTicket'] = $ticketInfo['idTicket'];
+                $arrayResult['youth']['amount'] = $ticketInfo['amount'];
+                $arrayResult['youth']['priceTick'] = $ticketInfo['priceTick'];
             }
             if ($ticketInfo['typeTicket'] === 'adult') {
                 $arrayResult['adult']['idTicket'] = $ticketInfo['idTicket'];
