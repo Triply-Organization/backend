@@ -3,6 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Review;
+use App\Entity\ReviewDetail;
+use App\Entity\Tour;
+use App\Entity\TypeReview;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ReviewRepository extends BaseRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
