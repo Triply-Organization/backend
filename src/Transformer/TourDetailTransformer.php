@@ -2,13 +2,16 @@
 
 namespace App\Transformer;
 
+use App\Entity\Review;
 use App\Entity\Tour;
 use App\Service\FacilityService;
+use App\Service\RelatedTourService;
 use App\Service\ScheduleService;
 use App\Service\TicketService;
 use App\Service\TourImageService;
 use App\Service\TourPlanService;
 use App\Service\TourService;
+use App\Service\ReviewService;
 
 class TourDetailTransformer extends BaseTransformer
 {
@@ -17,20 +20,25 @@ class TourDetailTransformer extends BaseTransformer
     private TourImageService $tourImageService;
     private TourPlanService $tourPlanService;
     private ScheduleService $scheduleService;
-    private TicketService $ticketService;
+    private RelatedTourService $relatedTourService;
+    private ReviewService $reviewService;
+
 
     public function __construct(
-        FacilityService $facilityService,
-        TourImageService $tourImageService,
-        TourPlanService $tourPlanService,
-        ScheduleService $scheduleService,
-        TicketService $ticketService
-    ) {
+        FacilityService    $facilityService,
+        TourImageService   $tourImageService,
+        TourPlanService    $tourPlanService,
+        ScheduleService    $scheduleService,
+        RelatedTourService $relatedTourService,
+        ReviewService      $reviewService,
+    )
+    {
         $this->facilityService = $facilityService;
         $this->tourImageService = $tourImageService;
         $this->tourPlanService = $tourPlanService;
         $this->scheduleService = $scheduleService;
-        $this->ticketService = $ticketService;
+        $this->relatedTourService = $relatedTourService;
+        $this->reviewService = $reviewService;
     }
 
     public function toArray(Tour $tour): array
@@ -39,8 +47,10 @@ class TourDetailTransformer extends BaseTransformer
         $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();
         $result['tourImages'] = $this->tourImageService->getGallary($tour);
+        $result['services'] = $this->facilityService->getService($tour->getTourServices());
+        $result['relatedTour'] = $this->relatedTourService->getRelatedTour($tour->getTourPlans()->toArray(), $tour->getId());
         $result['tourPlans'] = $this->tourPlanService->getTourPlan($tour->getTourPlans());
-        $result['services'] = $this->facilityService->getServices($tour->getTourServices());
+        $result['rating'] = $this->reviewService->getRatingDetail($tour);
 
         return $result;
     }

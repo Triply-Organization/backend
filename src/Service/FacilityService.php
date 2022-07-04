@@ -17,7 +17,7 @@ class FacilityService
         $this->tourServiceRepository = $tourServiceRepository;
     }
 
-    public function getServices($tourServices): array
+    public function getService($tourServices): array
     {
         $tourServiceList = [];
         foreach ($tourServices as $tourService) {
