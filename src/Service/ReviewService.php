@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Tour;
 use App\Repository\ReviewRepository;
 use App\Repository\ReviewDetailRepository;
+use Symfony\Component\Validator\Constraints\Date;
 use function Composer\Autoload\includeFile;
 
 class ReviewService
@@ -45,14 +46,15 @@ class ReviewService
             $price = $price + $rating['price'];
             $amenities = $amenities + $rating['amenities'];
         }
-        $results['location'] = $location / count($ratings);
-        $results['rooms'] = $rooms / count($ratings);
-        $results['price'] = $price / count($ratings);
-        $results['services'] = $services / count($ratings);
-        $results['amenities'] = $amenities / count($ratings);
         if (count($ratings) > 0) {
+            $results['location'] = $location / count($ratings);
+            $results['rooms'] = $rooms / count($ratings);
+            $results['price'] = $price / count($ratings);
+            $results['services'] = $services / count($ratings);
+            $results['amenities'] = $amenities / count($ratings);
             $results['avg'] = ($location + $rooms + $services + $price) / (5 * count($ratings));
         }
+
         return $results;
     }
 
@@ -73,5 +75,37 @@ class ReviewService
         }
 
         return $results;
+    }
+
+    public function getAllReviews(Tour $tour)
+    {
+        $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
+        $results = [];
+        foreach ($reviews as $key => $review) {
+            $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
+            $typeRatings = $this->reviewDetailService->getTypeRating($reviewDetails);
+            $results[$key]['id'] = $review->getId();
+            $results[$key]['name'] = $review->getUser()->getEmail();
+            $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
+            $results[$key]['tourName'] = $review->getTour()->getTitle();
+            $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
+            $results[$key]['avatar'] = $review->getUser()->getAvatar()->getPath();
+            $results[$key]['comment'] = $review->getComment();
+        }
+
+        return $results;
+    }
+
+    public function handleRatingUser(array $typeRatings)
+    {
+        $avg = 0;
+        foreach ($typeRatings as $typeRating) {
+            $avg = $avg + $typeRating;
+        }
+        if (count($typeRatings) > 0) {
+            return $avg / count($typeRatings);
+        }
+
+        return '' ;
     }
 }
