@@ -47,6 +47,13 @@ class OrderTransformer extends BaseTransformer
         if ($order->getDiscount() !== null) {
             $result['discount']['id'] = $order->getDiscount()->getId();
             $result['discount']['code'] = $order->getDiscount()->getCode();
+            $result['discount']['value'] = $order->getDiscount()->getDiscount();
+        }
+        $result['tax'] = null;
+        if ($order->getTax() !== null) {
+            $result['tax']['id'] = $order->getTax()->getId();
+            $result['tax']['currency'] = $order->getTax()->getCurrency();
+            $result['tax']['percent'] = $order->getTax()->getPercent();
         }
         $result['subTotal'] = $order->getTotalPrice();
         $result['status'] = $order->getStatus();

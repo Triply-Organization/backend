@@ -9,6 +9,9 @@ class OrderRequest extends BaseRequest
     #[Assert\Type('integer')]
     private $discountId;
 
+    #[Assert\Type('integer')]
+    private $taxId;
+
     #[Assert\Type('array')]
     private $children;
 
@@ -80,5 +83,21 @@ class OrderRequest extends BaseRequest
     public function setAdult($adult): void
     {
         $this->adult = $adult;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTaxId()
+    {
+        return $this->taxId;
+    }
+
+    /**
+     * @param mixed $taxId
+     */
+    public function setTaxId($taxId): void
+    {
+        $this->taxId = $taxId;
     }
 }

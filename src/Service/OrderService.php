@@ -7,6 +7,7 @@ use App\Entity\PriceList;
 use App\Entity\Ticket;
 use App\Entity\User;
 use App\Repository\OrderRepository;
+use App\Repository\TaxRepository;
 use App\Repository\TicketRepository;
 use App\Repository\PriceListRepository;
 use App\Repository\VoucherRepository;
@@ -25,19 +26,23 @@ class OrderService
     private TicketRepository $ticketRepository;
     private PriceListRepository $priceListRepository;
     private VoucherRepository $voucherRepository;
+    private TaxRepository $taxRepository;
 
     public function __construct(
-        OrderRepository $orderRepository,
-        Security $security,
-        TicketRepository $ticketRepository,
+        OrderRepository     $orderRepository,
+        Security            $security,
+        TicketRepository    $ticketRepository,
         PriceListRepository $priceListRepository,
-        VoucherRepository $voucherRepository,
-    ) {
+        VoucherRepository   $voucherRepository,
+        TaxRepository       $taxRepository
+    )
+    {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
         $this->ticketRepository = $ticketRepository;
         $this->priceListRepository = $priceListRepository;
         $this->voucherRepository = $voucherRepository;
+        $this->taxRepository = $taxRepository;
     }
 
     public function checkoutUserOfOrder(Order $order)
@@ -65,9 +70,16 @@ class OrderService
             $discount = $this->voucherRepository->find($orderRequest->getDiscountId());
         }
 
+        if ($orderRequest->getTaxId() === null) {
+            $tax = null;
+        } else {
+            $tax = $this->taxRepository->find($orderRequest->getTaxId());
+        }
+
         $order->setDiscount($discount)
             ->setUser($currentUser)
             ->setTotalPrice(0)
+            ->setTax($tax)
             ->setStatus(self::STATUS_DEFAULT);
         $this->orderRepository->add($order, true);
         $totalPrice = $this->addTicket($orderRequest, $order);
