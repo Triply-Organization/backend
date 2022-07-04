@@ -20,4 +20,9 @@ class BillRepository extends BaseRepository
     {
         parent::__construct($registry, Bill::class);
     }
+
+    public function statisticalTotalRevenue()
+    {
+
+    }
 }
