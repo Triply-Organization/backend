@@ -45,6 +45,9 @@ class Order extends AbstractEntity
     #[ORM\OneToOne(targetEntity: Bill::class, cascade: ['persist', 'remove'])]
     private $bill;
 
+    #[ORM\ManyToOne(targetEntity: Tax::class, inversedBy: 'orderDetail')]
+    private $tax;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -177,6 +180,18 @@ class Order extends AbstractEntity
     public function setBill(?Bill $bill): self
     {
         $this->bill = $bill;
+
+        return $this;
+    }
+
+    public function getTax(): ?Tax
+    {
+        return $this->tax;
+    }
+
+    public function setTax(?Tax $tax): self
+    {
+        $this->tax = $tax;
 
         return $this;
     }
