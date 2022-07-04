@@ -23,10 +23,11 @@ class OrderController extends AbstractController
     #[Route('/{id<\d+>}', name: 'details', methods: 'GET')]
     #[IsGranted('ROLE_USER')]
     public function orderDetails(
-        Order $order,
-        OrderService $orderService,
+        Order            $order,
+        OrderService     $orderService,
         OrderTransformer $orderTransformer
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $checkUser = $orderService->checkoutUserOfOrder($order);
         if ($checkUser === false) {
             return $this->errors(['Something wrong']);
@@ -37,12 +38,13 @@ class OrderController extends AbstractController
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function orderTour(
-        Request $request,
-        OrderRequest $orderRequest,
-        OrderService $orderService,
+        Request            $request,
+        OrderRequest       $orderRequest,
+        OrderService       $orderService,
         ValidatorInterface $validator,
-        OrderTransformer $orderTransformer,
-    ): JsonResponse {
+        OrderTransformer   $orderTransformer,
+    ): JsonResponse
+    {
         $requestData = $request->toArray();
         $order = $orderRequest->fromArray($requestData);
         $errors = $validator->validate($order);

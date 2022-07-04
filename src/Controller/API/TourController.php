@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\Tour;
+use App\Service\StripeService;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
