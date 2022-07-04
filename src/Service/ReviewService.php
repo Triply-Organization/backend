@@ -149,11 +149,7 @@ class ReviewService
         return true;
     }
 
-<<<<<<< HEAD
     public function getAllReviews(Tour $tour)
-=======
-  public function getAllReviews(Tour $tour)
->>>>>>> 30a4bd2eb6a19e94bda84dc6818d83100278adc9
     {
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
