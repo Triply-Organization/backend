@@ -14,11 +14,10 @@ class FacilityService
     private TourServicesTransformer $tourServicesTransformer;
 
     public function __construct(
-        ServiceTransformer      $serviceTransformer,
-        ServiceRepository       $serviceRepository,
+        ServiceTransformer $serviceTransformer,
+        ServiceRepository $serviceRepository,
         TourServicesTransformer $tourServicesTransformer
-    )
-    {
+    ) {
         $this->serviceTransformer = $serviceTransformer;
         $this->serviceRepository = $serviceRepository;
         $this->tourServicesTransformer = $tourServicesTransformer;

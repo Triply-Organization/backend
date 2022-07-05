@@ -28,15 +28,13 @@ class BillRepository extends BaseRepository
         $dateStartStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateStart);
         $dateEndStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateEnd);
         $bills = $this->selectBillByDateStart($dateStartStatistical, $dateEndStatistical);
-        $result = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $result[$i] = 0;
+        }
         foreach ($bills as $bill) {
             $time = $bill->getCreatedAt();
             $month = (int)$time->format('m');
-            $currency = $bill->getCurrency();
-            if (empty($result[$month][$currency])) {
-                $result[$month][$currency] = 0;
-            }
-            $result[$month][$currency] = $result[$month][$currency] + $bill->getTotalPrice() * 10 / 100;
+            $result[$month] = $result[$month] + $bill->getTotalPrice() * 10 / 100;
         }
         return $result;
     }
@@ -48,13 +46,12 @@ class BillRepository extends BaseRepository
         $dateStartStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateStart);
         $dateEndStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateEnd);
         $bills = $this->selectBillByDateStart($dateStartStatistical, $dateEndStatistical);
-        $result = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $result[$i] = 0;
+        }
         foreach ($bills as $bill) {
             $time = $bill->getCreatedAt();
             $month = (int)$time->format('m');
-            if (empty($result[$month])) {
-                $result[$month] = 0;
-            }
             $result[$month] = $result[$month] + 1;
         }
         return $result;
