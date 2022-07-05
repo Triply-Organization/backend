@@ -48,6 +48,8 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
     {
         $query = $this->createQueryBuilder(self::USER_ALIAS);
         $query = $this->filter($query, self::USER_ALIAS, 'email', $listUserRequest->getEmail());
+        $query = $this->moreFilter($query, self::USER_ALIAS, 'roles', '"role": "ROLE_CUSTOMER"');
+
         return $query;
     }
 

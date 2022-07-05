@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Request\ListCustomerRequest;
 use App\Transformer\UserTransformer;
@@ -23,7 +24,7 @@ class ListCustomerService
         $this->userTransformer = $userTransformer;
     }
 
-    public function getUsers(ListCustomerRequest $listCustomerRequest)
+    public function getCustomers(ListCustomerRequest $listCustomerRequest)
     {
         $data = $this->userRepository->getAll($listCustomerRequest);
         $users = $data['users'];
@@ -34,7 +35,7 @@ class ListCustomerService
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
         $results['totalUsers'] = $data['totalUsers'];
+
         return $results;
     }
-
 }
