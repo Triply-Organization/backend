@@ -9,10 +9,12 @@ use App\Repository\ScheduleRepository;
 use App\Repository\TourRepository;
 use App\Repository\VoucherRepository;
 use App\Request\CheckoutRequest;
+use App\Request\RefundRequest;
 use PHPMailer\PHPMailer\Exception;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
+use Stripe\StripeClient;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StripeService
@@ -25,19 +27,17 @@ class StripeService
     private TourRepository $tourRepository;
     private OrderRepository $orderRepository;
     private ScheduleRepository $scheduleRepository;
-    private VoucherRepository $voucherRepository;
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository $billRepository,
-        SendMailService $sendMailService,
-        TourRepository $tourRepository,
-        OrderRepository $orderRepository,
-        ScheduleRepository $scheduleRepository,
+        BillRepository        $billRepository,
+        SendMailService       $sendMailService,
+        TourRepository        $tourRepository,
+        OrderRepository       $orderRepository,
+        ScheduleRepository    $scheduleRepository,
         VoucherRepository $voucherRepository
     )
     {
-
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
@@ -45,6 +45,7 @@ class StripeService
         $this->orderRepository = $orderRepository;
         $this->scheduleRepository = $scheduleRepository;
         $this->voucherRepository = $voucherRepository;
+        $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
     }
 
     /**
@@ -56,6 +57,39 @@ class StripeService
         Stripe::setApiKey($stripeSK);
         $this->minusVoucher($checkoutRequestData->getVoucherId());
         return Session::create($this->sessionConfig($checkoutRequestData));
+    }
+
+    /**
+     * @throws ApiErrorException
+     */
+    public function refund(RefundRequest $refundRequestData): void
+    {
+        $daysRemain = $refundRequestData->getDayRemain();
+        $bill = $this->billRepository->find($refundRequestData->getBillId());
+        $order = $this->orderRepository->find($refundRequestData->getOrderId());
+        $totalPrice = $bill->getTotalPrice() * 1000;
+        $percentMinus = 1;
+
+        if ($refundRequestData->getCurrency() === 'usd') {
+            $totalPrice = $bill->getTotalPrice() * 100;
+        }
+
+        if ($daysRemain <= 15) {
+            $percentMinus = 0.3;
+        }
+        if ($daysRemain >= 3 && $daysRemain <= 7) {
+            $percentMinus = 0.5;
+        }
+
+        $refundAmount = $totalPrice - ($totalPrice * $percentMinus);
+
+        $this->stripe->refunds->create([
+            'payment_intent' => $refundRequestData->getStripeId(),
+            'amount' => $refundAmount
+        ]);
+
+        $order->setStatus('refund');
+        $this->orderRepository->add($order, true);
     }
 
     /**
