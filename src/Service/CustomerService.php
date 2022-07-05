@@ -31,7 +31,7 @@ class CustomerService
         $users = $data['users'];
         $results = [];
         foreach ($users as $user) {
-            $results['users'][] = $this->userTransformer->fromArray($user);
+            $results['customers'][] = $this->userTransformer->fromArray($user);
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];

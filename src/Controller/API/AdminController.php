@@ -62,23 +62,24 @@ class AdminController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/users', name: 'get_users', methods: 'GET')]
+    #[Route('/users/{id<\d+>}', name: 'edit_users', methods: 'PATCH')]
     public function editUserRole(
+        User               $user,
         Request            $request,
         ValidatorInterface $validator,
         UserService        $userService,
         EditRoleRequest    $editRoleRequest
     ): JsonResponse
     {
-        $query = $request->query->all();
-        $editRoleRequest = $editRoleRequest->fromArray($query);
+        $dataRequest = $request->toArray();
+        $userRequest = $editRoleRequest->fromArray($dataRequest);
         $errors = $validator->validate($editRoleRequest);
         if (count($errors) > 0) {
             return $this->errors(['Bad request']);
         }
-        $users = $userService->editRole($editRoleRequest);
+        $user = $userService->editRole($user, $editRoleRequest);
 
-        return $this->success($users);
+        return $this->success($user);
     }
 
 
