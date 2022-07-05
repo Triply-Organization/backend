@@ -122,4 +122,9 @@ abstract class BaseRepository extends ServiceEntityRepository
 
         return $tours->andWhere($alias . ".$field" . "$expression" . ":$field")->setParameter($field, $value);
     }
+
+    protected function andIsNull(QueryBuilder $tours, mixed $alias, string $field): QueryBuilder
+    {
+        return $tours->andWhere($alias . ".$field IS NULL");
+    }
 }
