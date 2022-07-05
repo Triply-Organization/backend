@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\Tour;
+use App\Request\ChangeStatusOfTourRequest;
 use App\Service\StripeService;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
@@ -40,7 +41,6 @@ class TourController extends AbstractController
             return $this->errors(['Bad request']);
         }
         $tours = $listTourService->findAll($tourRequest);
-
         return $this->success($tours);
     }
 
@@ -109,5 +109,43 @@ class TourController extends AbstractController
         $tourService->undoDelete($tour);
 
         return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/all/', name: 'listAllTours', methods: 'GET')]
+    #[isGranted('ROLE_ADMIN')]
+    public function adminGetAllTours(
+        Request $request,
+        ListTourRequest $listTourRequest,
+        ValidatorInterface $validator,
+        ListTourService $listTourService
+    ): JsonResponse {
+        $query = $request->query->all();
+        $tourRequest = $listTourRequest->fromArray($query);
+        $errors = $validator->validate($tourRequest);
+
+        if (count($errors) > 0) {
+            return $this->errors(['Bad request']);
+        }
+        $tours = $listTourService->getAll($tourRequest);
+        return $this->success($tours);
+    }
+
+    #[Route('/changeStatus/{id<\d+>}', name: 'changeStatusTour ', methods: 'PATCH')]
+    #[isGranted('ROLE_ADMIN')]
+    public function changeStatus(
+        Tour $tour,
+        Request $request,
+        ChangeStatusOfTourRequest $statusOfTourRequest,
+        ValidatorInterface $validator,
+        TourService $tourService
+    ): JsonResponse {
+        $dataRequest = $request->toArray();
+        $statusRequest = $statusOfTourRequest->fromArray($dataRequest);
+        $errors = $validator->validate($statusRequest);
+        if (count($errors) > 0) {
+            return $this->errors(['Bad request']);
+        }
+        $tourService->changeStatus($statusRequest, $tour);
+        return $this->success([]);
     }
 }

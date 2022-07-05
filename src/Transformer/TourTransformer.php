@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class TourTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
+    private const ADMIN_PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'status'];
     private TourService $tourService;
     private ScheduleService $scheduleService;
     private ParameterBagInterface $params;
@@ -40,6 +41,14 @@ class TourTransformer extends BaseTransformer
         $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
         $result['destination'] = $this->tourPlanService->getDestination($tour->getTourPlans());
         $result['rating'] = $this->reviewService->getRatingOverrall($tour);
+
+        return $result;
+    }
+
+    public function toArrayOfAdmin(Tour $tour): array
+    {
+        $result = $this->transform($tour, static::ADMIN_PARAMS);
+        $result['createdUser'] = $tour->getCreatedUser()->getEmail();
 
         return $result;
     }
