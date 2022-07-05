@@ -161,7 +161,9 @@ class ReviewService
             $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
             $results[$key]['tourName'] = $review->getTour()->getTitle();
             $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-            $results[$key]['avatar'] = $review->getUser()->getAvatar()->getPath();
+            $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
+                ? 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg'
+                : $review->getUser()->getAvatar()->getPath();
             $results[$key]['comment'] = $review->getComment();
         }
 
