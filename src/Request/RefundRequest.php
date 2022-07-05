@@ -111,6 +111,4 @@ class RefundRequest extends BaseRequest
     {
         $this->currency = $currency;
     }
-
-
 }

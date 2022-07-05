@@ -36,6 +36,6 @@ class RefundController extends AbstractController
 
         $stripeService->refund($refundRequestData);
 
-        return $this->success([],Response::HTTP_NO_CONTENT);
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }

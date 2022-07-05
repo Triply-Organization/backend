@@ -9,7 +9,6 @@ use App\Request\GetVoucherRequest;
 use App\Request\PatchUpdateVoucherRequest;
 use App\Request\PutUpdateVoucherRequest;
 
-use App\Service\CurrencyConverterService;
 use App\Service\VoucherService;
 use App\Traits\ResponseTrait;
 use App\Transformer\VoucherTransformer;
@@ -32,10 +31,8 @@ class VoucherController extends AbstractController
         Request $request,
         AddVoucherRequest $addVoucherRequest,
         ValidatorInterface $validator,
-        CurrencyConverterService $currencyConverterService,
         VoucherService $voucherService
-    ):JsonResponse {
-        $currencyConverterService->getCurrency('usd');
+    ): JsonResponse {
         $requestData = $request->toArray();
         $addVoucherRequestData = $addVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($addVoucherRequestData);
@@ -50,7 +47,7 @@ class VoucherController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/{id<\d+>}', name: 'update', methods: 'PUT')]
+    #[Route('/{id<\d+>}', name: 'put_update', methods: 'PUT')]
     public function putUpdateVoucher(
         Request                 $request,
         Voucher                 $voucher,
@@ -63,7 +60,7 @@ class VoucherController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
+    #[Route('/{id<\d+>}', name: 'patch_update', methods: 'PATCH')]
     public function patchUpdateVoucher(
         Request                   $request,
         Voucher                   $voucher,
@@ -93,7 +90,7 @@ class VoucherController extends AbstractController
         ValidatorInterface $validator,
         VoucherService $voucherService,
         VoucherTransformer $voucherTransformer
-    ):JsonResponse {
+    ): JsonResponse {
         $requestData = $request->toArray();
         $getVoucherRequestData = $getVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($getVoucherRequestData);
