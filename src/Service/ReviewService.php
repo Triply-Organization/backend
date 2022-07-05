@@ -26,13 +26,14 @@ class ReviewService
     private ReviewDetailService $reviewDetailService;
 
     public function __construct(
-        Security $security,
-        OrderService $orderService,
-        ReviewRepository $reviewRepository,
-        TypeReviewRepository $typeReviewRepository,
+        Security               $security,
+        OrderService           $orderService,
+        ReviewRepository       $reviewRepository,
+        TypeReviewRepository   $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService $reviewDetailService
-    ) {
+        ReviewDetailService    $reviewDetailService
+    )
+    {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -107,8 +108,9 @@ class ReviewService
 
     public function addReview(
         ReviewRequest $reviewRequest,
-        Order $order
-    ) {
+        Order         $order
+    )
+    {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -171,15 +173,14 @@ class ReviewService
 
     public function handleRatingUser(array $typeRatings)
     {
-        $avg = 0;
-        foreach ($typeRatings as $typeRating) {
-            $avg = $avg + $typeRating;
-        }
+        $results = [];
         if (count($typeRatings) > 0) {
-            return $avg / count($typeRatings);
+            foreach ($typeRatings as $key => $typeRating) {
+                $results[$key] = $typeRating;
+            }
         }
 
-        return '';
+        return $results;
     }
 
     private function addRate(ReviewRequest $reviewRequest, Review $review)

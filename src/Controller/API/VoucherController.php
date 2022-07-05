@@ -8,6 +8,7 @@ use App\Request\BaseRequest;
 use App\Request\GetVoucherRequest;
 use App\Request\PatchUpdateVoucherRequest;
 use App\Request\PutUpdateVoucherRequest;
+
 use App\Service\VoucherService;
 use App\Traits\ResponseTrait;
 use App\Transformer\VoucherTransformer;
@@ -27,12 +28,11 @@ class VoucherController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/', name: 'add', methods: 'POST')]
     public function addVoucher(
-        Request            $request,
-        AddVoucherRequest  $addVoucherRequest,
+        Request $request,
+        AddVoucherRequest $addVoucherRequest,
         ValidatorInterface $validator,
-        VoucherService     $voucherService
-    ): JsonResponse
-    {
+        VoucherService $voucherService
+    ):JsonResponse {
         $requestData = $request->toArray();
         $addVoucherRequestData = $addVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($addVoucherRequestData);
@@ -92,6 +92,14 @@ class VoucherController extends AbstractController
         VoucherTransformer $voucherTransformer
     ): JsonResponse
     {
+    #[Route('/getinfo', name: '', methods: 'POST')]
+    public function findVoucher(
+        Request $request,
+        GetVoucherRequest $getVoucherRequest,
+        ValidatorInterface $validator,
+        VoucherService $voucherService,
+        VoucherTransformer $voucherTransformer
+    ):JsonResponse {
         $requestData = $request->toArray();
         $getVoucherRequestData = $getVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($getVoucherRequestData);

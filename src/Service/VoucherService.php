@@ -10,6 +10,7 @@ use App\Request\BaseRequest;
 use App\Request\GetVoucherRequest;
 use App\Request\PutUpdateVoucherRequest;
 
+
 class VoucherService
 {
     private VoucherRepository $voucherRepository;
@@ -39,6 +40,20 @@ class VoucherService
     public function delete(Voucher $voucher): void
     {
         $this->voucherRepository->delete($voucher->getId());
+    }
+
+    public function find(GetVoucherRequest $getVoucherRequest): Voucher
+    {
+        return $this->voucherRepository->findOneBy(['code' => $getVoucherRequest->getCode()]);
+    }
+
+    public function add(AddVoucherRequest $addVoucherRequest): void
+    {
+        $voucher = new Voucher();
+        $voucher->setCode($addVoucherRequest->getCode());
+        $voucher->setDiscount($addVoucherRequest->getPercent());
+        $voucher->setRemain($addVoucherRequest->getRemain());
+        $this->voucherRepository->add($voucher, true);
     }
 
     public function find(GetVoucherRequest $getVoucherRequest): Voucher
