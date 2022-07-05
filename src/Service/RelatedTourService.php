@@ -13,10 +13,9 @@ class RelatedTourService
     private TourTransformer $tourTransformer;
 
     public function __construct(
-        TourRepository  $tourRepository,
+        TourRepository $tourRepository,
         TourTransformer $tourTransformer
-    )
-    {
+    ) {
         $this->tourTransformer = $tourTransformer;
         $this->tourRepository = $tourRepository;
     }

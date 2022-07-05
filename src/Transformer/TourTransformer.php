@@ -22,10 +22,9 @@ class TourTransformer extends BaseTransformer
         TourService $tourService,
         ScheduleService $scheduleService,
         ParameterBagInterface $params,
-        TourPlanService       $tourPlanService,
-        ReviewService         $reviewService
-    )
-    {
+        TourPlanService $tourPlanService,
+        ReviewService $reviewService
+    ) {
         $this->tourService = $tourService;
         $this->scheduleService = $scheduleService;
         $this->params = $params;

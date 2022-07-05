@@ -4,7 +4,6 @@ namespace App\Service;
 
 class ReviewDetailService
 {
-
     public function getTypeRating(array $reviewDetails)
     {
         $results = [];

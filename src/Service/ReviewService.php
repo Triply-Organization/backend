@@ -13,6 +13,7 @@ use App\Repository\TypeReviewRepository;
 use App\Request\ReviewRequest;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Date;
+
 use function Composer\Autoload\includeFile;
 
 class ReviewService
@@ -25,14 +26,13 @@ class ReviewService
     private ReviewDetailService $reviewDetailService;
 
     public function __construct(
-        Security               $security,
-        OrderService           $orderService,
-        ReviewRepository       $reviewRepository,
-        TypeReviewRepository   $typeReviewRepository,
+        Security $security,
+        OrderService $orderService,
+        ReviewRepository $reviewRepository,
+        TypeReviewRepository $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService    $reviewDetailService
-    )
-    {
+        ReviewDetailService $reviewDetailService
+    ) {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -107,9 +107,8 @@ class ReviewService
 
     public function addReview(
         ReviewRequest $reviewRequest,
-        Order         $order
-    )
-    {
+        Order $order
+    ) {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {

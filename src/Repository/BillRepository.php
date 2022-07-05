@@ -16,7 +16,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BillRepository extends BaseRepository
 {
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Bill::class);
@@ -49,6 +48,7 @@ class BillRepository extends BaseRepository
         $dateStartStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateStart);
         $dateEndStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateEnd);
         $bills = $this->selectBillByDateStart($dateStartStatistical, $dateEndStatistical);
+        $result = [];
         foreach ($bills as $bill) {
             $time = $bill->getCreatedAt();
             $month = (int)$time->format('m');

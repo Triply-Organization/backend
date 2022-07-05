@@ -15,10 +15,9 @@ class OrderTransformer extends BaseTransformer
 
     public function __construct(
         ParameterBagInterface $params,
-        OrderService          $orderService,
-        VoucherService        $voucherService
-    )
-    {
+        OrderService $orderService,
+        VoucherService $voucherService
+    ) {
         $this->orderService = $orderService;
         $this->params = $params;
         $this->voucherService = $voucherService;
@@ -47,22 +46,42 @@ class OrderTransformer extends BaseTransformer
             $ticketInfos[$key]['priceTick'] = $ticket->getPriceList()->getPrice();
         }
         $result['tickets'] = $this->ticketInfoReturn($ticketInfos);
+        $result['subTotal'] = $order->getTotalPrice();
+        $result['status'] = $order->getStatus();
 
+        return $result;
+    }
+
+    public function orderToArray(Order $order)
+    {
+        $result = $this->toArray($order);
         foreach ($this->voucherService->getAllDisCount() as $key => $voucher) {
             $result['voucher'][$key]['id'] = $voucher->getId();
             $result['voucher'][$key]['code'] = $voucher->getCode();
             $result['voucher'][$key]['discount'] = $voucher->getDiscount();
             $result['voucher'][$key]['remain'] = $voucher->getRemain();
         }
-
         $result['tax'] = null;
         if ($order->getTax() !== null) {
             $result['tax']['id'] = $order->getTax()->getId();
             $result['tax']['currency'] = $order->getTax()->getCurrency();
             $result['tax']['percent'] = $order->getTax()->getPercent();
         }
-        $result['subTotal'] = $order->getTotalPrice();
-        $result['status'] = $order->getStatus();
+
+        return $result;
+    }
+
+    public function detailToArray(Order $order)
+    {
+        $result = $this->toArray($order);
+        if ($order->getBill() !== null) {
+            $result['bill']['id'] = $order->getBill()->getId();
+            $result['bill']['totalPrice'] = $order->getBill()->getTotalPrice();
+            $result['bill']['currency'] = $order->getBill()->getCurrency();
+            $result['bill']['tax '] = $order->getBill()->getTax();
+            $result['bill']['discount '] = $order->getBill()->getDiscount();
+            $result['bill']['stripe '] = $order->getBill()->getStripePaymentId();
+        }
         return $result;
     }
 
