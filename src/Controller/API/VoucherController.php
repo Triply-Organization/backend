@@ -85,15 +85,6 @@ class VoucherController extends AbstractController
 
     #[Route('/getinfo', name: '', methods: 'POST')]
     public function findVoucher(
-        Request            $request,
-        GetVoucherRequest  $getVoucherRequest,
-        ValidatorInterface $validator,
-        VoucherService     $voucherService,
-        VoucherTransformer $voucherTransformer
-    ): JsonResponse
-    {
-    #[Route('/getinfo', name: '', methods: 'POST')]
-    public function findVoucher(
         Request $request,
         GetVoucherRequest $getVoucherRequest,
         ValidatorInterface $validator,

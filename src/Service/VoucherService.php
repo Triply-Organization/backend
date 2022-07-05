@@ -47,20 +47,6 @@ class VoucherService
         return $this->voucherRepository->findOneBy(['code' => $getVoucherRequest->getCode()]);
     }
 
-    public function add(AddVoucherRequest $addVoucherRequest): void
-    {
-        $voucher = new Voucher();
-        $voucher->setCode($addVoucherRequest->getCode());
-        $voucher->setDiscount($addVoucherRequest->getPercent());
-        $voucher->setRemain($addVoucherRequest->getRemain());
-        $this->voucherRepository->add($voucher, true);
-    }
-
-    public function find(GetVoucherRequest $getVoucherRequest): Voucher
-    {
-        return $this->voucherRepository->findOneBy(['code' => $getVoucherRequest->getCode()]);
-    }
-
     public function getAllDisCount()
     {
         return $this->voucherRepository->findAll();
