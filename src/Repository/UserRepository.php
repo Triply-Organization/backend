@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Request\ListCustomerRequest;
+use App\Request\UserRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,18 +44,18 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $this->add($user, true);
     }
 
-    public function getQuery(ListCustomerRequest $listUserRequest)
+    public function getQuery(UserRequest $userRequest, array $role)
     {
         $query = $this->createQueryBuilder(self::USER_ALIAS);
-        $query = $this->filter($query, self::USER_ALIAS, 'email', $listUserRequest->getEmail());
-        $query = $this->moreFilter($query, self::USER_ALIAS, 'roles', '"role": "ROLE_CUSTOMER"');
+        $query = $this->filter($query, self::USER_ALIAS, 'email', $userRequest->getEmail());
+       // $query = $this->moreFilter($query, self::USER_ALIAS, 'roles', '"role": "ROLE_CUSTOMER"');
 
         return $query;
     }
 
-    public function getAll(ListCustomerRequest $listUserRequest): array
+    public function getAll(UserRequest $userRequest, array $role): array
     {
-        $query = $this->getQuery($listUserRequest);
+        $query = $this->getQuery($userRequest, $role);
 
 
         $paginator = new Paginator($query, $fetchJoinCollection = true);
@@ -64,7 +64,7 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
 
         $paginator
             ->getQuery()
-            ->setFirstResult(self::PAGE_SIZE * ($listUserRequest->getPage() - 1))
+            ->setFirstResult(self::PAGE_SIZE * ($userRequest->getPage() - 1))
             ->setMaxResults(self::PAGE_SIZE);
         $usersList = [];
         foreach ($paginator as $pageItem) {
@@ -74,7 +74,7 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         return [
             'users' => $usersList,
             'totalPages' => $pageCount,
-            'page' => $listUserRequest->getPage(),
+            'page' => $userRequest->getPage(),
             'totalUsers' => $totalUsers
         ];
     }
