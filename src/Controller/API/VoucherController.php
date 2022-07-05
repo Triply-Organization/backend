@@ -3,8 +3,10 @@
 namespace App\Controller\API;
 
 use App\Request\AddVoucherRequest;
+use App\Request\GetVoucherRequest;
 use App\Service\VoucherService;
 use App\Traits\ResponseTrait;
+use App\Transformer\VoucherTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +22,7 @@ class VoucherController extends AbstractController
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/', name: 'add', methods: 'POST')]
-    public function add(
+    public function addVoucher(
         Request $request,
         AddVoucherRequest $addVoucherRequest,
         ValidatorInterface $validator,
@@ -38,4 +40,24 @@ class VoucherController extends AbstractController
 
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/getinfo', name: '', methods: 'POST')]
+    public function findVoucher(
+        Request $request,
+        GetVoucherRequest $getVoucherRequest,
+        ValidatorInterface $validator,
+        VoucherService $voucherService,
+        VoucherTransformer $voucherTransformer
+    ):JsonResponse {
+        $requestData = $request->toArray();
+        $getVoucherRequestData = $getVoucherRequest->fromArray($requestData);
+        $errors = $validator->validate($getVoucherRequestData);
+        if (count($errors) > 0) {
+            return $this->errors(['Something wrong']);
+        }
+        $voucher = $voucherService->find($getVoucherRequestData);
+        $voucherData = $voucherTransformer->fromArray($voucher);
+        return $this->success($voucherData);
+    }
+
 }
