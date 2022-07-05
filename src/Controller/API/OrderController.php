@@ -27,7 +27,7 @@ class OrderController extends AbstractController
         OrderService $orderService,
         OrderTransformer $orderTransformer
     ): JsonResponse {
-        $checkUser = $orderService->checkoutUserOfOrder($order);
+        $checkUser = $orderService->checkUserOfOrder($order);
         if ($checkUser === false) {
             return $this->errors(['Something wrong']);
         }
