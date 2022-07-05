@@ -2,9 +2,14 @@
 
 namespace App\Service;
 
+use JsonException;
+
 class CurrencyConverterService
 {
-    public function getCurrency(string $currency):void
+    /**
+     * @throws JsonException
+     */
+    public function getCurrency(string $currency, string $currencyConverted): float
     {
         $curl = curl_init();
 
@@ -18,10 +23,11 @@ class CurrencyConverterService
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET"
         ]);
-        $response = curl_exec($curl);
-        var_dump($response);die();
-        $err = curl_error($curl);
-
+        $response = json_decode(curl_exec($curl), JSON_THROW_ON_ERROR, 512, JSON_THROW_ON_ERROR);
+        $rates = $response['rates'];
+        $priceConverted = $rates[strtoupper($currencyConverted)];
         curl_close($curl);
+
+        return $priceConverted;
     }
 }
