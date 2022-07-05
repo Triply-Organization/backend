@@ -27,13 +27,12 @@ class StripeService
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository        $billRepository,
-        SendMailService       $sendMailService,
-        TourRepository        $tourRepository,
-        OrderRepository       $orderRepository,
+        BillRepository $billRepository,
+        SendMailService $sendMailService,
+        TourRepository $tourRepository,
+        OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
-    )
-    {
+    ) {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
@@ -58,7 +57,7 @@ class StripeService
      */
     public function eventHandler(array $data, string $type, array $metadata): void
     {
-        $bill = new Bill;
+        $bill = new Bill();
         if ($type === self::CHECK_COMPLETED) {
             $order = $this->orderRepository->find($metadata['orderId']);
             $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
@@ -77,13 +76,13 @@ class StripeService
 
             $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
-            $this->scheduleRepository->add($schedule,true);
+            $this->scheduleRepository->add($schedule, true);
 
             $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
         }
     }
 
-    private function sessionConfig(CheckoutRequest $checkoutRequestData):array
+    private function sessionConfig(CheckoutRequest $checkoutRequestData): array
     {
         $languages = 'vi';
         $totalPrice = $checkoutRequestData->getTotalPrice() * 1000;
