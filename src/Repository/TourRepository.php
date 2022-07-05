@@ -56,7 +56,6 @@ class TourRepository extends BaseRepository
         foreach ($paginator as $pageItem) {
             $toursList[] = $pageItem;
         }
-
         return [
             'tours' => $toursList,
             'totalPages' => $pageCount,
