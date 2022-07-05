@@ -18,6 +18,6 @@ class VoucherRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Voucher::class);
+        parent::__construct($registry, Voucher::class, 'v');
     }
 }
