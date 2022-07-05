@@ -3,18 +3,25 @@
 namespace App\Service;
 
 use App\Repository\TourServiceRepository;
+use App\Transformer\ServiceTransformer;
 use App\Transformer\TourServicesTransformer;
 use App\Repository\ServiceRepository;
 
 class FacilityService
 {
+    private ServiceRepository $serviceRepository;
+    private ServiceTransformer $serviceTransformer;
     private TourServicesTransformer $tourServicesTransformer;
-    private TourServiceRepository $tourServiceRepository;
 
-    public function __construct(TourServicesTransformer $tourServicesTransformer, TourServiceRepository $tourServiceRepository)
+    public function __construct(
+        ServiceTransformer      $serviceTransformer,
+        ServiceRepository       $serviceRepository,
+        TourServicesTransformer $tourServicesTransformer
+    )
     {
+        $this->serviceTransformer = $serviceTransformer;
+        $this->serviceRepository = $serviceRepository;
         $this->tourServicesTransformer = $tourServicesTransformer;
-        $this->tourServiceRepository = $tourServiceRepository;
     }
 
     public function getService($tourServices): array
@@ -29,10 +36,9 @@ class FacilityService
 
     public function getAllService()
     {
-        $result = [];
-        $tourServices = $this->tourServiceRepository->findAll();
-        foreach ($tourServices as $tourService) {
-            $result[] = $this->tourServicesTransformer->toArray($tourService);
+        $services = $this->serviceRepository->findAll();
+        foreach ($services as $service) {
+            $result[] = $this->serviceTransformer->toArray($service);
         }
 
         return $result;
