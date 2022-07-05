@@ -13,6 +13,7 @@ class TourTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
     private const ADMIN_PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'status'];
+    private const CUSTOMER_PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge'];
     private TourService $tourService;
     private ScheduleService $scheduleService;
     private ParameterBagInterface $params;
@@ -20,12 +21,13 @@ class TourTransformer extends BaseTransformer
     private ReviewService $reviewService;
 
     public function __construct(
-        TourService $tourService,
-        ScheduleService $scheduleService,
+        TourService           $tourService,
+        ScheduleService       $scheduleService,
         ParameterBagInterface $params,
-        TourPlanService $tourPlanService,
-        ReviewService $reviewService
-    ) {
+        TourPlanService       $tourPlanService,
+        ReviewService         $reviewService
+    )
+    {
         $this->tourService = $tourService;
         $this->scheduleService = $scheduleService;
         $this->params = $params;
@@ -49,6 +51,17 @@ class TourTransformer extends BaseTransformer
     {
         $result = $this->transform($tour, static::ADMIN_PARAMS);
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();
+
+        return $result;
+    }
+
+    public function toArrayOfCustomer(Tour $tour): array
+    {
+        $result = $this->transform($tour, static::CUSTOMER_PARAMS);
+        $result['schedule'] = count($tour->getSchedules());
+        foreach ($tour->getTourPlans() as $key => $destination) {
+            $result['destination'][$key] = $destination->getDestination()->getName();
+        }
 
         return $result;
     }
