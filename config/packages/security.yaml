@@ -51,6 +51,7 @@ security:
         - { path: ^/api/tours,roles: PUBLIC_ACCESS }
         - { path: ^/api/checkout,roles: PUBLIC_ACCESS }
         - { path: ^/api/images,roles: PUBLIC_ACCESS }
+        - { path: ^/api/vouchers,roles: PUBLIC_ACCESS }
 
 when@test:
     security:
