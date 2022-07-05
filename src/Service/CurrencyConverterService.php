@@ -23,6 +23,7 @@ class CurrencyConverterService
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET"
         ]);
+
         $response = json_decode(curl_exec($curl), JSON_THROW_ON_ERROR, 512, JSON_THROW_ON_ERROR);
         $rates = $response['rates'];
         $priceConverted = $rates[strtoupper($currencyConverted)];
