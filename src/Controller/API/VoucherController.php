@@ -32,7 +32,7 @@ class VoucherController extends AbstractController
         AddVoucherRequest $addVoucherRequest,
         ValidatorInterface $validator,
         VoucherService $voucherService
-    ):JsonResponse {
+    ): JsonResponse {
         $requestData = $request->toArray();
         $addVoucherRequestData = $addVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($addVoucherRequestData);
@@ -90,7 +90,7 @@ class VoucherController extends AbstractController
         ValidatorInterface $validator,
         VoucherService $voucherService,
         VoucherTransformer $voucherTransformer
-    ):JsonResponse {
+    ): JsonResponse {
         $requestData = $request->toArray();
         $getVoucherRequestData = $getVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($getVoucherRequestData);

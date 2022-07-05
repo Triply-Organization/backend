@@ -30,11 +30,11 @@ class StripeService
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository        $billRepository,
-        SendMailService       $sendMailService,
-        TourRepository        $tourRepository,
-        OrderRepository       $orderRepository,
-        ScheduleRepository    $scheduleRepository,
+        BillRepository $billRepository,
+        SendMailService $sendMailService,
+        TourRepository $tourRepository,
+        OrderRepository $orderRepository,
+        ScheduleRepository $scheduleRepository,
         VoucherRepository $voucherRepository
     ) {
         $this->params = $params;

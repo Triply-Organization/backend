@@ -8,6 +8,7 @@ use App\Repository\TourRepository;
 use App\Entity\Tour;
 use App\Repository\TourImageRepository;
 use App\Repository\TourPlanRepository;
+use App\Request\ChangeStatusOfTourRequest;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
@@ -111,5 +112,13 @@ class TourService
         $this->tourRepository->add($tourUpdateMapper, true);
 
         return $tour;
+    }
+
+    public function changeStatus(ChangeStatusOfTourRequest $statusOfTourRequest, Tour $tour)
+    {
+        $tourUpdate = $this->tourRepository->find($tour);
+        $tourUpdate->setUpdatedAt(new \DateTimeImmutable())
+        ->setStatus($statusOfTourRequest->getStatus());
+        $this->tourRepository->add($tourUpdate, true);
     }
 }
