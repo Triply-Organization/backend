@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, User::class);
+        parent::__construct($registry, User::class, 'u');
     }
 
     /**
@@ -44,20 +44,18 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $this->add($user, true);
     }
 
-    public function getQuery(UserRequest $userRequest, array $role)
+    public function getQuery(UserRequest $userRequest, mixed $role)
     {
         $query = $this->createQueryBuilder(self::USER_ALIAS);
         $query = $this->filter($query, self::USER_ALIAS, 'email', $userRequest->getEmail());
-       // $query = $this->moreFilter($query, self::USER_ALIAS, 'roles', '"role": "ROLE_CUSTOMER"');
-
+        $query = $this->moreFilter($query, self::USER_ALIAS, 'roles', $role);
+        $query = $this->andIsNull($query, self::USER_ALIAS, 'deletedAt');
         return $query;
     }
 
-    public function getAll(UserRequest $userRequest, array $role): array
+    public function getAll(UserRequest $userRequest, mixed $role): array
     {
         $query = $this->getQuery($userRequest, $role);
-
-
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalUsers = count($paginator);
         $pageCount = ceil($totalUsers / self::PAGE_SIZE);

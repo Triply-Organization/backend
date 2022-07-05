@@ -72,7 +72,7 @@ class AdminController extends AbstractController
     ): JsonResponse
     {
         $dataRequest = $request->toArray();
-        $userRequest = $editRoleRequest->fromArray($dataRequest);
+        $editRoleRequest = $editRoleRequest->fromArray($dataRequest);
         $errors = $validator->validate($editRoleRequest);
         if (count($errors) > 0) {
             return $this->errors(['Bad request']);
@@ -82,5 +82,43 @@ class AdminController extends AbstractController
         return $this->success($user);
     }
 
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/users/{id<\d+>}', name: 'delete_user', methods: 'DELETE')]
+    public function deleteUser(User $user, UserService $userService): JsonResponse
+    {
+        $userService->deleteUser($user);
 
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/undo/users/{id<\d+>}', name: 'undo_delete_user', methods: 'PATCH')]
+    public function undoDeleteUser(User $user, UserService $userService): JsonResponse
+    {
+        $userService->undoDeleteUser($user);
+
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/customers/{id<\d+>}', name: 'delete_customers', methods: 'DELETE')]
+    public function deleteCustomer(User $user, CustomerService $customerService): JsonResponse
+    {
+        if ($customerService->deleteCustomer($user)) {
+            return $this->success([], Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->errors(['Something wrong']);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/undo/customers/{id<\d+>}', name: 'undo_delete_customer', methods: 'PATCH')]
+    public function undoDeleteCustomer(User $user, CustomerService $customerService): JsonResponse
+    {
+        if ($customerService->undoDeleteCustomer($user)) {
+            return $this->success([], Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->errors(['Something wrong']);
+    }
 }

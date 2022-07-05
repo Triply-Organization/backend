@@ -22,6 +22,6 @@ class ReviewRepository extends BaseRepository
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Review::class);
+        parent::__construct($registry, Review::class, 'rw');
     }
 }

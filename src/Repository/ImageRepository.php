@@ -16,6 +16,6 @@ class ImageRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Image::class);
+        parent::__construct($registry, Image::class,'i');
     }
 }

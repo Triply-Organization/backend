@@ -56,7 +56,6 @@ class TourRepository extends BaseRepository
         foreach ($paginator as $pageItem) {
             $toursList[] = $pageItem;
         }
-
         return [
             'tours' => $toursList,
             'totalPages' => $pageCount,
@@ -80,7 +79,8 @@ class TourRepository extends BaseRepository
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
-        
+        $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
+
         return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
     }
 

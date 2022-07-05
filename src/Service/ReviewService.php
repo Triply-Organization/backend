@@ -154,15 +154,17 @@ class ReviewService
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
         foreach ($reviews as $key => $review) {
-            $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
-            $typeRatings = $this->reviewDetailService->getTypeRating($reviewDetails);
-            $results[$key]['id'] = $review->getId();
-            $results[$key]['name'] = $review->getUser()->getEmail();
-            $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
-            $results[$key]['tourName'] = $review->getTour()->getTitle();
-            $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-            $results[$key]['avatar'] = $review->getUser()->getAvatar()->getPath();
-            $results[$key]['comment'] = $review->getComment();
+            if ($review->getDeletedAt() === null) {
+                $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
+                $typeRatings = $this->reviewDetailService->getTypeRating($reviewDetails);
+                $results[$key]['id'] = $review->getId();
+                $results[$key]['name'] = $review->getUser()->getEmail();
+                $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
+                $results[$key]['tourName'] = $review->getTour()->getTitle();
+                $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
+                $results[$key]['avatar'] = $review->getUser()->getAvatar()->getPath();
+                $results[$key]['comment'] = $review->getComment();
+            }
         }
 
         return $results;

@@ -11,8 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 abstract class BaseRepository extends ServiceEntityRepository
 {
     protected string $entityClass;
-    protected string $alias;
-
+    protected string $alias ;
 
     public function __construct(ManagerRegistry $registry, string $entityClass, string $alias = '')
     {
@@ -42,7 +41,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function deleteWithRelation(string $field, int $id)
+    public function     deleteWithRelation(string $field, int $id)
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
@@ -50,7 +49,6 @@ abstract class BaseRepository extends ServiceEntityRepository
                 SET $this->alias.deletedAt = :date 
                 WHERE $this->alias.$field = $id"
         )->setParameter('date', new DateTimeImmutable());
-
         return $query->getResult();
     }
 
@@ -121,5 +119,10 @@ abstract class BaseRepository extends ServiceEntityRepository
         }
 
         return $tours->andWhere($alias . ".$field" . "$expression" . ":$field")->setParameter($field, $value);
+    }
+
+    protected function andIsNull(QueryBuilder $tours, mixed $alias, string $field): QueryBuilder
+    {
+        return $tours->andWhere($alias . ".$field IS NULL");
     }
 }
