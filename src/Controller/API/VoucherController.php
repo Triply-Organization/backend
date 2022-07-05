@@ -47,7 +47,7 @@ class VoucherController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/{id<\d+>}', name: 'update', methods: 'PUT')]
+    #[Route('/{id<\d+>}', name: 'put_update', methods: 'PUT')]
     public function putUpdateVoucher(
         Request                 $request,
         Voucher                 $voucher,
@@ -60,7 +60,7 @@ class VoucherController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
+    #[Route('/{id<\d+>}', name: 'patch_update', methods: 'PATCH')]
     public function patchUpdateVoucher(
         Request                   $request,
         Voucher                   $voucher,

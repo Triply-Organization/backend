@@ -4,37 +4,32 @@ namespace App\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PutUpdateVoucherRequest extends BaseRequest
+class PutUpdateTaxRequest extends BaseRequest
 {
     #[Assert\Type('string')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
-    private $code;
+    private $currency;
 
     #[Assert\Type('numeric')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private $percent;
 
-    #[Assert\Type('numeric')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
-    private $remain;
-
     /**
      * @return mixed
      */
-    public function getCode()
+    public function getCurrency()
     {
-        return $this->code;
+        return $this->currency;
     }
 
     /**
-     * @param mixed $code
+     * @param mixed $currency
      */
-    public function setCode($code): void
+    public function setCurrency($currency): void
     {
-        $this->code = $code;
+        $this->currency = $currency;
     }
 
     /**
@@ -52,20 +47,5 @@ class PutUpdateVoucherRequest extends BaseRequest
     {
         $this->percent = $percent;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getRemain()
-    {
-        return $this->remain;
-    }
-
-    /**
-     * @param mixed $remain
-     */
-    public function setRemain($remain): void
-    {
-        $this->remain = $remain;
-    }
 }
+
