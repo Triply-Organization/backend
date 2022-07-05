@@ -8,10 +8,12 @@ use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TourRepository;
 use App\Request\CheckoutRequest;
+use App\Request\RefundRequest;
 use PHPMailer\PHPMailer\Exception;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
+use Stripe\StripeClient;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StripeService
@@ -24,6 +26,7 @@ class StripeService
     private TourRepository $tourRepository;
     private OrderRepository $orderRepository;
     private ScheduleRepository $scheduleRepository;
+    private StripeClient $stripe;
 
     public function __construct(
         ParameterBagInterface $params,
@@ -31,7 +34,7 @@ class StripeService
         SendMailService       $sendMailService,
         TourRepository        $tourRepository,
         OrderRepository       $orderRepository,
-        ScheduleRepository $scheduleRepository,
+        ScheduleRepository    $scheduleRepository,
     )
     {
         $this->params = $params;
@@ -40,6 +43,7 @@ class StripeService
         $this->tourRepository = $tourRepository;
         $this->orderRepository = $orderRepository;
         $this->scheduleRepository = $scheduleRepository;
+        $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
     }
 
     /**
@@ -51,6 +55,32 @@ class StripeService
         Stripe::setApiKey($stripeSK);
 
         return Session::create($this->sessionConfig($checkoutRequestData));
+    }
+
+    public function refund(RefundRequest $refundRequestData): void
+    {
+        $daysRemain = $refundRequestData->getDayRemain();
+        $bill = $this->billRepository->find($refundRequestData->getBillId());
+        $order = $this->orderRepository->find($refundRequestData->getOrderId());
+        $totalPrice = $bill->getTotalPrice();
+        $percentMinus = 1;
+
+        if ($daysRemain <= 15) {
+            $percentMinus = 0.3;
+        }
+        if ($daysRemain >= 3 && $daysRemain <= 7) {
+            $percentMinus = 0.5;
+        }
+
+        $refundAmount = $totalPrice - ($totalPrice * $percentMinus);
+
+        $this->stripe->refund->create([
+            'payment_intent' => $refundRequestData->getStripeId(),
+            'amount' => $refundAmount
+        ]);
+
+        $order->setStatus('refund');
+        $this->orderRepository->add($order);
     }
 
     /**
@@ -77,13 +107,13 @@ class StripeService
 
             $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
-            $this->scheduleRepository->add($schedule,true);
+            $this->scheduleRepository->add($schedule, true);
 
             $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
         }
     }
 
-    private function sessionConfig(CheckoutRequest $checkoutRequestData):array
+    private function sessionConfig(CheckoutRequest $checkoutRequestData): array
     {
         $languages = 'vi';
         $totalPrice = $checkoutRequestData->getTotalPrice() * 1000;
