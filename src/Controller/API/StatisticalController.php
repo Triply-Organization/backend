@@ -25,4 +25,11 @@ class StatisticalController
     {
         return $this->success($statisticalService->statisticalBooking($year));
     }
+
+    #[Route('/', name: 'total', methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function statisticalTotal(StatisticalService $statisticalService)
+    {
+        return $this->success($statisticalService->statisticalTotal());
+    }
 }
