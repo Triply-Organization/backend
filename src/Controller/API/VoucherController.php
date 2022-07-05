@@ -2,8 +2,12 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Voucher;
 use App\Request\AddVoucherRequest;
+use App\Request\BaseRequest;
 use App\Request\GetVoucherRequest;
+use App\Request\PatchUpdateVoucherRequest;
+use App\Request\PutUpdateVoucherRequest;
 use App\Service\VoucherService;
 use App\Traits\ResponseTrait;
 use App\Transformer\VoucherTransformer;
@@ -23,11 +27,12 @@ class VoucherController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/', name: 'add', methods: 'POST')]
     public function addVoucher(
-        Request $request,
-        AddVoucherRequest $addVoucherRequest,
+        Request            $request,
+        AddVoucherRequest  $addVoucherRequest,
         ValidatorInterface $validator,
-        VoucherService $voucherService
-    ):JsonResponse {
+        VoucherService     $voucherService
+    ): JsonResponse
+    {
         $requestData = $request->toArray();
         $addVoucherRequestData = $addVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($addVoucherRequestData);
@@ -41,14 +46,52 @@ class VoucherController extends AbstractController
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/{id<\d+>}', name: 'update', methods: 'PUT')]
+    public function putUpdateVoucher(
+        Request                 $request,
+        Voucher                 $voucher,
+        PutUpdateVoucherRequest $updateVoucherRequest,
+        ValidatorInterface      $validator,
+        VoucherService          $voucherService
+    ): JsonResponse
+    {
+        return $this->updateVoucher($request, $voucher, $updateVoucherRequest, $validator, $voucherService);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
+    public function patchUpdateVoucher(
+        Request                   $request,
+        Voucher                   $voucher,
+        PatchUpdateVoucherRequest $updateVoucherRequest,
+        ValidatorInterface        $validator,
+        VoucherService            $voucherService
+    ): JsonResponse
+    {
+        return $this->updateVoucher($request, $voucher, $updateVoucherRequest, $validator, $voucherService);
+    }
+
+    #[isGranted('ROLE_ADMIN')]
+    #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
+    public function deleteVoucher(
+        Voucher        $voucher,
+        VoucherService $voucherService
+    ): JsonResponse
+    {
+        $voucherService->delete($voucher);
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
     #[Route('/getinfo', name: '', methods: 'POST')]
     public function findVoucher(
-        Request $request,
-        GetVoucherRequest $getVoucherRequest,
+        Request            $request,
+        GetVoucherRequest  $getVoucherRequest,
         ValidatorInterface $validator,
-        VoucherService $voucherService,
+        VoucherService     $voucherService,
         VoucherTransformer $voucherTransformer
-    ):JsonResponse {
+    ): JsonResponse
+    {
         $requestData = $request->toArray();
         $getVoucherRequestData = $getVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($getVoucherRequestData);
@@ -60,4 +103,24 @@ class VoucherController extends AbstractController
         return $this->success($voucherData);
     }
 
+    private function updateVoucher(
+        Request            $request,
+        Voucher            $voucher,
+        BaseRequest        $updateVoucherRequest,
+        ValidatorInterface $validator,
+        VoucherService     $voucherService
+    ): JsonResponse
+    {
+        $requestData = $request->toArray();
+        $updateVoucherRequestData = $updateVoucherRequest->fromArray($requestData);
+        $errors = $validator->validate($updateVoucherRequestData);
+
+        if (count($errors) > 0) {
+            return $this->errors(['Something wrong']);
+        }
+
+        $voucherService->update($voucher, $updateVoucherRequestData);
+
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
 }
