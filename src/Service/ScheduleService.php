@@ -24,8 +24,7 @@ class ScheduleService
         ScheduleRepository $scheduleRepository,
         Security $security,
         PriceListService $priceListService
-    )
-    {
+    ) {
         $this->scheduleTransformer = $scheduleTransformer;
         $this->security = $security;
         $this->scheduleRepository = $scheduleRepository;
@@ -67,7 +66,7 @@ class ScheduleService
     public function checkTour(Tour $tour)
     {
         $tourCheck = $this->tourRepository->find($tour);
-        if(!is_object($tourCheck)) {
+        if (!is_object($tourCheck)) {
             return false;
         }
         $currentUser = $this->security->getUser();

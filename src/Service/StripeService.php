@@ -35,8 +35,7 @@ class StripeService
         OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
         VoucherRepository $voucherRepository
-    )
-    {
+    ) {
 
         $this->params = $params;
         $this->billRepository = $billRepository;
@@ -134,7 +133,8 @@ class StripeService
         ];
     }
 
-    private function minusVoucher(int $voucherId):void {
+    private function minusVoucher(int $voucherId): void
+    {
         $voucher = $this->voucherRepository->find($voucherId);
         $voucherRemain = $voucher->getRemain();
         $voucher->setRemain($voucherRemain - 1);

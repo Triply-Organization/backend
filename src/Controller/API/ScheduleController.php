@@ -25,8 +25,7 @@ class ScheduleController extends AbstractController
         ScheduleRequest $scheduleRequest,
         ValidatorInterface $validator,
         ScheduleService $scheduleService
-    )
-    {
+    ) {
         $requestData = $request->toArray();
         $scheduleData = $scheduleRequest->fromArray($requestData);
         $checkUser = $scheduleService->checkTour($tour);
