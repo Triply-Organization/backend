@@ -22,8 +22,6 @@ class CheckoutRequest extends BaseRequest
     private $scheduleId;
 
     #[Assert\Type('numeric')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private $voucherId;
 
     #[Assert\Type('string')]

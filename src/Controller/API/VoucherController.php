@@ -9,6 +9,7 @@ use App\Request\GetVoucherRequest;
 use App\Request\PatchUpdateVoucherRequest;
 use App\Request\PutUpdateVoucherRequest;
 
+use App\Service\CurrencyConverterService;
 use App\Service\VoucherService;
 use App\Traits\ResponseTrait;
 use App\Transformer\VoucherTransformer;
@@ -31,8 +32,10 @@ class VoucherController extends AbstractController
         Request $request,
         AddVoucherRequest $addVoucherRequest,
         ValidatorInterface $validator,
+        CurrencyConverterService $currencyConverterService,
         VoucherService $voucherService
     ):JsonResponse {
+        $currencyConverterService->getCurrency('usd');
         $requestData = $request->toArray();
         $addVoucherRequestData = $addVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($addVoucherRequestData);

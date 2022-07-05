@@ -54,7 +54,9 @@ class StripeService
     {
         $stripeSK = $this->params->get('stripe_secret_key');
         Stripe::setApiKey($stripeSK);
-        $this->minusVoucher($checkoutRequestData->getVoucherId());
+        if ($checkoutRequestData->getVoucherId()) {
+            $this->minusVoucher($checkoutRequestData->getVoucherId());
+        }
         return Session::create($this->sessionConfig($checkoutRequestData));
     }
 
