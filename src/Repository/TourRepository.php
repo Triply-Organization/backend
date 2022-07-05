@@ -104,6 +104,7 @@ class TourRepository extends BaseRepository
         $query = $this->join($query);
         $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
+
         return $query->getQuery()->getResult();
     }
 }
