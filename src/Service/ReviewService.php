@@ -180,7 +180,7 @@ class ReviewService
             }
         }
 
-        return [$results];
+        return $results;
     }
 
     private function addRate(ReviewRequest $reviewRequest, Review $review)
