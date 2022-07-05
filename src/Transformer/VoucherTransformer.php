@@ -6,7 +6,7 @@ use App\Entity\Voucher;
 
 class VoucherTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id' ,'code', 'discount'];
+    private const PARAMS = ['id' ,'code', 'discount', 'remain'];
 
     public function fromArray(Voucher $voucher): array
     {
