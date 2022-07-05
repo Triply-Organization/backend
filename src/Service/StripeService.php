@@ -7,6 +7,7 @@ use App\Repository\BillRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TourRepository;
+use App\Repository\VoucherRepository;
 use App\Request\CheckoutRequest;
 use PHPMailer\PHPMailer\Exception;
 use Stripe\Checkout\Session;
@@ -24,6 +25,7 @@ class StripeService
     private TourRepository $tourRepository;
     private OrderRepository $orderRepository;
     private ScheduleRepository $scheduleRepository;
+    private VoucherRepository $voucherRepository;
 
     public function __construct(
         ParameterBagInterface $params,
@@ -32,13 +34,17 @@ class StripeService
         TourRepository $tourRepository,
         OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
-    ) {
+        VoucherRepository $voucherRepository
+    )
+    {
+
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
         $this->tourRepository = $tourRepository;
         $this->orderRepository = $orderRepository;
         $this->scheduleRepository = $scheduleRepository;
+        $this->voucherRepository = $voucherRepository;
     }
 
     /**
@@ -48,7 +54,7 @@ class StripeService
     {
         $stripeSK = $this->params->get('stripe_secret_key');
         Stripe::setApiKey($stripeSK);
-
+        $this->minusVoucher($checkoutRequestData->getVoucherId());
         return Session::create($this->sessionConfig($checkoutRequestData));
     }
 
@@ -111,7 +117,6 @@ class StripeService
             'locale' => $languages,
             'submit_type' => 'book',
             'mode' => 'payment',
-            'allow_promotion_codes' => true,
             'success_url' => 'http://localhost:3000/confirmation/1',
             'cancel_url' => 'http://localhost:3000/',
         ];
@@ -127,5 +132,12 @@ class StripeService
             'discountPrice' => $checkoutRequestData->getDiscountPrice(),
             'taxPrice' => $checkoutRequestData->getTaxPrice(),
         ];
+    }
+
+    private function minusVoucher(int $voucherId):void {
+        $voucher = $this->voucherRepository->find($voucherId);
+        $voucherRemain = $voucher->getRemain();
+        $voucher->setRemain($voucherRemain - 1);
+        $this->voucherRepository->add($voucher, true);
     }
 }

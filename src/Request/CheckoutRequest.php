@@ -21,6 +21,11 @@ class CheckoutRequest extends BaseRequest
     #[Assert\NotNull]
     private $scheduleId;
 
+    #[Assert\Type('numeric')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $voucherId;
+
     #[Assert\Type('string')]
     #[Assert\NotBlank]
     #[Assert\NotNull]
@@ -250,5 +255,21 @@ class CheckoutRequest extends BaseRequest
     public function setName($name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVoucherId()
+    {
+        return $this->voucherId;
+    }
+
+    /**
+     * @param mixed $voucherId
+     */
+    public function setVoucherId($voucherId): void
+    {
+        $this->voucherId = $voucherId;
     }
 }
