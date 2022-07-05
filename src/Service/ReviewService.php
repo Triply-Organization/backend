@@ -13,6 +13,7 @@ use App\Repository\TypeReviewRepository;
 use App\Request\ReviewRequest;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Date;
+
 use function Composer\Autoload\includeFile;
 
 class ReviewService
@@ -154,6 +155,7 @@ class ReviewService
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
         foreach ($reviews as $key => $review) {
+
             if ($review->getDeletedAt() === null) {
                 $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
                 $typeRatings = $this->reviewDetailService->getTypeRating($reviewDetails);
@@ -162,7 +164,9 @@ class ReviewService
                 $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
                 $results[$key]['tourName'] = $review->getTour()->getTitle();
                 $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-                $results[$key]['avatar'] = $review->getUser()->getAvatar()->getPath();
+                 $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
+                ? 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg'
+                : $review->getUser()->getAvatar()->getPath();
                 $results[$key]['comment'] = $review->getComment();
             }
         }
@@ -172,15 +176,14 @@ class ReviewService
 
     public function handleRatingUser(array $typeRatings)
     {
-        $avg = 0;
-        foreach ($typeRatings as $typeRating) {
-            $avg = $avg + $typeRating;
-        }
+        $results = [];
         if (count($typeRatings) > 0) {
-            return $avg / count($typeRatings);
+            foreach ($typeRatings as $key => $typeRating) {
+                $results[$key] = $typeRating;
+            }
         }
 
-        return '';
+        return $results;
     }
 
     private function addRate(ReviewRequest $reviewRequest, Review $review)

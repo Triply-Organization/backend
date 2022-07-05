@@ -25,14 +25,13 @@ class TourDetailTransformer extends BaseTransformer
 
 
     public function __construct(
-        FacilityService    $facilityService,
-        TourImageService   $tourImageService,
-        TourPlanService    $tourPlanService,
-        ScheduleService    $scheduleService,
+        FacilityService $facilityService,
+        TourImageService $tourImageService,
+        TourPlanService $tourPlanService,
+        ScheduleService $scheduleService,
         RelatedTourService $relatedTourService,
-        ReviewService      $reviewService,
-    )
-    {
+        ReviewService $reviewService,
+    ) {
         $this->facilityService = $facilityService;
         $this->tourImageService = $tourImageService;
         $this->tourPlanService = $tourPlanService;

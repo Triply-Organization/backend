@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\Tour;
+use App\Request\ChangeStatusOfTourRequest;
 use App\Service\StripeService;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
@@ -27,12 +28,11 @@ class TourController extends AbstractController
 
     #[Route('/', name: 'lists', methods: 'GET')]
     public function getAllTours(
-        Request            $request,
-        ListTourRequest    $listTourRequest,
+        Request $request,
+        ListTourRequest $listTourRequest,
         ValidatorInterface $validator,
-        ListTourService    $listTourService
-    ): JsonResponse
-    {
+        ListTourService $listTourService
+    ): JsonResponse {
         $query = $request->query->all();
         $tourRequest = $listTourRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
@@ -40,7 +40,6 @@ class TourController extends AbstractController
             return $this->errors(['Bad request']);
         }
         $tours = $listTourService->findAll($tourRequest);
-
         return $this->success($tours);
     }
 
@@ -53,13 +52,12 @@ class TourController extends AbstractController
     #[Route('/', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
-        Request            $request,
-        TourRequest        $tourRequest,
-        TourService        $tourService,
+        Request $request,
+        TourRequest $tourRequest,
+        TourService $tourService,
         ValidatorInterface $validator,
-        TourTransformer    $tourTransformer,
-    ): JsonResponse
-    {
+        TourTransformer $tourTransformer,
+    ): JsonResponse {
         $requestData = $request->toArray();
         $tour = $tourRequest->fromArray($requestData);
         $errors = $validator->validate($tour);
@@ -75,14 +73,13 @@ class TourController extends AbstractController
     #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function updateTour(
-        Tour               $tour,
-        Request            $request,
-        TourUpdateRequest  $tourUpdateRequest,
+        Tour $tour,
+        Request $request,
+        TourUpdateRequest $tourUpdateRequest,
         ValidatorInterface $validator,
-        TourService        $tourService,
-        TourTransformer    $tourTransformer,
-    ): JsonResponse
-    {
+        TourService $tourService,
+        TourTransformer $tourTransformer,
+    ): JsonResponse {
         $dataRequest = $request->toArray();
         $tourUpdateRequest = $tourUpdateRequest->fromArray($dataRequest);
         $errors = $validator->validate($tour);
@@ -111,5 +108,43 @@ class TourController extends AbstractController
         $tourService->undoDelete($tour);
 
         return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/all/', name: 'listAllTours', methods: 'GET')]
+    #[isGranted('ROLE_ADMIN')]
+    public function adminGetAllTours(
+        Request $request,
+        ListTourRequest $listTourRequest,
+        ValidatorInterface $validator,
+        ListTourService $listTourService
+    ): JsonResponse {
+        $query = $request->query->all();
+        $tourRequest = $listTourRequest->fromArray($query);
+        $errors = $validator->validate($tourRequest);
+
+        if (count($errors) > 0) {
+            return $this->errors(['Bad request']);
+        }
+        $tours = $listTourService->getAll($tourRequest);
+        return $this->success($tours);
+    }
+
+    #[Route('/changeStatus/{id<\d+>}', name: 'changeStatusTour ', methods: 'PATCH')]
+    #[isGranted('ROLE_ADMIN')]
+    public function changeStatus(
+        Tour $tour,
+        Request $request,
+        ChangeStatusOfTourRequest $statusOfTourRequest,
+        ValidatorInterface $validator,
+        TourService $tourService
+    ): JsonResponse {
+        $dataRequest = $request->toArray();
+        $statusRequest = $statusOfTourRequest->fromArray($dataRequest);
+        $errors = $validator->validate($statusRequest);
+        if (count($errors) > 0) {
+            return $this->errors(['Bad request']);
+        }
+        $tourService->changeStatus($statusRequest, $tour);
+        return $this->success([]);
     }
 }

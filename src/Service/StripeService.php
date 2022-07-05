@@ -7,11 +7,14 @@ use App\Repository\BillRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TourRepository;
+use App\Repository\VoucherRepository;
 use App\Request\CheckoutRequest;
+use App\Request\RefundRequest;
 use PHPMailer\PHPMailer\Exception;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
+use Stripe\StripeClient;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StripeService
@@ -27,19 +30,21 @@ class StripeService
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository        $billRepository,
-        SendMailService       $sendMailService,
-        TourRepository        $tourRepository,
-        OrderRepository       $orderRepository,
+        BillRepository $billRepository,
+        SendMailService $sendMailService,
+        TourRepository $tourRepository,
+        OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
-    )
-    {
+        VoucherRepository $voucherRepository
+    ) {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
         $this->tourRepository = $tourRepository;
         $this->orderRepository = $orderRepository;
         $this->scheduleRepository = $scheduleRepository;
+        $this->voucherRepository = $voucherRepository;
+        $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
     }
 
     /**
@@ -49,8 +54,43 @@ class StripeService
     {
         $stripeSK = $this->params->get('stripe_secret_key');
         Stripe::setApiKey($stripeSK);
-
+        if ($checkoutRequestData->getVoucherId()) {
+            $this->minusVoucher($checkoutRequestData->getVoucherId());
+        }
         return Session::create($this->sessionConfig($checkoutRequestData));
+    }
+
+    /**
+     * @throws ApiErrorException
+     */
+    public function refund(RefundRequest $refundRequestData): void
+    {
+        $daysRemain = $refundRequestData->getDayRemain();
+        $bill = $this->billRepository->find($refundRequestData->getBillId());
+        $order = $this->orderRepository->find($refundRequestData->getOrderId());
+        $totalPrice = $bill->getTotalPrice() * 1000;
+        $percentMinus = 1;
+
+        if ($refundRequestData->getCurrency() === 'usd') {
+            $totalPrice = $bill->getTotalPrice() * 100;
+        }
+
+        if ($daysRemain <= 15) {
+            $percentMinus = 0.3;
+        }
+        if ($daysRemain >= 3 && $daysRemain <= 7) {
+            $percentMinus = 0.5;
+        }
+
+        $refundAmount = $totalPrice - ($totalPrice * $percentMinus);
+
+        $this->stripe->refunds->create([
+            'payment_intent' => $refundRequestData->getStripeId(),
+            'amount' => $refundAmount
+        ]);
+
+        $order->setStatus('refund');
+        $this->orderRepository->add($order, true);
     }
 
     /**
@@ -58,7 +98,7 @@ class StripeService
      */
     public function eventHandler(array $data, string $type, array $metadata): void
     {
-        $bill = new Bill;
+        $bill = new Bill();
         if ($type === self::CHECK_COMPLETED) {
             $order = $this->orderRepository->find($metadata['orderId']);
             $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
@@ -77,13 +117,13 @@ class StripeService
 
             $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
-            $this->scheduleRepository->add($schedule,true);
+            $this->scheduleRepository->add($schedule, true);
 
             $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
         }
     }
 
-    private function sessionConfig(CheckoutRequest $checkoutRequestData):array
+    private function sessionConfig(CheckoutRequest $checkoutRequestData): array
     {
         $languages = 'vi';
         $totalPrice = $checkoutRequestData->getTotalPrice() * 1000;
@@ -112,7 +152,6 @@ class StripeService
             'locale' => $languages,
             'submit_type' => 'book',
             'mode' => 'payment',
-            'allow_promotion_codes' => true,
             'success_url' => 'http://localhost:3000/confirmation/1',
             'cancel_url' => 'http://localhost:3000/',
         ];
@@ -128,5 +167,13 @@ class StripeService
             'discountPrice' => $checkoutRequestData->getDiscountPrice(),
             'taxPrice' => $checkoutRequestData->getTaxPrice(),
         ];
+    }
+
+    private function minusVoucher(int $voucherId): void
+    {
+        $voucher = $this->voucherRepository->find($voucherId);
+        $voucherRemain = $voucher->getRemain();
+        $voucher->setRemain($voucherRemain - 1);
+        $this->voucherRepository->add($voucher, true);
     }
 }

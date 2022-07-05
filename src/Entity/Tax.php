@@ -36,6 +36,7 @@ class Tax extends AbstractEntity
     public function __construct()
     {
         $this->orderDetail = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

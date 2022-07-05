@@ -10,7 +10,7 @@ use App\Request\EditRoleRequest;
 use App\Request\UserRequest;
 use App\Transformer\UserTransformer;
 use App\Repository\ImageRepository;
-
+use Symfony\Component\Security\Core\Security;
 class UserService
 {
     private UserRepository $userRepository;
@@ -24,7 +24,8 @@ class UserService
         UserTransformer  $userTransformer,
         UserEditMapper   $userEditMapper,
         ImageRepository  $imageRepository,
-        ReviewRepository $reviewRepository
+        ReviewRepository $reviewRepository,
+         Security        $security
     )
     {
         $this->userRepository = $userRepository;
@@ -32,6 +33,21 @@ class UserService
         $this->userEditMapper = $userEditMapper;
         $this->imageRepository = $imageRepository;
         $this->reviewRepository = $reviewRepository;
+        $this->security = $security;
+    }
+    
+    public function getAllOrder()
+    {
+        $currentUser = $this->security->getUser();
+        $result = [];
+        $result['user']['id'] = $currentUser->getId();
+        $result['user']['email'] = $currentUser->getEmail();
+        $result['user']['fullname'] = $currentUser->getName();
+        $result['user']['avatar'] = $currentUser->getAvatar();
+        foreach ($currentUser->getOrders() as $key => $order) {
+            $result['orders'][$key] = $order;
+        }
+        return $result;
     }
 
     public function getUsers(UserRequest $userRequest)

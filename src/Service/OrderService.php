@@ -29,14 +29,13 @@ class OrderService
     private TaxRepository $taxRepository;
 
     public function __construct(
-        OrderRepository     $orderRepository,
-        Security            $security,
-        TicketRepository    $ticketRepository,
+        OrderRepository $orderRepository,
+        Security $security,
+        TicketRepository $ticketRepository,
         PriceListRepository $priceListRepository,
-        VoucherRepository   $voucherRepository,
-        TaxRepository       $taxRepository
-    )
-    {
+        VoucherRepository $voucherRepository,
+        TaxRepository $taxRepository
+    ) {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
         $this->ticketRepository = $ticketRepository;
@@ -45,7 +44,7 @@ class OrderService
         $this->taxRepository = $taxRepository;
     }
 
-    public function checkoutUserOfOrder(Order $order)
+    public function checkUserOfOrder(Order $order)
     {
         $currentUser = $this->security->getUser();
         $roles = $currentUser->getRoles();
