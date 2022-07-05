@@ -44,7 +44,7 @@ class OrderService
         $this->taxRepository = $taxRepository;
     }
 
-    public function checkoutUserOfOrder(Order $order)
+    public function checkUserOfOrder(Order $order)
     {
         $currentUser = $this->security->getUser();
         $roles = $currentUser->getRoles();
