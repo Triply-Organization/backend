@@ -4,9 +4,10 @@ namespace App\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ListUserRequest extends BaseRequest
+class ListCustomerRequest extends BaseRequest
 {
     public const DEFAULT_PAGE = 1;
+
 
     #[Assert\Type('string')]
     private $email;
@@ -43,6 +44,6 @@ class ListUserRequest extends BaseRequest
      */
     public function setPage($page): void
     {
-        $this->page = $page;
+        $this->page = (int) $page;
     }
 }

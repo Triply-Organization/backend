@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Request\ListUserRequest;
+use App\Request\ListCustomerRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,20 +44,22 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $this->add($user, true);
     }
 
-    public function getQuery(ListUserRequest $listUserRequest)
+    public function getQuery(ListCustomerRequest $listUserRequest)
     {
         $query = $this->createQueryBuilder(self::USER_ALIAS);
         $query = $this->filter($query, self::USER_ALIAS, 'email', $listUserRequest->getEmail());
-        $query = $this->filter($query, self::USER_ALIAS, 'roles', '{"role": "ROLE_CUSTOMER"}');
         return $query;
     }
 
-    public function getAll(ListUserRequest $listUserRequest): array
+    public function getAll(ListCustomerRequest $listUserRequest): array
     {
         $query = $this->getQuery($listUserRequest);
+
+
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalUsers = count($paginator);
         $pageCount = ceil($totalUsers / self::PAGE_SIZE);
+
         $paginator
             ->getQuery()
             ->setFirstResult(self::PAGE_SIZE * ($listUserRequest->getPage() - 1))

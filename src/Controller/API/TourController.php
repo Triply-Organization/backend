@@ -20,12 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/api/admin', name: 'tour_')]
+#[Route('/api/tours', name: 'tour_')]
 class TourController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/users', name: 'lists', methods: 'GET')]
+    #[Route('/', name: 'lists', methods: 'GET')]
     public function getAllTours(
         Request            $request,
         ListTourRequest    $listTourRequest,
