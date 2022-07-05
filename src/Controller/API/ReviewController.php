@@ -47,7 +47,7 @@ class ReviewController extends AbstractController
 
     #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
     #[isGranted('ROLE_USER')]
-    public function deleteTour(Review $review, ReviewService $reviewService): JsonResponse
+    public function deleteReview(Review $review, ReviewService $reviewService): JsonResponse
     {
         $result = $reviewService->deleteReview($review);
         if ($result === false) {
