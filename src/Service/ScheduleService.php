@@ -32,6 +32,11 @@ class ScheduleService
         $this->priceListService = $priceListService;
     }
 
+    public function getAllScheduleOfCustomer(Tour $tour)
+    {
+        return $this->scheduleRepository->findBy(['tour' => $tour]);
+    }
+
     public function getDateOpen($dates): array
     {
         $dateList = [];
@@ -66,7 +71,7 @@ class ScheduleService
     public function checkTour(Tour $tour)
     {
         $tourCheck = $this->tourRepository->find($tour);
-        if (!is_object($tourCheck)) {
+        if (!$tourCheck) {
             return false;
         }
         $currentUser = $this->security->getUser();

@@ -25,7 +25,7 @@ class FacilityTourService
     {
         foreach ($tourRequest->getServices() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
-            if (!is_object($service)) {
+            if (!$service) {
                 continue;
             }
             $tourService = new \App\Entity\TourService();
@@ -47,7 +47,7 @@ class FacilityTourService
             $newServices = $tourUpdateRequest->getServices()['newServiceToTour'];
             foreach ($newServices as $newService) {
                 $service = $this->serviceRepository->find($newService);
-                if (!is_object($service)) {
+                if (!$service) {
                     continue;
                 }
                 $newTourService = new \App\Entity\TourService();
@@ -65,7 +65,7 @@ class FacilityTourService
             $deleteServices = $tourUpdateRequest->getServices()['deleteServiceFromTour'];
             foreach ($deleteServices as $deleteService) {
                 $tourService = $this->tourServiceRepository->find($deleteService);
-                if (!is_object($tourService)) {
+                if (!$tourService) {
                     continue;
                 }
                 $tourService->setDeletedAt(new \DateTimeImmutable());

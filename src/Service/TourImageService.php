@@ -41,7 +41,7 @@ class TourImageService
     {
         foreach ($tourRequest->getTourImages() as $tourImageRequest) {
             $image = $this->imageRepository->find($tourImageRequest['id']);
-            if (!is_object($image)) {
+            if (!$image) {
                 continue;
             }
             $tourImage = new TourImage();
@@ -77,7 +77,7 @@ class TourImageService
     private function deleteTourIamge(array $tourImageRequest)
     {
         $tourImageDelete = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
-        if (!is_object($tourImageDelete)) {
+        if (!$tourImageDelete) {
             return;
         }
         $tourImageDelete->setDeletedAt(new \DateTimeImmutable());
@@ -87,7 +87,7 @@ class TourImageService
     private function addTourImageTypeGallery(Tour $tour, array $tourImageRequest)
     {
         $image = $this->imageRepository->find($tourImageRequest['id']);
-        if (!is_object($image)) {
+        if (!$image) {
             return $tour;
         }
         $tourImage = new TourImage();
@@ -103,11 +103,11 @@ class TourImageService
     private function addTourImageTypeCover(array $tourImageRequest): void
     {
         $tourImage = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
-        if (!is_object($tourImage)) {
+        if (!$tourImage) {
             return;
         }
         $image = $this->imageRepository->find($tourImageRequest['id']);
-        if (!is_object($image)) {
+        if (!$image) {
             return;
         }
         $tourImage->setImage($image);

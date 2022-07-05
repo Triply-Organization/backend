@@ -189,7 +189,7 @@ class ReviewService
         foreach ($reviewRequest->getRate() as $rate) {
             $reviewDetail = new ReviewDetail();
             $typeResult = $this->typeReviewRepository->find($rate['id']);
-            if ($typeResult === null) {
+            if (!$typeResult) {
                 $bool = false;
             }
             $reviewDetail->setRate($rate['rate'])

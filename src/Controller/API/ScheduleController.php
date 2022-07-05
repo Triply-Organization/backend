@@ -6,6 +6,7 @@ use App\Entity\Tour;
 use App\Request\ScheduleRequest;
 use App\Service\ScheduleService;
 use App\Traits\ResponseTrait;
+use App\Transformer\ScheduleTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +21,13 @@ class ScheduleController extends AbstractController
     #[Route('/{id<\d+>}', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addSchedule(
-        Tour $tour,
-        Request $request,
-        ScheduleRequest $scheduleRequest,
+        Tour               $tour,
+        Request            $request,
+        ScheduleRequest    $scheduleRequest,
         ValidatorInterface $validator,
-        ScheduleService $scheduleService
-    ) {
+        ScheduleService    $scheduleService
+    )
+    {
         $requestData = $request->toArray();
         $scheduleData = $scheduleRequest->fromArray($requestData);
         $checkUser = $scheduleService->checkTour($tour);
@@ -38,5 +40,22 @@ class ScheduleController extends AbstractController
         }
         $scheduleService->addSchedule($scheduleData, $tour);
         return $this->success([]);
+    }
+
+    #[Route('/{id<\d+>}', name: 'getAll', methods: 'GET')]
+    #[IsGranted('ROLE_CUSTOMER')]
+    public function getScheduleOfCustomer(
+        Tour                $tour,
+        ScheduleService     $scheduleService,
+        ScheduleTransformer $scheduleTransformer
+    )
+    {
+        $checkUser = $scheduleService->checkTour($tour);
+        if ($checkUser === false) {
+            return $this->errors(['Something wrong']);
+        }
+        $allSchedule = $scheduleService->getAllScheduleOfCustomer($tour);
+        $result = $scheduleTransformer->toArrayScheduleOfCustomer($allSchedule, $tour);
+        return $this->success($result);
     }
 }
