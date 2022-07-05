@@ -29,12 +29,14 @@ class BillRepository extends BaseRepository
         $dateEndStatistical = \DateTimeImmutable::createFromFormat('Y-m-d 00:00:00', $dateEnd);
         $bills = $this->selectBillByDateStart($dateStartStatistical, $dateEndStatistical);
         for ($i = 1; $i <= 12; $i++) {
-            $result[$i] = 0;
+            $result[$i]['revenue'] = 0;
+            $result[$i]['commission'] = 0;
         }
         foreach ($bills as $bill) {
             $time = $bill->getCreatedAt();
             $month = (int)$time->format('m');
-            $result[$month] = $result[$month] + $bill->getTotalPrice() * 10 / 100;
+            $result[$month]['revenue'] = $result[$month]['revenue'] + $bill->getTotalPrice();
+            $result[$month]['commission'] = $result[$month]['commission'] + $bill->getTotalPrice() * 10 / 100;
         }
         return $result;
     }
