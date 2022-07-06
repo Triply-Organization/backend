@@ -24,7 +24,7 @@ class CustomerService
         $this->tourRepository = $tourRepository;
     }
 
-    public function getCustomers(UserRequest $userRequest)
+    public function getCustomers(UserRequest $userRequest): array
     {
         $customerRole = ["ROLE_CUSTOMER", "ROLE_USER"];
         $data = $this->userRepository->getAll($userRequest);

@@ -19,7 +19,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function getAllOrderOfUser(
         UserService $userService
-    ):JsonResponse {
+    ): JsonResponse {
         return  $this->success($userService->getAllOrder());
     }
 }

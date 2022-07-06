@@ -20,13 +20,12 @@ class UserService
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository   $userRepository,
-        UserTransformer  $userTransformer,
-        UserEditMapper   $userEditMapper,
+        UserRepository $userRepository,
+        UserTransformer $userTransformer,
+        UserEditMapper $userEditMapper,
         ReviewRepository $reviewRepository,
-        Security         $security
-    )
-    {
+        Security $security
+    ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
@@ -34,7 +33,7 @@ class UserService
         $this->security = $security;
     }
 
-    public function getAllOrder()
+    public function getAllOrder(): array
     {
         $currentUser = $this->security->getUser();
         $result = [];
@@ -48,7 +47,7 @@ class UserService
         return $result;
     }
 
-    public function getUsers(UserRequest $userRequest)
+    public function getUsers(UserRequest $userRequest): array
     {
         $userRole = ["ROLE_USER"];
         $data = $this->userRepository->getAll($userRequest);
@@ -67,7 +66,7 @@ class UserService
         return $results;
     }
 
-    public function editRole(User $user, EditRoleRequest $editRoleRequest)
+    public function editRole(User $user, EditRoleRequest $editRoleRequest): array
     {
         $editUserMapper = $this->userEditMapper->mapping($user, $editRoleRequest);
         $this->userRepository->add($editUserMapper, true);

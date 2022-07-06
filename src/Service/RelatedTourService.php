@@ -20,7 +20,7 @@ class RelatedTourService
         $this->tourRepository = $tourRepository;
     }
 
-    public function getRelatedTour(array $tourPlans, int $tourId)
+    public function getRelatedTour(array $tourPlans, int $tourId): array
     {
         $results = [];
         $tours = $this->tourRepository->getTourWithDestination($tourPlans[0]->getDestination()->getId(), $tourId);

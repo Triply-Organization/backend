@@ -19,7 +19,7 @@ class DestinationService
         $this->destinationTransformer = $destinationTransformer;
     }
 
-    public function getAllDestination()
+    public function getAllDestination(): array
     {
         return $this->getDestination($this->destinationRepository->findAll());
     }
