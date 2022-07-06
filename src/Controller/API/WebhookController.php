@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Service\StripeService;
 use PHPMailer\PHPMailer\Exception;
+use Stripe\Exception\ApiErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebhookController extends AbstractController
 {
     /**
-     * @throws Exception
+     * @throws Exception|ApiErrorException
      */
     #[Route('', name: 'webhook')]
     public function getData(
