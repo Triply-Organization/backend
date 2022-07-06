@@ -13,12 +13,12 @@ nelmio_cors:
         '^/api/':
             allow_origin: ['*']
             allow_headers: ['X-Custom-Auth']
-            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
-            max_age: 3600
+            allow_methods: ['POST', 'PUT','PATCH' ,'GET', 'DELETE']
+            max_age: 1000000000
         '^/':
             origin_regex: true
             allow_origin: ['^http://localhost:[0-9]+']
             allow_headers: ['X-Custom-Auth']
-            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
-            max_age: 3600
+            allow_methods: ['POST', 'PUT','PATCH' ,'GET', 'DELETE']
+            max_age: 1000000000
             hosts: ['^api\.']
