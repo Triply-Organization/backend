@@ -30,8 +30,6 @@ class StripeService
     private const PERCENT_MINUS_SEVEN_DAYS = 0.5;
     private const USD_CONVERT = 100;
     private const VND_CONVERT = 1000;
-    private const VND_TAX_ID = 'txr_1LGNaYBshpup8grmjONnWYWz';
-    private const USD_TAX_ID = 'txr_1LGeepBshpup8grmsXrotsGu';
 
     private ParameterBagInterface $params;
     private BillRepository $billRepository;
@@ -47,7 +45,7 @@ class StripeService
         TourRepository $tourRepository,
         OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
-        VoucherRepository $voucherRepository
+        VoucherRepository $voucherRepository,
     ) {
         $this->params = $params;
         $this->billRepository = $billRepository;
@@ -140,11 +138,9 @@ class StripeService
         $languages = 'vi';
         $totalPrice = $checkoutRequestData->getTotalPrice() * self::VND_CONVERT;
         $tour = $this->tourRepository->find($checkoutRequestData->getTourId());
-        $taxRateId = self::VND_TAX_ID;
         if ($checkoutRequestData->getCurrency() === self::USD_CURRENCY) {
             $languages = 'en';
             $totalPrice = $checkoutRequestData->getTotalPrice() * self::USD_CONVERT;
-            $taxRateId = self::USD_TAX_ID;
         }
         return [
             'line_items' => [[
@@ -154,18 +150,16 @@ class StripeService
                         'name' => $checkoutRequestData->getTourName(),
                     ],
                     'unit_amount' => $totalPrice,
-                    'tax_behavior' => 'exclusive',
                 ],
                 'quantity' => 1,
-                'tax_rates' => [$taxRateId]
             ]],
             'metadata' => $this->metadata($checkoutRequestData),
             'customer_email' => $checkoutRequestData->getEmail(),
             'locale' => $languages,
             'submit_type' => 'book',
             'mode' => 'payment',
-            'success_url' => $this->params->get('stripe_payment_success_url'),
-            'cancel_url' => $this->params->get('stripe_payment_cancel_url'),
+            'success_url' => $this->params->get('stripe_payment_success_url'). $checkoutRequestData->getOrderId(),
+            'cancel_url' => $this->params->get('stripe_payment_cancel_url') . $checkoutRequestData->getOrderId(),
         ];
     }
 

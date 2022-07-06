@@ -7,6 +7,7 @@ use App\Service\UserService;
 use App\Traits\ResponseTrait;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/users', name: 'user_')]
@@ -18,7 +19,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function getAllOrderOfUser(
         UserService $userService
-    ) {
+    ):JsonResponse {
         return  $this->success($userService->getAllOrder());
     }
 }

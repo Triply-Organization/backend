@@ -9,6 +9,7 @@ use App\Traits\ResponseTrait;
 use App\Transformer\ScheduleTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -26,7 +27,7 @@ class ScheduleController extends AbstractController
         ScheduleRequest $scheduleRequest,
         ValidatorInterface $validator,
         ScheduleService $scheduleService
-    ) {
+    ):JsonResponse {
         $requestData = $request->toArray();
         $scheduleData = $scheduleRequest->fromArray($requestData);
         $checkUser = $scheduleService->checkTour($tour);
@@ -47,7 +48,7 @@ class ScheduleController extends AbstractController
         Tour $tour,
         ScheduleService $scheduleService,
         ScheduleTransformer $scheduleTransformer
-    ) {
+    ):JsonResponse {
         $checkUser = $scheduleService->checkTour($tour);
         if ($checkUser === false) {
             return $this->errors(['Something wrong']);
