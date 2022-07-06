@@ -7,7 +7,7 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class UserTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id' ,'name', 'email', 'phone','address', 'roles'];
+    private const PARAMS = ['id', 'name', 'email', 'phone', 'address', 'roles'];
 
     public function fromArray(User $user): array
     {

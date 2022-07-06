@@ -17,9 +17,8 @@ class CustomerService
     public function __construct(
         UserRepository  $userRepository,
         UserTransformer $userTransformer,
-        TourRepository  $tourRepository
-    )
-    {
+        TourRepository $tourRepository
+    ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->tourRepository = $tourRepository;
@@ -32,7 +31,7 @@ class CustomerService
         $users = $data['users'];
         $results = [];
         $count = 0;
-        foreach ($users as $key => $user) {
+        foreach ($users as $user) {
             if ($user->getRoles() === $customerRole) {
                 $results['customers'][] = $this->userTransformer->fromArray($user);
                 $count += 1;
@@ -40,7 +39,7 @@ class CustomerService
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalCustomers'] = $count;
+        $results['totalCustomers'] = $data['totalUsers'];
 
         return $results;
     }
