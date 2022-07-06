@@ -60,17 +60,17 @@ class OrderTransformer extends BaseTransformer
         $result['title'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTitle();
         $result['bookedAt'] = $order->getCreatedAt()->format('y-m-d');
         $images =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTourImages();
-        foreach($images as $image) {
-            if($image->getType() === 'cover') {
+        foreach ($images as $image) {
+            if ($image->getType() === 'cover') {
                 $result['cover'] = $this->params->get('s3url') . $image->getImage()->getPath();
             }
         }
         $review = $order->getReview();
-        if($review) {
-            $result['review']['comment']= $review->getComment();
+        if ($review) {
+            $result['review']['comment'] = $review->getComment();
             foreach ($review->getReviewDetails() as $key => $detail) {
-                $result['review'][$key]['name']= $detail->getType()->getName();
-                $result['review'][$key]['rate']= $detail->getRate();
+                $result['review'][$key]['name'] = $detail->getType()->getName();
+                $result['review'][$key]['rate'] = $detail->getRate();
             }
         }
         return $result;

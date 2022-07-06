@@ -63,7 +63,7 @@ class ListTourService
     public function getAll(ListTourRequest $listTourRequest): array
     {
         $result = [];
-        $data = $this->tourRepository->getAll($listTourRequest);
+        $data = $this->tourRepository->getAllTourAdmin($listTourRequest);
         $tours = $data['tours'];
         foreach ($tours as $tour) {
             $result ['tours'][] = $this->tourTransformer->toArrayOfAdmin($tour);
