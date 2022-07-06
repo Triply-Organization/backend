@@ -10,13 +10,15 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class OrderTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'amount'];
+    private const USER_PARAMS = ['id', 'amount', 'status', 'totalPrice'];
     private OrderService $orderService;
     private VoucherService $voucherService;
+    private ParameterBagInterface $params;
 
     public function __construct(
         ParameterBagInterface $params,
         OrderService $orderService,
-        VoucherService $voucherService
+        VoucherService $voucherService,
     ) {
         $this->orderService = $orderService;
         $this->params = $params;
@@ -49,6 +51,28 @@ class OrderTransformer extends BaseTransformer
         $result['subTotal'] = $order->getTotalPrice();
         $result['status'] = $order->getStatus();
 
+        return $result;
+    }
+
+    public function getTourOfUser(Order $order)
+    {
+        $result = $this->transform($order, static::USER_PARAMS);
+        $result['title'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTitle();
+        $result['bookedAt'] = $order->getCreatedAt()->format('y-m-d');
+        $images =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTourImages();
+        foreach ($images as $image) {
+            if ($image->getType() === 'cover') {
+                $result['cover'] = $this->params->get('s3url') . $image->getImage()->getPath();
+            }
+        }
+        $review = $order->getReview();
+        if ($review) {
+            $result['review']['comment'] = $review->getComment();
+            foreach ($review->getReviewDetails() as $key => $detail) {
+                $result['review'][$key]['name'] = $detail->getType()->getName();
+                $result['review'][$key]['rate'] = $detail->getRate();
+            }
+        }
         return $result;
     }
 

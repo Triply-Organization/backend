@@ -48,6 +48,10 @@ class Order extends AbstractEntity
     #[ORM\ManyToOne(targetEntity: Tax::class, inversedBy: 'orderDetail')]
     private $tax;
 
+    #[ORM\OneToOne(mappedBy: 'orderDetail', targetEntity: Review::class, cascade: ['persist', 'remove'])]
+    private $review;
+
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -192,6 +196,23 @@ class Order extends AbstractEntity
     public function setTax(?Tax $tax): self
     {
         $this->tax = $tax;
+
+        return $this;
+    }
+
+    public function getReview(): ?Review
+    {
+        return $this->review;
+    }
+
+    public function setReview(Review $review): self
+    {
+        // set the owning side of the relation if necessary
+        if ($review->getOrderDetail() !== $this) {
+            $review->setOrderDetail($this);
+        }
+
+        $this->review = $review;
 
         return $this;
     }

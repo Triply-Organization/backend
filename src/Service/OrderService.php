@@ -47,11 +47,8 @@ class OrderService
     public function checkUserOfOrder(Order $order)
     {
         $currentUser = $this->security->getUser();
-        $roles = $currentUser->getRoles();
-        if ($roles['role'] === 'ROLE_USER') {
-            if ($currentUser->getId() !== $order->getUser()->getId()) {
-                return false;
-            }
+        if ($currentUser->getId() !== $order->getUser()->getId()) {
+            return false;
         }
         return true;
     }

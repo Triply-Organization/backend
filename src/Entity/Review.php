@@ -22,10 +22,6 @@ class Review extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\OneToOne(targetEntity: Order::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $orderDetail;
-
     #[ORM\OneToMany(mappedBy: 'review', targetEntity: ReviewDetail::class)]
     private $reviewDetails;
 
@@ -38,6 +34,10 @@ class Review extends AbstractEntity
     #[ORM\ManyToOne(targetEntity: Tour::class, inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
     private $tour;
+
+    #[ORM\OneToOne(inversedBy: 'review', targetEntity: Order::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $orderDetail;
 
     public function __construct()
     {
@@ -70,18 +70,6 @@ class Review extends AbstractEntity
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getOrderDetail(): ?Order
-    {
-        return $this->orderDetail;
-    }
-
-    public function setOrderDetail(Order $orderDetail): self
-    {
-        $this->orderDetail = $orderDetail;
 
         return $this;
     }
@@ -148,6 +136,18 @@ class Review extends AbstractEntity
     public function setTour(?Tour $tour): self
     {
         $this->tour = $tour;
+
+        return $this;
+    }
+
+    public function getOrderDetail(): ?Order
+    {
+        return $this->orderDetail;
+    }
+
+    public function setOrderDetail(Order $orderDetail): self
+    {
+        $this->orderDetail = $orderDetail;
 
         return $this;
     }
