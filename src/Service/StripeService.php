@@ -105,6 +105,7 @@ class StripeService
 
     /**
      * @throws Exception
+     * @throws ApiErrorException
      */
     public function eventHandler(array $data, string $type, array $metadata): void
     {
@@ -128,6 +129,11 @@ class StripeService
             $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
             $this->scheduleRepository->add($schedule, true);
+
+            $this->stripe->checkout->sessions->expire(
+                $data['id'],
+                []
+            );
 
             $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
         }
