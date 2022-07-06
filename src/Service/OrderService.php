@@ -116,7 +116,7 @@ class OrderService
     {
         $price = 0;
         $priceListChildren = $this->priceListRepository->find($orderRequest->getChildren()['priceListId']);
-        if ($priceListChildren !== null) {
+        if ($priceListChildren) {
             $ticket = $this->createTicket($priceListChildren, $orderRequest->getChildren()['amount']);
             $ticket->setOrderName($order);
             $this->ticketRepository->add($ticket, true);
@@ -129,7 +129,7 @@ class OrderService
     {
         $price = 0;
         $priceListYouth = $this->priceListRepository->find($orderRequest->getYouth()['priceListId']);
-        if ($priceListYouth !== null) {
+        if ($priceListYouth) {
             $ticket = $this->createTicket($priceListYouth, $orderRequest->getYouth()['amount']);
             $ticket->setOrderName($order);
             $this->ticketRepository->add($ticket, true);
@@ -142,7 +142,7 @@ class OrderService
     {
         $price = 0;
         $priceListAdult = $this->priceListRepository->find($orderRequest->getAdult()['priceListId']);
-        if ($priceListAdult !== null) {
+        if ($priceListAdult) {
             $ticket = $this->createTicket($priceListAdult, $orderRequest->getAdult()['amount']);
             $ticket->setOrderName($order);
             $this->ticketRepository->add($ticket, true);

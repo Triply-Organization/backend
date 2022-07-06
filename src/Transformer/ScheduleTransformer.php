@@ -3,18 +3,17 @@
 namespace App\Transformer;
 
 use App\Entity\Schedule;
+use App\Entity\Tour;
 use App\Repository\PriceListRepository;
 use App\Service\PriceListService;
 use Stripe\Service\PriceService;
 
-class ScheduleTransformer
+class ScheduleTransformer extends BaseTransformer
 {
-    private PriceListRepository $priceListRepository;
     private PriceListService $priceListService;
 
-    public function __construct(PriceListRepository $priceListRepository, PriceListService $priceListService)
+    public function __construct(PriceListService $priceListService)
     {
-        $this->priceListRepository = $priceListRepository;
         $this->priceListService = $priceListService;
     }
 
@@ -25,5 +24,30 @@ class ScheduleTransformer
             'ticket' => $this->priceListService->getTicketType($schedule->getPriceLists()),
             'startDate' => $schedule->getStartDate()->format('Y-m-d')
         ];
+    }
+
+    public function toArrayScheduleOfCustomer(array $allSchedule, Tour $tour)
+    {
+        $result = [];
+        $result['idTour'] = $tour->getId();
+        foreach ($allSchedule as $key => $schedule) {
+            $result[$key]['id'] = $schedule->getId();
+            $result[$key]['dateStart'] = $schedule->getStartDate()->format('Y-m-d');
+            $result[$key]['remain'] = $schedule->getticketRemain();
+            $result[$key]['ticket'] = $this->getPriceList($schedule);
+        }
+
+        return $result;
+    }
+
+    private function getPriceList(Schedule $schedule)
+    {
+        $result = [];
+        foreach ($schedule->getPriceLists() as $key => $priceList) {
+            $result[$key]['name'] = $priceList->getType()->getName();
+            $result[$key]['price'] = $priceList->getPrice();
+        }
+
+        return $result;
     }
 }

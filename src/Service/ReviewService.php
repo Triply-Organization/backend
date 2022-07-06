@@ -155,17 +155,20 @@ class ReviewService
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
         foreach ($reviews as $key => $review) {
-            $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
-            $typeRatings = $this->reviewDetailService->getTypeRating($reviewDetails);
-            $results[$key]['id'] = $review->getId();
-            $results[$key]['name'] = $review->getUser()->getEmail();
-            $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
-            $results[$key]['tourName'] = $review->getTour()->getTitle();
-            $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-            $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
+
+            if ($review->getDeletedAt() === null) {
+                $reviewDetails = $this->reviewDetailRepository->findBy(['review' => $review]);
+                $typeRatings = $this->reviewDetailService->getTypeRating($reviewDetails);
+                $results[$key]['id'] = $review->getId();
+                $results[$key]['name'] = $review->getUser()->getEmail();
+                $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
+                $results[$key]['tourName'] = $review->getTour()->getTitle();
+                $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
+                 $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
                 ? 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg'
                 : $review->getUser()->getAvatar()->getPath();
-            $results[$key]['comment'] = $review->getComment();
+                $results[$key]['comment'] = $review->getComment();
+            }
         }
 
         return $results;
@@ -189,7 +192,7 @@ class ReviewService
         foreach ($reviewRequest->getRate() as $rate) {
             $reviewDetail = new ReviewDetail();
             $typeResult = $this->typeReviewRepository->find($rate['id']);
-            if ($typeResult === null) {
+            if (!$typeResult) {
                 $bool = false;
             }
             $reviewDetail->setRate($rate['rate'])

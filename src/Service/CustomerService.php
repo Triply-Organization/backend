@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\User;
+use App\Repository\ImageRepository;
+use App\Repository\TourRepository;
+use App\Repository\UserRepository;
+use App\Request\UserRequest;
+use App\Transformer\UserTransformer;
+
+class CustomerService
+{
+    private UserRepository $userRepository;
+    private UserTransformer $userTransformer;
+    private ImageRepository $imageRepository;
+    private TourRepository $tourRepository;
+
+    public function __construct(
+        UserRepository  $userRepository,
+        UserRequest     $userRequest,
+        UserTransformer $userTransformer,
+        ImageRepository $imageRepository,
+        TourRepository  $tourRepository
+    )
+    {
+        $this->userRepository = $userRepository;
+        $this->listCustomerRequest = $userRequest;
+        $this->userTransformer = $userTransformer;
+        $this->imageRepository = $imageRepository;
+        $this->tourRepository = $tourRepository;
+    }
+
+    public function getCustomers(UserRequest $userRequest)
+    {
+        $customerRole = json_encode(["ROLE_CUSTOMER"]);
+        $data = $this->userRepository->getAll($userRequest, $customerRole);
+        $users = $data['users'];
+        $results = [];
+        foreach ($users as $key => $user) {
+            $results[$key] = $this->userTransformer->fromArray($user);
+            $results[$key]['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+        }
+
+        $results['totalPages'] = $data['totalPages'];
+        $results['page'] = $data['page'];
+        $results['totalUsers'] = $data['totalUsers'];
+
+        return $results;
+    }
+
+    public function deleteCustomer(User $user): bool
+    {
+        $this->tourRepository->deleteWithRelation('createdUser', $user->getId());
+        $this->userRepository->delete($user->getId());
+
+        return true;
+    }
+
+    public function undoDeleteCustomer(User $user): bool
+    {
+        $this->tourRepository->undoDeleteWithRelation('createdUser', $user->getId());
+        $this->userRepository->undoDelete($user->getId());
+
+        return true;
+    }
+}
