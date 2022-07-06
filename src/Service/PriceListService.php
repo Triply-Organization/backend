@@ -29,7 +29,7 @@ class PriceListService
         $this->ticketTypeRepository = $ticketTypeRepository;
     }
 
-    public function getTicketType($priceLists)
+    public function getTicketType($priceLists): array
     {
         $ticketType = [];
         foreach ($priceLists as $priceList) {
@@ -44,43 +44,37 @@ class PriceListService
         return $ticketPrice->getPrice();
     }
 
-    public function addListPrice(ScheduleRequest $scheduleRequest, Schedule $schedule)
+    public function addListPrice(ScheduleRequest $scheduleRequest, Schedule $schedule): void
     {
         if ($scheduleRequest->getChildren() !== null) {
-            $priceList = new PriceList();
-            $this->addPriceListTypeChildren($scheduleRequest, $schedule, $priceList);
+            $this->addPriceListTypeChildren($scheduleRequest, $schedule);
         }
         if ($scheduleRequest->getYouth() !== null) {
-            $priceList = new PriceList();
-            $this->addPriceListTypeYouth($scheduleRequest, $schedule, $priceList);
+            $this->addPriceListTypeYouth($scheduleRequest, $schedule);
         }
         if ($scheduleRequest->getAdult() !== null) {
-            $priceList = new PriceList();
-            $this->addPriceListTypeAdult($scheduleRequest, $schedule, $priceList);
+            $this->addPriceListTypeAdult($scheduleRequest, $schedule);
         }
     }
 
-    public function updateListPrice(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule)
+    public function updateListPrice(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule): void
     {
         if ($scheduleUpdateRequest->getChildren() !== null) {
-            $priceList = new PriceList();
-            $this->addPriceListTypeChildren($scheduleUpdateRequest, $schedule, $priceList);
+            $this->addPriceListTypeChildren($scheduleUpdateRequest, $schedule);
         }
         if ($scheduleUpdateRequest->getYouth() !== null) {
-            $priceList = new PriceList();
-            $this->addPriceListTypeYouth($scheduleUpdateRequest, $schedule, $priceList);
+            $this->addPriceListTypeYouth($scheduleUpdateRequest, $schedule);
         }
         if ($scheduleUpdateRequest->getAdult() !== null) {
-            $priceList = new PriceList();
-            $this->addPriceListTypeAdult($scheduleUpdateRequest, $schedule, $priceList);
+            $this->addPriceListTypeAdult($scheduleUpdateRequest, $schedule);
         }
     }
 
     private function addPriceListTypeChildren(
         $scheduleRequest,
-        Schedule $schedule,
-        PriceList $priceList
-    ) {
+        Schedule $schedule
+    ): void {
+        $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'children']);
         if (is_object($ticketType)) {
             $priceList->setType($ticketType)
@@ -93,9 +87,9 @@ class PriceListService
 
     private function addPriceListTypeYouth(
         $scheduleRequest,
-        Schedule $schedule,
-        PriceList $priceList
-    ) {
+        Schedule $schedule
+    ): void {
+        $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'youth']);
         if (is_object($ticketType)) {
             $priceList->setType($ticketType)
@@ -108,9 +102,9 @@ class PriceListService
 
     private function addPriceListTypeAdult(
         $scheduleRequest,
-        Schedule $schedule,
-        PriceList $priceList
-    ) {
+        Schedule $schedule
+    ): void {
+        $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'adult']);
         if (is_object($ticketType)) {
             $priceList->setType($ticketType)

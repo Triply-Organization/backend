@@ -33,7 +33,7 @@ class FacilityService
         return $tourServiceList;
     }
 
-    public function getAllService()
+    public function getAllService(): array
     {
         $services = $this->serviceRepository->findAll();
         foreach ($services as $service) {

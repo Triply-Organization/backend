@@ -22,16 +22,16 @@ class StatisticalService
         $this->tourRepository = $tourRepository;
     }
 
-    public function statisticalTotalRevenue($year)
+    public function statisticalTotalRevenue($year): array
     {
         return $this->billRepository->statisticalTotalRevenue($year);
     }
 
-    public function statisticalBooking($year)
+    public function statisticalBooking($year): array
     {
         return $this->billRepository->statisticalBooking($year);
     }
-    public function statisticalTotal()
+    public function statisticalTotal(): array
     {
         $overAll['overall']['totalUsers'] = count($this->userRepository->findAll());
         $overAll['overall']['totalBooking'] = count($this->billRepository->findAll());

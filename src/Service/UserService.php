@@ -37,7 +37,7 @@ class UserService
         $this->orderTransformer = $orderTransformer;
     }
 
-    public function getAllOrder()
+    public function getAllOrder(): array
     {
         $currentUser = $this->security->getUser();
         $result = [];
@@ -51,7 +51,7 @@ class UserService
         return $result;
     }
 
-    public function getUsers(UserRequest $userRequest)
+    public function getUsers(UserRequest $userRequest): array
     {
         $userRole = ["ROLE_USER"];
         $data = $this->userRepository->getAll($userRequest);
@@ -70,7 +70,7 @@ class UserService
         return $results;
     }
 
-    public function editRole(User $user, EditRoleRequest $editRoleRequest)
+    public function editRole(User $user, EditRoleRequest $editRoleRequest): array
     {
         $editUserMapper = $this->userEditMapper->mapping($user, $editRoleRequest);
         $this->userRepository->add($editUserMapper, true);

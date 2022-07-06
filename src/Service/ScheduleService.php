@@ -38,7 +38,7 @@ class ScheduleService
         $this->priceListRepository = $priceListRepository;
     }
 
-    public function getAllScheduleOfCustomer(Tour $tour)
+    public function getAllScheduleOfCustomer(Tour $tour): array
     {
         return $this->scheduleRepository->findBy(['tour' => $tour]);
     }
@@ -53,7 +53,7 @@ class ScheduleService
         return $dateList;
     }
 
-    public function getPrice(array $schedules)
+    public function getPrice(array $schedules): array
     {
         $prices = [];
         foreach ($schedules as $schedule) {
@@ -63,7 +63,7 @@ class ScheduleService
         return $prices;
     }
 
-    public function addSchedule(ScheduleRequest $scheduleRequest, Tour $tour)
+    public function addSchedule(ScheduleRequest $scheduleRequest, Tour $tour): void
     {
         $startDay = \DateTime::createFromFormat('Y-m-d', $scheduleRequest->getDateStart());
         $schedule = new Schedule();
@@ -74,7 +74,7 @@ class ScheduleService
         $this->priceListService->addListPrice($scheduleRequest, $schedule);
     }
 
-    public function updateSchedule(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule)
+    public function updateSchedule(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule): void
     {
         $startDay = \DateTime::createFromFormat('Y-m-d', $scheduleUpdateRequest->getDateStart());
         $newSchedule = new Schedule();
@@ -92,7 +92,7 @@ class ScheduleService
         $this->scheduleRepository->add($schedule, true);
     }
 
-    public function checkTour(Tour $tour)
+    public function checkTour(Tour $tour): bool
     {
         $tourCheck = $this->tourRepository->find($tour);
         if (!$tourCheck) {
