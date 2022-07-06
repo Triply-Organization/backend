@@ -22,13 +22,14 @@ class UserService
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserTransformer $userTransformer,
-        UserEditMapper $userEditMapper,
+        UserRepository   $userRepository,
+        UserTransformer  $userTransformer,
+        UserEditMapper   $userEditMapper,
         ReviewRepository $reviewRepository,
-        Security $security,
+        Security         $security,
         OrderTransformer $orderTransformer
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
@@ -57,15 +58,16 @@ class UserService
         $data = $this->userRepository->getAll($userRequest);
         $users = $data['users'];
         $results = [];
-        foreach ($users as $key => $user) {
+        $count = 0;
+        foreach ($users as $user) {
             if ($user->getRoles() === $userRole) {
-                $results[$key] = $this->userTransformer->fromArray($user);
-                $results[$key]['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+                $results['users'][] = $this->userTransformer->fromArray($user);
+                $count += 1;
             }
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalUsers'] = $data['totalUsers'];
+        $results['totalUsers'] = $count;
 
         return $results;
     }

@@ -11,6 +11,9 @@ class UserTransformer extends BaseTransformer
 
     public function fromArray(User $user): array
     {
-        return $this->transform($user, static::PARAMS);
+        $result = $this->transform($user, static::PARAMS);
+        $result['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+
+        return $result;
     }
 }
