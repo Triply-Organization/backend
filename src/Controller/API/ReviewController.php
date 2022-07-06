@@ -42,6 +42,7 @@ class ReviewController extends AbstractController
             return $this->errors(['Something wrong']);
         }
         $result = $reviewTransformer->toArray($reviewData);
+
         return $this->success($result);
     }
 
