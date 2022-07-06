@@ -8,7 +8,7 @@ use App\Repository\VoucherRepository;
 use App\Request\AddVoucherRequest;
 use App\Request\BaseRequest;
 use App\Request\GetVoucherRequest;
-use App\Request\PutUpdateVoucherRequest;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class VoucherService
 {
@@ -41,9 +41,13 @@ class VoucherService
         $this->voucherRepository->delete($voucher->getId());
     }
 
-    public function find(GetVoucherRequest $getVoucherRequest): Voucher
+    public function find(GetVoucherRequest $getVoucherRequest): ?Voucher
     {
-        return $this->voucherRepository->findOneBy(['code' => $getVoucherRequest->getCode()]);
+        $voucher = $this->voucherRepository->findOneBy(['code' => $getVoucherRequest->getCode()]);
+        if ($voucher === null) {
+            throw new NotFoundHttpException;
+        }
+        return $voucher;
     }
 
     public function getAllDisCount()
