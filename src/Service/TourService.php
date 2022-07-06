@@ -15,6 +15,7 @@ use App\Request\TourUpdateRequest;
 
 class TourService
 {
+    const COVER = 'cover';
     private TourRepository $tourRepository;
     private TourCreateMapper $tourCreateMapper;
     private TourUpdateMapper $tourUpdateMapper;
@@ -54,7 +55,7 @@ class TourService
         $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
         $path = '';
         foreach ($tourImages as $tourImage) {
-            if ($tourImage->getType() === 'cover') {
+            if ($tourImage->getType() === self::COVER) {
                 $path = $tourImage->getImage()->getPath();
             }
         }
@@ -114,7 +115,7 @@ class TourService
         return $tour;
     }
 
-    public function changeStatus(ChangeStatusOfTourRequest $statusOfTourRequest, Tour $tour)
+    public function changeStatus(ChangeStatusOfTourRequest $statusOfTourRequest, Tour $tour): void
     {
         $tourUpdate = $this->tourRepository->find($tour);
         $tourUpdate->setUpdatedAt(new \DateTimeImmutable())

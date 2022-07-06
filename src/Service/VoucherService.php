@@ -51,7 +51,7 @@ class VoucherService
         return $voucher;
     }
 
-    public function getAllDisCount()
+    public function getAllDisCount(): array
     {
         return $this->voucherRepository->findAll();
     }

@@ -146,7 +146,9 @@ class TourController extends AbstractController
             return $this->errors(['Bad request']);
         }
         $tourService->changeStatus($statusRequest, $tour);
-        return $this->success([]);
+        $result['idTour'] = $tour->getId();
+        $result['status'] = $tour->getStatus();
+        return $this->success($result);
     }
 
     #[Route('/customerTour', name: 'listTourOfCustomer', methods: 'GET')]

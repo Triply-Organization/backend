@@ -18,6 +18,7 @@ use function Composer\Autoload\includeFile;
 
 class ReviewService
 {
+    const PATH = 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg';
     private Security $security;
     private OrderService $orderService;
     private ReviewRepository $reviewRepository;
@@ -41,7 +42,7 @@ class ReviewService
         $this->reviewDetailService = $reviewDetailService;
     }
 
-    public function handleRating(Tour $tour)
+    public function handleRating(Tour $tour): array
     {
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
@@ -54,7 +55,7 @@ class ReviewService
         return $results;
     }
 
-    public function getRatingDetail(Tour $tour)
+    public function getRatingDetail(Tour $tour): array
     {
         $results = [];
         $location = $rooms = $services = $price = $amenities = 0;
@@ -82,7 +83,7 @@ class ReviewService
         return $results;
     }
 
-    public function getRatingOverrall(Tour $tour)
+    public function getRatingOverrall(Tour $tour): array
     {
         $results = [];
         $location = $rooms = $services = $price = $amenities = 0;
@@ -108,7 +109,7 @@ class ReviewService
     public function addReview(
         ReviewRequest $reviewRequest,
         Order $order
-    ) {
+    ): bool|Review {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -132,7 +133,7 @@ class ReviewService
         return $review;
     }
 
-    public function deleteReview(Review $review)
+    public function deleteReview(Review $review): bool
     {
         $currentUser = $this->security->getUser();
         if ($currentUser->getId() !== $review->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -148,7 +149,7 @@ class ReviewService
         return true;
     }
 
-    public function getAllReviews(Tour $tour)
+    public function getAllReviews(Tour $tour): array
     {
         $reviews = $this->reviewRepository->findBy(['tour' => $tour]);
         $results = [];
@@ -162,7 +163,7 @@ class ReviewService
                 $results[$key]['tourName'] = $review->getTour()->getTitle();
                 $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
                  $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
-                ? 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg'
+                ? self::PATH
                 : $review->getUser()->getAvatar()->getPath();
                 $results[$key]['comment'] = $review->getComment();
             }
@@ -171,7 +172,7 @@ class ReviewService
         return $results;
     }
 
-    public function handleRatingUser(array $typeRatings)
+    public function handleRatingUser(array $typeRatings): array
     {
         $results = [];
         if (count($typeRatings) > 0) {
@@ -183,7 +184,7 @@ class ReviewService
         return $results;
     }
 
-    private function addRate(ReviewRequest $reviewRequest, Review $review)
+    private function addRate(ReviewRequest $reviewRequest, Review $review): bool
     {
         $bool = true;
         foreach ($reviewRequest->getRate() as $rate) {
