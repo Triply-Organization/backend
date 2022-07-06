@@ -24,12 +24,11 @@ class AdminController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/customers', name: 'get_customers', methods: 'GET')]
     public function listCustomers(
-        Request            $request,
+        Request $request,
         ValidatorInterface $validator,
-        CustomerService    $customerService,
-        UserRequest        $userRequest,
-    ): JsonResponse
-    {
+        CustomerService $customerService,
+        UserRequest $userRequest,
+    ): JsonResponse {
         $query = $request->query->all();
         $userRequest = $userRequest->fromArray($query);
         $errors = $validator->validate($userRequest);
@@ -44,12 +43,11 @@ class AdminController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/users', name: 'get_users', methods: 'GET')]
     public function listUsers(
-        Request            $request,
+        Request $request,
         ValidatorInterface $validator,
-        UserService        $userService,
-        UserRequest        $userRequest
-    ): JsonResponse
-    {
+        UserService $userService,
+        UserRequest $userRequest
+    ): JsonResponse {
         $query = $request->query->all();
         $userRequest = $userRequest->fromArray($query);
         $errors = $validator->validate($userRequest);
@@ -64,13 +62,12 @@ class AdminController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/users/{id<\d+>}', name: 'edit_users', methods: 'PATCH')]
     public function editUserRole(
-        User               $user,
-        Request            $request,
+        User $user,
+        Request $request,
         ValidatorInterface $validator,
-        UserService        $userService,
-        EditRoleRequest    $editRoleRequest
-    ): JsonResponse
-    {
+        UserService $userService,
+        EditRoleRequest $editRoleRequest
+    ): JsonResponse {
         $dataRequest = $request->toArray();
         $editRoleRequest = $editRoleRequest->fromArray($dataRequest);
         $errors = $validator->validate($editRoleRequest);

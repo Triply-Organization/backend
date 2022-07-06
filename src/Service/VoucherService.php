@@ -10,7 +10,6 @@ use App\Request\BaseRequest;
 use App\Request\GetVoucherRequest;
 use App\Request\PutUpdateVoucherRequest;
 
-
 class VoucherService
 {
     private VoucherRepository $voucherRepository;

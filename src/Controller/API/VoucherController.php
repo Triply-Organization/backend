@@ -8,7 +8,6 @@ use App\Request\BaseRequest;
 use App\Request\GetVoucherRequest;
 use App\Request\PatchUpdateVoucherRequest;
 use App\Request\PutUpdateVoucherRequest;
-
 use App\Service\VoucherService;
 use App\Traits\ResponseTrait;
 use App\Transformer\VoucherTransformer;
@@ -49,36 +48,33 @@ class VoucherController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id<\d+>}', name: 'put_update', methods: 'PUT')]
     public function putUpdateVoucher(
-        Request                 $request,
-        Voucher                 $voucher,
+        Request $request,
+        Voucher $voucher,
         PutUpdateVoucherRequest $updateVoucherRequest,
-        ValidatorInterface      $validator,
-        VoucherService          $voucherService
-    ): JsonResponse
-    {
+        ValidatorInterface $validator,
+        VoucherService $voucherService
+    ): JsonResponse {
         return $this->updateVoucher($request, $voucher, $updateVoucherRequest, $validator, $voucherService);
     }
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id<\d+>}', name: 'patch_update', methods: 'PATCH')]
     public function patchUpdateVoucher(
-        Request                   $request,
-        Voucher                   $voucher,
+        Request $request,
+        Voucher $voucher,
         PatchUpdateVoucherRequest $updateVoucherRequest,
-        ValidatorInterface        $validator,
-        VoucherService            $voucherService
-    ): JsonResponse
-    {
+        ValidatorInterface $validator,
+        VoucherService $voucherService
+    ): JsonResponse {
         return $this->updateVoucher($request, $voucher, $updateVoucherRequest, $validator, $voucherService);
     }
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
     public function deleteVoucher(
-        Voucher        $voucher,
+        Voucher $voucher,
         VoucherService $voucherService
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $voucherService->delete($voucher);
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
@@ -103,13 +99,12 @@ class VoucherController extends AbstractController
     }
 
     private function updateVoucher(
-        Request            $request,
-        Voucher            $voucher,
-        BaseRequest        $updateVoucherRequest,
+        Request $request,
+        Voucher $voucher,
+        BaseRequest $updateVoucherRequest,
         ValidatorInterface $validator,
-        VoucherService     $voucherService
-    ): JsonResponse
-    {
+        VoucherService $voucherService
+    ): JsonResponse {
         $requestData = $request->toArray();
         $updateVoucherRequestData = $updateVoucherRequest->fromArray($requestData);
         $errors = $validator->validate($updateVoucherRequestData);
