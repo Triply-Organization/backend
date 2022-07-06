@@ -47,7 +47,7 @@ class FacilityService
         arsort($ratings['rating']);
 
         foreach ($ratings['rating'] as $key => $rating) {
-            if($i < 6) {
+            if ($i < 6) {
                 $tourArray[$i] = $this->tourRepository->find($key);
                 $i++;
             }
