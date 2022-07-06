@@ -147,6 +147,7 @@ class TourController extends AbstractController
         }
         $tourService->changeStatus($statusRequest, $tour);
         $result['idTour'] = $tour->getId();
+        $result['status'] = $tour->getStatus();
         return $this->success($result);
     }
 
