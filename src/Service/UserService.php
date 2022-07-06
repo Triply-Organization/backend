@@ -8,6 +8,7 @@ use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Request\EditRoleRequest;
 use App\Request\UserRequest;
+use App\Transformer\OrderTransformer;
 use App\Transformer\UserTransformer;
 use App\Repository\ImageRepository;
 use Symfony\Component\Security\Core\Security;
@@ -17,6 +18,7 @@ class UserService
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
     private UserEditMapper $userEditMapper;
+    private OrderTransformer $orderTransformer;
     private ReviewRepository $reviewRepository;
 
     public function __construct(
@@ -24,13 +26,15 @@ class UserService
         UserTransformer $userTransformer,
         UserEditMapper $userEditMapper,
         ReviewRepository $reviewRepository,
-        Security $security
+        Security $security,
+        OrderTransformer $orderTransformer
     ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
+        $this->orderTransformer = $orderTransformer;
     }
 
     public function getAllOrder(): array
@@ -42,7 +46,7 @@ class UserService
         $result['user']['fullname'] = $currentUser->getName();
         $result['user']['avatar'] = $currentUser->getAvatar();
         foreach ($currentUser->getOrders() as $key => $order) {
-            $result['orders'][$key] = $order;
+            $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }
         return $result;
     }
