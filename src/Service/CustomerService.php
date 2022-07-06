@@ -39,7 +39,7 @@ class CustomerService
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalCustomers'] = $data['totalUsers'];
+        $results['totalCustomers'] = $count;
 
         return $results;
     }
