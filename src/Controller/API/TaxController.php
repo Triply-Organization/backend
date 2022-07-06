@@ -79,7 +79,7 @@ class TaxController extends AbstractController
     }
 
     #[isGranted('ROLE_USER')]
-    #[Route('/getinfo', name: 'getinfo', methods: 'POST')]
+    #[Route('/getinfo', name: 'getinfo', methods: 'GET')]
     public function getTax(
         Request $request,
         GetTaxRequest $getTaxRequest,
@@ -87,7 +87,7 @@ class TaxController extends AbstractController
         TaxService $taxService,
         TaxTransformer $taxTransformer
     ): JsonResponse {
-        $requestData = $request->toArray();
+        $requestData = $request->query->all();
         $getTaxRequestData = $getTaxRequest->fromArray($requestData);
         $errors = $validator->validate($getTaxRequestData);
 
