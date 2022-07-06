@@ -2,11 +2,14 @@
 
 namespace App\Service;
 
+use App\Entity\PriceList;
 use App\Entity\Schedule;
 use App\Entity\Tour;
+use App\Repository\PriceListRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TourRepository;
 use App\Request\ScheduleRequest;
+use App\Request\ScheduleUpdateRequest;
 use App\Transformer\ScheduleTransformer;
 use Symfony\Component\Security\Core\Security;
 
@@ -14,6 +17,7 @@ class ScheduleService
 {
     private ScheduleTransformer $scheduleTransformer;
     private TourRepository $tourRepository;
+    private PriceListRepository $priceListRepository;
     private Security $security;
     private ScheduleRepository $scheduleRepository;
     private PriceListService $priceListService;
@@ -23,6 +27,7 @@ class ScheduleService
         TourRepository $tourRepository,
         ScheduleRepository $scheduleRepository,
         Security $security,
+        PriceListRepository $priceListRepository,
         PriceListService $priceListService
     ) {
         $this->scheduleTransformer = $scheduleTransformer;
@@ -30,9 +35,10 @@ class ScheduleService
         $this->scheduleRepository = $scheduleRepository;
         $this->tourRepository = $tourRepository;
         $this->priceListService = $priceListService;
+        $this->priceListRepository = $priceListRepository;
     }
 
-    public function getAllScheduleOfCustomer(Tour $tour)
+    public function getAllScheduleOfCustomer(Tour $tour): array
     {
         return $this->scheduleRepository->findBy(['tour' => $tour]);
     }
@@ -47,7 +53,7 @@ class ScheduleService
         return $dateList;
     }
 
-    public function getPrice(array $schedules)
+    public function getPrice(array $schedules): array
     {
         $prices = [];
         foreach ($schedules as $schedule) {
@@ -57,7 +63,7 @@ class ScheduleService
         return $prices;
     }
 
-    public function addSchedule(ScheduleRequest $scheduleRequest, Tour $tour)
+    public function addSchedule(ScheduleRequest $scheduleRequest, Tour $tour): void
     {
         $startDay = \DateTime::createFromFormat('Y-m-d', $scheduleRequest->getDateStart());
         $schedule = new Schedule();
@@ -68,7 +74,25 @@ class ScheduleService
         $this->priceListService->addListPrice($scheduleRequest, $schedule);
     }
 
-    public function checkTour(Tour $tour)
+    public function updateSchedule(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule): void
+    {
+        $startDay = \DateTime::createFromFormat('Y-m-d', $scheduleUpdateRequest->getDateStart());
+        $newSchedule = new Schedule();
+        $newSchedule->setTour($schedule->getTour())
+            ->setTicketRemain($scheduleUpdateRequest->getRemain() ?? $schedule->getTicketRemain())
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setStartDate($startDay ?? $schedule->getStartDate());
+        $this->scheduleRepository->add($newSchedule, true);
+        $this->priceListService->updateListPrice($scheduleUpdateRequest, $newSchedule);
+        foreach ($schedule->getPriceLists() as $priceList) {
+            $priceList->setDeletedAt(new \DateTimeImmutable());
+            $this->priceListRepository->add($priceList, true);
+        }
+        $schedule->setDeletedAt(new \DateTimeImmutable());
+        $this->scheduleRepository->add($schedule, true);
+    }
+
+    public function checkTour(Tour $tour): bool
     {
         $tourCheck = $this->tourRepository->find($tour);
         if (!$tourCheck) {

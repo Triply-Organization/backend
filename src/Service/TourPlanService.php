@@ -30,7 +30,7 @@ class TourPlanService
         $this->destinationTransformer = $destinationTransformer;
     }
 
-    public function addTourPlan(TourRequest $tourRequest, Tour $tour)
+    public function addTourPlan(TourRequest $tourRequest, Tour $tour): void
     {
         foreach ($tourRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);

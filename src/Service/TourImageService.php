@@ -37,7 +37,7 @@ class TourImageService
         return $gallery;
     }
 
-    public function addTourImage(TourRequest $tourRequest, Tour $tour)
+    public function addTourImage(TourRequest $tourRequest, Tour $tour): void
     {
         foreach ($tourRequest->getTourImages() as $tourImageRequest) {
             $image = $this->imageRepository->find($tourImageRequest['id']);
@@ -52,14 +52,14 @@ class TourImageService
         }
     }
 
-    public function updateTourImage(Tour $tour, TourUpdateRequest $tourUpdateRequest)
+    public function updateTourImage(Tour $tour, TourUpdateRequest $tourUpdateRequest): Tour
     {
         foreach ($tourUpdateRequest->getTourImages() as $tourImageRequest) {
             if (!$tourImageRequest['delete'] && !$tourImageRequest['type']) {
                 continue;
             }
             if ($tourImageRequest['delete'] === true) {
-                $this->deleteTourIamge($tourImageRequest);
+                $this->deleteTourImage($tourImageRequest);
 
                 continue;
             }
@@ -74,7 +74,7 @@ class TourImageService
         return $tour;
     }
 
-    private function deleteTourIamge(array $tourImageRequest)
+    private function deleteTourImage(array $tourImageRequest): void
     {
         $tourImageDelete = $this->tourImageRepository->find($tourImageRequest['idTourImage']);
         if (!$tourImageDelete) {
@@ -84,11 +84,11 @@ class TourImageService
         $this->tourImageRepository->add($tourImageDelete);
     }
 
-    private function addTourImageTypeGallery(Tour $tour, array $tourImageRequest)
+    private function addTourImageTypeGallery(Tour $tour, array $tourImageRequest): void
     {
         $image = $this->imageRepository->find($tourImageRequest['id']);
         if (!$image) {
-            return $tour;
+            return;
         }
         $tourImage = new TourImage();
         $tourImage->setType($tourImageRequest['type']);
@@ -96,8 +96,6 @@ class TourImageService
         $tourImage->setImage($image);
         $tourImage->setUpdatedAt(new \DateTimeImmutable());
         $this->tourImageRepository->add($tourImage);
-
-        return $tour;
     }
 
     private function addTourImageTypeCover(array $tourImageRequest): void
