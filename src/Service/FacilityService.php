@@ -36,11 +36,12 @@ class FacilityService
         $tours = $this->tourRepository->findAll();
         $ratings = [];
         foreach ($tours as $key => $tour) {
-            $ratings[$tour->getId()] = $this->reviewService->ratingForTour($tour);
+            $ratings['tourId'][$key] =$tour->getId();
+            $ratings['rating'][$key] = $this->reviewService->ratingForTour($tour);
         }
-
-        return $ratings;
+       return $ratings;
     }
+
 
     public function getService($tourServices): array
     {
