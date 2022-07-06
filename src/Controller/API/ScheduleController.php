@@ -29,7 +29,7 @@ class ScheduleController extends AbstractController
         ScheduleRequest $scheduleRequest,
         ValidatorInterface $validator,
         ScheduleService $scheduleService
-    ):JsonResponse {
+    ): JsonResponse {
         $requestData = $request->toArray();
         $scheduleData = $scheduleRequest->fromArray($requestData);
         $checkUser = $scheduleService->checkTour($tour);
@@ -50,7 +50,7 @@ class ScheduleController extends AbstractController
         Tour $tour,
         ScheduleService $scheduleService,
         ScheduleTransformer $scheduleTransformer
-    ):JsonResponse {
+    ): JsonResponse {
         $checkUser = $scheduleService->checkTour($tour);
         if ($checkUser === false) {
             return $this->errors(['Something wrong']);

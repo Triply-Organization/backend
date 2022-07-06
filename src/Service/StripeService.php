@@ -158,7 +158,7 @@ class StripeService
             'locale' => $languages,
             'submit_type' => 'book',
             'mode' => 'payment',
-            'success_url' => $this->params->get('stripe_payment_success_url'). $checkoutRequestData->getOrderId(),
+            'success_url' => $this->params->get('stripe_payment_success_url') . $checkoutRequestData->getOrderId(),
             'cancel_url' => $this->params->get('stripe_payment_cancel_url') . $checkoutRequestData->getOrderId(),
         ];
     }
