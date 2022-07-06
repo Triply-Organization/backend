@@ -7,10 +7,13 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class UserTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id' ,'name', 'email', 'phone','address', 'roles'];
+    private const PARAMS = ['id', 'name', 'email', 'phone', 'address', 'roles'];
 
     public function fromArray(User $user): array
     {
-        return $this->transform($user, static::PARAMS);
+        $result = $this->transform($user, static::PARAMS);
+        $result['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+
+        return $result;
     }
 }
