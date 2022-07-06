@@ -19,7 +19,19 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StripeService
 {
+    private const USD_CURRENCY = 'usd';
+    private const VND_CURRENCY = 'vnd';
     private const CHECK_COMPLETED = 'checkout.session.completed';
+    private const DAYS_REMAIN_FIFTEEN = 15;
+    private const DAYS_REMAIN_SEVEN = 7;
+    private const DAYS_REMAIN_THREE = 3;
+    private const PERCENT_MINUS_INIT = 1;
+    private const PERCENT_MINUS_FIFTEEN_DAYS = 0.3;
+    private const PERCENT_MINUS_SEVEN_DAYS = 0.5;
+    private const USD_CONVERT = 100;
+    private const VND_CONVERT = 1000;
+    private const VND_TAX_ID = 'txr_1LGNaYBshpup8grmjONnWYWz';
+    private const USD_TAX_ID = 'txr_1LGeepBshpup8grmsXrotsGu';
 
     private ParameterBagInterface $params;
     private BillRepository $billRepository;
@@ -68,18 +80,18 @@ class StripeService
         $daysRemain = $refundRequestData->getDayRemain();
         $bill = $this->billRepository->find($refundRequestData->getBillId());
         $order = $this->orderRepository->find($refundRequestData->getOrderId());
-        $totalPrice = $bill->getTotalPrice() * 1000;
-        $percentMinus = 1;
+        $totalPrice = $bill->getTotalPrice() * self::VND_CONVERT;
+        $percentMinus = self::PERCENT_MINUS_INIT;
 
-        if ($refundRequestData->getCurrency() === 'usd') {
-            $totalPrice = $bill->getTotalPrice() * 100;
+        if ($refundRequestData->getCurrency() === self::USD_CURRENCY) {
+            $totalPrice = $bill->getTotalPrice() * self::USD_CONVERT;
         }
 
-        if ($daysRemain <= 15) {
-            $percentMinus = 0.3;
+        if ($daysRemain <= self::DAYS_REMAIN_FIFTEEN) {
+            $percentMinus = self::PERCENT_MINUS_FIFTEEN_DAYS;
         }
-        if ($daysRemain >= 3 && $daysRemain <= 7) {
-            $percentMinus = 0.5;
+        if ($daysRemain >= self::DAYS_REMAIN_THREE && $daysRemain <= self::DAYS_REMAIN_SEVEN) {
+            $percentMinus = self::PERCENT_MINUS_SEVEN_DAYS;
         }
 
         $refundAmount = $totalPrice - ($totalPrice * $percentMinus);
@@ -126,13 +138,13 @@ class StripeService
     private function sessionConfig(CheckoutRequest $checkoutRequestData): array
     {
         $languages = 'vi';
-        $totalPrice = $checkoutRequestData->getTotalPrice() * 1000;
+        $totalPrice = $checkoutRequestData->getTotalPrice() * self::VND_CONVERT;
         $tour = $this->tourRepository->find($checkoutRequestData->getTourId());
-        $taxRateId = 'txr_1LGNaYBshpup8grmjONnWYWz';
-        if ($checkoutRequestData->getCurrency() === 'usd') {
+        $taxRateId = self::VND_TAX_ID;
+        if ($checkoutRequestData->getCurrency() === self::USD_CURRENCY) {
             $languages = 'en';
-            $totalPrice = $checkoutRequestData->getTotalPrice() * 100;
-            $taxRateId = 'txr_1LGeepBshpup8grmsXrotsGu';
+            $totalPrice = $checkoutRequestData->getTotalPrice() * self::VND_CONVERT;
+            $taxRateId = self::USD_TAX_ID;
         }
         return [
             'line_items' => [[
@@ -152,8 +164,8 @@ class StripeService
             'locale' => $languages,
             'submit_type' => 'book',
             'mode' => 'payment',
-            'success_url' => 'http://localhost:3000/confirmation/1',
-            'cancel_url' => 'http://localhost:3000/',
+            'success_url' => $this->params->get('stripe_payment_success_url'),
+            'cancel_url' => $this->params->get('stripe_payment_cancel_url'),
         ];
     }
 

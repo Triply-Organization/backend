@@ -25,7 +25,7 @@ class TaxService
         $tax = new Tax();
         $tax->setCurrency($addTaxRequest->getCurrency());
         $tax->setPercent($addTaxRequest->getPercent());
-        $this->taxRepository->add($tax,true);
+        $this->taxRepository->add($tax, true);
     }
 
     public function update(Tax $tax, BaseRequest $updateVoucherRequest): void

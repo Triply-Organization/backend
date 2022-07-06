@@ -11,6 +11,7 @@ use App\Request\UserRequest;
 use App\Transformer\UserTransformer;
 use App\Repository\ImageRepository;
 use Symfony\Component\Security\Core\Security;
+
 class UserService
 {
     private UserRepository $userRepository;
@@ -20,14 +21,13 @@ class UserService
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository   $userRepository,
-        UserTransformer  $userTransformer,
-        UserEditMapper   $userEditMapper,
-        ImageRepository  $imageRepository,
+        UserRepository $userRepository,
+        UserTransformer $userTransformer,
+        UserEditMapper $userEditMapper,
+        ImageRepository $imageRepository,
         ReviewRepository $reviewRepository,
-         Security        $security
-    )
-    {
+        Security $security
+    ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
@@ -35,7 +35,7 @@ class UserService
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
     }
-    
+
     public function getAllOrder()
     {
         $currentUser = $this->security->getUser();

@@ -21,13 +21,12 @@ class ScheduleController extends AbstractController
     #[Route('/{id<\d+>}', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addSchedule(
-        Tour               $tour,
-        Request            $request,
-        ScheduleRequest    $scheduleRequest,
+        Tour $tour,
+        Request $request,
+        ScheduleRequest $scheduleRequest,
         ValidatorInterface $validator,
-        ScheduleService    $scheduleService
-    )
-    {
+        ScheduleService $scheduleService
+    ) {
         $requestData = $request->toArray();
         $scheduleData = $scheduleRequest->fromArray($requestData);
         $checkUser = $scheduleService->checkTour($tour);
@@ -45,11 +44,10 @@ class ScheduleController extends AbstractController
     #[Route('/{id<\d+>}', name: 'getAll', methods: 'GET')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function getScheduleOfCustomer(
-        Tour                $tour,
-        ScheduleService     $scheduleService,
+        Tour $tour,
+        ScheduleService $scheduleService,
         ScheduleTransformer $scheduleTransformer
-    )
-    {
+    ) {
         $checkUser = $scheduleService->checkTour($tour);
         if ($checkUser === false) {
             return $this->errors(['Something wrong']);

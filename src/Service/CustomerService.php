@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Repository\ImageRepository;
 use App\Repository\TourRepository;
 use App\Repository\UserRepository;
 use App\Request\UserRequest;
