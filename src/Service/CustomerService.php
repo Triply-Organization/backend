@@ -17,13 +17,12 @@ class CustomerService
     private TourRepository $tourRepository;
 
     public function __construct(
-        UserRepository  $userRepository,
-        UserRequest     $userRequest,
+        UserRepository $userRepository,
+        UserRequest $userRequest,
         UserTransformer $userTransformer,
         ImageRepository $imageRepository,
-        TourRepository  $tourRepository
-    )
-    {
+        TourRepository $tourRepository
+    ) {
         $this->userRepository = $userRepository;
         $this->listCustomerRequest = $userRequest;
         $this->userTransformer = $userTransformer;

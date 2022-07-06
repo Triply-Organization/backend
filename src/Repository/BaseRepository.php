@@ -41,7 +41,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function     deleteWithRelation(string $field, int $id)
+    public function deleteWithRelation(string $field, int $id)
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(

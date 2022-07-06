@@ -24,5 +24,4 @@ class EditRoleRequest extends BaseRequest
     {
         $this->role = $role;
     }
-
 }

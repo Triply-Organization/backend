@@ -48,4 +48,3 @@ class PutUpdateTaxRequest extends BaseRequest
         $this->percent = $percent;
     }
 }
-

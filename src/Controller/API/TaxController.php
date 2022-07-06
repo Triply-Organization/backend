@@ -26,12 +26,11 @@ class TaxController extends AbstractController
 
     #[Route('/', name: 'add', methods: 'POST')]
     public function addTax(
-        Request            $request,
-        AddTaxRequest      $addTaxRequest,
+        Request $request,
+        AddTaxRequest $addTaxRequest,
         ValidatorInterface $validator,
-        TaxService         $taxService,
-    ): JsonResponse
-    {
+        TaxService $taxService,
+    ): JsonResponse {
         $requestData = $request->toArray();
         $addTaxRequestData = $addTaxRequest->fromArray($requestData);
         $errors = $validator->validate($addTaxRequestData);
@@ -48,36 +47,33 @@ class TaxController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id<\d+>}', name: 'put_update', methods: 'PUT')]
     public function putUpdateTax(
-        Request             $request,
-        Tax                 $tax,
+        Request $request,
+        Tax $tax,
         PutUpdateTaxRequest $updateTaxRequest,
-        ValidatorInterface  $validator,
-        TaxService          $taxService
-    ): JsonResponse
-    {
+        ValidatorInterface $validator,
+        TaxService $taxService
+    ): JsonResponse {
         return $this->updateTax($request, $tax, $updateTaxRequest, $validator, $taxService);
     }
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id<\d+>}', name: 'patch_update', methods: 'PATCH')]
     public function patchUpdateTax(
-        Request               $request,
-        Tax                   $tax,
+        Request $request,
+        Tax $tax,
         PatchUpdateTaxRequest $updateTaxRequest,
-        ValidatorInterface    $validator,
-        TaxService            $taxService
-    ): JsonResponse
-    {
+        ValidatorInterface $validator,
+        TaxService $taxService
+    ): JsonResponse {
         return $this->updateTax($request, $tax, $updateTaxRequest, $validator, $taxService);
     }
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
     public function deleteTax(
-        Tax        $tax,
+        Tax $tax,
         TaxService $taxService
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $taxService->delete($tax);
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
@@ -85,13 +81,12 @@ class TaxController extends AbstractController
     #[isGranted('ROLE_USER')]
     #[Route('/getinfo', name: 'getinfo', methods: 'POST')]
     public function getTax(
-        Request            $request,
-        GetTaxRequest      $getTaxRequest,
+        Request $request,
+        GetTaxRequest $getTaxRequest,
         ValidatorInterface $validator,
-        TaxService         $taxService,
-        TaxTransformer     $taxTransformer
-    ): JsonResponse
-    {
+        TaxService $taxService,
+        TaxTransformer $taxTransformer
+    ): JsonResponse {
         $requestData = $request->toArray();
         $getTaxRequestData = $getTaxRequest->fromArray($requestData);
         $errors = $validator->validate($getTaxRequestData);
@@ -108,13 +103,12 @@ class TaxController extends AbstractController
 
 
     private function updateTax(
-        Request            $request,
-        Tax                $tax,
-        BaseRequest        $updateTaxRequest,
+        Request $request,
+        Tax $tax,
+        BaseRequest $updateTaxRequest,
         ValidatorInterface $validator,
-        TaxService         $taxService
-    ): JsonResponse
-    {
+        TaxService $taxService
+    ): JsonResponse {
         $requestData = $request->toArray();
         $updateTaxRequestData = $updateTaxRequest->fromArray($requestData);
         $errors = $validator->validate($updateTaxRequestData);

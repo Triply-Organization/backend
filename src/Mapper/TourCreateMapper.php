@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Security;
 class TourCreateMapper
 {
     private Security $security;
-    private const PROCESSING = 'processing';
+    private const PENDING = 'pending';
 
     public function __construct(Security $security)
     {
@@ -32,7 +32,7 @@ class TourCreateMapper
             ->setMinAge($tourRequest->getMinAge())
             ->setOverView($tourRequest->getOverView())
             ->setCreatedUser($currentUser)
-            ->setStatus(self::PROCESSING);
+            ->setStatus(self::PENDING);
         return $tour;
     }
 }

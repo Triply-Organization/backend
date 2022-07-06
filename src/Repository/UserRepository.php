@@ -21,7 +21,6 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends BaseRepository implements PasswordUpgraderInterface
 {
-
     private const USER_ALIAS = 'u';
     public const PAGE_SIZE = 6;
 
