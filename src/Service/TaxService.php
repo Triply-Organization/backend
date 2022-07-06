@@ -8,6 +8,7 @@ use App\Repository\TaxRepository;
 use App\Request\AddTaxRequest;
 use App\Request\BaseRequest;
 use App\Request\GetTaxRequest;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaxService
 {
@@ -41,6 +42,12 @@ class TaxService
 
     public function find(GetTaxRequest $getTaxRequest): Tax
     {
-        return $this->taxRepository->findOneBy(['currency' => $getTaxRequest->getCurrency()]);
+        $tax = $this->taxRepository->findOneBy(['currency' => $getTaxRequest->getCurrency()]);
+
+        if (!$tax) {
+            throw new NotFoundHttpException;
+        }
+
+        return $tax;
     }
 }

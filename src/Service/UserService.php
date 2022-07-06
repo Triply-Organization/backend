@@ -17,14 +17,12 @@ class UserService
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
     private UserEditMapper $userEditMapper;
-    private ImageRepository $imageRepository;
     private ReviewRepository $reviewRepository;
 
     public function __construct(
         UserRepository   $userRepository,
         UserTransformer  $userTransformer,
         UserEditMapper   $userEditMapper,
-        ImageRepository  $imageRepository,
         ReviewRepository $reviewRepository,
         Security         $security
     )
@@ -32,7 +30,6 @@ class UserService
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
-        $this->imageRepository = $imageRepository;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
     }

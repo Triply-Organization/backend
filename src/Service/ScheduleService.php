@@ -75,11 +75,8 @@ class ScheduleService
             return false;
         }
         $currentUser = $this->security->getUser();
-        $roles = $currentUser->getRoles();
-        if ($roles['role'] !== 'ROLE_USER') {
-            if ($currentUser->getId() === $tourCheck->getCreatedUser()->getId()) {
-                return true;
-            }
+        if ($currentUser->getId() === $tourCheck->getCreatedUser()->getId()) {
+            return true;
         }
         return false;
     }
