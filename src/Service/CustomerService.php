@@ -13,20 +13,16 @@ class CustomerService
 {
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
-    private ImageRepository $imageRepository;
     private TourRepository $tourRepository;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserRequest $userRequest,
+        UserRepository  $userRepository,
         UserTransformer $userTransformer,
-        ImageRepository $imageRepository,
-        TourRepository $tourRepository
-    ) {
+        TourRepository  $tourRepository
+    )
+    {
         $this->userRepository = $userRepository;
-        $this->listCustomerRequest = $userRequest;
         $this->userTransformer = $userTransformer;
-        $this->imageRepository = $imageRepository;
         $this->tourRepository = $tourRepository;
     }
 
@@ -43,7 +39,7 @@ class CustomerService
 
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalUsers'] = $data['totalUsers'];
+        $results['totalCustomers'] = $data['totalUsers'];
 
         return $results;
     }

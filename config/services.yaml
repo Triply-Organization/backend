@@ -8,8 +8,8 @@ parameters:
   s3url: '%env(S3_URL)%'
   stripe_secret_key: "%env(STRIPE_SECRET_KEY)%"
   stripe_payment_success_url: "%env(STRIPE_PAYMENT_SUCCESS)%"
-  stripe_payment_cancel_url: "%env(CURRENCY_CONVERT_API)%"
-  currency_convert_api: "%env(STRIPE_PAYMENT_CANCEL)%"
+  stripe_payment_cancel_url: "%env(STRIPE_PAYMENT_CANCEL)%"
+  currency_convert_api: "%env(CURRENCY_CONVERT_API)%"
 services:
     # default configuration for services in *this* file
     _defaults:
