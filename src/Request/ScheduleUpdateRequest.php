@@ -4,7 +4,7 @@ namespace App\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ScheduleRequest extends BaseRequest
+class ScheduleUpdateRequest extends BaseRequest
 {
     #[Assert\Type('numeric')]
     private $children;
@@ -15,13 +15,9 @@ class ScheduleRequest extends BaseRequest
     #[Assert\Type('numeric')]
     private $adult;
 
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\Type('string')]
     private $dateStart;
 
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\Type('int')]
     private $remain;
 
