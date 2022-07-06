@@ -67,7 +67,7 @@ class UserService
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalUsers'] = $data['totalUsers'];
+        $results['totalUsers'] = $count;
 
         return $results;
     }
