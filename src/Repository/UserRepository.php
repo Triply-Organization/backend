@@ -58,7 +58,6 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalUsers = count($paginator);
         $pageCount = ceil($totalUsers / self::PAGE_SIZE);
-
         $paginator
             ->getQuery()
             ->setFirstResult(self::PAGE_SIZE * ($userRequest->getPage() - 1))

@@ -26,13 +26,14 @@ class ReviewService
     private ReviewDetailService $reviewDetailService;
 
     public function __construct(
-        Security $security,
-        OrderService $orderService,
-        ReviewRepository $reviewRepository,
-        TypeReviewRepository $typeReviewRepository,
+        Security               $security,
+        OrderService           $orderService,
+        ReviewRepository       $reviewRepository,
+        TypeReviewRepository   $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService $reviewDetailService
-    ) {
+        ReviewDetailService    $reviewDetailService
+    )
+    {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -105,10 +106,34 @@ class ReviewService
         return $results;
     }
 
+    public function ratingForTour(Tour $tour)
+    {
+        $avg = 0;
+        $location = $rooms = $services = $price = $amenities = 0;
+        $ratings = $this->handleRating($tour);
+        $count = 0;
+        foreach ($ratings as $rating) {
+            if (count($rating) > 0) {
+                $location = $location + $rating['location'];
+                $rooms = $rooms + $rating['rooms'];
+                $services = $services + $rating['services'];
+                $price = $price + $rating['price'];
+                $amenities = $amenities + $rating['amenities'];
+                $count = $count + 1;
+            }
+        }
+        if ($count > 0) {
+            $avg = ($location + $rooms + $services + $price) / (5 * $count);
+        }
+
+        return $avg;
+    }
+
     public function addReview(
         ReviewRequest $reviewRequest,
-        Order $order
-    ) {
+        Order         $order
+    )
+    {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -161,9 +186,9 @@ class ReviewService
                 $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
                 $results[$key]['tourName'] = $review->getTour()->getTitle();
                 $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-                 $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
-                ? 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg'
-                : $review->getUser()->getAvatar()->getPath();
+                $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
+                    ? 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg'
+                    : $review->getUser()->getAvatar()->getPath();
                 $results[$key]['comment'] = $review->getComment();
             }
         }

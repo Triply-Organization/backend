@@ -54,10 +54,9 @@ class UserService
         $data = $this->userRepository->getAll($userRequest);
         $users = $data['users'];
         $results = [];
-        foreach ($users as $key => $user) {
+        foreach ($users as $user) {
             if ($user->getRoles() === $userRole) {
-                $results[$key] = $this->userTransformer->fromArray($user);
-                $results[$key]['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+                $results['users'][] = $this->userTransformer->fromArray($user);
             }
         }
         $results['totalPages'] = $data['totalPages'];
