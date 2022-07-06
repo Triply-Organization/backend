@@ -40,6 +40,7 @@ class TourController extends AbstractController
             return $this->errors(['Bad request']);
         }
         $tours = $listTourService->findAll($tourRequest);
+
         return $this->success($tours);
     }
 
