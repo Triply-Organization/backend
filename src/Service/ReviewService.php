@@ -10,7 +10,10 @@ use App\Entity\TypeReview;
 use App\Repository\ReviewDetailRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\TypeReviewRepository;
+use App\Request\GetReviewAllRequest;
 use App\Request\ReviewRequest;
+use App\Transformer\ReviewTransformer;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -25,6 +28,7 @@ class ReviewService
     private TypeReviewRepository $typeReviewRepository;
     private ReviewDetailRepository $reviewDetailRepository;
     private ReviewDetailService $reviewDetailService;
+    private ReviewTransformer $reviewTransformer;
 
     public function __construct(
         Security               $security,
@@ -32,7 +36,8 @@ class ReviewService
         ReviewRepository       $reviewRepository,
         TypeReviewRepository   $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService    $reviewDetailService
+        ReviewDetailService    $reviewDetailService,
+        ReviewTransformer $reviewTransformer
     )
     {
         $this->security = $security;
@@ -41,6 +46,7 @@ class ReviewService
         $this->typeReviewRepository = $typeReviewRepository;
         $this->reviewDetailRepository = $reviewDetailRepository;
         $this->reviewDetailService = $reviewDetailService;
+        $this->reviewTransformer = $reviewTransformer;
     }
 
     public function handleRating(Tour $tour): array
@@ -171,6 +177,27 @@ class ReviewService
         $this->reviewRepository->add($review, true);
 
         return true;
+    }
+
+    public function adminGetAllReviews(
+        GetReviewAllRequest $getReviewAllRequest,
+    )
+    {
+        $result = [];
+        $data = $this->reviewRepository->getAllReviewAdmin($getReviewAllRequest);
+        $reviews = $data['reviews'];
+        foreach ($reviews as $review) {
+            $result ['reviews'][] = $this->reviewTransformer->toArrayOfAdmin($review);
+        }
+        $result['totalPages'] = $data['totalPages'];
+        $result['page'] = $data['page'];
+        $result['totalReviews'] = $data['totalReviews'];
+
+        if ($result === null) {
+            $result = [];
+        }
+
+        return $result;
     }
 
     public function getAllReviews(Tour $tour): array

@@ -6,11 +6,28 @@ use App\Entity\Review;
 
 class ReviewTransformer extends BaseTransformer
 {
+    private const PARAMS = ['id', 'comment', 'createdAt'];
+
     public function toArray(Review $review)
     {
         return [
             'idOrder' => $review->getOrderDetail()->getId(),
             'idReview' => $review->getId()
         ];
+    }
+
+    public function toArrayOfAdmin(Review $review): array
+    {
+        $result = $this->transform($review, static::PARAMS);
+        $result['user']['id'] = $review->getUser()->getId();
+        $result['user']['name'] = $review->getUser()->getName();
+        $result['order'] = $review->getOrderDetail()->getId();
+        $result['tour']['id'] = $review->getTour()->getId();
+        $result['tour']['name'] = $review->getTour()->getTitle();
+        foreach ($review->getReviewDetails() as $key => $reviewDetail) {
+            $result[$key]['type'] = $reviewDetail->getType()->getName();
+            $result[$key]['rate'] = $reviewDetail->getRate();
+        }
+        return $result;
     }
 }
