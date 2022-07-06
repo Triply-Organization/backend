@@ -143,7 +143,7 @@ class StripeService
         $taxRateId = self::VND_TAX_ID;
         if ($checkoutRequestData->getCurrency() === self::USD_CURRENCY) {
             $languages = 'en';
-            $totalPrice = $checkoutRequestData->getTotalPrice() * self::VND_CONVERT;
+            $totalPrice = $checkoutRequestData->getTotalPrice() * self::USD_CONVERT;
             $taxRateId = self::USD_TAX_ID;
         }
         return [
