@@ -45,8 +45,9 @@ class VoucherService
     {
         $voucher = $this->voucherRepository->findOneBy(['code' => $getVoucherRequest->getCode()]);
         if ($voucher === null) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException()
         }
+
         return $voucher;
     }
 
