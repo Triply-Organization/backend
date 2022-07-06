@@ -10,6 +10,7 @@ use App\Entity\Schedule;
 use App\Repository\TicketRepository;
 use App\Repository\TicketTypeRepository;
 use App\Request\ScheduleRequest;
+use App\Request\ScheduleUpdateRequest;
 use App\Transformer\PriceListTransformer;
 
 class PriceListService
@@ -59,8 +60,24 @@ class PriceListService
         }
     }
 
+    public function updateListPrice(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule)
+    {
+        if ($scheduleUpdateRequest->getChildren() !== null) {
+            $priceList = new PriceList();
+            $this->addPriceListTypeChildren($scheduleUpdateRequest, $schedule, $priceList);
+        }
+        if ($scheduleUpdateRequest->getYouth() !== null) {
+            $priceList = new PriceList();
+            $this->addPriceListTypeYouth($scheduleUpdateRequest, $schedule, $priceList);
+        }
+        if ($scheduleUpdateRequest->getAdult() !== null) {
+            $priceList = new PriceList();
+            $this->addPriceListTypeAdult($scheduleUpdateRequest, $schedule, $priceList);
+        }
+    }
+
     private function addPriceListTypeChildren(
-        ScheduleRequest $scheduleRequest,
+        $scheduleRequest,
         Schedule $schedule,
         PriceList $priceList
     ) {
@@ -75,7 +92,7 @@ class PriceListService
     }
 
     private function addPriceListTypeYouth(
-        ScheduleRequest $scheduleRequest,
+        $scheduleRequest,
         Schedule $schedule,
         PriceList $priceList
     ) {
@@ -90,7 +107,7 @@ class PriceListService
     }
 
     private function addPriceListTypeAdult(
-        ScheduleRequest $scheduleRequest,
+        $scheduleRequest,
         Schedule $schedule,
         PriceList $priceList
     ) {

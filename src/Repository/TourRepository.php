@@ -64,6 +64,28 @@ class TourRepository extends BaseRepository
         ];
     }
 
+    public function getAllTourAdmin(ListTourRequest $listTourRequest): array
+    {
+        $query = $this->queryAdminTours($listTourRequest);
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $totalTours = count($paginator);
+        $pageCount = ceil($totalTours / self::PAGE_SIZE);
+        $paginator
+            ->getQuery()
+            ->setFirstResult(self::PAGE_SIZE * ($listTourRequest->getPage() - 1))
+            ->setMaxResults(self::PAGE_SIZE);
+        $toursList = [];
+        foreach ($paginator as $pageItem) {
+            $toursList[] = $pageItem;
+        }
+        return [
+            'tours' => $toursList,
+            'totalPages' => $pageCount,
+            'page' => $listTourRequest->getPage(),
+            'totalTours' => $totalTours
+        ];
+    }
+
     public function queryTours(ListTourRequest $listTourRequest): QueryBuilder
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
@@ -84,6 +106,34 @@ class TourRepository extends BaseRepository
         return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
     }
 
+    public function queryAdminTours(ListTourRequest $listTourRequest): QueryBuilder
+    {
+        $query = $this->createQueryBuilder(static::TOUR_ALIAS);
+        $query = $this->join($query);
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
+        $guests = $listTourRequest->getGuests();
+        if (!empty($guests)) {
+            foreach ($guests as $guest) {
+                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $guest);
+            }
+        }
+        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
+        $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
+        $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
+        $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
+        return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+    }
+
+    public function getTourWithDestination(int $id, int $tourId)
+    {
+        $query = $this->createQueryBuilder(static::TOUR_ALIAS);
+        $query = $this->join($query);
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
+        $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
+
+        return $query->getQuery()->getResult();
+    }
+
     private function join($query)
     {
         $query->join(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
@@ -95,15 +145,5 @@ class TourRepository extends BaseRepository
         $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
 
         return $query;
-    }
-
-    public function getTourWithDestination(int $id, int $tourId)
-    {
-        $query = $this->createQueryBuilder(static::TOUR_ALIAS);
-        $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
-        $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
-
-        return $query->getQuery()->getResult();
     }
 }

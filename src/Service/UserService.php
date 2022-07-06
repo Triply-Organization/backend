@@ -17,21 +17,19 @@ class UserService
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
     private UserEditMapper $userEditMapper;
-    private ImageRepository $imageRepository;
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserTransformer $userTransformer,
-        UserEditMapper $userEditMapper,
-        ImageRepository $imageRepository,
+        UserRepository   $userRepository,
+        UserTransformer  $userTransformer,
+        UserEditMapper   $userEditMapper,
         ReviewRepository $reviewRepository,
-        Security $security
-    ) {
+        Security         $security
+    )
+    {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
-        $this->imageRepository = $imageRepository;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
     }
@@ -52,13 +50,15 @@ class UserService
 
     public function getUsers(UserRequest $userRequest)
     {
-        $userRole = json_encode(["ROLE_USER"]);
-        $data = $this->userRepository->getAll($userRequest, $userRole);
+        $userRole = ["ROLE_USER"];
+        $data = $this->userRepository->getAll($userRequest);
         $users = $data['users'];
         $results = [];
         foreach ($users as $key => $user) {
-            $results[$key] = $this->userTransformer->fromArray($user);
-            $results[$key]['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+            if ($user->getRoles() === $userRole) {
+                $results[$key] = $this->userTransformer->fromArray($user);
+                $results[$key]['avatar'] = is_null($user->getAvatar()) ? null : $user->getAvatar()->getPath();
+            }
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];

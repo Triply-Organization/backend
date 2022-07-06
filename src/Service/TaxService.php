@@ -45,7 +45,7 @@ class TaxService
         $tax = $this->taxRepository->findOneBy(['currency' => $getTaxRequest->getCurrency()]);
 
         if (!$tax) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
 
         return $tax;

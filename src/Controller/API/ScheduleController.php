@@ -2,8 +2,10 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Schedule;
 use App\Entity\Tour;
 use App\Request\ScheduleRequest;
+use App\Request\ScheduleUpdateRequest;
 use App\Service\ScheduleService;
 use App\Traits\ResponseTrait;
 use App\Transformer\ScheduleTransformer;
@@ -56,5 +58,24 @@ class ScheduleController extends AbstractController
         $allSchedule = $scheduleService->getAllScheduleOfCustomer($tour);
         $result = $scheduleTransformer->toArrayScheduleOfCustomer($allSchedule, $tour);
         return $this->success($result);
+    }
+
+    #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
+    #[IsGranted('ROLE_CUSTOMER')]
+    public function updateSchedule(
+        Schedule $schedule,
+        Request $request,
+        ScheduleUpdateRequest $scheduleUpdateRequest,
+        ValidatorInterface $validator,
+        ScheduleService $scheduleService
+    ): JsonResponse {
+        $requestData = $request->toArray();
+        $scheduleData = $scheduleUpdateRequest->fromArray($requestData);
+        $errors = $validator->validate($scheduleData);
+        if (count($errors) > 0) {
+            return $this->errors(['Something wrong']);
+        }
+        $scheduleService->updateSchedule($scheduleData, $schedule);
+        return $this->success([]);
     }
 }

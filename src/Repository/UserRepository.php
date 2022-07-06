@@ -43,18 +43,18 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $this->add($user, true);
     }
 
-    public function getQuery(UserRequest $userRequest, mixed $role)
+    public function getQuery(UserRequest $userRequest)
     {
         $query = $this->createQueryBuilder(self::USER_ALIAS);
         $query = $this->filter($query, self::USER_ALIAS, 'email', $userRequest->getEmail());
-        $query = $this->moreFilter($query, self::USER_ALIAS, 'roles', $role);
         $query = $this->andIsNull($query, self::USER_ALIAS, 'deletedAt');
+
         return $query;
     }
 
-    public function getAll(UserRequest $userRequest, mixed $role): array
+    public function getAll(UserRequest $userRequest): array
     {
-        $query = $this->getQuery($userRequest, $role);
+        $query = $this->getQuery($userRequest);
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalUsers = count($paginator);
         $pageCount = ceil($totalUsers / self::PAGE_SIZE);
