@@ -11,7 +11,7 @@ class TourServicesTransformer extends BaseTransformer
     public function toArray(TourService $tourService)
     {
         return [
-            'id' => $tourService->getId(),
+            'id' => $tourService->getService()->getId(),
             'name' => $tourService->getService()->getName()
         ];
     }
