@@ -101,7 +101,6 @@ class TourRepository extends BaseRepository
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
-        $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'status', '=', 'enable');
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
         $query = $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
         $query = $query->groupBy('t.id');
