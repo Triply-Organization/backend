@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/www/backend/src/Transformer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/var/www/backend/src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Transformer</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="BaseTransformer.php.html#7">App\Transformer\BaseTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DestinationTransformer.php.html#8">App\Transformer\DestinationTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ImageTransformer.php.html#8">App\Transformer\ImageTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#10">App\Transformer\OrderTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceListTransformer.php.html#7">App\Transformer\PriceListTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewTransformer.php.html#7">App\Transformer\ReviewTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#11">App\Transformer\ScheduleTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ServiceTransformer.php.html#7">App\Transformer\ServiceTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TaxTransformer.php.html#7">App\Transformer\TaxTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketTransformer.php.html#9">App\Transformer\TicketTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourDetailTransformer.php.html#16">App\Transformer\TourDetailTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImageTransformer.php.html#8">App\Transformer\TourImageTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlansTransformer.php.html#7">App\Transformer\TourPlansTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourServicesTransformer.php.html#9">App\Transformer\TourServicesTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourTransformer.php.html#12">App\Transformer\TourTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserTransformer.php.html#8">App\Transformer\UserTransformer</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VoucherTransformer.php.html#7">App\Transformer\VoucherTransformer</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="OrderTransformer.php.html#10">App\Transformer\OrderTransformer</a></td><td class="text-right">380</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#11">App\Transformer\ScheduleTransformer</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="BaseTransformer.php.html#7">App\Transformer\BaseTransformer</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="TourTransformer.php.html#12">App\Transformer\TourTransformer</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="ReviewTransformer.php.html#7">App\Transformer\ReviewTransformer</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserTransformer.php.html#8">App\Transformer\UserTransformer</a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="BaseTransformer.php.html#9"><abbr title="App\Transformer\BaseTransformer::transform">transform</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BaseTransformer.php.html#23"><abbr title="App\Transformer\BaseTransformer::listToArray">listToArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DestinationTransformer.php.html#12"><abbr title="App\Transformer\DestinationTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DestinationTransformer.php.html#17"><abbr title="App\Transformer\DestinationTransformer::listToArray">listToArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ImageTransformer.php.html#13"><abbr title="App\Transformer\ImageTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ImageTransformer.php.html#18"><abbr title="App\Transformer\ImageTransformer::fromArray">fromArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#18"><abbr title="App\Transformer\OrderTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#28"><abbr title="App\Transformer\OrderTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#57"><abbr title="App\Transformer\OrderTransformer::getOrderOfUser">getOrderOfUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#79"><abbr title="App\Transformer\OrderTransformer::orderToArray">orderToArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#98"><abbr title="App\Transformer\OrderTransformer::detailToArray">detailToArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#112"><abbr title="App\Transformer\OrderTransformer::ticketInfoReturn">ticketInfoReturn</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceListTransformer.php.html#9"><abbr title="App\Transformer\PriceListTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewTransformer.php.html#11"><abbr title="App\Transformer\ReviewTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewTransformer.php.html#19"><abbr title="App\Transformer\ReviewTransformer::toArrayOfAdmin">toArrayOfAdmin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#15"><abbr title="App\Transformer\ScheduleTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#20"><abbr title="App\Transformer\ScheduleTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#29"><abbr title="App\Transformer\ScheduleTransformer::toArrayScheduleOfCustomer">toArrayScheduleOfCustomer</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#43"><abbr title="App\Transformer\ScheduleTransformer::getPriceList">getPriceList</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ServiceTransformer.php.html#9"><abbr title="App\Transformer\ServiceTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TaxTransformer.php.html#11"><abbr title="App\Transformer\TaxTransformer::fromArray">fromArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketTransformer.php.html#13"><abbr title="App\Transformer\TicketTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketTransformer.php.html#18"><abbr title="App\Transformer\TicketTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourDetailTransformer.php.html#27"><abbr title="App\Transformer\TourDetailTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourDetailTransformer.php.html#43"><abbr title="App\Transformer\TourDetailTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImageTransformer.php.html#12"><abbr title="App\Transformer\TourImageTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImageTransformer.php.html#17"><abbr title="App\Transformer\TourImageTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlansTransformer.php.html#9"><abbr title="App\Transformer\TourPlansTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourServicesTransformer.php.html#11"><abbr title="App\Transformer\TourServicesTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourTransformer.php.html#23"><abbr title="App\Transformer\TourTransformer::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourTransformer.php.html#37"><abbr title="App\Transformer\TourTransformer::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourTransformer.php.html#49"><abbr title="App\Transformer\TourTransformer::toArrayOfAdmin">toArrayOfAdmin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourTransformer.php.html#57"><abbr title="App\Transformer\TourTransformer::toArrayOfCustomer">toArrayOfCustomer</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserTransformer.php.html#12"><abbr title="App\Transformer\UserTransformer::fromArray">fromArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VoucherTransformer.php.html#11"><abbr title="App\Transformer\VoucherTransformer::fromArray">fromArray</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="OrderTransformer.php.html#57"><abbr title="App\Transformer\OrderTransformer::getOrderOfUser">getOrderOfUser</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#112"><abbr title="App\Transformer\OrderTransformer::ticketInfoReturn">ticketInfoReturn</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="BaseTransformer.php.html#9"><abbr title="App\Transformer\BaseTransformer::transform">transform</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#28"><abbr title="App\Transformer\OrderTransformer::toArray">toArray</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#79"><abbr title="App\Transformer\OrderTransformer::orderToArray">orderToArray</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="BaseTransformer.php.html#23"><abbr title="App\Transformer\BaseTransformer::listToArray">listToArray</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="OrderTransformer.php.html#98"><abbr title="App\Transformer\OrderTransformer::detailToArray">detailToArray</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReviewTransformer.php.html#19"><abbr title="App\Transformer\ReviewTransformer::toArrayOfAdmin">toArrayOfAdmin</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#29"><abbr title="App\Transformer\ScheduleTransformer::toArrayScheduleOfCustomer">toArrayScheduleOfCustomer</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ScheduleTransformer.php.html#43"><abbr title="App\Transformer\ScheduleTransformer::getPriceList">getPriceList</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="TourTransformer.php.html#57"><abbr title="App\Transformer\TourTransformer::toArrayOfCustomer">toArrayOfCustomer</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserTransformer.php.html#12"><abbr title="App\Transformer\UserTransformer::fromArray">fromArray</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.15</a> using <a href="https://secure.php.net/" target="_top">PHP 8.1.2</a> and <a href="https://phpunit.de/">PHPUnit 9.5.21</a> at Thu Jul 7 3:23:16 UTC 2022.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js" type="text/javascript"></script>
+  <script src="../_js/d3.min.js" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([17,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([35,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,5,"<a href=\"BaseTransformer.php.html#7\">App\\Transformer\\BaseTransformer<\/a>"],[0,2,"<a href=\"DestinationTransformer.php.html#8\">App\\Transformer\\DestinationTransformer<\/a>"],[0,2,"<a href=\"ImageTransformer.php.html#8\">App\\Transformer\\ImageTransformer<\/a>"],[0,19,"<a href=\"OrderTransformer.php.html#10\">App\\Transformer\\OrderTransformer<\/a>"],[0,1,"<a href=\"PriceListTransformer.php.html#7\">App\\Transformer\\PriceListTransformer<\/a>"],[0,3,"<a href=\"ReviewTransformer.php.html#7\">App\\Transformer\\ReviewTransformer<\/a>"],[0,6,"<a href=\"ScheduleTransformer.php.html#11\">App\\Transformer\\ScheduleTransformer<\/a>"],[0,1,"<a href=\"ServiceTransformer.php.html#7\">App\\Transformer\\ServiceTransformer<\/a>"],[0,1,"<a href=\"TaxTransformer.php.html#7\">App\\Transformer\\TaxTransformer<\/a>"],[0,2,"<a href=\"TicketTransformer.php.html#9\">App\\Transformer\\TicketTransformer<\/a>"],[0,2,"<a href=\"TourDetailTransformer.php.html#16\">App\\Transformer\\TourDetailTransformer<\/a>"],[0,2,"<a href=\"TourImageTransformer.php.html#8\">App\\Transformer\\TourImageTransformer<\/a>"],[0,1,"<a href=\"TourPlansTransformer.php.html#7\">App\\Transformer\\TourPlansTransformer<\/a>"],[0,1,"<a href=\"TourServicesTransformer.php.html#9\">App\\Transformer\\TourServicesTransformer<\/a>"],[0,5,"<a href=\"TourTransformer.php.html#12\">App\\Transformer\\TourTransformer<\/a>"],[0,2,"<a href=\"UserTransformer.php.html#8\">App\\Transformer\\UserTransformer<\/a>"],[0,1,"<a href=\"VoucherTransformer.php.html#7\">App\\Transformer\\VoucherTransformer<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,3,"<a href=\"BaseTransformer.php.html#9\">App\\Transformer\\BaseTransformer::transform<\/a>"],[0,2,"<a href=\"BaseTransformer.php.html#23\">App\\Transformer\\BaseTransformer::listToArray<\/a>"],[0,1,"<a href=\"DestinationTransformer.php.html#12\">App\\Transformer\\DestinationTransformer::toArray<\/a>"],[0,1,"<a href=\"DestinationTransformer.php.html#17\">App\\Transformer\\DestinationTransformer::listToArray<\/a>"],[0,1,"<a href=\"ImageTransformer.php.html#13\">App\\Transformer\\ImageTransformer::__construct<\/a>"],[0,1,"<a href=\"ImageTransformer.php.html#18\">App\\Transformer\\ImageTransformer::fromArray<\/a>"],[0,1,"<a href=\"OrderTransformer.php.html#18\">App\\Transformer\\OrderTransformer::__construct<\/a>"],[0,3,"<a href=\"OrderTransformer.php.html#28\">App\\Transformer\\OrderTransformer::toArray<\/a>"],[0,5,"<a href=\"OrderTransformer.php.html#57\">App\\Transformer\\OrderTransformer::getOrderOfUser<\/a>"],[0,3,"<a href=\"OrderTransformer.php.html#79\">App\\Transformer\\OrderTransformer::orderToArray<\/a>"],[0,2,"<a href=\"OrderTransformer.php.html#98\">App\\Transformer\\OrderTransformer::detailToArray<\/a>"],[0,5,"<a href=\"OrderTransformer.php.html#112\">App\\Transformer\\OrderTransformer::ticketInfoReturn<\/a>"],[0,1,"<a href=\"PriceListTransformer.php.html#9\">App\\Transformer\\PriceListTransformer::toArray<\/a>"],[0,1,"<a href=\"ReviewTransformer.php.html#11\">App\\Transformer\\ReviewTransformer::toArray<\/a>"],[0,2,"<a href=\"ReviewTransformer.php.html#19\">App\\Transformer\\ReviewTransformer::toArrayOfAdmin<\/a>"],[0,1,"<a href=\"ScheduleTransformer.php.html#15\">App\\Transformer\\ScheduleTransformer::__construct<\/a>"],[0,1,"<a href=\"ScheduleTransformer.php.html#20\">App\\Transformer\\ScheduleTransformer::toArray<\/a>"],[0,2,"<a href=\"ScheduleTransformer.php.html#29\">App\\Transformer\\ScheduleTransformer::toArrayScheduleOfCustomer<\/a>"],[0,2,"<a href=\"ScheduleTransformer.php.html#43\">App\\Transformer\\ScheduleTransformer::getPriceList<\/a>"],[0,1,"<a href=\"ServiceTransformer.php.html#9\">App\\Transformer\\ServiceTransformer::toArray<\/a>"],[0,1,"<a href=\"TaxTransformer.php.html#11\">App\\Transformer\\TaxTransformer::fromArray<\/a>"],[0,1,"<a href=\"TicketTransformer.php.html#13\">App\\Transformer\\TicketTransformer::__construct<\/a>"],[0,1,"<a href=\"TicketTransformer.php.html#18\">App\\Transformer\\TicketTransformer::toArray<\/a>"],[0,1,"<a href=\"TourDetailTransformer.php.html#27\">App\\Transformer\\TourDetailTransformer::__construct<\/a>"],[0,1,"<a href=\"TourDetailTransformer.php.html#43\">App\\Transformer\\TourDetailTransformer::toArray<\/a>"],[0,1,"<a href=\"TourImageTransformer.php.html#12\">App\\Transformer\\TourImageTransformer::__construct<\/a>"],[0,1,"<a href=\"TourImageTransformer.php.html#17\">App\\Transformer\\TourImageTransformer::toArray<\/a>"],[0,1,"<a href=\"TourPlansTransformer.php.html#9\">App\\Transformer\\TourPlansTransformer::toArray<\/a>"],[0,1,"<a href=\"TourServicesTransformer.php.html#11\">App\\Transformer\\TourServicesTransformer::toArray<\/a>"],[0,1,"<a href=\"TourTransformer.php.html#23\">App\\Transformer\\TourTransformer::__construct<\/a>"],[0,1,"<a href=\"TourTransformer.php.html#37\">App\\Transformer\\TourTransformer::toArray<\/a>"],[0,1,"<a href=\"TourTransformer.php.html#49\">App\\Transformer\\TourTransformer::toArrayOfAdmin<\/a>"],[0,2,"<a href=\"TourTransformer.php.html#57\">App\\Transformer\\TourTransformer::toArrayOfCustomer<\/a>"],[0,2,"<a href=\"UserTransformer.php.html#12\">App\\Transformer\\UserTransformer::fromArray<\/a>"],[0,1,"<a href=\"VoucherTransformer.php.html#11\">App\\Transformer\\VoucherTransformer::fromArray<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

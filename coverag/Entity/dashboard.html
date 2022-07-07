@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/www/backend/src/Entity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/var/www/backend/src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Entity</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Bill.php.html#10">App\Entity\Bill</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#10">App\Entity\Destination</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#10">App\Entity\Order</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#10">App\Entity\PriceList</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#10">App\Entity\Review</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#8">App\Entity\ReviewDetail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#10">App\Entity\Schedule</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#10">App\Entity\Service</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#10">App\Entity\Tax</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#10">App\Entity\Ticket</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#10">App\Entity\TicketType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#10">App\Entity\Tour</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#8">App\Entity\TourImage</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#10">App\Entity\TourPlan</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#8">App\Entity\TourService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#10">App\Entity\TypeReview</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#13">App\Entity\User</a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="Voucher.php.html#10">App\Entity\Voucher</a></td><td class="text-right">70%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Tour.php.html#10">App\Entity\Tour</a></td><td class="text-right">2862</td></tr>
+       <tr><td><a href="Order.php.html#10">App\Entity\Order</a></td><td class="text-right">870</td></tr>
+       <tr><td><a href="PriceList.php.html#10">App\Entity\PriceList</a></td><td class="text-right">506</td></tr>
+       <tr><td><a href="Review.php.html#10">App\Entity\Review</a></td><td class="text-right">420</td></tr>
+       <tr><td><a href="Schedule.php.html#10">App\Entity\Schedule</a></td><td class="text-right">420</td></tr>
+       <tr><td><a href="Tax.php.html#10">App\Entity\Tax</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="Destination.php.html#10">App\Entity\Destination</a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="Service.php.html#10">App\Entity\Service</a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="TicketType.php.html#10">App\Entity\TicketType</a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="TypeReview.php.html#10">App\Entity\TypeReview</a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="User.php.html#13">App\Entity\User</a></td><td class="text-right">174</td></tr>
+       <tr><td><a href="Voucher.php.html#10">App\Entity\Voucher</a></td><td class="text-right">30</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Bill.php.html#39"><abbr title="App\Entity\Bill::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#44"><abbr title="App\Entity\Bill::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#49"><abbr title="App\Entity\Bill::getTotalPrice">getTotalPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#54"><abbr title="App\Entity\Bill::setTotalPrice">setTotalPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#61"><abbr title="App\Entity\Bill::getDiscount">getDiscount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#66"><abbr title="App\Entity\Bill::setDiscount">setDiscount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#73"><abbr title="App\Entity\Bill::getTax">getTax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#78"><abbr title="App\Entity\Bill::setTax">setTax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#85"><abbr title="App\Entity\Bill::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#90"><abbr title="App\Entity\Bill::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#97"><abbr title="App\Entity\Bill::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#102"><abbr title="App\Entity\Bill::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#109"><abbr title="App\Entity\Bill::getCurrency">getCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#114"><abbr title="App\Entity\Bill::setCurrency">setCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#121"><abbr title="App\Entity\Bill::getStripePaymentId">getStripePaymentId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Bill.php.html#126"><abbr title="App\Entity\Bill::setStripePaymentId">setStripePaymentId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#33"><abbr title="App\Entity\Destination::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#39"><abbr title="App\Entity\Destination::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#44"><abbr title="App\Entity\Destination::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#49"><abbr title="App\Entity\Destination::setName">setName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#56"><abbr title="App\Entity\Destination::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#61"><abbr title="App\Entity\Destination::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#68"><abbr title="App\Entity\Destination::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#73"><abbr title="App\Entity\Destination::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#80"><abbr title="App\Entity\Destination::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#85"><abbr title="App\Entity\Destination::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#95"><abbr title="App\Entity\Destination::getTourPlans">getTourPlans</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#100"><abbr title="App\Entity\Destination::addTourPlan">addTourPlan</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Destination.php.html#110"><abbr title="App\Entity\Destination::removeTourPlan">removeTourPlan</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#55"><abbr title="App\Entity\Order::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#61"><abbr title="App\Entity\Order::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#69"><abbr title="App\Entity\Order::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#74"><abbr title="App\Entity\Order::addTicket">addTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#84"><abbr title="App\Entity\Order::removeTicket">removeTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#96"><abbr title="App\Entity\Order::getTotalPrice">getTotalPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#101"><abbr title="App\Entity\Order::setTotalPrice">setTotalPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#108"><abbr title="App\Entity\Order::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#113"><abbr title="App\Entity\Order::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#120"><abbr title="App\Entity\Order::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#125"><abbr title="App\Entity\Order::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#132"><abbr title="App\Entity\Order::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#137"><abbr title="App\Entity\Order::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#144"><abbr title="App\Entity\Order::getUser">getUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#149"><abbr title="App\Entity\Order::setUser">setUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#156"><abbr title="App\Entity\Order::getDiscount">getDiscount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#161"><abbr title="App\Entity\Order::setDiscount">setDiscount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#168"><abbr title="App\Entity\Order::getStatus">getStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#172"><abbr title="App\Entity\Order::setStatus">setStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#179"><abbr title="App\Entity\Order::getBill">getBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#184"><abbr title="App\Entity\Order::setBill">setBill</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#191"><abbr title="App\Entity\Order::getTax">getTax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#196"><abbr title="App\Entity\Order::setTax">setTax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#203"><abbr title="App\Entity\Order::getReview">getReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#208"><abbr title="App\Entity\Order::setReview">setReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#44"><abbr title="App\Entity\PriceList::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#50"><abbr title="App\Entity\PriceList::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#55"><abbr title="App\Entity\PriceList::getPrice">getPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#60"><abbr title="App\Entity\PriceList::setPrice">setPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#67"><abbr title="App\Entity\PriceList::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#72"><abbr title="App\Entity\PriceList::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#79"><abbr title="App\Entity\PriceList::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#84"><abbr title="App\Entity\PriceList::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#91"><abbr title="App\Entity\PriceList::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#96"><abbr title="App\Entity\PriceList::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#103"><abbr title="App\Entity\PriceList::getType">getType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#108"><abbr title="App\Entity\PriceList::setType">setType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#118"><abbr title="App\Entity\PriceList::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#123"><abbr title="App\Entity\PriceList::addTicket">addTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#133"><abbr title="App\Entity\PriceList::removeTicket">removeTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#145"><abbr title="App\Entity\PriceList::getSchedule">getSchedule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#150"><abbr title="App\Entity\PriceList::setSchedule">setSchedule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#157"><abbr title="App\Entity\PriceList::getCurrency">getCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PriceList.php.html#162"><abbr title="App\Entity\PriceList::setCurrency">setCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#42"><abbr title="App\Entity\Review::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#48"><abbr title="App\Entity\Review::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#53"><abbr title="App\Entity\Review::getComment">getComment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#58"><abbr title="App\Entity\Review::setComment">setComment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#65"><abbr title="App\Entity\Review::getUser">getUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#70"><abbr title="App\Entity\Review::setUser">setUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#80"><abbr title="App\Entity\Review::getReviewDetails">getReviewDetails</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#85"><abbr title="App\Entity\Review::addReviewDetail">addReviewDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#95"><abbr title="App\Entity\Review::removeReviewDetail">removeReviewDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#107"><abbr title="App\Entity\Review::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#112"><abbr title="App\Entity\Review::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#119"><abbr title="App\Entity\Review::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#124"><abbr title="App\Entity\Review::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#131"><abbr title="App\Entity\Review::getTour">getTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#136"><abbr title="App\Entity\Review::setTour">setTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#143"><abbr title="App\Entity\Review::getOrderDetail">getOrderDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Review.php.html#148"><abbr title="App\Entity\Review::setOrderDetail">setOrderDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#33"><abbr title="App\Entity\ReviewDetail::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#38"><abbr title="App\Entity\ReviewDetail::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#43"><abbr title="App\Entity\ReviewDetail::getType">getType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#48"><abbr title="App\Entity\ReviewDetail::setType">setType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#55"><abbr title="App\Entity\ReviewDetail::getRate">getRate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#60"><abbr title="App\Entity\ReviewDetail::setRate">setRate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#67"><abbr title="App\Entity\ReviewDetail::getReview">getReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#72"><abbr title="App\Entity\ReviewDetail::setReview">setReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#79"><abbr title="App\Entity\ReviewDetail::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#84"><abbr title="App\Entity\ReviewDetail::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#91"><abbr title="App\Entity\ReviewDetail::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReviewDetail.php.html#96"><abbr title="App\Entity\ReviewDetail::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#40"><abbr title="App\Entity\Schedule::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#46"><abbr title="App\Entity\Schedule::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#51"><abbr title="App\Entity\Schedule::getTour">getTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#56"><abbr title="App\Entity\Schedule::setTour">setTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#63"><abbr title="App\Entity\Schedule::getTicketRemain">getTicketRemain</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#68"><abbr title="App\Entity\Schedule::setTicketRemain">setTicketRemain</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#75"><abbr title="App\Entity\Schedule::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#80"><abbr title="App\Entity\Schedule::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#87"><abbr title="App\Entity\Schedule::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#92"><abbr title="App\Entity\Schedule::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#99"><abbr title="App\Entity\Schedule::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#104"><abbr title="App\Entity\Schedule::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#114"><abbr title="App\Entity\Schedule::getPriceLists">getPriceLists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#119"><abbr title="App\Entity\Schedule::addPriceList">addPriceList</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#129"><abbr title="App\Entity\Schedule::removePriceList">removePriceList</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#144"><abbr title="App\Entity\Schedule::getStartDate">getStartDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Schedule.php.html#152"><abbr title="App\Entity\Schedule::setStartDate">setStartDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#33"><abbr title="App\Entity\Service::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#39"><abbr title="App\Entity\Service::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#44"><abbr title="App\Entity\Service::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#49"><abbr title="App\Entity\Service::setName">setName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#56"><abbr title="App\Entity\Service::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#61"><abbr title="App\Entity\Service::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#68"><abbr title="App\Entity\Service::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#73"><abbr title="App\Entity\Service::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#80"><abbr title="App\Entity\Service::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#85"><abbr title="App\Entity\Service::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#95"><abbr title="App\Entity\Service::getTourServices">getTourServices</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#100"><abbr title="App\Entity\Service::addTourService">addTourService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Service.php.html#110"><abbr title="App\Entity\Service::removeTourService">removeTourService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#36"><abbr title="App\Entity\Tax::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#42"><abbr title="App\Entity\Tax::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#47"><abbr title="App\Entity\Tax::getCurrency">getCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#52"><abbr title="App\Entity\Tax::setCurrency">setCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#59"><abbr title="App\Entity\Tax::getPercent">getPercent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#64"><abbr title="App\Entity\Tax::setPercent">setPercent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#74"><abbr title="App\Entity\Tax::getOrderDetail">getOrderDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#79"><abbr title="App\Entity\Tax::addOrderDetail">addOrderDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#89"><abbr title="App\Entity\Tax::removeOrderDetail">removeOrderDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#101"><abbr title="App\Entity\Tax::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#106"><abbr title="App\Entity\Tax::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#113"><abbr title="App\Entity\Tax::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#118"><abbr title="App\Entity\Tax::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#125"><abbr title="App\Entity\Tax::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tax.php.html#130"><abbr title="App\Entity\Tax::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#41"><abbr title="App\Entity\Ticket::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#47"><abbr title="App\Entity\Ticket::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#52"><abbr title="App\Entity\Ticket::getAmount">getAmount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#57"><abbr title="App\Entity\Ticket::setAmount">setAmount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#64"><abbr title="App\Entity\Ticket::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#69"><abbr title="App\Entity\Ticket::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#76"><abbr title="App\Entity\Ticket::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#81"><abbr title="App\Entity\Ticket::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#88"><abbr title="App\Entity\Ticket::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#93"><abbr title="App\Entity\Ticket::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#100"><abbr title="App\Entity\Ticket::getPriceList">getPriceList</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#105"><abbr title="App\Entity\Ticket::setPriceList">setPriceList</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#112"><abbr title="App\Entity\Ticket::getTotalPrice">getTotalPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#117"><abbr title="App\Entity\Ticket::setTotalPrice">setTotalPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#124"><abbr title="App\Entity\Ticket::getOrderName">getOrderName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#129"><abbr title="App\Entity\Ticket::setOrderName">setOrderName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#33"><abbr title="App\Entity\TicketType::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#39"><abbr title="App\Entity\TicketType::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#44"><abbr title="App\Entity\TicketType::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#49"><abbr title="App\Entity\TicketType::setName">setName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#56"><abbr title="App\Entity\TicketType::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#61"><abbr title="App\Entity\TicketType::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#68"><abbr title="App\Entity\TicketType::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#73"><abbr title="App\Entity\TicketType::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#80"><abbr title="App\Entity\TicketType::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#85"><abbr title="App\Entity\TicketType::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#95"><abbr title="App\Entity\TicketType::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#100"><abbr title="App\Entity\TicketType::addTicket">addTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#110"><abbr title="App\Entity\TicketType::removeTicket">removeTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#64"><abbr title="App\Entity\Tour::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#74"><abbr title="App\Entity\Tour::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#79"><abbr title="App\Entity\Tour::getTitle">getTitle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#84"><abbr title="App\Entity\Tour::setTitle">setTitle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#91"><abbr title="App\Entity\Tour::getDuration">getDuration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#96"><abbr title="App\Entity\Tour::setDuration">setDuration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#103"><abbr title="App\Entity\Tour::getMaxPeople">getMaxPeople</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#108"><abbr title="App\Entity\Tour::setMaxPeople">setMaxPeople</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#115"><abbr title="App\Entity\Tour::getMinAge">getMinAge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#120"><abbr title="App\Entity\Tour::setMinAge">setMinAge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#127"><abbr title="App\Entity\Tour::getOverView">getOverView</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#132"><abbr title="App\Entity\Tour::setOverView">setOverView</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#142"><abbr title="App\Entity\Tour::getTourPlans">getTourPlans</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#147"><abbr title="App\Entity\Tour::addTourPlan">addTourPlan</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#157"><abbr title="App\Entity\Tour::removeTourPlan">removeTourPlan</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#168"><abbr title="App\Entity\Tour::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#173"><abbr title="App\Entity\Tour::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#180"><abbr title="App\Entity\Tour::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#185"><abbr title="App\Entity\Tour::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#192"><abbr title="App\Entity\Tour::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#197"><abbr title="App\Entity\Tour::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#204"><abbr title="App\Entity\Tour::getCreatedUser">getCreatedUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#209"><abbr title="App\Entity\Tour::setCreatedUser">setCreatedUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#219"><abbr title="App\Entity\Tour::getTourImages">getTourImages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#224"><abbr title="App\Entity\Tour::addTourImage">addTourImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#234"><abbr title="App\Entity\Tour::removeTourImage">removeTourImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#248"><abbr title="App\Entity\Tour::getSchedules">getSchedules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#253"><abbr title="App\Entity\Tour::addSchedule">addSchedule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#263"><abbr title="App\Entity\Tour::removeSchedule">removeSchedule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#275"><abbr title="App\Entity\Tour::getStatus">getStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#280"><abbr title="App\Entity\Tour::setStatus">setStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#290"><abbr title="App\Entity\Tour::setTourServices">setTourServices</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#298"><abbr title="App\Entity\Tour::getTourServices">getTourServices</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#303"><abbr title="App\Entity\Tour::addTourService">addTourService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#313"><abbr title="App\Entity\Tour::removeTourService">removeTourService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#328"><abbr title="App\Entity\Tour::getReviews">getReviews</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#333"><abbr title="App\Entity\Tour::addReview">addReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tour.php.html#343"><abbr title="App\Entity\Tour::removeReview">removeReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#36"><abbr title="App\Entity\TourImage::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#41"><abbr title="App\Entity\TourImage::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#46"><abbr title="App\Entity\TourImage::getType">getType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#51"><abbr title="App\Entity\TourImage::setType">setType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#58"><abbr title="App\Entity\TourImage::getTour">getTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#63"><abbr title="App\Entity\TourImage::setTour">setTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#70"><abbr title="App\Entity\TourImage::getImage">getImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#75"><abbr title="App\Entity\TourImage::setImage">setImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#82"><abbr title="App\Entity\TourImage::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#87"><abbr title="App\Entity\TourImage::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#94"><abbr title="App\Entity\TourImage::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#99"><abbr title="App\Entity\TourImage::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#106"><abbr title="App\Entity\TourImage::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourImage.php.html#111"><abbr title="App\Entity\TourImage::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#44"><abbr title="App\Entity\TourPlan::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#49"><abbr title="App\Entity\TourPlan::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#54"><abbr title="App\Entity\TourPlan::getDay">getDay</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#59"><abbr title="App\Entity\TourPlan::setDay">setDay</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#66"><abbr title="App\Entity\TourPlan::getTitle">getTitle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#71"><abbr title="App\Entity\TourPlan::setTitle">setTitle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#78"><abbr title="App\Entity\TourPlan::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#83"><abbr title="App\Entity\TourPlan::setDescription">setDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#90"><abbr title="App\Entity\TourPlan::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#95"><abbr title="App\Entity\TourPlan::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#102"><abbr title="App\Entity\TourPlan::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#107"><abbr title="App\Entity\TourPlan::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#114"><abbr title="App\Entity\TourPlan::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#119"><abbr title="App\Entity\TourPlan::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#126"><abbr title="App\Entity\TourPlan::getTour">getTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#131"><abbr title="App\Entity\TourPlan::setTour">setTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#138"><abbr title="App\Entity\TourPlan::getDestination">getDestination</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourPlan.php.html#143"><abbr title="App\Entity\TourPlan::setDestination">setDestination</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#33"><abbr title="App\Entity\TourService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#38"><abbr title="App\Entity\TourService::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#43"><abbr title="App\Entity\TourService::getTour">getTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#48"><abbr title="App\Entity\TourService::setTour">setTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#55"><abbr title="App\Entity\TourService::getService">getService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#60"><abbr title="App\Entity\TourService::setService">setService</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#67"><abbr title="App\Entity\TourService::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#72"><abbr title="App\Entity\TourService::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#79"><abbr title="App\Entity\TourService::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#84"><abbr title="App\Entity\TourService::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#91"><abbr title="App\Entity\TourService::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TourService.php.html#96"><abbr title="App\Entity\TourService::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#33"><abbr title="App\Entity\TypeReview::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#39"><abbr title="App\Entity\TypeReview::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#44"><abbr title="App\Entity\TypeReview::getName">getName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#49"><abbr title="App\Entity\TypeReview::setName">setName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#56"><abbr title="App\Entity\TypeReview::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#61"><abbr title="App\Entity\TypeReview::setCreatedAt">setCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#68"><abbr title="App\Entity\TypeReview::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#73"><abbr title="App\Entity\TypeReview::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#80"><abbr title="App\Entity\TypeReview::getDeletedAt">getDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#85"><abbr title="App\Entity\TypeReview::setDeletedAt">setDeletedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#95"><abbr title="App\Entity\TypeReview::getReviewDetails">getReviewDetails</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#100"><abbr title="App\Entity\TypeReview::addReviewDetail">addReviewDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TypeReview.php.html#110"><abbr title="App\Entity\TypeReview::removeReviewDetail">removeReviewDetail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#212"><abbr title="App\Entity\User::getTours">getTours</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#217"><abbr title="App\Entity\User::addTour">addTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#227"><abbr title="App\Entity\User::removeTour">removeTour</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#253"><abbr title="App\Entity\User::getOrders">getOrders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#258"><abbr title="App\Entity\User::addOrder">addOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#268"><abbr title="App\Entity\User::removeOrder">removeOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#283"><abbr title="App\Entity\User::getReviews">getReviews</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#288"><abbr title="App\Entity\User::addReview">addReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#298"><abbr title="App\Entity\User::removeReview">removeReview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Voucher.php.html#77"><abbr title="App\Entity\Voucher::getOrders">getOrders</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Voucher.php.html#82"><abbr title="App\Entity\Voucher::addOrder">addOrder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Voucher.php.html#92"><abbr title="App\Entity\Voucher::removeOrder">removeOrder</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Destination.php.html#110"><abbr title="App\Entity\Destination::removeTourPlan">removeTourPlan</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Order.php.html#84"><abbr title="App\Entity\Order::removeTicket">removeTicket</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="PriceList.php.html#133"><abbr title="App\Entity\PriceList::removeTicket">removeTicket</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Review.php.html#95"><abbr title="App\Entity\Review::removeReviewDetail">removeReviewDetail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Schedule.php.html#129"><abbr title="App\Entity\Schedule::removePriceList">removePriceList</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Service.php.html#110"><abbr title="App\Entity\Service::removeTourService">removeTourService</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tax.php.html#89"><abbr title="App\Entity\Tax::removeOrderDetail">removeOrderDetail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="TicketType.php.html#110"><abbr title="App\Entity\TicketType::removeTicket">removeTicket</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tour.php.html#157"><abbr title="App\Entity\Tour::removeTourPlan">removeTourPlan</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tour.php.html#234"><abbr title="App\Entity\Tour::removeTourImage">removeTourImage</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tour.php.html#263"><abbr title="App\Entity\Tour::removeSchedule">removeSchedule</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tour.php.html#313"><abbr title="App\Entity\Tour::removeTourService">removeTourService</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tour.php.html#343"><abbr title="App\Entity\Tour::removeReview">removeReview</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="TypeReview.php.html#110"><abbr title="App\Entity\TypeReview::removeReviewDetail">removeReviewDetail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="User.php.html#227"><abbr title="App\Entity\User::removeTour">removeTour</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="User.php.html#268"><abbr title="App\Entity\User::removeOrder">removeOrder</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="User.php.html#298"><abbr title="App\Entity\User::removeReview">removeReview</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Voucher.php.html#92"><abbr title="App\Entity\Voucher::removeOrder">removeOrder</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Destination.php.html#100"><abbr title="App\Entity\Destination::addTourPlan">addTourPlan</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Order.php.html#74"><abbr title="App\Entity\Order::addTicket">addTicket</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Order.php.html#208"><abbr title="App\Entity\Order::setReview">setReview</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PriceList.php.html#123"><abbr title="App\Entity\PriceList::addTicket">addTicket</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Review.php.html#85"><abbr title="App\Entity\Review::addReviewDetail">addReviewDetail</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Schedule.php.html#119"><abbr title="App\Entity\Schedule::addPriceList">addPriceList</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Service.php.html#100"><abbr title="App\Entity\Service::addTourService">addTourService</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tax.php.html#79"><abbr title="App\Entity\Tax::addOrderDetail">addOrderDetail</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="TicketType.php.html#100"><abbr title="App\Entity\TicketType::addTicket">addTicket</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tour.php.html#147"><abbr title="App\Entity\Tour::addTourPlan">addTourPlan</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tour.php.html#224"><abbr title="App\Entity\Tour::addTourImage">addTourImage</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tour.php.html#253"><abbr title="App\Entity\Tour::addSchedule">addSchedule</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tour.php.html#303"><abbr title="App\Entity\Tour::addTourService">addTourService</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tour.php.html#333"><abbr title="App\Entity\Tour::addReview">addReview</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="TypeReview.php.html#100"><abbr title="App\Entity\TypeReview::addReviewDetail">addReviewDetail</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="User.php.html#217"><abbr title="App\Entity\User::addTour">addTour</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="User.php.html#258"><abbr title="App\Entity\User::addOrder">addOrder</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="User.php.html#288"><abbr title="App\Entity\User::addReview">addReview</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Voucher.php.html#82"><abbr title="App\Entity\Voucher::addOrder">addOrder</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.15</a> using <a href="https://secure.php.net/" target="_top">PHP 8.1.2</a> and <a href="https://phpunit.de/">PHPUnit 9.5.21</a> at Thu Jul 7 3:23:16 UTC 2022.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js" type="text/javascript"></script>
+  <script src="../_js/d3.min.js" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([16,0,0,0,0,0,1,0,1,0,0,2], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([283,0,0,0,0,0,0,0,0,0,0,48], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,0,"<a href=\"AbstractEntity.php.html#5\">App\\Entity\\AbstractEntity<\/a>"],[0,16,"<a href=\"Bill.php.html#10\">App\\Entity\\Bill<\/a>"],[0,16,"<a href=\"Destination.php.html#10\">App\\Entity\\Destination<\/a>"],[100,10,"<a href=\"Image.php.html#8\">App\\Entity\\Image<\/a>"],[0,29,"<a href=\"Order.php.html#10\">App\\Entity\\Order<\/a>"],[0,22,"<a href=\"PriceList.php.html#10\">App\\Entity\\PriceList<\/a>"],[0,20,"<a href=\"Review.php.html#10\">App\\Entity\\Review<\/a>"],[0,12,"<a href=\"ReviewDetail.php.html#8\">App\\Entity\\ReviewDetail<\/a>"],[0,20,"<a href=\"Schedule.php.html#10\">App\\Entity\\Schedule<\/a>"],[0,16,"<a href=\"Service.php.html#10\">App\\Entity\\Service<\/a>"],[0,18,"<a href=\"Tax.php.html#10\">App\\Entity\\Tax<\/a>"],[0,16,"<a href=\"Ticket.php.html#10\">App\\Entity\\Ticket<\/a>"],[0,16,"<a href=\"TicketType.php.html#10\">App\\Entity\\TicketType<\/a>"],[0,53,"<a href=\"Tour.php.html#10\">App\\Entity\\Tour<\/a>"],[0,14,"<a href=\"TourImage.php.html#8\">App\\Entity\\TourImage<\/a>"],[0,18,"<a href=\"TourPlan.php.html#10\">App\\Entity\\TourPlan<\/a>"],[0,12,"<a href=\"TourService.php.html#8\">App\\Entity\\TourService<\/a>"],[0,16,"<a href=\"TypeReview.php.html#10\">App\\Entity\\TypeReview<\/a>"],[57.8125,42,"<a href=\"User.php.html#13\">App\\Entity\\User<\/a>"],[70,20,"<a href=\"Voucher.php.html#10\">App\\Entity\\Voucher<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"Bill.php.html#39\">App\\Entity\\Bill::__construct<\/a>"],[0,1,"<a href=\"Bill.php.html#44\">App\\Entity\\Bill::getId<\/a>"],[0,1,"<a href=\"Bill.php.html#49\">App\\Entity\\Bill::getTotalPrice<\/a>"],[0,1,"<a href=\"Bill.php.html#54\">App\\Entity\\Bill::setTotalPrice<\/a>"],[0,1,"<a href=\"Bill.php.html#61\">App\\Entity\\Bill::getDiscount<\/a>"],[0,1,"<a href=\"Bill.php.html#66\">App\\Entity\\Bill::setDiscount<\/a>"],[0,1,"<a href=\"Bill.php.html#73\">App\\Entity\\Bill::getTax<\/a>"],[0,1,"<a href=\"Bill.php.html#78\">App\\Entity\\Bill::setTax<\/a>"],[0,1,"<a href=\"Bill.php.html#85\">App\\Entity\\Bill::getCreatedAt<\/a>"],[0,1,"<a href=\"Bill.php.html#90\">App\\Entity\\Bill::setCreatedAt<\/a>"],[0,1,"<a href=\"Bill.php.html#97\">App\\Entity\\Bill::getUpdatedAt<\/a>"],[0,1,"<a href=\"Bill.php.html#102\">App\\Entity\\Bill::setUpdatedAt<\/a>"],[0,1,"<a href=\"Bill.php.html#109\">App\\Entity\\Bill::getCurrency<\/a>"],[0,1,"<a href=\"Bill.php.html#114\">App\\Entity\\Bill::setCurrency<\/a>"],[0,1,"<a href=\"Bill.php.html#121\">App\\Entity\\Bill::getStripePaymentId<\/a>"],[0,1,"<a href=\"Bill.php.html#126\">App\\Entity\\Bill::setStripePaymentId<\/a>"],[0,1,"<a href=\"Destination.php.html#33\">App\\Entity\\Destination::__construct<\/a>"],[0,1,"<a href=\"Destination.php.html#39\">App\\Entity\\Destination::getId<\/a>"],[0,1,"<a href=\"Destination.php.html#44\">App\\Entity\\Destination::getName<\/a>"],[0,1,"<a href=\"Destination.php.html#49\">App\\Entity\\Destination::setName<\/a>"],[0,1,"<a href=\"Destination.php.html#56\">App\\Entity\\Destination::getCreatedAt<\/a>"],[0,1,"<a href=\"Destination.php.html#61\">App\\Entity\\Destination::setCreatedAt<\/a>"],[0,1,"<a href=\"Destination.php.html#68\">App\\Entity\\Destination::getUpdatedAt<\/a>"],[0,1,"<a href=\"Destination.php.html#73\">App\\Entity\\Destination::setUpdatedAt<\/a>"],[0,1,"<a href=\"Destination.php.html#80\">App\\Entity\\Destination::getDeletedAt<\/a>"],[0,1,"<a href=\"Destination.php.html#85\">App\\Entity\\Destination::setDeletedAt<\/a>"],[0,1,"<a href=\"Destination.php.html#95\">App\\Entity\\Destination::getTourPlans<\/a>"],[0,2,"<a href=\"Destination.php.html#100\">App\\Entity\\Destination::addTourPlan<\/a>"],[0,3,"<a href=\"Destination.php.html#110\">App\\Entity\\Destination::removeTourPlan<\/a>"],[100,1,"<a href=\"Image.php.html#28\">App\\Entity\\Image::__construct<\/a>"],[100,1,"<a href=\"Image.php.html#33\">App\\Entity\\Image::getId<\/a>"],[100,1,"<a href=\"Image.php.html#38\">App\\Entity\\Image::getPath<\/a>"],[100,1,"<a href=\"Image.php.html#43\">App\\Entity\\Image::setPath<\/a>"],[100,1,"<a href=\"Image.php.html#50\">App\\Entity\\Image::getCreatedAt<\/a>"],[100,1,"<a href=\"Image.php.html#55\">App\\Entity\\Image::setCreatedAt<\/a>"],[100,1,"<a href=\"Image.php.html#62\">App\\Entity\\Image::getUpdatedAt<\/a>"],[100,1,"<a href=\"Image.php.html#67\">App\\Entity\\Image::setUpdatedAt<\/a>"],[100,1,"<a href=\"Image.php.html#74\">App\\Entity\\Image::getDeletedAt<\/a>"],[100,1,"<a href=\"Image.php.html#79\">App\\Entity\\Image::setDeletedAt<\/a>"],[0,1,"<a href=\"Order.php.html#55\">App\\Entity\\Order::__construct<\/a>"],[0,1,"<a href=\"Order.php.html#61\">App\\Entity\\Order::getId<\/a>"],[0,1,"<a href=\"Order.php.html#69\">App\\Entity\\Order::getTickets<\/a>"],[0,2,"<a href=\"Order.php.html#74\">App\\Entity\\Order::addTicket<\/a>"],[0,3,"<a href=\"Order.php.html#84\">App\\Entity\\Order::removeTicket<\/a>"],[0,1,"<a href=\"Order.php.html#96\">App\\Entity\\Order::getTotalPrice<\/a>"],[0,1,"<a href=\"Order.php.html#101\">App\\Entity\\Order::setTotalPrice<\/a>"],[0,1,"<a href=\"Order.php.html#108\">App\\Entity\\Order::getCreatedAt<\/a>"],[0,1,"<a href=\"Order.php.html#113\">App\\Entity\\Order::setCreatedAt<\/a>"],[0,1,"<a href=\"Order.php.html#120\">App\\Entity\\Order::getUpdatedAt<\/a>"],[0,1,"<a href=\"Order.php.html#125\">App\\Entity\\Order::setUpdatedAt<\/a>"],[0,1,"<a href=\"Order.php.html#132\">App\\Entity\\Order::getDeletedAt<\/a>"],[0,1,"<a href=\"Order.php.html#137\">App\\Entity\\Order::setDeletedAt<\/a>"],[0,1,"<a href=\"Order.php.html#144\">App\\Entity\\Order::getUser<\/a>"],[0,1,"<a href=\"Order.php.html#149\">App\\Entity\\Order::setUser<\/a>"],[0,1,"<a href=\"Order.php.html#156\">App\\Entity\\Order::getDiscount<\/a>"],[0,1,"<a href=\"Order.php.html#161\">App\\Entity\\Order::setDiscount<\/a>"],[0,1,"<a href=\"Order.php.html#168\">App\\Entity\\Order::getStatus<\/a>"],[0,1,"<a href=\"Order.php.html#172\">App\\Entity\\Order::setStatus<\/a>"],[0,1,"<a href=\"Order.php.html#179\">App\\Entity\\Order::getBill<\/a>"],[0,1,"<a href=\"Order.php.html#184\">App\\Entity\\Order::setBill<\/a>"],[0,1,"<a href=\"Order.php.html#191\">App\\Entity\\Order::getTax<\/a>"],[0,1,"<a href=\"Order.php.html#196\">App\\Entity\\Order::setTax<\/a>"],[0,1,"<a href=\"Order.php.html#203\">App\\Entity\\Order::getReview<\/a>"],[0,2,"<a href=\"Order.php.html#208\">App\\Entity\\Order::setReview<\/a>"],[0,1,"<a href=\"PriceList.php.html#44\">App\\Entity\\PriceList::__construct<\/a>"],[0,1,"<a href=\"PriceList.php.html#50\">App\\Entity\\PriceList::getId<\/a>"],[0,1,"<a href=\"PriceList.php.html#55\">App\\Entity\\PriceList::getPrice<\/a>"],[0,1,"<a href=\"PriceList.php.html#60\">App\\Entity\\PriceList::setPrice<\/a>"],[0,1,"<a href=\"PriceList.php.html#67\">App\\Entity\\PriceList::getCreatedAt<\/a>"],[0,1,"<a href=\"PriceList.php.html#72\">App\\Entity\\PriceList::setCreatedAt<\/a>"],[0,1,"<a href=\"PriceList.php.html#79\">App\\Entity\\PriceList::getUpdatedAt<\/a>"],[0,1,"<a href=\"PriceList.php.html#84\">App\\Entity\\PriceList::setUpdatedAt<\/a>"],[0,1,"<a href=\"PriceList.php.html#91\">App\\Entity\\PriceList::getDeletedAt<\/a>"],[0,1,"<a href=\"PriceList.php.html#96\">App\\Entity\\PriceList::setDeletedAt<\/a>"],[0,1,"<a href=\"PriceList.php.html#103\">App\\Entity\\PriceList::getType<\/a>"],[0,1,"<a href=\"PriceList.php.html#108\">App\\Entity\\PriceList::setType<\/a>"],[0,1,"<a href=\"PriceList.php.html#118\">App\\Entity\\PriceList::getTickets<\/a>"],[0,2,"<a href=\"PriceList.php.html#123\">App\\Entity\\PriceList::addTicket<\/a>"],[0,3,"<a href=\"PriceList.php.html#133\">App\\Entity\\PriceList::removeTicket<\/a>"],[0,1,"<a href=\"PriceList.php.html#145\">App\\Entity\\PriceList::getSchedule<\/a>"],[0,1,"<a href=\"PriceList.php.html#150\">App\\Entity\\PriceList::setSchedule<\/a>"],[0,1,"<a href=\"PriceList.php.html#157\">App\\Entity\\PriceList::getCurrency<\/a>"],[0,1,"<a href=\"PriceList.php.html#162\">App\\Entity\\PriceList::setCurrency<\/a>"],[0,1,"<a href=\"Review.php.html#42\">App\\Entity\\Review::__construct<\/a>"],[0,1,"<a href=\"Review.php.html#48\">App\\Entity\\Review::getId<\/a>"],[0,1,"<a href=\"Review.php.html#53\">App\\Entity\\Review::getComment<\/a>"],[0,1,"<a href=\"Review.php.html#58\">App\\Entity\\Review::setComment<\/a>"],[0,1,"<a href=\"Review.php.html#65\">App\\Entity\\Review::getUser<\/a>"],[0,1,"<a href=\"Review.php.html#70\">App\\Entity\\Review::setUser<\/a>"],[0,1,"<a href=\"Review.php.html#80\">App\\Entity\\Review::getReviewDetails<\/a>"],[0,2,"<a href=\"Review.php.html#85\">App\\Entity\\Review::addReviewDetail<\/a>"],[0,3,"<a href=\"Review.php.html#95\">App\\Entity\\Review::removeReviewDetail<\/a>"],[0,1,"<a href=\"Review.php.html#107\">App\\Entity\\Review::getCreatedAt<\/a>"],[0,1,"<a href=\"Review.php.html#112\">App\\Entity\\Review::setCreatedAt<\/a>"],[0,1,"<a href=\"Review.php.html#119\">App\\Entity\\Review::getDeletedAt<\/a>"],[0,1,"<a href=\"Review.php.html#124\">App\\Entity\\Review::setDeletedAt<\/a>"],[0,1,"<a href=\"Review.php.html#131\">App\\Entity\\Review::getTour<\/a>"],[0,1,"<a href=\"Review.php.html#136\">App\\Entity\\Review::setTour<\/a>"],[0,1,"<a href=\"Review.php.html#143\">App\\Entity\\Review::getOrderDetail<\/a>"],[0,1,"<a href=\"Review.php.html#148\">App\\Entity\\Review::setOrderDetail<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#33\">App\\Entity\\ReviewDetail::__construct<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#38\">App\\Entity\\ReviewDetail::getId<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#43\">App\\Entity\\ReviewDetail::getType<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#48\">App\\Entity\\ReviewDetail::setType<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#55\">App\\Entity\\ReviewDetail::getRate<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#60\">App\\Entity\\ReviewDetail::setRate<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#67\">App\\Entity\\ReviewDetail::getReview<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#72\">App\\Entity\\ReviewDetail::setReview<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#79\">App\\Entity\\ReviewDetail::getCreatedAt<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#84\">App\\Entity\\ReviewDetail::setCreatedAt<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#91\">App\\Entity\\ReviewDetail::getDeletedAt<\/a>"],[0,1,"<a href=\"ReviewDetail.php.html#96\">App\\Entity\\ReviewDetail::setDeletedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#40\">App\\Entity\\Schedule::__construct<\/a>"],[0,1,"<a href=\"Schedule.php.html#46\">App\\Entity\\Schedule::getId<\/a>"],[0,1,"<a href=\"Schedule.php.html#51\">App\\Entity\\Schedule::getTour<\/a>"],[0,1,"<a href=\"Schedule.php.html#56\">App\\Entity\\Schedule::setTour<\/a>"],[0,1,"<a href=\"Schedule.php.html#63\">App\\Entity\\Schedule::getTicketRemain<\/a>"],[0,1,"<a href=\"Schedule.php.html#68\">App\\Entity\\Schedule::setTicketRemain<\/a>"],[0,1,"<a href=\"Schedule.php.html#75\">App\\Entity\\Schedule::getCreatedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#80\">App\\Entity\\Schedule::setCreatedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#87\">App\\Entity\\Schedule::getUpdatedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#92\">App\\Entity\\Schedule::setUpdatedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#99\">App\\Entity\\Schedule::getDeletedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#104\">App\\Entity\\Schedule::setDeletedAt<\/a>"],[0,1,"<a href=\"Schedule.php.html#114\">App\\Entity\\Schedule::getPriceLists<\/a>"],[0,2,"<a href=\"Schedule.php.html#119\">App\\Entity\\Schedule::addPriceList<\/a>"],[0,3,"<a href=\"Schedule.php.html#129\">App\\Entity\\Schedule::removePriceList<\/a>"],[0,1,"<a href=\"Schedule.php.html#144\">App\\Entity\\Schedule::getStartDate<\/a>"],[0,1,"<a href=\"Schedule.php.html#152\">App\\Entity\\Schedule::setStartDate<\/a>"],[0,1,"<a href=\"Service.php.html#33\">App\\Entity\\Service::__construct<\/a>"],[0,1,"<a href=\"Service.php.html#39\">App\\Entity\\Service::getId<\/a>"],[0,1,"<a href=\"Service.php.html#44\">App\\Entity\\Service::getName<\/a>"],[0,1,"<a href=\"Service.php.html#49\">App\\Entity\\Service::setName<\/a>"],[0,1,"<a href=\"Service.php.html#56\">App\\Entity\\Service::getCreatedAt<\/a>"],[0,1,"<a href=\"Service.php.html#61\">App\\Entity\\Service::setCreatedAt<\/a>"],[0,1,"<a href=\"Service.php.html#68\">App\\Entity\\Service::getUpdatedAt<\/a>"],[0,1,"<a href=\"Service.php.html#73\">App\\Entity\\Service::setUpdatedAt<\/a>"],[0,1,"<a href=\"Service.php.html#80\">App\\Entity\\Service::getDeletedAt<\/a>"],[0,1,"<a href=\"Service.php.html#85\">App\\Entity\\Service::setDeletedAt<\/a>"],[0,1,"<a href=\"Service.php.html#95\">App\\Entity\\Service::getTourServices<\/a>"],[0,2,"<a href=\"Service.php.html#100\">App\\Entity\\Service::addTourService<\/a>"],[0,3,"<a href=\"Service.php.html#110\">App\\Entity\\Service::removeTourService<\/a>"],[0,1,"<a href=\"Tax.php.html#36\">App\\Entity\\Tax::__construct<\/a>"],[0,1,"<a href=\"Tax.php.html#42\">App\\Entity\\Tax::getId<\/a>"],[0,1,"<a href=\"Tax.php.html#47\">App\\Entity\\Tax::getCurrency<\/a>"],[0,1,"<a href=\"Tax.php.html#52\">App\\Entity\\Tax::setCurrency<\/a>"],[0,1,"<a href=\"Tax.php.html#59\">App\\Entity\\Tax::getPercent<\/a>"],[0,1,"<a href=\"Tax.php.html#64\">App\\Entity\\Tax::setPercent<\/a>"],[0,1,"<a href=\"Tax.php.html#74\">App\\Entity\\Tax::getOrderDetail<\/a>"],[0,2,"<a href=\"Tax.php.html#79\">App\\Entity\\Tax::addOrderDetail<\/a>"],[0,3,"<a href=\"Tax.php.html#89\">App\\Entity\\Tax::removeOrderDetail<\/a>"],[0,1,"<a href=\"Tax.php.html#101\">App\\Entity\\Tax::getCreatedAt<\/a>"],[0,1,"<a href=\"Tax.php.html#106\">App\\Entity\\Tax::setCreatedAt<\/a>"],[0,1,"<a href=\"Tax.php.html#113\">App\\Entity\\Tax::getUpdatedAt<\/a>"],[0,1,"<a href=\"Tax.php.html#118\">App\\Entity\\Tax::setUpdatedAt<\/a>"],[0,1,"<a href=\"Tax.php.html#125\">App\\Entity\\Tax::getDeletedAt<\/a>"],[0,1,"<a href=\"Tax.php.html#130\">App\\Entity\\Tax::setDeletedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#41\">App\\Entity\\Ticket::__construct<\/a>"],[0,1,"<a href=\"Ticket.php.html#47\">App\\Entity\\Ticket::getId<\/a>"],[0,1,"<a href=\"Ticket.php.html#52\">App\\Entity\\Ticket::getAmount<\/a>"],[0,1,"<a href=\"Ticket.php.html#57\">App\\Entity\\Ticket::setAmount<\/a>"],[0,1,"<a href=\"Ticket.php.html#64\">App\\Entity\\Ticket::getCreatedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#69\">App\\Entity\\Ticket::setCreatedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#76\">App\\Entity\\Ticket::getUpdatedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#81\">App\\Entity\\Ticket::setUpdatedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#88\">App\\Entity\\Ticket::getDeletedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#93\">App\\Entity\\Ticket::setDeletedAt<\/a>"],[0,1,"<a href=\"Ticket.php.html#100\">App\\Entity\\Ticket::getPriceList<\/a>"],[0,1,"<a href=\"Ticket.php.html#105\">App\\Entity\\Ticket::setPriceList<\/a>"],[0,1,"<a href=\"Ticket.php.html#112\">App\\Entity\\Ticket::getTotalPrice<\/a>"],[0,1,"<a href=\"Ticket.php.html#117\">App\\Entity\\Ticket::setTotalPrice<\/a>"],[0,1,"<a href=\"Ticket.php.html#124\">App\\Entity\\Ticket::getOrderName<\/a>"],[0,1,"<a href=\"Ticket.php.html#129\">App\\Entity\\Ticket::setOrderName<\/a>"],[0,1,"<a href=\"TicketType.php.html#33\">App\\Entity\\TicketType::__construct<\/a>"],[0,1,"<a href=\"TicketType.php.html#39\">App\\Entity\\TicketType::getId<\/a>"],[0,1,"<a href=\"TicketType.php.html#44\">App\\Entity\\TicketType::getName<\/a>"],[0,1,"<a href=\"TicketType.php.html#49\">App\\Entity\\TicketType::setName<\/a>"],[0,1,"<a href=\"TicketType.php.html#56\">App\\Entity\\TicketType::getCreatedAt<\/a>"],[0,1,"<a href=\"TicketType.php.html#61\">App\\Entity\\TicketType::setCreatedAt<\/a>"],[0,1,"<a href=\"TicketType.php.html#68\">App\\Entity\\TicketType::getUpdatedAt<\/a>"],[0,1,"<a href=\"TicketType.php.html#73\">App\\Entity\\TicketType::setUpdatedAt<\/a>"],[0,1,"<a href=\"TicketType.php.html#80\">App\\Entity\\TicketType::getDeletedAt<\/a>"],[0,1,"<a href=\"TicketType.php.html#85\">App\\Entity\\TicketType::setDeletedAt<\/a>"],[0,1,"<a href=\"TicketType.php.html#95\">App\\Entity\\TicketType::getTickets<\/a>"],[0,2,"<a href=\"TicketType.php.html#100\">App\\Entity\\TicketType::addTicket<\/a>"],[0,3,"<a href=\"TicketType.php.html#110\">App\\Entity\\TicketType::removeTicket<\/a>"],[0,1,"<a href=\"Tour.php.html#64\">App\\Entity\\Tour::__construct<\/a>"],[0,1,"<a href=\"Tour.php.html#74\">App\\Entity\\Tour::getId<\/a>"],[0,1,"<a href=\"Tour.php.html#79\">App\\Entity\\Tour::getTitle<\/a>"],[0,1,"<a href=\"Tour.php.html#84\">App\\Entity\\Tour::setTitle<\/a>"],[0,1,"<a href=\"Tour.php.html#91\">App\\Entity\\Tour::getDuration<\/a>"],[0,1,"<a href=\"Tour.php.html#96\">App\\Entity\\Tour::setDuration<\/a>"],[0,1,"<a href=\"Tour.php.html#103\">App\\Entity\\Tour::getMaxPeople<\/a>"],[0,1,"<a href=\"Tour.php.html#108\">App\\Entity\\Tour::setMaxPeople<\/a>"],[0,1,"<a href=\"Tour.php.html#115\">App\\Entity\\Tour::getMinAge<\/a>"],[0,1,"<a href=\"Tour.php.html#120\">App\\Entity\\Tour::setMinAge<\/a>"],[0,1,"<a href=\"Tour.php.html#127\">App\\Entity\\Tour::getOverView<\/a>"],[0,1,"<a href=\"Tour.php.html#132\">App\\Entity\\Tour::setOverView<\/a>"],[0,1,"<a href=\"Tour.php.html#142\">App\\Entity\\Tour::getTourPlans<\/a>"],[0,2,"<a href=\"Tour.php.html#147\">App\\Entity\\Tour::addTourPlan<\/a>"],[0,3,"<a href=\"Tour.php.html#157\">App\\Entity\\Tour::removeTourPlan<\/a>"],[0,1,"<a href=\"Tour.php.html#168\">App\\Entity\\Tour::getCreatedAt<\/a>"],[0,1,"<a href=\"Tour.php.html#173\">App\\Entity\\Tour::setCreatedAt<\/a>"],[0,1,"<a href=\"Tour.php.html#180\">App\\Entity\\Tour::getUpdatedAt<\/a>"],[0,1,"<a href=\"Tour.php.html#185\">App\\Entity\\Tour::setUpdatedAt<\/a>"],[0,1,"<a href=\"Tour.php.html#192\">App\\Entity\\Tour::getDeletedAt<\/a>"],[0,1,"<a href=\"Tour.php.html#197\">App\\Entity\\Tour::setDeletedAt<\/a>"],[0,1,"<a href=\"Tour.php.html#204\">App\\Entity\\Tour::getCreatedUser<\/a>"],[0,1,"<a href=\"Tour.php.html#209\">App\\Entity\\Tour::setCreatedUser<\/a>"],[0,1,"<a href=\"Tour.php.html#219\">App\\Entity\\Tour::getTourImages<\/a>"],[0,2,"<a href=\"Tour.php.html#224\">App\\Entity\\Tour::addTourImage<\/a>"],[0,3,"<a href=\"Tour.php.html#234\">App\\Entity\\Tour::removeTourImage<\/a>"],[0,1,"<a href=\"Tour.php.html#248\">App\\Entity\\Tour::getSchedules<\/a>"],[0,2,"<a href=\"Tour.php.html#253\">App\\Entity\\Tour::addSchedule<\/a>"],[0,3,"<a href=\"Tour.php.html#263\">App\\Entity\\Tour::removeSchedule<\/a>"],[0,1,"<a href=\"Tour.php.html#275\">App\\Entity\\Tour::getStatus<\/a>"],[0,1,"<a href=\"Tour.php.html#280\">App\\Entity\\Tour::setStatus<\/a>"],[0,1,"<a href=\"Tour.php.html#290\">App\\Entity\\Tour::setTourServices<\/a>"],[0,1,"<a href=\"Tour.php.html#298\">App\\Entity\\Tour::getTourServices<\/a>"],[0,2,"<a href=\"Tour.php.html#303\">App\\Entity\\Tour::addTourService<\/a>"],[0,3,"<a href=\"Tour.php.html#313\">App\\Entity\\Tour::removeTourService<\/a>"],[0,1,"<a href=\"Tour.php.html#328\">App\\Entity\\Tour::getReviews<\/a>"],[0,2,"<a href=\"Tour.php.html#333\">App\\Entity\\Tour::addReview<\/a>"],[0,3,"<a href=\"Tour.php.html#343\">App\\Entity\\Tour::removeReview<\/a>"],[0,1,"<a href=\"TourImage.php.html#36\">App\\Entity\\TourImage::__construct<\/a>"],[0,1,"<a href=\"TourImage.php.html#41\">App\\Entity\\TourImage::getId<\/a>"],[0,1,"<a href=\"TourImage.php.html#46\">App\\Entity\\TourImage::getType<\/a>"],[0,1,"<a href=\"TourImage.php.html#51\">App\\Entity\\TourImage::setType<\/a>"],[0,1,"<a href=\"TourImage.php.html#58\">App\\Entity\\TourImage::getTour<\/a>"],[0,1,"<a href=\"TourImage.php.html#63\">App\\Entity\\TourImage::setTour<\/a>"],[0,1,"<a href=\"TourImage.php.html#70\">App\\Entity\\TourImage::getImage<\/a>"],[0,1,"<a href=\"TourImage.php.html#75\">App\\Entity\\TourImage::setImage<\/a>"],[0,1,"<a href=\"TourImage.php.html#82\">App\\Entity\\TourImage::getCreatedAt<\/a>"],[0,1,"<a href=\"TourImage.php.html#87\">App\\Entity\\TourImage::setCreatedAt<\/a>"],[0,1,"<a href=\"TourImage.php.html#94\">App\\Entity\\TourImage::getUpdatedAt<\/a>"],[0,1,"<a href=\"TourImage.php.html#99\">App\\Entity\\TourImage::setUpdatedAt<\/a>"],[0,1,"<a href=\"TourImage.php.html#106\">App\\Entity\\TourImage::getDeletedAt<\/a>"],[0,1,"<a href=\"TourImage.php.html#111\">App\\Entity\\TourImage::setDeletedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#44\">App\\Entity\\TourPlan::__construct<\/a>"],[0,1,"<a href=\"TourPlan.php.html#49\">App\\Entity\\TourPlan::getId<\/a>"],[0,1,"<a href=\"TourPlan.php.html#54\">App\\Entity\\TourPlan::getDay<\/a>"],[0,1,"<a href=\"TourPlan.php.html#59\">App\\Entity\\TourPlan::setDay<\/a>"],[0,1,"<a href=\"TourPlan.php.html#66\">App\\Entity\\TourPlan::getTitle<\/a>"],[0,1,"<a href=\"TourPlan.php.html#71\">App\\Entity\\TourPlan::setTitle<\/a>"],[0,1,"<a href=\"TourPlan.php.html#78\">App\\Entity\\TourPlan::getDescription<\/a>"],[0,1,"<a href=\"TourPlan.php.html#83\">App\\Entity\\TourPlan::setDescription<\/a>"],[0,1,"<a href=\"TourPlan.php.html#90\">App\\Entity\\TourPlan::getCreatedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#95\">App\\Entity\\TourPlan::setCreatedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#102\">App\\Entity\\TourPlan::getUpdatedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#107\">App\\Entity\\TourPlan::setUpdatedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#114\">App\\Entity\\TourPlan::getDeletedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#119\">App\\Entity\\TourPlan::setDeletedAt<\/a>"],[0,1,"<a href=\"TourPlan.php.html#126\">App\\Entity\\TourPlan::getTour<\/a>"],[0,1,"<a href=\"TourPlan.php.html#131\">App\\Entity\\TourPlan::setTour<\/a>"],[0,1,"<a href=\"TourPlan.php.html#138\">App\\Entity\\TourPlan::getDestination<\/a>"],[0,1,"<a href=\"TourPlan.php.html#143\">App\\Entity\\TourPlan::setDestination<\/a>"],[0,1,"<a href=\"TourService.php.html#33\">App\\Entity\\TourService::__construct<\/a>"],[0,1,"<a href=\"TourService.php.html#38\">App\\Entity\\TourService::getId<\/a>"],[0,1,"<a href=\"TourService.php.html#43\">App\\Entity\\TourService::getTour<\/a>"],[0,1,"<a href=\"TourService.php.html#48\">App\\Entity\\TourService::setTour<\/a>"],[0,1,"<a href=\"TourService.php.html#55\">App\\Entity\\TourService::getService<\/a>"],[0,1,"<a href=\"TourService.php.html#60\">App\\Entity\\TourService::setService<\/a>"],[0,1,"<a href=\"TourService.php.html#67\">App\\Entity\\TourService::getCreatedAt<\/a>"],[0,1,"<a href=\"TourService.php.html#72\">App\\Entity\\TourService::setCreatedAt<\/a>"],[0,1,"<a href=\"TourService.php.html#79\">App\\Entity\\TourService::getUpdatedAt<\/a>"],[0,1,"<a href=\"TourService.php.html#84\">App\\Entity\\TourService::setUpdatedAt<\/a>"],[0,1,"<a href=\"TourService.php.html#91\">App\\Entity\\TourService::getDeletedAt<\/a>"],[0,1,"<a href=\"TourService.php.html#96\">App\\Entity\\TourService::setDeletedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#33\">App\\Entity\\TypeReview::__construct<\/a>"],[0,1,"<a href=\"TypeReview.php.html#39\">App\\Entity\\TypeReview::getId<\/a>"],[0,1,"<a href=\"TypeReview.php.html#44\">App\\Entity\\TypeReview::getName<\/a>"],[0,1,"<a href=\"TypeReview.php.html#49\">App\\Entity\\TypeReview::setName<\/a>"],[0,1,"<a href=\"TypeReview.php.html#56\">App\\Entity\\TypeReview::getCreatedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#61\">App\\Entity\\TypeReview::setCreatedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#68\">App\\Entity\\TypeReview::getUpdatedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#73\">App\\Entity\\TypeReview::setUpdatedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#80\">App\\Entity\\TypeReview::getDeletedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#85\">App\\Entity\\TypeReview::setDeletedAt<\/a>"],[0,1,"<a href=\"TypeReview.php.html#95\">App\\Entity\\TypeReview::getReviewDetails<\/a>"],[0,2,"<a href=\"TypeReview.php.html#100\">App\\Entity\\TypeReview::addReviewDetail<\/a>"],[0,3,"<a href=\"TypeReview.php.html#110\">App\\Entity\\TypeReview::removeReviewDetail<\/a>"],[100,1,"<a href=\"User.php.html#61\">App\\Entity\\User::__construct<\/a>"],[100,1,"<a href=\"User.php.html#69\">App\\Entity\\User::getId<\/a>"],[100,1,"<a href=\"User.php.html#74\">App\\Entity\\User::getEmail<\/a>"],[100,1,"<a href=\"User.php.html#79\">App\\Entity\\User::setEmail<\/a>"],[100,1,"<a href=\"User.php.html#91\">App\\Entity\\User::getUserIdentifier<\/a>"],[100,1,"<a href=\"User.php.html#99\">App\\Entity\\User::getRoles<\/a>"],[100,1,"<a href=\"User.php.html#106\">App\\Entity\\User::setRoles<\/a>"],[100,1,"<a href=\"User.php.html#116\">App\\Entity\\User::getPassword<\/a>"],[100,1,"<a href=\"User.php.html#121\">App\\Entity\\User::setPassword<\/a>"],[100,1,"<a href=\"User.php.html#131\">App\\Entity\\User::eraseCredentials<\/a>"],[100,1,"<a href=\"User.php.html#137\">App\\Entity\\User::getPhone<\/a>"],[100,1,"<a href=\"User.php.html#142\">App\\Entity\\User::setPhone<\/a>"],[100,1,"<a href=\"User.php.html#149\">App\\Entity\\User::getAddress<\/a>"],[100,1,"<a href=\"User.php.html#154\">App\\Entity\\User::setAddress<\/a>"],[100,1,"<a href=\"User.php.html#161\">App\\Entity\\User::getCreatedAt<\/a>"],[100,1,"<a href=\"User.php.html#166\">App\\Entity\\User::setCreatedAt<\/a>"],[100,1,"<a href=\"User.php.html#173\">App\\Entity\\User::getUpdatedAt<\/a>"],[100,1,"<a href=\"User.php.html#178\">App\\Entity\\User::setUpdatedAt<\/a>"],[100,1,"<a href=\"User.php.html#185\">App\\Entity\\User::getDeletedAt<\/a>"],[100,1,"<a href=\"User.php.html#190\">App\\Entity\\User::setDeletedAt<\/a>"],[100,1,"<a href=\"User.php.html#197\">App\\Entity\\User::getName<\/a>"],[100,1,"<a href=\"User.php.html#202\">App\\Entity\\User::setName<\/a>"],[0,1,"<a href=\"User.php.html#212\">App\\Entity\\User::getTours<\/a>"],[0,2,"<a href=\"User.php.html#217\">App\\Entity\\User::addTour<\/a>"],[0,3,"<a href=\"User.php.html#227\">App\\Entity\\User::removeTour<\/a>"],[100,1,"<a href=\"User.php.html#238\">App\\Entity\\User::getAvatar<\/a>"],[100,1,"<a href=\"User.php.html#243\">App\\Entity\\User::setAvatar<\/a>"],[0,1,"<a href=\"User.php.html#253\">App\\Entity\\User::getOrders<\/a>"],[0,2,"<a href=\"User.php.html#258\">App\\Entity\\User::addOrder<\/a>"],[0,3,"<a href=\"User.php.html#268\">App\\Entity\\User::removeOrder<\/a>"],[0,1,"<a href=\"User.php.html#283\">App\\Entity\\User::getReviews<\/a>"],[0,2,"<a href=\"User.php.html#288\">App\\Entity\\User::addReview<\/a>"],[0,3,"<a href=\"User.php.html#298\">App\\Entity\\User::removeReview<\/a>"],[100,1,"<a href=\"Voucher.php.html#39\">App\\Entity\\Voucher::__construct<\/a>"],[100,1,"<a href=\"Voucher.php.html#45\">App\\Entity\\Voucher::getId<\/a>"],[100,1,"<a href=\"Voucher.php.html#50\">App\\Entity\\Voucher::getCode<\/a>"],[100,1,"<a href=\"Voucher.php.html#55\">App\\Entity\\Voucher::setCode<\/a>"],[100,1,"<a href=\"Voucher.php.html#62\">App\\Entity\\Voucher::getDiscount<\/a>"],[100,1,"<a href=\"Voucher.php.html#67\">App\\Entity\\Voucher::setDiscount<\/a>"],[0,1,"<a href=\"Voucher.php.html#77\">App\\Entity\\Voucher::getOrders<\/a>"],[0,2,"<a href=\"Voucher.php.html#82\">App\\Entity\\Voucher::addOrder<\/a>"],[0,3,"<a href=\"Voucher.php.html#92\">App\\Entity\\Voucher::removeOrder<\/a>"],[100,1,"<a href=\"Voucher.php.html#104\">App\\Entity\\Voucher::getCreatedAt<\/a>"],[100,1,"<a href=\"Voucher.php.html#109\">App\\Entity\\Voucher::setCreatedAt<\/a>"],[100,1,"<a href=\"Voucher.php.html#116\">App\\Entity\\Voucher::getUpdatedAt<\/a>"],[100,1,"<a href=\"Voucher.php.html#121\">App\\Entity\\Voucher::setUpdatedAt<\/a>"],[100,1,"<a href=\"Voucher.php.html#128\">App\\Entity\\Voucher::getDeletedAt<\/a>"],[100,1,"<a href=\"Voucher.php.html#133\">App\\Entity\\Voucher::setDeletedAt<\/a>"],[100,1,"<a href=\"Voucher.php.html#140\">App\\Entity\\Voucher::getRemain<\/a>"],[100,1,"<a href=\"Voucher.php.html#145\">App\\Entity\\Voucher::setRemain<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
