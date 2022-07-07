@@ -90,6 +90,9 @@ class ListTourService
         $user = $this->userRepository->find($currentUser->getId());
         $tours = $this->tourRepository->findBy(['createdUser' => $user]);
         foreach ($tours as $key => $tour) {
+            if($tour->getDeletedAt() !== null) {
+                continue;
+            }
             $result[$key] = $this->tourTransformer->toArrayOfCustomer($tour);
         }
 
