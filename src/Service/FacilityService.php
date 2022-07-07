@@ -19,14 +19,13 @@ class FacilityService
     private ParameterBagInterface $params;
 
     public function __construct(
-        ServiceTransformer      $serviceTransformer,
-        ServiceRepository       $serviceRepository,
+        ServiceTransformer $serviceTransformer,
+        ServiceRepository $serviceRepository,
         TourServicesTransformer $tourServicesTransformer,
-        TourRepository          $tourRepository,
-        ReviewService           $reviewService,
-        ParameterBagInterface   $params,
-    )
-    {
+        TourRepository $tourRepository,
+        ReviewService $reviewService,
+        ParameterBagInterface $params,
+    ) {
         $this->serviceTransformer = $serviceTransformer;
         $this->serviceRepository = $serviceRepository;
         $this->tourServicesTransformer = $tourServicesTransformer;
@@ -99,7 +98,7 @@ class FacilityService
             if ($image->getType() === 'cover') {
                 $result = is_null($image->getImage()) ? null : $this->params->get('s3url') . $image->getImage()->getPath();
             }
-       }
+        }
 
         return $result;
     }

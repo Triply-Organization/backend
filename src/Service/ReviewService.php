@@ -31,15 +31,14 @@ class ReviewService
     private ReviewTransformer $reviewTransformer;
 
     public function __construct(
-        Security               $security,
-        OrderService           $orderService,
-        ReviewRepository       $reviewRepository,
-        TypeReviewRepository   $typeReviewRepository,
+        Security $security,
+        OrderService $orderService,
+        ReviewRepository $reviewRepository,
+        TypeReviewRepository $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService    $reviewDetailService,
+        ReviewDetailService $reviewDetailService,
         ReviewTransformer $reviewTransformer
-    )
-    {
+    ) {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -181,8 +180,7 @@ class ReviewService
 
     public function adminGetAllReviews(
         GetReviewAllRequest $getReviewAllRequest,
-    )
-    {
+    ) {
         $result = [];
         $data = $this->reviewRepository->getAllReviewAdmin($getReviewAllRequest);
         $reviews = $data['reviews'];

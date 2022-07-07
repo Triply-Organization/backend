@@ -3,12 +3,14 @@
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\Image;
+use App\Entity\Order;
+use App\Entity\Review;
+use App\Entity\Tour;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-
     public function testUserCreate(): void
     {
         $user = new User();
@@ -19,6 +21,9 @@ class UserTest extends TestCase
     {
         $user = new User();
         $image = new Image();
+        $tour = new Tour();
+        $order = new Order();
+        $review = new Review();
         $user->setName('user');
         $user->setRoles(['ROLE_USER']);
         $user->setCreatedAt(new \DateTimeImmutable());
@@ -28,11 +33,21 @@ class UserTest extends TestCase
         $user->setPassword('123');
         $user->setPhone('0987095457');
         $user->setAddress('Can Tho');
-        $user->setImage($image);
+        $user->setAvatar($image);
+        $user->addTour($tour);
+        $user->getTours();
+        $user->removeTour($tour);
+        $user->addOrder($order);
+        $user->getOrders();
+        $user->removeOrder($order);
+        $user->addReview($review);
+        $user->getReviews();
+        $user->removeReview($review);
+
 
         $this->assertNull($user->getId());
 
-        $this->assertEquals('object', gettype($user->getImage()));
+        $this->assertEquals('object', gettype($user->getAvatar()));
 
         $this->assertEquals('string', gettype($user->getName()));
         $this->assertEquals('user', $user->getName());
