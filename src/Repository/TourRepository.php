@@ -101,6 +101,7 @@ class TourRepository extends BaseRepository
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
         $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
+        $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'status', '=', 'enable');
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
         $query = $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
         $query = $query->groupBy('t.id');
@@ -110,20 +111,8 @@ class TourRepository extends BaseRepository
     public function queryAdminTours(ListTourRequest $listTourRequest): QueryBuilder
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
-        $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
-        $guests = $listTourRequest->getGuests();
-        if (!empty($guests)) {
-            foreach ($guests as $guest) {
-                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $guest);
-            }
-        }
-        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
-        $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
-        $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '>=', $listTourRequest->getStartPrice());
-        $query = $this->andCustomFilter($query, self::PRICE_LIST_ALIAS, 'price', '<=', $listTourRequest->getEndPrice());
-
-        return $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
+        $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
+        return $this->sortBy($query, self::TOUR_ALIAS, 'id', $listTourRequest->getOrderBy());
     }
 
     public function getTourWithDestination(int $id, int $tourId)
