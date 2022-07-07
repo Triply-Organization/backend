@@ -40,13 +40,14 @@ class StripeService
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository $billRepository,
-        SendMailService $sendMailService,
-        OrderRepository $orderRepository,
-        ScheduleRepository $scheduleRepository,
-        VoucherRepository $voucherRepository,
-        BillService $billService
-    ) {
+        BillRepository        $billRepository,
+        SendMailService       $sendMailService,
+        OrderRepository       $orderRepository,
+        ScheduleRepository    $scheduleRepository,
+        VoucherRepository     $voucherRepository,
+        BillService           $billService
+    )
+    {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
@@ -78,7 +79,7 @@ class StripeService
         $bill = $this->billRepository->find($refundRequestData->getBillId());
 
         if (!$bill) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         $refundAmount = $this->getAmountRefund($bill, $refundRequestData);
@@ -98,15 +99,30 @@ class StripeService
     public function eventHandler(array $data, string $type, array $metadata): void
     {
         if ($type === self::CHECK_COMPLETED) {
+            $order = $this->orderRepository->find($metadata['orderId']);
+            $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
+            if (!$order || !$schedule) {
+                throw new NotFoundHttpException;
+            }
             $bill = $this->billService->add($metadata, $data);
-            $this->completePayment($metadata, $bill);
+
+            $order->setStatus('paid');
+            $order->setBill($bill);
+            $this->orderRepository->add($order, true);
+            $this->logger->debug($order->getStatus());
+
+            $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
+            $schedule->setUpdatedAt(new \DateTimeImmutable());
+            $this->scheduleRepository->add($schedule, true);
             $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
+
+            $this->stripe->checkout->sessions->expire(
+                $data['id'],
+                []
+            );
         }
 
-        $this->stripe->checkout->sessions->expire(
-            $data['id'],
-            []
-        );
+
     }
 
     private function sessionConfig(CheckoutRequest $checkoutRequestData): array
@@ -154,28 +170,13 @@ class StripeService
     {
         $voucher = $this->voucherRepository->find($voucherId);
         if (!$voucher) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
         $voucherRemain = $voucher->getRemain();
         $voucher->setRemain($voucherRemain - 1);
         $this->voucherRepository->add($voucher, true);
     }
 
-    private function completePayment(array $metadata, Bill $bill): void
-    {
-        $order = $this->orderRepository->find($metadata['orderId']);
-        $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
-        if (!$order || !$schedule) {
-            throw new NotFoundHttpException();
-        }
-        $order->setStatus('paid');
-        $order->setBill($bill);
-        $this->orderRepository->add($order, true);
-
-        $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
-        $schedule->setUpdatedAt(new \DateTimeImmutable());
-        $this->scheduleRepository->add($schedule, true);
-    }
 
     private function getAmountRefund(Bill $bill, RefundRequest $refundRequestData): float
     {
