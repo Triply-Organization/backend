@@ -47,7 +47,7 @@ class UserService
         $result['user']['fullname'] = $currentUser->getName();
         $result['user']['avatar'] = $currentUser->getAvatar();
         foreach ($currentUser->getOrders() as $key => $order) {
-            $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
+            $result['orders'][$key] = $this->orderTransformer->detailToArray($order);
         }
         return $result;
     }
