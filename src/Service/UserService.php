@@ -22,14 +22,13 @@ class UserService
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository   $userRepository,
-        UserTransformer  $userTransformer,
-        UserEditMapper   $userEditMapper,
+        UserRepository $userRepository,
+        UserTransformer $userTransformer,
+        UserEditMapper $userEditMapper,
         ReviewRepository $reviewRepository,
-        Security         $security,
+        Security $security,
         OrderTransformer $orderTransformer
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userEditMapper = $userEditMapper;
@@ -47,7 +46,7 @@ class UserService
         $result['user']['fullname'] = $currentUser->getName();
         $result['user']['avatar'] = $currentUser->getAvatar();
         foreach ($currentUser->getOrders() as $key => $order) {
-            $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
+            $result['orders'][$key] = $this->orderTransformer->detailToArray($order);
         }
         return $result;
     }

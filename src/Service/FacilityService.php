@@ -19,14 +19,13 @@ class FacilityService
     private ParameterBagInterface $params;
 
     public function __construct(
-        ServiceTransformer      $serviceTransformer,
-        ServiceRepository       $serviceRepository,
+        ServiceTransformer $serviceTransformer,
+        ServiceRepository $serviceRepository,
         TourServicesTransformer $tourServicesTransformer,
-        TourRepository          $tourRepository,
-        ReviewService           $reviewService,
+        TourRepository $tourRepository,
+        ReviewService $reviewService,
         ParameterBagInterface $params,
-    )
-    {
+    ) {
         $this->serviceTransformer = $serviceTransformer;
         $this->serviceRepository = $serviceRepository;
         $this->tourServicesTransformer = $tourServicesTransformer;
@@ -37,6 +36,7 @@ class FacilityService
 
     public function getPopularTour()
     {
+
         $tours = $this->tourRepository->findAll();
         $ratings = ['rating'];
         $tourArray = [];
@@ -52,13 +52,21 @@ class FacilityService
                 $i++;
             }
         }
+
         foreach ($tourArray as $key => $tour) {
             $result[$key]['id'] = $tour->getId();
             $result[$key]['title'] = $tour->getTitle();
-            $result[$key]['image'] = $this->getCoverImage($tour);
+
+            $result[$key]['image'] = is_null($this->getCoverImage($tour)) ? null : $this->getCoverImage($tour);
+
             $result[$key]['rate'] = $this->reviewService->ratingForTour($tour);
         }
-       return $result;
+
+        if ($result === null) {
+            $result = [];
+        }
+
+        return $result;
     }
 
 
@@ -84,10 +92,11 @@ class FacilityService
 
     public function getCoverImage(Tour $tour): string
     {
+        $result = '';
         $images = $tour->getTourImages();
         foreach ($images as $image) {
             if ($image->getType() === 'cover') {
-                $result = $this->params->get('s3url') . $image->getImage()->getPath();
+                $result = is_null($image->getImage()) ? null : $this->params->get('s3url') . $image->getImage()->getPath();
             }
         }
 
