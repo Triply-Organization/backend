@@ -18,16 +18,22 @@ class ReviewTransformer extends BaseTransformer
 
     public function toArrayOfAdmin(Review $review): array
     {
+        if ($review->getDeletedAt() !== null) {
+            return [];
+        }
         $result = $this->transform($review, static::PARAMS);
         $result['user']['id'] = $review->getUser()->getId();
         $result['user']['name'] = $review->getUser()->getName();
+        $result['user']['email'] = $review->getUser()->getEmail();
         $result['order'] = $review->getOrderDetail()->getId();
         $result['tour']['id'] = $review->getTour()->getId();
         $result['tour']['name'] = $review->getTour()->getTitle();
         foreach ($review->getReviewDetails() as $key => $reviewDetail) {
-            $result[$key]['type'] = $reviewDetail->getType()->getName();
-            $result[$key]['rate'] = $reviewDetail->getRate();
+            $reviewArray[$key]['type'] = $reviewDetail->getType()->getName();
+            $reviewArray[$key]['rate'] = $reviewDetail->getRate();
         }
+        $result['rating'] = $reviewArray;
+
         return $result;
     }
 }

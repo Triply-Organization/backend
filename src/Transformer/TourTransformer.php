@@ -11,9 +11,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TourTransformer extends BaseTransformer
 {
-    private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price'];
+    private const PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'price' , 'status'];
     private const ADMIN_PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge', 'overView', 'status', 'createdAt'];
-    private const CUSTOMER_PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge','createdAt'];
+    private const CUSTOMER_PARAMS = ['id', 'title', 'duration', 'maxPeople', 'minAge','createdAt', 'status'];
     private TourService $tourService;
     private ScheduleService $scheduleService;
     private ParameterBagInterface $params;

@@ -10,7 +10,6 @@ use App\Repository\VoucherRepository;
 use App\Request\CheckoutRequest;
 use App\Request\RefundRequest;
 use PHPMailer\PHPMailer\Exception;
-use Psr\Log\LoggerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
@@ -38,7 +37,6 @@ class StripeService
     private ScheduleRepository $scheduleRepository;
     private BillService $billService;
     private VoucherRepository $voucherRepository;
-    private LoggerInterface $logger;
 
     public function __construct(
         ParameterBagInterface $params,
@@ -47,7 +45,6 @@ class StripeService
         OrderRepository       $orderRepository,
         ScheduleRepository    $scheduleRepository,
         VoucherRepository     $voucherRepository,
-        LoggerInterface       $logger,
         BillService           $billService
     )
     {
@@ -57,7 +54,6 @@ class StripeService
         $this->orderRepository = $orderRepository;
         $this->scheduleRepository = $scheduleRepository;
         $this->voucherRepository = $voucherRepository;
-        $this->logger = $logger;
         $this->billService = $billService;
         $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
     }
@@ -206,7 +202,7 @@ class StripeService
     {
         $order = $this->orderRepository->find($refundRequestData->getOrderId());
         if (!$order) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         $order->setStatus('refund');
         $this->orderRepository->add($order, true);

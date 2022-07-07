@@ -31,15 +31,14 @@ class ReviewService
     private ReviewTransformer $reviewTransformer;
 
     public function __construct(
-        Security               $security,
-        OrderService           $orderService,
-        ReviewRepository       $reviewRepository,
-        TypeReviewRepository   $typeReviewRepository,
+        Security $security,
+        OrderService $orderService,
+        ReviewRepository $reviewRepository,
+        TypeReviewRepository $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService    $reviewDetailService,
+        ReviewDetailService $reviewDetailService,
         ReviewTransformer $reviewTransformer
-    )
-    {
+    ) {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -166,23 +165,22 @@ class ReviewService
     public function deleteReview(Review $review): bool
     {
         $currentUser = $this->security->getUser();
-        if ($currentUser->getId() !== $review->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
-            return false;
-        }
-        foreach ($review->getReviewDetails() as $reviewDetail) {
-            $reviewDetail->setDeletedAt(new \DateTimeImmutable());
-            $this->reviewDetailRepository->add($reviewDetail, true);
-        }
-        $review->setDeletedAt(new \DateTimeImmutable());
-        $this->reviewRepository->add($review, true);
+        if ($currentUser->getId() === $review->getUser()->getId() || $currentUser->getRoles() == ["ROLE_ADMIN"]) {
+            foreach ($review->getReviewDetails() as $reviewDetail) {
+                $reviewDetail->setDeletedAt(new \DateTimeImmutable());
+                $this->reviewDetailRepository->add($reviewDetail, true);
+            }
+            $review->setDeletedAt(new \DateTimeImmutable());
+            $this->reviewRepository->add($review, true);
 
-        return true;
+            return true;
+        }
+        return false;
     }
 
     public function adminGetAllReviews(
         GetReviewAllRequest $getReviewAllRequest,
-    )
-    {
+    ) {
         $result = [];
         $data = $this->reviewRepository->getAllReviewAdmin($getReviewAllRequest);
         $reviews = $data['reviews'];

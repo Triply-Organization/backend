@@ -122,6 +122,4 @@ class TourService
         ->setStatus($statusOfTourRequest->getStatus());
         $this->tourRepository->add($tourUpdate, true);
     }
-
-
 }

@@ -88,28 +88,6 @@ class SendMailService
         );
     }
 
-    private function getEmailTemplate(Booking $booking): string
-    {
-        $now = new \DateTime();
-        $now = $now->format('Y-m-d');
-        $mailBody = file_get_contents($this->projectDir.'/templates/emailTemplate.html');
-        $mailBody = str_replace('%now%', $now, $mailBody);
-        $mailBody = str_replace('%hotelName%', $booking->getRoom()->getHotel()->getName(), $mailBody);
-        $mailBody = str_replace('%name%', $booking->getFullName(), $mailBody);
-        $mailBody = str_replace('%hotelDescription%', $booking->getRoom()->getHotel()->getDescription(), $mailBody);
-        $mailBody = str_replace('%roomNumber%', $booking->getRoom()->getNumber(), $mailBody);
-        $mailBody = str_replace('%checkin%', $booking->getCheckIn()->format('Y-m-d'), $mailBody);
-        $mailBody = str_replace('%checkout%', $booking->getCheckOut()->format('Y-m-d'), $mailBody);
-        $mailBody = str_replace('%total%', $booking->getTotal(), $mailBody);
-        $mailBody = str_replace(
-            '%imageHotel%',
-            $booking->getRoom()->getHotel()->getHotelImages()->toArray()[0]->getImage()->getPath(),
-            $mailBody
-        );
-
-        return $mailBody;
-    }
-
     /**
      * @throws Exception
      */
