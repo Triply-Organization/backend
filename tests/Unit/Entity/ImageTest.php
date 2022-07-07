@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
 {
-
     public function testImageCreate(): void
     {
         $image = new Image();

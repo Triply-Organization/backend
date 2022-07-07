@@ -65,8 +65,7 @@ class ReviewController extends AbstractController
         ReviewService $reviewService,
         GetReviewAllRequest $getReviewAllRequest,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $query = $request->query->all();
         $tourRequest = $getReviewAllRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);

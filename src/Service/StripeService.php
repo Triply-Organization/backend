@@ -40,14 +40,13 @@ class StripeService
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository        $billRepository,
-        SendMailService       $sendMailService,
-        OrderRepository       $orderRepository,
-        ScheduleRepository    $scheduleRepository,
-        VoucherRepository     $voucherRepository,
-        BillService           $billService
-    )
-    {
+        BillRepository $billRepository,
+        SendMailService $sendMailService,
+        OrderRepository $orderRepository,
+        ScheduleRepository $scheduleRepository,
+        VoucherRepository $voucherRepository,
+        BillService $billService
+    ) {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
@@ -79,7 +78,7 @@ class StripeService
         $bill = $this->billRepository->find($refundRequestData->getBillId());
 
         if (!$bill) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
 
         $refundAmount = $this->getAmountRefund($bill, $refundRequestData);
@@ -155,7 +154,7 @@ class StripeService
     {
         $voucher = $this->voucherRepository->find($voucherId);
         if (!$voucher) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         $voucherRemain = $voucher->getRemain();
         $voucher->setRemain($voucherRemain - 1);
@@ -167,7 +166,7 @@ class StripeService
         $order = $this->orderRepository->find($metadata['orderId']);
         $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
         if (!$order || !$schedule) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         $order->setStatus('paid');
         $order->setBill($bill);
@@ -202,7 +201,7 @@ class StripeService
     {
         $order = $this->orderRepository->find($refundRequestData->getOrderId());
         if (!$order) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         $order->setStatus('refund');
         $this->orderRepository->add($order, true);
