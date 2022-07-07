@@ -105,7 +105,7 @@ class TourRepository extends BaseRepository
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
         $query = $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
         $query = $query->groupBy('t.id');
-        return $query->groupBy('t.id');
+        return $query;
     }
 
     public function queryAdminTours(ListTourRequest $listTourRequest): QueryBuilder
