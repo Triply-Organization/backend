@@ -109,7 +109,6 @@ class StripeService
             $order->setStatus('paid');
             $order->setBill($bill);
             $this->orderRepository->add($order, true);
-            $this->logger->debug($order->getStatus());
 
             $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
