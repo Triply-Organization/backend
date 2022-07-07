@@ -125,4 +125,9 @@ abstract class BaseRepository extends ServiceEntityRepository
     {
         return $tours->andWhere($alias . ".$field IS NULL");
     }
+
+    protected function isLike(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder
+    {
+        return $tours->andWhere($alias . '.'.$field.' LIKE ' . '\'%'.$value.'%\'');
+    }
 }
