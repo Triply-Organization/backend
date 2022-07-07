@@ -44,7 +44,6 @@ class UserTest extends TestCase
         $user->getReviews();
         $user->removeReview($review);
 
-
         $this->assertNull($user->getId());
 
         $this->assertEquals('object', gettype($user->getAvatar()));
