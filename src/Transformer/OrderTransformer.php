@@ -58,7 +58,7 @@ class OrderTransformer extends BaseTransformer
     {
         $result = $this->transform($order, static::USER_PARAMS);
         $result['title'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTitle();
-        $result['bookedAt'] = $order->getCreatedAt()->format('y-m-d');
+        $result['bookedAt'] = $order->getCreatedAt();
         $result['startDay'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getStartDate();
         $images =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTourImages();
         foreach ($images as $image) {
@@ -78,9 +78,9 @@ class OrderTransformer extends BaseTransformer
             $result['bill']['id'] = $order->getBill()->getId();
             $result['bill']['totalPrice'] = $order->getBill()->getTotalPrice();
             $result['bill']['currency'] = $order->getBill()->getCurrency();
-            $result['bill']['tax '] = $order->getBill()->getTax();
-            $result['bill']['discount '] = $order->getBill()->getDiscount();
-            $result['bill']['stripe '] = $order->getBill()->getStripePaymentId();
+            $result['bill']['tax'] = $order->getBill()->getTax();
+            $result['bill']['discount'] = $order->getBill()->getDiscount();
+            $result['bill']['stripe'] = $order->getBill()->getStripePaymentId();
         }
 
         return $result;
@@ -112,9 +112,9 @@ class OrderTransformer extends BaseTransformer
             $result['bill']['id'] = $order->getBill()->getId();
             $result['bill']['totalPrice'] = $order->getBill()->getTotalPrice();
             $result['bill']['currency'] = $order->getBill()->getCurrency();
-            $result['bill']['tax '] = $order->getBill()->getTax();
-            $result['bill']['discount '] = $order->getBill()->getDiscount();
-            $result['bill']['stripe '] = $order->getBill()->getStripePaymentId();
+            $result['bill']['tax'] = $order->getBill()->getTax();
+            $result['bill']['discount'] = $order->getBill()->getDiscount();
+            $result['bill']['stripe'] = $order->getBill()->getStripePaymentId();
         }
         return $result;
     }
