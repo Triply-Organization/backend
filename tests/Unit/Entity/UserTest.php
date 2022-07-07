@@ -28,11 +28,11 @@ class UserTest extends TestCase
         $user->setPassword('123');
         $user->setPhone('0987095457');
         $user->setAddress('Can Tho');
-        $user->setImage($image);
+        $user->setAvatar($image);
 
         $this->assertNull($user->getId());
 
-        $this->assertEquals('object', gettype($user->getImage()));
+        $this->assertEquals('object', gettype($user->getAvatar()));
 
         $this->assertEquals('string', gettype($user->getName()));
         $this->assertEquals('user', $user->getName());
