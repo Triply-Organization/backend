@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Mapper\UserUpdateMapper;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
-use App\Request\EditRoleRequest;
 use App\Request\PatchUpdateUserRequest;
 use App\Request\UserRequest;
 use App\Transformer\OrderTransformer;
@@ -73,13 +72,6 @@ class UserService
     {
         $user = $this->userUpdateMapper->mapping($user, $patchUpdateUserRequest);
         $this->userRepository->add($user, true);
-    }
-
-    public function editRole(User $user, EditRoleRequest $editRoleRequest): array
-    {
-        $editUserMapper = $this->userEditMapper->mapping($user, $editRoleRequest);
-        $this->userRepository->add($editUserMapper, true);
-        return $this->userTransformer->fromArray($user);
     }
 
     public function deleteUser(User $user): bool
