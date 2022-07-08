@@ -48,4 +48,21 @@ class UserController extends AbstractController
 
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/{id<\d+>}', name: 'delete', methods: 'DELETE')]
+    #[IsGranted('ROLE_USER')]
+    public function deleteUser(
+        User $user,
+        UserService $userService
+    ): JsonResponse {
+        $currentUser = $this->getUser();
+
+        if ($currentUser !== $user) {
+            return $this->errors(['Something wrong'], Response::HTTP_FORBIDDEN);
+        }
+
+        $userService->deleteUser($user);
+
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
 }
