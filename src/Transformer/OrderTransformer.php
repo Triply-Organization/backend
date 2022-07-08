@@ -54,7 +54,7 @@ class OrderTransformer extends BaseTransformer
         return $result;
     }
 
-    public function getOrderOfUser(Order $order)
+    public function getOrderOfUser(Order $order): array
     {
         $result = $this->transform($order, static::USER_PARAMS);
         $result['title'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTitle();
