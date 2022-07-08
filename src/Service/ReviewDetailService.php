@@ -9,6 +9,7 @@ class ReviewDetailService
         $results = [];
         foreach ($reviewDetails as $reviewDetail) {
             $results[$reviewDetail->getType()->getName()] = $reviewDetail->getRate();
+
         }
 
         return $results;

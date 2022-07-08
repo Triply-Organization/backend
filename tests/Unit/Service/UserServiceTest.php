@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Service;
+namespace App\Tests\Unit\Service;
 
-use App\Entity\Order;
 use App\Entity\User;
-use App\Mapper\UserEditMapper;
+use App\Mapper\UserUpdateMapper;
+use App\Repository\ImageRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Service\UserService;
@@ -17,10 +17,11 @@ class UserServiceTest extends TestCase
 {
     public function testGetAllOrder()
     {
-        $user= new User();
+        $user = new User();
         $userRepositoryMock = $this->getMockBuilder(UserRepository::class)->disableOriginalConstructor()->getMock();
+        $imageRepositoryMock = $this->getMockBuilder(ImageRepository::class)->disableOriginalConstructor()->getMock();
         $userTransformer = new UserTransformer();
-        $userEditMapper = new UserEditMapper();
+        $userEditMapper = new UserUpdateMapper($imageRepositoryMock);
         $reviewRepositoryMock = $this->getMockBuilder(ReviewRepository::class)->disableOriginalConstructor()->getMock();
         $securityMock = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
         $securityMock->expects($this->once())->method('getUser')->willReturn($user);
