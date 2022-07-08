@@ -34,8 +34,8 @@ abstract class BaseRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
             "UPDATE $this->entityClass $this->alias 
-                SET $this->alias.deletedAt = :date 
-                WHERE $this->alias.id = $id"
+                    SET $this->alias.deletedAt = :date 
+                    WHERE $this->alias.id = $id"
         )->setParameter('date', new DateTimeImmutable());
 
         return $query->getResult();
@@ -46,8 +46,8 @@ abstract class BaseRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
             "UPDATE $this->entityClass $this->alias 
-                SET $this->alias.deletedAt = :date 
-                WHERE $this->alias.$field = $id"
+                    SET $this->alias.deletedAt = :date 
+                    WHERE $this->alias.$field = $id"
         )->setParameter('date', new DateTimeImmutable());
         return $query->getResult();
     }
@@ -57,8 +57,8 @@ abstract class BaseRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
             "UPDATE $this->entityClass $this->alias 
-                SET $this->alias.deletedAt = NULL
-                WHERE $this->alias.id = $id"
+                    SET $this->alias.deletedAt = NULL
+                    WHERE $this->alias.id = $id"
         );
 
         return $query->getResult();
@@ -69,8 +69,8 @@ abstract class BaseRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
             "UPDATE $this->entityClass $this->alias 
-                SET $this->alias.deletedAt = NULL
-                WHERE $this->alias.$field = $id"
+                    SET $this->alias.deletedAt = NULL
+                    WHERE $this->alias.$field = $id"
         );
 
         return $query->getResult();
@@ -118,7 +118,16 @@ abstract class BaseRepository extends ServiceEntityRepository
             return $tours;
         }
 
-        return $tours->andWhere($alias . ".$field" . "$expression" . ":$field")->setParameter($field, $value);
+        return $tours->andWhere($alias . ".$field" . " $expression " . ":$field")->setParameter($field, $value);
+    }
+
+    protected function andBetween(QueryBuilder $tours, mixed $alias, mixed $field, mixed $start, mixed $end): QueryBuilder
+    {
+        if (empty($start) && empty($end)) {
+            return $tours;
+        }
+
+        return $tours->andWhere($alias . ".$field BETWEEN " . $start . " AND " . $end);
     }
 
     protected function andIsNull(QueryBuilder $tours, mixed $alias, string $field): QueryBuilder
