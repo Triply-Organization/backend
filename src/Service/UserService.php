@@ -53,20 +53,17 @@ class UserService
 
     public function getUsers(UserRequest $userRequest): array
     {
-        $userRole = ["ROLE_USER"];
-        $data = $this->userRepository->getAll($userRequest);
+        $userRole = '["ROLE_USER"]';
+        $data = $this->userRepository->getAll($userRequest, $userRole);
         $users = $data['users'];
         $results = [];
-        $count = 0;
         foreach ($users as $user) {
-            if ($user->getRoles() === $userRole) {
                 $results['users'][] = $this->userTransformer->fromArray($user);
-                $count += 1;
-            }
+
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalUsers'] = $count;
+        $results['totalUsers'] = $data['totalUsers'];
 
         return $results;
     }

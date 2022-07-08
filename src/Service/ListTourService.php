@@ -49,9 +49,7 @@ class ListTourService
         $result['destinations'] = $this->destinationService->getAllDestination();
         $result['services'] = $this->facilityService->getAllService();
         $result['tickets'] = $this->ticketTypeService->getTicket();
-
         $result['popularTour'] = $this->facilityService->getPopularTour();
-
         $result['totalPages'] = $data['totalPages'];
         $result['page'] = $data['page'];
         $result['totalTours'] = $data['totalTours'];
