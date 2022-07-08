@@ -54,11 +54,6 @@ class ListTourService
         $result['page'] = $data['page'];
         $result['totalTours'] = $data['totalTours'];
 
-
-        if ($result === null) {
-            $result = [];
-        }
-
         return $result;
     }
 
@@ -73,10 +68,6 @@ class ListTourService
         $result['totalPages'] = $data['totalPages'];
         $result['page'] = $data['page'];
         $result['totalTours'] = $data['totalTours'];
-
-        if ($result === null) {
-            $result = [];
-        }
 
         return $result;
     }

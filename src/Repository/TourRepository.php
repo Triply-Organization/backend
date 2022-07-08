@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Destination;
 use App\Entity\PriceList;
+use App\Entity\Review;
+use App\Entity\ReviewDetail;
 use App\Entity\Schedule;
 use App\Entity\Service;
 use App\Entity\TicketType;
@@ -122,6 +124,19 @@ class TourRepository extends BaseRepository
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
 
         return $query->getQuery()->getResult();
+    }
+
+    public function getPopularTour()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery("
+                SELECT  t.id , SUM(rd.rate)/count(rd.review) AS rate
+                FROM  App\Entity\Tour AS t, App\Entity\ReviewDetail AS rd, App\Entity\Review AS r
+                WHERE t.id = r.tour AND r.id = rd.review 
+                GROUP BY t.id ORDER BY rate DESC"
+        );
+        $query->setMaxResults(6);
+        return $query->getResult();
     }
 
     private function join($query)

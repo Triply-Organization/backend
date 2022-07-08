@@ -71,7 +71,7 @@ class TourPlanService
     {
         foreach ($tourUpdateRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
-            if (!is_object($destination)) {
+            if (!$destination) {
                 continue;
             }
             $tourPlan = $this->tourPlanRepository->find($tourPlanRequest['id']);

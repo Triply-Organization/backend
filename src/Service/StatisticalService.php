@@ -44,10 +44,4 @@ class StatisticalService
 
         return $overAll;
     }
-
-    public function statisticalTotalBook(): array
-    {
-        $currentUser = $this->security->getUser();
-        return $overAll;
-    }
 }
