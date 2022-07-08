@@ -144,7 +144,7 @@ class ReviewService
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
             return false;
         }
-        if ($orderCommented !== []) {
+        if ($orderCommented) {
             return false;
         }
         $firstTicket = $this->orderService->findOneTicketOfOrder($order);
@@ -178,7 +178,7 @@ class ReviewService
         return false;
     }
 
-    public function adminGetAllReviews(
+    public function  adminGetAllReviews(
         GetReviewAllRequest $getReviewAllRequest,
     ) {
         $result = [];
@@ -190,10 +190,6 @@ class ReviewService
         $result['totalPages'] = $data['totalPages'];
         $result['page'] = $data['page'];
         $result['totalReviews'] = $data['totalReviews'];
-
-        if ($result === null) {
-            $result = [];
-        }
 
         return $result;
     }

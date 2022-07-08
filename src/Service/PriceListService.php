@@ -76,7 +76,7 @@ class PriceListService
     ): void {
         $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'children']);
-        if (is_object($ticketType)) {
+        if ($ticketType) {
             $priceList->setType($ticketType)
                 ->setPrice($scheduleRequest->getChildren())
                 ->setSchedule($schedule)
@@ -91,7 +91,7 @@ class PriceListService
     ): void {
         $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'youth']);
-        if (is_object($ticketType)) {
+        if ($ticketType) {
             $priceList->setType($ticketType)
                 ->setPrice($scheduleRequest->getYouth())
                 ->setSchedule($schedule)
@@ -106,7 +106,7 @@ class PriceListService
     ): void {
         $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'adult']);
-        if (is_object($ticketType)) {
+        if ($ticketType) {
             $priceList->setType($ticketType)
                 ->setPrice($scheduleRequest->getAdult())
                 ->setSchedule($schedule)

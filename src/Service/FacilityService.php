@@ -36,10 +36,11 @@ class FacilityService
 
     public function getPopularTour()
     {
-
+        $result = [];
         $tours = $this->tourRepository->findAll();
         $ratings = ['rating'];
         $tourArray = [];
+
         $i = 0;
         foreach ($tours as $tour) {
             $ratings['rating'][$tour->getId()] = $this->reviewService->ratingForTour($tour);
@@ -62,10 +63,6 @@ class FacilityService
             $result[$key]['rate'] = $this->reviewService->ratingForTour($tour);
         }
 
-        if ($result === null) {
-            $result = [];
-        }
-
         return $result;
     }
 
@@ -82,6 +79,7 @@ class FacilityService
 
     public function getAllService(): array
     {
+        $result = [];
         $services = $this->serviceRepository->findAll();
         foreach ($services as $service) {
             $result[] = $this->serviceTransformer->toArray($service);

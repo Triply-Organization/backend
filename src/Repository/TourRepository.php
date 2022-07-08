@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Destination;
 use App\Entity\PriceList;
+use App\Entity\Review;
+use App\Entity\ReviewDetail;
 use App\Entity\Schedule;
 use App\Entity\Service;
 use App\Entity\TicketType;
@@ -30,6 +32,8 @@ class TourRepository extends BaseRepository
     public const DESTINATION_ALIAS = 'd';
     public const TOUR_PLAN_ALIAS = 'tp';
     public const SERVICE_ALIAS = 's';
+    public const REVIEW_ALIAS = 'r';
+    public const REVIEW_DETAIL_ALIAS = 'rd';
     public const TICKET_TYPE_ALIAS = 'tt';
     public const SCHEDULE_ALIAS = 'sch';
     public const PRICE_LIST_ALIAS = 'pl';
@@ -122,6 +126,13 @@ class TourRepository extends BaseRepository
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
 
         return $query->getQuery()->getResult();
+    }
+
+    public function getPopularTour()
+    {
+        $query = $this->createQueryBuilder(static::TOUR_ALIAS);
+        $query->join(Review::class, static::REVIEW_ALIAS, 'WITH', 'r.tour = t.id');
+        $query->join(ReviewDetail::class, static::REVIEW_DETAIL_ALIAS, 'WITH', 'rd.review = r.id');
     }
 
     private function join($query)
