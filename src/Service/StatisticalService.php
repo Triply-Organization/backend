@@ -38,10 +38,16 @@ class StatisticalService
     public function statisticalTotal(): array
     {
         $totalTour = $this->tourRepository->findBy(['deletedAt' => null]);
-        $overAll['overall']['totalUsers'] = count($this->userRepository->findAll());
+        $overAll['overall']['totalUsers'] = count($this->userRepository->findBy(['deletedAt' => null]));
         $overAll['overall']['totalBooking'] = count($this->billRepository->findAll());
         $overAll['overall']['totalTours'] = count($totalTour);
 
+        return $overAll;
+    }
+
+    public function statisticalTotalBook(): array
+    {
+        $currentUser = $this->security->getUser();
         return $overAll;
     }
 }

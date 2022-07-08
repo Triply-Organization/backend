@@ -3,7 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\User;
-use App\Request\EditRoleRequest;
+use App\Request\PatchUpdateUserRequest;
 use App\Request\UserRequest;
 use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -66,17 +66,19 @@ class AdminController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         UserService $userService,
-        EditRoleRequest $editRoleRequest
+        PatchUpdateUserRequest $patchUpdateUserRequest
     ): JsonResponse {
         $dataRequest = $request->toArray();
-        $editRoleRequest = $editRoleRequest->fromArray($dataRequest);
-        $errors = $validator->validate($editRoleRequest);
-        if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
-        }
-        $user = $userService->editRole($user, $editRoleRequest);
+        $editRoleRequestData = $patchUpdateUserRequest->fromArray($dataRequest);
+        $errors = $validator->validate($editRoleRequestData);
 
-        return $this->success($user);
+        if (count($errors) > 0) {
+            return $this->errors(['Something wrong']);
+        }
+
+        $userService->update($user, $editRoleRequestData);
+
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 
     #[isGranted('ROLE_ADMIN')]
