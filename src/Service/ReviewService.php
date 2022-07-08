@@ -31,15 +31,14 @@ class ReviewService
     private ReviewTransformer $reviewTransformer;
 
     public function __construct(
-        Security               $security,
-        OrderService           $orderService,
-        ReviewRepository       $reviewRepository,
-        TypeReviewRepository   $typeReviewRepository,
+        Security $security,
+        OrderService $orderService,
+        ReviewRepository $reviewRepository,
+        TypeReviewRepository $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
-        ReviewDetailService    $reviewDetailService,
-        ReviewTransformer      $reviewTransformer
-    )
-    {
+        ReviewDetailService $reviewDetailService,
+        ReviewTransformer $reviewTransformer
+    ) {
         $this->security = $security;
         $this->orderService = $orderService;
         $this->reviewRepository = $reviewRepository;
@@ -138,9 +137,8 @@ class ReviewService
 
     public function addReview(
         ReviewRequest $reviewRequest,
-        Order         $order
-    ): bool|Review
-    {
+        Order $order
+    ): bool|Review {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -180,7 +178,7 @@ class ReviewService
         return false;
     }
 
-    public function  adminGetAllReviews(GetReviewAllRequest $getReviewAllRequest)
+    public function adminGetAllReviews(GetReviewAllRequest $getReviewAllRequest)
     {
         $result = [];
         $data = $this->reviewRepository->getAllReviewAdmin($getReviewAllRequest);

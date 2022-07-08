@@ -40,7 +40,7 @@ class UserController extends AbstractController
         $patchUpdateUserRequestData = $patchUpdateUserRequest->fromArray($requestData);
         $errors = $validator->validate($patchUpdateUserRequestData);
 
-        if(count($errors) > 0) {
+        if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
 

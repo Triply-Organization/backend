@@ -123,6 +123,7 @@ class TourRepository extends BaseRepository
         $query = $this->join($query);
         $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
+        $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
 
         return $query->getQuery()->getResult();
     }
@@ -134,8 +135,7 @@ class TourRepository extends BaseRepository
                 SELECT  t.id , SUM(rd.rate)/count(rd.review) AS rate
                 FROM  App\Entity\Tour AS t, App\Entity\ReviewDetail AS rd, App\Entity\Review AS r
                 WHERE t.id = r.tour AND r.id = rd.review AND t.deletedAt IS NULL AND t.status = 'enable'
-                GROUP BY t.id ORDER BY rate DESC"
-        );
+                GROUP BY t.id ORDER BY rate DESC");
         $query->setMaxResults(6);
         return $query->getResult();
     }

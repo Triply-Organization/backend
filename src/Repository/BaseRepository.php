@@ -128,6 +128,6 @@ abstract class BaseRepository extends ServiceEntityRepository
 
     protected function isLike(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder
     {
-        return $tours->andWhere($alias . '.'.$field.' LIKE ' . '\'%'.$value.'%\'');
+        return $tours->andWhere($alias . '.' . $field . ' LIKE ' . '\'%' . $value . '%\'');
     }
 }

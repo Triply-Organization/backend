@@ -21,14 +21,13 @@ class UserService
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository   $userRepository,
-        UserTransformer  $userTransformer,
+        UserRepository $userRepository,
+        UserTransformer $userTransformer,
         UserUpdateMapper $userUpdateMapper,
         ReviewRepository $reviewRepository,
-        Security         $security,
+        Security $security,
         OrderTransformer $orderTransformer
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userUpdateMapper = $userUpdateMapper;
@@ -59,7 +58,6 @@ class UserService
         $results = [];
         foreach ($users as $user) {
             $results['users'][] = $this->userTransformer->fromArray($user);
-
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
