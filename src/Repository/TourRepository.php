@@ -90,7 +90,7 @@ class TourRepository extends BaseRepository
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
+        $query = $this->isLike($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
             foreach ($guests as $guest) {
