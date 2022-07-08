@@ -31,9 +31,11 @@ class RegisterController extends AbstractController
         $requestData = $request->toArray();
         $requestData = $registerRequest->fromArray($requestData);
         $errors = $validator->validate($requestData);
+
         if (count($errors) > 0) {
             return $this->errors(['errors' => 'Something wrong']);
         }
+
         $registerService->register($requestData);
 
         return $this->success([], Response::HTTP_NO_CONTENT);
