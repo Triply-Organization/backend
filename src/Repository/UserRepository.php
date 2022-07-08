@@ -7,6 +7,7 @@ use App\Request\UserRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -43,18 +44,19 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $this->add($user, true);
     }
 
-    public function getQuery(UserRequest $userRequest)
+    public function getQuery(UserRequest $userRequest, mixed $role)
     {
         $query = $this->createQueryBuilder(self::USER_ALIAS);
         $query = $this->filter($query, self::USER_ALIAS, 'email', $userRequest->getEmail());
+        $query = $this->isLike($query, self::USER_ALIAS, 'roles', $role);
         $query = $this->andIsNull($query, self::USER_ALIAS, 'deletedAt');
 
         return $query;
     }
 
-    public function getAll(UserRequest $userRequest): array
+    public function getAll(UserRequest $userRequest, mixed $role): array
     {
-        $query = $this->getQuery($userRequest);
+        $query = $this->getQuery($userRequest, $role);
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalUsers = count($paginator);
         $pageCount = ceil($totalUsers / self::PAGE_SIZE);

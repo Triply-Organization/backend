@@ -3,35 +3,36 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Mapper\UserEditMapper;
+use App\Mapper\UserUpdateMapper;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Request\EditRoleRequest;
+use App\Request\PatchUpdateUserRequest;
 use App\Request\UserRequest;
 use App\Transformer\OrderTransformer;
 use App\Transformer\UserTransformer;
-use App\Repository\ImageRepository;
 use Symfony\Component\Security\Core\Security;
 
 class UserService
 {
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
-    private UserEditMapper $userEditMapper;
+    private UserUpdateMapper $userUpdateMapper;
     private OrderTransformer $orderTransformer;
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserTransformer $userTransformer,
-        UserEditMapper $userEditMapper,
+        UserRepository   $userRepository,
+        UserTransformer  $userTransformer,
+        UserUpdateMapper $userUpdateMapper,
         ReviewRepository $reviewRepository,
-        Security $security,
+        Security         $security,
         OrderTransformer $orderTransformer
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
-        $this->userEditMapper = $userEditMapper;
+        $this->userUpdateMapper = $userUpdateMapper;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
         $this->orderTransformer = $orderTransformer;
@@ -53,31 +54,32 @@ class UserService
 
     public function getUsers(UserRequest $userRequest): array
     {
-        $userRole = ["ROLE_USER"];
-        $data = $this->userRepository->getAll($userRequest);
+        $userRole = '["ROLE_USER"]';
+        $data = $this->userRepository->getAll($userRequest, $userRole);
         $users = $data['users'];
         $results = [];
-        $count = 0;
         foreach ($users as $user) {
-            if ($user->getRoles() === $userRole) {
-                $results['users'][] = $this->userTransformer->fromArray($user);
-                $count += 1;
-            }
+            $results['users'][] = $this->userTransformer->fromArray($user);
+
         }
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
-        $results['totalUsers'] = $count;
+        $results['totalUsers'] = $data['totalUsers'];
 
         return $results;
+    }
+
+    public function update(User $user, PatchUpdateUserRequest $patchUpdateUserRequest): void
+    {
+        $user = $this->userUpdateMapper->mapping($user, $patchUpdateUserRequest);
+        $this->userRepository->add($user, true);
     }
 
     public function editRole(User $user, EditRoleRequest $editRoleRequest): array
     {
         $editUserMapper = $this->userEditMapper->mapping($user, $editRoleRequest);
         $this->userRepository->add($editUserMapper, true);
-        $result = $this->userTransformer->fromArray($user);
-
-        return $result;
+        return $this->userTransformer->fromArray($user);
     }
 
     public function deleteUser(User $user): bool

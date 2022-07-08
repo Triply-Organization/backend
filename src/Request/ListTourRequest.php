@@ -41,7 +41,7 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('string')]
     private $orderBy = self::DEFAULT_ORDER_BY;
 
-    #[Assert\Type('numeric')]
+    #[Assert\Type('string')]
     private $destination;
 
     #[Assert\Type('array')]
