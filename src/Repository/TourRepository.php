@@ -117,7 +117,7 @@ class TourRepository extends BaseRepository
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
 
-        return $this->sortBy($query, self::TOUR_ALIAS, 'id', $listTourRequest->getOrderBy());
+        return $this->sortBy($query, self::TOUR_ALIAS, 'createdAt', 'DESC');
     }
 
     public function getTourWithDestination(int $id, int $tourId)

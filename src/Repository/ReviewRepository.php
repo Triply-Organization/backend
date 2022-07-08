@@ -33,7 +33,7 @@ class ReviewRepository extends BaseRepository
 
     public function getAllReviewAdmin(GetReviewAllRequest $getReviewAllRequest): array
     {
-        $query = $this->queryAdminTours($getReviewAllRequest);
+        $query = $this->queryAdminTours();
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalReviews = count($paginator);
         $pageCount = ceil($totalReviews / self::PAGE_SIZE);
@@ -53,11 +53,12 @@ class ReviewRepository extends BaseRepository
         ];
     }
 
-    public function queryAdminTours(GetReviewAllRequest $getReviewAllRequest): QueryBuilder
+    public function queryAdminTours(): QueryBuilder
     {
         $query = $this->createQueryBuilder(static::REVIEW_ALIAS);
         $query = $this->join($query);
         $query = $this->andIsNull($query, self::REVIEW_ALIAS, 'deletedAt');
+        $query = $this->sortBy($query, self::REVIEW_ALIAS, 'createdAt', 'DESC');
         return $query;
     }
 
