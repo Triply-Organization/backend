@@ -57,7 +57,7 @@ class ReviewRepository extends BaseRepository
     {
         $query = $this->createQueryBuilder(static::REVIEW_ALIAS);
         $query = $this->join($query);
-        $query = $this->andIsNull($query, self::REVIEW_DETAIL_ALIAS, 'deletedAt');
+        $query = $this->andIsNull($query, self::REVIEW_ALIAS, 'deletedAt');
         return $query;
     }
 

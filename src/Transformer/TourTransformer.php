@@ -49,6 +49,11 @@ class TourTransformer extends BaseTransformer
     public function toArrayOfAdmin(Tour $tour): array
     {
         $result = $this->transform($tour, static::ADMIN_PARAMS);
+        $result['schedule'] = false;
+        if($tour->getSchedules() !== null)
+        {
+            $result['schedule'] = true;
+        }
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();
 
         return $result;

@@ -59,7 +59,7 @@ class ReviewController extends AbstractController
     }
 
     #[Route('/', name: 'getAllReview', methods: 'GET')]
-    #[isGranted('ROLE_USER')]
+    #[isGranted('ROLE_ADMIN')]
     public function getAllReview(
         Request $request,
         ReviewService $reviewService,
