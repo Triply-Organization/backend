@@ -132,7 +132,7 @@ class TourRepository extends BaseRepository
         $query = $entityManager->createQuery("
                 SELECT  t.id , SUM(rd.rate)/count(rd.review) AS rate
                 FROM  App\Entity\Tour AS t, App\Entity\ReviewDetail AS rd, App\Entity\Review AS r
-                WHERE t.id = r.tour AND r.id = rd.review 
+                WHERE t.id = r.tour AND r.id = rd.review AND t.deletedAt IS NULL AND t.status = 'enable'
                 GROUP BY t.id ORDER BY rate DESC"
         );
         $query->setMaxResults(6);

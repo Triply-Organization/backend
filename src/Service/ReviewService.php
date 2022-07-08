@@ -180,15 +180,13 @@ class ReviewService
         return false;
     }
 
-    public function  adminGetAllReviews(
-        GetReviewAllRequest $getReviewAllRequest,
-    )
+    public function  adminGetAllReviews(GetReviewAllRequest $getReviewAllRequest)
     {
         $result = [];
         $data = $this->reviewRepository->getAllReviewAdmin($getReviewAllRequest);
         $reviews = $data['reviews'];
-        foreach ($reviews as $review) {
-            $result ['reviews'][] = $this->reviewTransformer->toArrayOfAdmin($review);
+        foreach ($reviews as $key => $review) {
+            $result ['reviews'][$key] = $this->reviewTransformer->toArrayOfAdmin($review);
         }
         $result['totalPages'] = $data['totalPages'];
         $result['page'] = $data['page'];
