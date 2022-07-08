@@ -3,35 +3,35 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Mapper\UserEditMapper;
+use App\Mapper\UserUpdateMapper;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
-use App\Request\EditRoleRequest;
+use App\Request\PatchUpdateUserRequest;
 use App\Request\UserRequest;
 use App\Transformer\OrderTransformer;
 use App\Transformer\UserTransformer;
-use App\Repository\ImageRepository;
 use Symfony\Component\Security\Core\Security;
 
 class UserService
 {
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
-    private UserEditMapper $userEditMapper;
+    private UserUpdateMapper $userUpdateMapper;
     private OrderTransformer $orderTransformer;
     private ReviewRepository $reviewRepository;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserTransformer $userTransformer,
-        UserEditMapper $userEditMapper,
+        UserRepository   $userRepository,
+        UserTransformer  $userTransformer,
+        UserUpdateMapper $userUpdateMapper,
         ReviewRepository $reviewRepository,
-        Security $security,
+        Security         $security,
         OrderTransformer $orderTransformer
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
-        $this->userEditMapper = $userEditMapper;
+        $this->userUpdateMapper = $userUpdateMapper;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
         $this->orderTransformer = $orderTransformer;
@@ -58,7 +58,7 @@ class UserService
         $users = $data['users'];
         $results = [];
         foreach ($users as $user) {
-                $results['users'][] = $this->userTransformer->fromArray($user);
+            $results['users'][] = $this->userTransformer->fromArray($user);
 
         }
         $results['totalPages'] = $data['totalPages'];
@@ -68,13 +68,10 @@ class UserService
         return $results;
     }
 
-    public function editRole(User $user, EditRoleRequest $editRoleRequest): array
+    public function update(User $user, PatchUpdateUserRequest $patchUpdateUserRequest): void
     {
-        $editUserMapper = $this->userEditMapper->mapping($user, $editRoleRequest);
-        $this->userRepository->add($editUserMapper, true);
-        $result = $this->userTransformer->fromArray($user);
-
-        return $result;
+        $user = $this->userUpdateMapper->mapping($user, $patchUpdateUserRequest);
+        $this->userRepository->add($user, true);
     }
 
     public function deleteUser(User $user): bool
