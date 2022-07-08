@@ -20,7 +20,7 @@ class UserUpdateMapper
         $avatarId = $updateUserRequest->getAvatar() ?? '';
         $avatar = $this->imageRepository->find($avatarId);
 
-        $user->setEmail($updateUserRequest->getEmail()?? $user->getEmail())
+        $user->setEmail($updateUserRequest->getEmail() ?? $user->getEmail())
             ->setRoles($updateUserRequest->getRoles() ?? $user->getRoles())
             ->setPhone($updateUserRequest->getPhone() ?? $user->getPhone())
             ->setAddress($updateUserRequest->getAddress() ?? $user->getAddress())

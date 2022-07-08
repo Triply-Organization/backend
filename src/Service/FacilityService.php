@@ -27,7 +27,6 @@ class FacilityService
         ParameterBagInterface $params,
         TourPlanService $tourPlanService,
         ScheduleService $scheduleService
-
     ) {
         $this->serviceTransformer = $serviceTransformer;
         $this->serviceRepository = $serviceRepository;
