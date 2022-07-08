@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 abstract class BaseRepository extends ServiceEntityRepository
 {
     protected string $entityClass;
-    protected string $alias ;
+    protected string $alias;
 
     public function __construct(ManagerRegistry $registry, string $entityClass, string $alias = '')
     {
@@ -128,6 +128,9 @@ abstract class BaseRepository extends ServiceEntityRepository
 
     protected function isLike(QueryBuilder $tours, mixed $alias, string $field, mixed $value): QueryBuilder
     {
-        return $tours->andWhere($alias . '.'.$field.' LIKE ' . '\'%'.$value.'%\'');
+        if (empty($value)) {
+            return $tours;
+        }
+        return $tours->andWhere($alias . '.' . $field . ' LIKE ' . '\'%' . $value . '%\'');
     }
 }

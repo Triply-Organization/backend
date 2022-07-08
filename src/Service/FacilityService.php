@@ -16,6 +16,8 @@ class FacilityService
     private TourServicesTransformer $tourServicesTransformer;
     private TourRepository $tourRepository;
     private ParameterBagInterface $params;
+    private TourPlanService $tourPlanService;
+    private ScheduleService $scheduleService;
 
     public function __construct(
         ServiceTransformer $serviceTransformer,
@@ -23,12 +25,16 @@ class FacilityService
         TourServicesTransformer $tourServicesTransformer,
         TourRepository $tourRepository,
         ParameterBagInterface $params,
+        TourPlanService $tourPlanService,
+        ScheduleService $scheduleService
     ) {
         $this->serviceTransformer = $serviceTransformer;
         $this->serviceRepository = $serviceRepository;
         $this->tourServicesTransformer = $tourServicesTransformer;
         $this->tourRepository = $tourRepository;
         $this->params = $params;
+        $this-> tourPlanService = $tourPlanService;
+        $this->scheduleService = $scheduleService;
     }
 
     public function getPopularTour()
@@ -40,10 +46,12 @@ class FacilityService
             $tour = $this->tourRepository->find($value['id']);
             $result[$key]['id'] = $tour->getId();
             $result[$key]['title'] = $tour->getTitle();
-
             $result[$key]['image'] = is_null($this->getCoverImage($tour)) ? null : $this->getCoverImage($tour);
-
             $result[$key]['rate'] = $value['rate'];
+            $result[$key]['maxPeople'] = $value['rate'];
+            $result['destinations'] = $this->tourPlanService->getDestination($tour->getTourPlans());
+            $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
+            $result['duration'] = $tour->getDuration();
         }
 
         return $result;

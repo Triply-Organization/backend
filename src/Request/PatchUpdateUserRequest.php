@@ -6,7 +6,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PatchUpdateUserRequest extends BaseRequest
 {
-
     public const ROLES_LIST = [['ROLE_USER'], ['ROLE_CUSTOMER']];
 
     #[Assert\Email]
@@ -26,7 +25,7 @@ class PatchUpdateUserRequest extends BaseRequest
 
     #[Assert\Type('numeric')]
     private $avatar;
-    
+
     #[Assert\Choice(
         choices: self::ROLES_LIST,
     )]
