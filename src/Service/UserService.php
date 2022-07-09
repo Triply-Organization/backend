@@ -47,6 +47,7 @@ class UserService
         foreach ($currentUser->getOrders() as $key => $order) {
             $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }
+
         return $result;
     }
 
