@@ -12,6 +12,7 @@ use App\Service\ReviewDetailService;
 use App\Service\ReviewService;
 use App\Transformer\ReviewTransformer;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Security;
 
 class ReviewServiceTest extends TestCase
@@ -23,6 +24,7 @@ class ReviewServiceTest extends TestCase
     private $reviewDetailRepositoryMock;
     private $reviewDetailServiceMock;
     private $reviewTransformerMock;
+    private $params;
 
     protected function setUp(): void
     {
@@ -33,6 +35,7 @@ class ReviewServiceTest extends TestCase
         $this->reviewDetailRepositoryMock = $this->getMockBuilder(ReviewDetailRepository::class)->disableOriginalConstructor()->getMock();
         $this->reviewDetailServiceMock = $this->getMockBuilder(ReviewDetailService::class)->disableOriginalConstructor()->getMock();
         $this->reviewTransformerMock = $this->getMockBuilder(ReviewTransformer::class)->getMock();
+        $this->params = $this->getMockBuilder(ParameterBagInterface::class)->getMock();
     }
 
     public function testHandleRating()
@@ -45,7 +48,7 @@ class ReviewServiceTest extends TestCase
         $reviewService = new ReviewService($this->securityMock, $this->orderServiceMock,
             $this->reviewRepositoryMock, $this->typeReviewRepositoryMock,
             $this->reviewDetailRepositoryMock, $this->reviewDetailServiceMock,
-            $this->reviewTransformerMock);
+            $this->reviewTransformerMock, $this->params);
         $results = $reviewService->handleRating($tour);
 
         $this->assertIsArray($results);
