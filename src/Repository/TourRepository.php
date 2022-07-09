@@ -92,7 +92,7 @@ class TourRepository extends BaseRepository
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
         $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
@@ -118,11 +118,11 @@ class TourRepository extends BaseRepository
         return $this->sortBy($query, self::TOUR_ALIAS, 'id', $listTourRequest->getOrderBy());
     }
 
-    public function getTourWithDestination(int $id, int $tourId)
+    public function getTourWithDestination(string $name, int $tourId)
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $name);
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
 
@@ -145,11 +145,11 @@ class TourRepository extends BaseRepository
     {
         $query->join(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
         $query->join(Destination::class, static::DESTINATION_ALIAS, 'WITH', 'tp.destination = d.id');
+        $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
+        $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
         $query->join(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
         $query->join(PriceList::class, static::PRICE_LIST_ALIAS, 'WITH', 'sch.id = pl.schedule');
         $query->join(TicketType::class, static::TICKET_TYPE_ALIAS, 'WITH', 'pl.type = tt.id');
-        $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
-        $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
 
         return $query;
     }

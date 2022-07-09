@@ -13,6 +13,7 @@ use App\Repository\TypeReviewRepository;
 use App\Request\GetReviewAllRequest;
 use App\Request\ReviewRequest;
 use App\Transformer\ReviewTransformer;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Date;
@@ -21,7 +22,6 @@ use function Composer\Autoload\includeFile;
 
 class ReviewService
 {
-    const PATH = 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg';
     private Security $security;
     private OrderService $orderService;
     private ReviewRepository $reviewRepository;
@@ -29,6 +29,7 @@ class ReviewService
     private ReviewDetailRepository $reviewDetailRepository;
     private ReviewDetailService $reviewDetailService;
     private ReviewTransformer $reviewTransformer;
+    private ParameterBagInterface $params;
 
     public function __construct(
         Security $security,
@@ -37,7 +38,8 @@ class ReviewService
         TypeReviewRepository $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
         ReviewDetailService $reviewDetailService,
-        ReviewTransformer $reviewTransformer
+        ReviewTransformer $reviewTransformer,
+        ParameterBagInterface $params
     ) {
         $this->security = $security;
         $this->orderService = $orderService;
@@ -46,6 +48,7 @@ class ReviewService
         $this->reviewDetailRepository = $reviewDetailRepository;
         $this->reviewDetailService = $reviewDetailService;
         $this->reviewTransformer = $reviewTransformer;
+        $this->params = $params;
     }
 
     public function handleRating(Tour $tour): array
@@ -204,9 +207,9 @@ class ReviewService
                 $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
                 $results[$key]['tourName'] = $review->getTour()->getTitle();
                 $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-                $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
-                    ? self::PATH
-                    : $review->getUser()->getAvatar()->getPath();
+                $results[$key]['avatar'] = $review->getUser()->getAvatar()
+                    ? $this->params->get('s3url') . $review->getUser()->getAvatar()->getPath()
+                    : null;
                 $results[$key]['comment'] = $review->getComment();
             }
         }
