@@ -145,11 +145,11 @@ class TourRepository extends BaseRepository
     {
         $query->join(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
         $query->join(Destination::class, static::DESTINATION_ALIAS, 'WITH', 'tp.destination = d.id');
+        $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
+        $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
         $query->join(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
         $query->join(PriceList::class, static::PRICE_LIST_ALIAS, 'WITH', 'sch.id = pl.schedule');
         $query->join(TicketType::class, static::TICKET_TYPE_ALIAS, 'WITH', 'pl.type = tt.id');
-        $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
-        $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
 
         return $query;
     }
