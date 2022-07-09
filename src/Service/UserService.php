@@ -10,7 +10,7 @@ use App\Request\PatchUpdateUserRequest;
 use App\Request\UserRequest;
 use App\Transformer\OrderTransformer;
 use App\Transformer\UserTransformer;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserService
 {
@@ -19,31 +19,33 @@ class UserService
     private UserUpdateMapper $userUpdateMapper;
     private OrderTransformer $orderTransformer;
     private ReviewRepository $reviewRepository;
+    private ParameterBagInterface $params;
 
     public function __construct(
         UserRepository $userRepository,
         UserTransformer $userTransformer,
         UserUpdateMapper $userUpdateMapper,
         ReviewRepository $reviewRepository,
-        Security $security,
-        OrderTransformer $orderTransformer
+        OrderTransformer $orderTransformer,
+        ParameterBagInterface $params
     ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userUpdateMapper = $userUpdateMapper;
         $this->reviewRepository = $reviewRepository;
-        $this->security = $security;
         $this->orderTransformer = $orderTransformer;
+        $this->params = $params;
     }
 
-    public function getAllOrder(): array
+    public function getAllOrder($currentUser): array
     {
-        $currentUser = $this->security->getUser();
         $result = [];
         $result['user']['id'] = $currentUser->getId();
         $result['user']['email'] = $currentUser->getEmail();
         $result['user']['fullname'] = $currentUser->getName();
-        $result['user']['avatar'] = $currentUser->getAvatar() ? $currentUser->getAvatar()->getPath() : null;
+        $result['user']['avatar'] = $currentUser->getAvatar()
+            ? $this->params->get('s3url') . $currentUser->getAvatar()->getPath()
+            : null;
         foreach ($currentUser->getOrders() as $key => $order) {
             $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }

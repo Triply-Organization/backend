@@ -24,7 +24,8 @@ class UserController extends AbstractController
     public function getAllOrderOfUser(
         UserService $userService
     ): JsonResponse {
-        return  $this->success($userService->getAllOrder());
+        $currentUser = $this->getUser();
+        return  $this->success($userService->getAllOrder($currentUser));
     }
 
     #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
