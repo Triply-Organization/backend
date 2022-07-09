@@ -41,7 +41,7 @@ class BillRepository extends BaseRepository
         return $result;
     }
 
-    public function statisticalBooking($year)
+    public function statisticalBooking($year): array
     {
         $dateStart = $year . '-01-01 00:00:00';
         $dateEnd = $year . '-12-31 00:00:00';
