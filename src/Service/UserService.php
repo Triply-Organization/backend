@@ -43,7 +43,7 @@ class UserService
         $result['user']['id'] = $currentUser->getId();
         $result['user']['email'] = $currentUser->getEmail();
         $result['user']['fullname'] = $currentUser->getName();
-        $result['user']['avatar'] = $currentUser->getAvatar();
+        $result['user']['avatar'] = $currentUser->getAvatar() ? $currentUser->getAvatar()->getPath() : null;
         foreach ($currentUser->getOrders() as $key => $order) {
             $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }
