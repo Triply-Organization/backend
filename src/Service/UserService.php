@@ -48,7 +48,7 @@ class UserService
         $results['user']['id'] = $currentUser->getId();
         $results['user']['email'] = $currentUser->getEmail();
         $results['user']['fullname'] = $currentUser->getName();
-        $result['user']['avatar'] = $currentUser->getAvatar()
+        $results['user']['avatar'] = $currentUser->getAvatar()
             ? $this->params->get('s3url') . $currentUser->getAvatar()->getPath()
             : null;
         $data = $this->orderRepository->getAllOrder($userGetAllOrderRequest, $currentUser);
