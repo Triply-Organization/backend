@@ -43,16 +43,6 @@ class ScheduleService
         return $this->scheduleRepository->findBy(['tour' => $tour]);
     }
 
-    public function getDateOpen($dates): array
-    {
-        $dateList = [];
-        foreach ($dates as $date) {
-            $dateList[] = $this->scheduleTransformer->toArray($date);
-        }
-
-        return $dateList;
-    }
-
     public function getPrice(array $schedules): array
     {
         $prices = [];
