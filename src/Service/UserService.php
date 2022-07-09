@@ -55,11 +55,13 @@ class UserService
         foreach ($data['orders'] as $key => $order) {
             $results['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }
+
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
         $results['totalOrders'] = $data['totalOrders'];
 
         return $results;
+
     }
 
     public function getUsers(UserRequest $userRequest): array
