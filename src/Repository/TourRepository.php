@@ -92,7 +92,7 @@ class TourRepository extends BaseRepository
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $listTourRequest->getDestination());
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
         $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
@@ -118,11 +118,11 @@ class TourRepository extends BaseRepository
         return $this->sortBy($query, self::TOUR_ALIAS, 'id', $listTourRequest->getOrderBy());
     }
 
-    public function getTourWithDestination(int $id, int $tourId)
+    public function getTourWithDestination(string $name, int $tourId)
     {
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
-        $query = $this->filter($query, self::DESTINATION_ALIAS, 'id', $id);
+        $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $name);
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'id', '<>', $tourId);
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
 

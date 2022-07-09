@@ -20,10 +20,10 @@ class RelatedTourService
         $this->tourRepository = $tourRepository;
     }
 
-    public function getRelatedTour(int $destinationId, int $tourId): array
+    public function getRelatedTour(string $destinationName, int $tourId): array
     {
         $results = [];
-        $tours = $this->tourRepository->getTourWithDestination($destinationId, $tourId);
+        $tours = $this->tourRepository->getTourWithDestination($destinationName, $tourId);
         foreach ($tours as $tour) {
             $results [] = $this->tourTransformer->toArray($tour);
         }
