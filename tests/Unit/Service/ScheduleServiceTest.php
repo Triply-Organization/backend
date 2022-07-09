@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\Tour;
+use App\Entity\User;
 use App\Repository\PriceListRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TourRepository;
@@ -33,5 +34,59 @@ class ScheduleServiceTest extends TestCase
 
         $this->assertEquals(array(), $resultOne);
         $this->assertEquals(array(), $resultTwo);
+    }
+
+    public function testCheckTour()
+    {
+        $user = new User();
+        $tour = new Tour();
+        $tour->setCreatedUser($user);
+        $scheduleTransformerMock = $this->getMockBuilder(ScheduleTransformer::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock->expects($this->once())->method('find')->willReturn($tour);
+        $scheduleRepositoryMock = $this->getMockBuilder(ScheduleRepository::class)->disableOriginalConstructor()->getMock();
+        $securityMock = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
+        $securityMock->expects($this->once())->method('getUser')->willReturn($user);
+        $priceListServiceMock = $this->getMockBuilder(PriceListService::class)->disableOriginalConstructor()->getMock();
+        $priceListRepositoryMock = $this->getMockBuilder(PriceListRepository::class)->disableOriginalConstructor()->getMock();
+        $scheduleService = new ScheduleService($scheduleTransformerMock, $tourRepositoryMock, $scheduleRepositoryMock,
+            $securityMock, $priceListRepositoryMock, $priceListServiceMock);
+
+        $result = $scheduleService->checkTour($tour);
+        $this->assertTrue($result);
+    }
+
+    public function testCheckTourWithoutTour()
+    {
+        $tour = new Tour();
+        $scheduleTransformerMock = $this->getMockBuilder(ScheduleTransformer::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock->expects($this->once())->method('find')->willReturn(null);
+        $scheduleRepositoryMock = $this->getMockBuilder(ScheduleRepository::class)->disableOriginalConstructor()->getMock();
+        $securityMock = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
+        $priceListServiceMock = $this->getMockBuilder(PriceListService::class)->disableOriginalConstructor()->getMock();
+        $priceListRepositoryMock = $this->getMockBuilder(PriceListRepository::class)->disableOriginalConstructor()->getMock();
+        $scheduleService = new ScheduleService($scheduleTransformerMock, $tourRepositoryMock, $scheduleRepositoryMock,
+            $securityMock, $priceListRepositoryMock, $priceListServiceMock);
+
+        $result = $scheduleService->checkTour($tour);
+        $this->assertFalse($result);
+    }
+
+    public function testCheckTourWithoutRightUser()
+    {
+        $tour = new Tour();
+        $scheduleTransformerMock = $this->getMockBuilder(ScheduleTransformer::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock->expects($this->once())->method('find')->willReturn($tour);
+        $scheduleRepositoryMock = $this->getMockBuilder(ScheduleRepository::class)->disableOriginalConstructor()->getMock();
+        $securityMock = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
+        $priceListServiceMock = $this->getMockBuilder(PriceListService::class)->disableOriginalConstructor()->getMock();
+        $priceListRepositoryMock = $this->getMockBuilder(PriceListRepository::class)->disableOriginalConstructor()->getMock();
+        $scheduleService = new ScheduleService($scheduleTransformerMock, $tourRepositoryMock, $scheduleRepositoryMock,
+            $securityMock, $priceListRepositoryMock, $priceListServiceMock);
+
+        $result = $scheduleService->checkTour($tour);
+        $this->assertFalse($result);
     }
 }
