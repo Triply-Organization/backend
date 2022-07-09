@@ -89,7 +89,7 @@ class ReviewService
         return $results;
     }
 
-    public function getRatingOverrall(Tour $tour): array
+    public function getRatingOverall(Tour $tour): array
     {
         $results = [];
         $location = $rooms = $services = $price = $amenities = 0;
