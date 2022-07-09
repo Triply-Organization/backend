@@ -8,7 +8,7 @@ class ReviewTransformer extends BaseTransformer
 {
     private const PARAMS = ['id', 'comment', 'createdAt'];
 
-    public function toArray(Review $review)
+    public function toArray(Review $review): array
     {
         return [
             'idOrder' => $review->getOrderDetail()->getId(),
