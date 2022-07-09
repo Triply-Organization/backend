@@ -11,10 +11,6 @@ trait ResponseTrait
     {
         $jsonResponse = new JsonResponse();
 
-        $jsonResponse->headers->set('Access-Control-Allow-Origin', '*');
-        $jsonResponse->headers->set('Access-Control-Allow-Origin', 'true');
-        $jsonResponse->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-
         $jsonResponse->setData([
             'status' => 'success',
             'data' => $data
