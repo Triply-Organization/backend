@@ -50,17 +50,4 @@ class ReviewServiceTest extends TestCase
 
         $this->assertIsArray($results);
     }
-
-    public function testGetRatingDetail()
-    {
-        $tour = new Tour();
-        $ratings = [];
-        $reviewService = new ReviewService($this->securityMock, $this->orderServiceMock,
-            $this->reviewRepositoryMock, $this->typeReviewRepositoryMock,
-            $this->reviewDetailRepositoryMock, $this->reviewDetailServiceMock,
-            $this->reviewTransformerMock);
-        $results = $reviewService->getRatingDetail($tour);
-
-        $this->assertIsArray($results);
-    }
 }
