@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ListTourRequest extends BaseRequest
 {
     public const DEFAULT_LIMIT = 6;
-    public const ORDER_TYPE_LIST = ['createdAt','price'];
+    public const ORDER_TYPE_LIST = ['createdAt', 'price'];
     public const ORDER_BY_LIST = ['asc', 'desc'];
-    public const DEFAULT_ORDER_TYPE = 'price';
+    public const DEFAULT_ORDER_TYPE = 'createdAt';
     public const DEFAULT_ORDER_BY = 'asc';
     public const DEFAULT_OFFSET = 1;
     public const DEFAULT_PAGE = 1;
@@ -24,10 +24,10 @@ class ListTourRequest extends BaseRequest
     private $page = self::DEFAULT_PAGE;
 
     #[Assert\Type('numeric')]
-    private int $startPrice = 0;
+    private $startPrice;
 
     #[Assert\Type('numeric')]
-    private int $endPrice = 0;
+    private $endPrice;
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -198,33 +198,29 @@ class ListTourRequest extends BaseRequest
     }
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getStartPrice(): ?int
+    public function getStartPrice()
     {
         return $this->startPrice;
     }
 
     /**
-     * @param int $startPrice
+     * @param mixed $startPrice
      */
-    public function setStartPrice(?int $startPrice): void
+    public function setStartPrice($startPrice): void
     {
         $this->startPrice = $startPrice;
     }
 
-    /**
-     * @return int
-     */
-    public function getEndPrice(): ?int
+
+    public function getEndPrice()
     {
         return $this->endPrice;
     }
 
-    /**
-     * @param int $endPrice
-     */
-    public function setEndPrice(?int $endPrice): void
+
+    public function setEndPrice($endPrice): void
     {
         $this->endPrice = $endPrice;
     }

@@ -4,7 +4,6 @@ namespace App\Controller\API;
 
 use App\Entity\Tour;
 use App\Request\ChangeStatusOfTourRequest;
-use App\Service\StripeService;
 use App\Request\ListTourRequest;
 use App\Request\TourRequest;
 use App\Request\TourUpdateRequest;
@@ -127,6 +126,7 @@ class TourController extends AbstractController
             return $this->errors(['Bad request']);
         }
         $tours = $listTourService->getAll($tourRequest);
+
         return $this->success($tours);
     }
 
@@ -148,6 +148,7 @@ class TourController extends AbstractController
         $tourService->changeStatus($statusRequest, $tour);
         $result['idTour'] = $tour->getId();
         $result['status'] = $tour->getStatus();
+
         return $this->success($result);
     }
 
