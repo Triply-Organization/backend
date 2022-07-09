@@ -47,6 +47,6 @@ class StatisticalServiceTest extends TestCase
         $statisticalService = new StatisticalService($billRepositoryMock, $userRepositoryMock, $tourRepositoryMock);
         $result = $statisticalService->statisticalTotal();
 
-        $this->assertEquals(array(), $result);
+        $this->assertIsArray($result);
     }
 }

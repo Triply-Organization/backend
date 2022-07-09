@@ -17,13 +17,12 @@ class TourPlanServiceTest extends TestCase
         $destinationRepositoryMock = $this->getMockBuilder(DestinationRepository::class)->disableOriginalConstructor()->getMock();
         $tourPlanRepositoryMock = $this->getMockBuilder(TourPlanRepository::class)->disableOriginalConstructor()->getMock();
         $tourPlanTransformerMock = $this->getMockBuilder(TourPlansTransformer::class)->getMock();
-        $tourPlanTransformerMock->expects($this->once())->method('toArray')->willReturn(array());
         $destinationTransformerMock = $this->getMockBuilder(DestinationTransformer::class)->getMock();
-        $plans = \Doctrine\Common\Collections\Collection::class;
+        $plans = [];
         $tourPlanService = new TourPlanService($destinationRepositoryMock, $tourPlanRepositoryMock,
             $tourPlanTransformerMock, $destinationTransformerMock);
         $getTourPlan = $tourPlanService->getTourPlan($plans);
-        $this->assertEquals(array(), $getTourPlan);
+        $this->assertIsArray($getTourPlan);
     }
 
     public function testGetDestination()
@@ -32,11 +31,10 @@ class TourPlanServiceTest extends TestCase
         $tourPlanRepositoryMock = $this->getMockBuilder(TourPlanRepository::class)->disableOriginalConstructor()->getMock();
         $tourPlanTransformerMock = $this->getMockBuilder(TourPlansTransformer::class)->getMock();
         $destinationTransformerMock = $this->getMockBuilder(DestinationTransformer::class)->getMock();
-        $destinationTransformerMock->expects($this->once())->method('toArray')->willReturn(array());
-        $destination = \Doctrine\Common\Collections\Collection::class;
+        $destination = [];
         $tourPlanService = new TourPlanService($destinationRepositoryMock, $tourPlanRepositoryMock,
             $tourPlanTransformerMock, $destinationTransformerMock);
         $getDestination = $tourPlanService->getDestination($destination);
-        $this->assertEquals(array(), $getDestination);
+        $this->assertIsArray($getDestination);
     }
 }
