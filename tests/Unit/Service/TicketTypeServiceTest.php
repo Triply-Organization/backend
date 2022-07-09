@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Service;
 
+use App\Entity\TicketType;
 use App\Repository\TicketTypeRepository;
 use App\Service\TicketTypeService;
 use App\Transformer\TicketTransformer;
@@ -11,13 +12,15 @@ class TicketTypeServiceTest extends TestCase
 {
     public function testGetTicketType()
     {
+        $typeTicket = new TicketType();
+        $typeTicket->setName('Children');
+        $typeTicket->setCreatedAt(new \DateTimeImmutable());
         $ticketTransformerMock = $this->getMockBuilder(TicketTransformer::class)->disableOriginalConstructor()->getMock();
-        $ticketTransformerMock->expects($this->once())->method('toArray')->willReturn(array());
         $ticketTypeRepositoryMock = $this->getMockBuilder(TicketTypeRepository::class)->disableOriginalConstructor()->getMock();
-
+        $ticketTypeRepositoryMock->expects($this->once())->method('findAll')->willReturn(array($typeTicket));
         $ticketTypeService = new TicketTypeService($ticketTransformerMock, $ticketTypeRepositoryMock);
         $result = $ticketTypeService->getTicket();
 
-        $this->assertEquals(array(), $result);
+        $this->assertIsArray($result);
     }
 }
