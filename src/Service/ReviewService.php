@@ -21,7 +21,6 @@ use function Composer\Autoload\includeFile;
 
 class ReviewService
 {
-    const PATH = 'https://khajackie2206.s3.ap-southeast-1.amazonaws.com/upload/avataravatar-62c3a59886ab8.jpg';
     private Security $security;
     private OrderService $orderService;
     private ReviewRepository $reviewRepository;
@@ -204,9 +203,9 @@ class ReviewService
                 $results[$key]['createdAt'] = $review->getCreatedAt()->format('Y-m-d');
                 $results[$key]['tourName'] = $review->getTour()->getTitle();
                 $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
-                $results[$key]['avatar'] = is_null($review->getUser()->getAvatar())
-                    ? self::PATH
-                    : $review->getUser()->getAvatar()->getPath();
+                $results[$key]['avatar'] = $review->getUser()->getAvatar()
+                    ? $review->getUser()->getAvatar()->getPath()
+                    : null;
                 $results[$key]['comment'] = $review->getComment();
             }
         }
