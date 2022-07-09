@@ -19,7 +19,6 @@ class LoginController extends AbstractController
     public function login(JWTTokenManagerInterface $tokenManager, UserTransformer $userTransformer): JsonResponse
     {
         $user = $this->getUser();
-
         if ($user->getDeletedAt()) {
             return $this->errors(["User Not Found"], Response::HTTP_NOT_FOUND);
         }
