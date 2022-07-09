@@ -22,7 +22,6 @@ class ListTourRequestTest extends TestCase
         $request->setService(3);
         $request->setStartPrice(100);
 
-
         $this->assertEquals('2022-06-22', $request->getStartDate());
         $this->assertEquals(3, $request->getService());
         $this->assertEquals(1, $request->getPage());
