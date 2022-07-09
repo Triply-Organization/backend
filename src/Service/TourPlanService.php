@@ -57,11 +57,11 @@ class TourPlanService
         return $tourPlans;
     }
 
-    public function getDestination($plans): array
+    public function getDestination($destinations): array
     {
         $listDestinations = [];
-        foreach ($plans as $plan) {
-            $listDestinations[] = $this->destinationTransformer->listToArray($plan);
+        foreach ($destinations as $destination) {
+            $listDestinations[] = $this->destinationTransformer->listToArray($destination);
         }
 
         return $listDestinations;
