@@ -41,7 +41,7 @@ class TourTransformer extends BaseTransformer
         $result['tourImages'] = $this->params->get('s3url') . $this->tourService->getCover($tour);
         $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
         $result['destination'] = $this->tourPlanService->getDestination($tour->getTourPlans());
-//        $result['rating'] = $this->reviewService->getRatingOverrall($tour);
+        $result['rating'] = $this->reviewService->getRatingOverall($tour);
 
         return $result;
     }

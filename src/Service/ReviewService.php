@@ -89,7 +89,7 @@ class ReviewService
         return $results;
     }
 
-    public function getRatingOverrall(Tour $tour): array
+    public function getRatingOverall(Tour $tour): array
     {
         $results = [];
         $location = $rooms = $services = $price = $amenities = 0;
@@ -112,7 +112,7 @@ class ReviewService
         return $results;
     }
 
-    public function ratingForTour(Tour $tour)
+    public function ratingForTour(Tour $tour): float|int
     {
         $avg = 0;
         $location = $rooms = $services = $price = $amenities = 0;
@@ -135,10 +135,8 @@ class ReviewService
         return $avg;
     }
 
-    public function addReview(
-        ReviewRequest $reviewRequest,
-        Order $order
-    ): bool|Review {
+    public function addReview(ReviewRequest $reviewRequest, Order $order): bool|Review
+    {
         $currentUser = $this->security->getUser();
         $orderCommented = $this->reviewRepository->findBy(['orderDetail' => $order->getId()]);
         if ($currentUser->getId() !== $order->getUser()->getId() && $currentUser->getRoles()['role'] === 'ROLE_USER') {
@@ -178,7 +176,7 @@ class ReviewService
         return false;
     }
 
-    public function adminGetAllReviews(GetReviewAllRequest $getReviewAllRequest)
+    public function adminGetAllReviews(GetReviewAllRequest $getReviewAllRequest): array
     {
         $result = [];
         $data = $this->reviewRepository->getAllReviewAdmin($getReviewAllRequest);

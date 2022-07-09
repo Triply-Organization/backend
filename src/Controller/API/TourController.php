@@ -36,7 +36,7 @@ class TourController extends AbstractController
         $tourRequest = $listTourRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
         if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
+            return $this->errors(['Something wrong']);
         }
         $tours = $listTourService->findAll($tourRequest);
 
@@ -123,7 +123,7 @@ class TourController extends AbstractController
         $errors = $validator->validate($tourRequest);
 
         if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
+            return $this->errors(['Something wrong']);
         }
         $tours = $listTourService->getAll($tourRequest);
 
@@ -143,7 +143,7 @@ class TourController extends AbstractController
         $statusRequest = $statusOfTourRequest->fromArray($dataRequest);
         $errors = $validator->validate($statusRequest);
         if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
+            return $this->errors(['Something wrong']);
         }
         $tourService->changeStatus($statusRequest, $tour);
         $result['idTour'] = $tour->getId();

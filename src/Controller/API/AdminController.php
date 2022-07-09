@@ -22,7 +22,7 @@ class AdminController extends AbstractController
     use ResponseTrait;
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/customers', name: 'get_customers', methods: 'GET')]
+    #[Route('/customers', name: 'getCustomers', methods: 'GET')]
     public function listCustomers(
         Request $request,
         ValidatorInterface $validator,
@@ -33,7 +33,7 @@ class AdminController extends AbstractController
         $userRequest = $userRequest->fromArray($query);
         $errors = $validator->validate($userRequest);
         if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
+            return $this->errors(['Something wrong']);
         }
         $users = $customerService->getCustomers($userRequest);
 
@@ -41,7 +41,7 @@ class AdminController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/users', name: 'get_users', methods: 'GET')]
+    #[Route('/users', name: 'getUsers', methods: 'GET')]
     public function listUsers(
         Request $request,
         ValidatorInterface $validator,
@@ -52,7 +52,7 @@ class AdminController extends AbstractController
         $userRequest = $userRequest->fromArray($query);
         $errors = $validator->validate($userRequest);
         if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
+            return $this->errors(['Something wrong']);
         }
         $users = $userService->getUsers($userRequest);
 
@@ -60,7 +60,7 @@ class AdminController extends AbstractController
     }
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/users/{id<\d+>}', name: 'edit_users', methods: 'PATCH')]
+    #[Route('/users/{id<\d+>}', name: 'editUsers', methods: 'PATCH')]
     public function editUserRole(
         User $user,
         Request $request,
