@@ -8,6 +8,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api', name: 'api_')]
@@ -20,14 +21,15 @@ class LoginController extends AbstractController
     {
         $user = $this->getUser();
 
-        if ($user->getDeletedAt()) {
-            return $this->errors(["User Not Found"], Response::HTTP_NOT_FOUND);
-        }
-
         if ($user === null) {
             $message = ['Unauthorized', Response::HTTP_UNAUTHORIZED];
             return $this->errors($message);
         }
+
+        if ($user->getDeletedAt()) {
+            return $this->errors(["User Not Found"], Response::HTTP_NOT_FOUND);
+        }
+
         $token = $tokenManager->create($user);
         $userData = $userTransformer->fromArray($user);
         $data = [
