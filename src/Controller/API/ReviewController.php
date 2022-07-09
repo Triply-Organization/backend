@@ -70,7 +70,7 @@ class ReviewController extends AbstractController
         $tourRequest = $getReviewAllRequest->fromArray($query);
         $errors = $validator->validate($tourRequest);
         if (count($errors) > 0) {
-            return $this->errors(['Bad request']);
+            return $this->errors(['Something wrong']);
         }
         $result = $reviewService->adminGetAllReviews($getReviewAllRequest);
         return $this->success($result);

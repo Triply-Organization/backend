@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -41,7 +42,7 @@ class ScheduleController extends AbstractController
             return $this->errors(['Something wrong']);
         }
         $scheduleService->addSchedule($scheduleData, $tour);
-        return $this->success([]);
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 
     #[Route('/{id<\d+>}', name: 'getAll', methods: 'GET')]
@@ -76,6 +77,6 @@ class ScheduleController extends AbstractController
             return $this->errors(['Something wrong']);
         }
         $scheduleService->updateSchedule($scheduleData, $schedule);
-        return $this->success([]);
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }

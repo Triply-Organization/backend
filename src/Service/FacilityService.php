@@ -49,9 +49,9 @@ class FacilityService
             $result[$key]['image'] = is_null($this->getCoverImage($tour)) ? null : $this->getCoverImage($tour);
             $result[$key]['rate'] = $value['rate'];
             $result[$key]['maxPeople'] = $value['rate'];
-            $result['destinations'] = $this->tourPlanService->getDestination($tour->getTourPlans());
-            $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
-            $result['duration'] = $tour->getDuration();
+            $result[$key]['destinations'] = $this->tourPlanService->getDestination($tour->getTourPlans());
+            $result[$key]['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
+            $result[$key]['duration'] = $tour->getDuration();
         }
 
         return $result;
