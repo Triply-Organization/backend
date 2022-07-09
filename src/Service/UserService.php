@@ -4,9 +4,11 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Mapper\UserUpdateMapper;
+use App\Repository\OrderRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Request\PatchUpdateUserRequest;
+use App\Request\UserGetAllOrderRequest;
 use App\Request\UserRequest;
 use App\Transformer\OrderTransformer;
 use App\Transformer\UserTransformer;
@@ -19,6 +21,7 @@ class UserService
     private UserUpdateMapper $userUpdateMapper;
     private OrderTransformer $orderTransformer;
     private ReviewRepository $reviewRepository;
+    private OrderRepository $orderRepository;
 
     public function __construct(
         UserRepository $userRepository,
@@ -26,7 +29,8 @@ class UserService
         UserUpdateMapper $userUpdateMapper,
         ReviewRepository $reviewRepository,
         Security $security,
-        OrderTransformer $orderTransformer
+        OrderTransformer $orderTransformer,
+        OrderRepository $orderRepository
     ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
@@ -34,20 +38,26 @@ class UserService
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
         $this->orderTransformer = $orderTransformer;
+        $this->orderRepository = $orderRepository;
     }
 
-    public function getAllOrder(): array
+    public function getAllOrder(UserGetAllOrderRequest $userGetAllOrderRequest): array
     {
         $currentUser = $this->security->getUser();
-        $result = [];
-        $result['user']['id'] = $currentUser->getId();
-        $result['user']['email'] = $currentUser->getEmail();
-        $result['user']['fullname'] = $currentUser->getName();
-        $result['user']['avatar'] = $currentUser->getAvatar() ? $currentUser->getAvatar()->getPath() : null;
-        foreach ($currentUser->getOrders() as $key => $order) {
-            $result['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
+        $results = [];
+        $results['user']['id'] = $currentUser->getId();
+        $results['user']['email'] = $currentUser->getEmail();
+        $results['user']['fullname'] = $currentUser->getName();
+        $results['user']['avatar'] = $currentUser->getAvatar() ? $currentUser->getAvatar()->getPath() : null;
+        $data = $this->orderRepository->getAllOrder($userGetAllOrderRequest, $currentUser);
+        foreach ($data['orders'] as $key => $order) {
+            $results['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }
-        return $result;
+        $results['totalPages'] = $data['totalPages'];
+        $results['page'] = $data['page'];
+        $results['totalOrders'] = $data['totalOrders'];
+
+        return $results;
     }
 
     public function getUsers(UserRequest $userRequest): array
