@@ -53,6 +53,7 @@ class TourDetailTransformer extends BaseTransformer
         );
         $result['tourPlans'] = $this->tourPlanService->getTourPlan($tour->getTourPlans());
         $result['rating'] = $this->reviewService->getRatingDetail($tour);
+        $result['totalReview'] = count($tour->getReviews());
         $result['reviews'] = $this->reviewService->getAllReviews($tour);
 
         return $result;
