@@ -12,7 +12,7 @@ use App\Request\UserGetAllOrderRequest;
 use App\Request\UserRequest;
 use App\Transformer\OrderTransformer;
 use App\Transformer\UserTransformer;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserService
 {
@@ -22,33 +22,35 @@ class UserService
     private OrderTransformer $orderTransformer;
     private ReviewRepository $reviewRepository;
     private OrderRepository $orderRepository;
+    private ParameterBagInterface $params;
 
     public function __construct(
         UserRepository $userRepository,
         UserTransformer $userTransformer,
         UserUpdateMapper $userUpdateMapper,
         ReviewRepository $reviewRepository,
-        Security $security,
+        OrderRepository $orderRepository,
         OrderTransformer $orderTransformer,
-        OrderRepository $orderRepository
+        ParameterBagInterface $params
     ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userUpdateMapper = $userUpdateMapper;
         $this->reviewRepository = $reviewRepository;
-        $this->security = $security;
         $this->orderTransformer = $orderTransformer;
         $this->orderRepository = $orderRepository;
+        $this->params = $params;
     }
 
-    public function getAllOrder(UserGetAllOrderRequest $userGetAllOrderRequest): array
+    public function getAllOrder(UserGetAllOrderRequest $userGetAllOrderRequest, $currentUser): array
     {
-        $currentUser = $this->security->getUser();
         $results = [];
         $results['user']['id'] = $currentUser->getId();
         $results['user']['email'] = $currentUser->getEmail();
         $results['user']['fullname'] = $currentUser->getName();
-        $results['user']['avatar'] = $currentUser->getAvatar() ? $currentUser->getAvatar()->getPath() : null;
+        $result['user']['avatar'] = $currentUser->getAvatar()
+            ? $this->params->get('s3url') . $currentUser->getAvatar()->getPath()
+            : null;
         $data = $this->orderRepository->getAllOrder($userGetAllOrderRequest, $currentUser);
         foreach ($data['orders'] as $key => $order) {
             $results['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
