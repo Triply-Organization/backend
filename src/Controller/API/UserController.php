@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\User;
 use App\Request\PatchUpdateUserRequest;
+use App\Request\UserGetAllOrderRequest;
 use App\Service\UserService;
 use App\Traits\ResponseTrait;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,10 +23,11 @@ class UserController extends AbstractController
     #[Route('/', name: 'getAllOrder', methods: 'GET')]
     #[IsGranted('ROLE_USER')]
     public function getAllOrderOfUser(
-        UserService $userService
+        UserService $userService,
+        UserGetAllOrderRequest $userGetAllOrderRequest
     ): JsonResponse {
         $currentUser = $this->getUser();
-        return  $this->success($userService->getAllOrder($currentUser));
+        return  $this->success($userService->getAllOrder($userGetAllOrderRequest,$currentUser));
     }
 
     #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
