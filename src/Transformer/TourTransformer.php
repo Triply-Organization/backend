@@ -42,6 +42,7 @@ class TourTransformer extends BaseTransformer
         $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
         $result['destination'] = $this->tourPlanService->getDestination($tour->getTourPlans());
         $result['rating'] = $this->reviewService->getRatingOverall($tour);
+        $result['totalReview'] = count($tour->getReviews());
 
         return $result;
     }
