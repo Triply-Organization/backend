@@ -13,6 +13,7 @@ use App\Repository\TypeReviewRepository;
 use App\Request\GetReviewAllRequest;
 use App\Request\ReviewRequest;
 use App\Transformer\ReviewTransformer;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Date;
@@ -28,6 +29,7 @@ class ReviewService
     private ReviewDetailRepository $reviewDetailRepository;
     private ReviewDetailService $reviewDetailService;
     private ReviewTransformer $reviewTransformer;
+    private ParameterBagInterface $params;
 
     public function __construct(
         Security $security,
@@ -36,7 +38,8 @@ class ReviewService
         TypeReviewRepository $typeReviewRepository,
         ReviewDetailRepository $reviewDetailRepository,
         ReviewDetailService $reviewDetailService,
-        ReviewTransformer $reviewTransformer
+        ReviewTransformer $reviewTransformer,
+        ParameterBagInterface $params
     ) {
         $this->security = $security;
         $this->orderService = $orderService;
@@ -45,6 +48,7 @@ class ReviewService
         $this->reviewDetailRepository = $reviewDetailRepository;
         $this->reviewDetailService = $reviewDetailService;
         $this->reviewTransformer = $reviewTransformer;
+        $this->params = $params;
     }
 
     public function handleRating(Tour $tour): array
@@ -204,7 +208,7 @@ class ReviewService
                 $results[$key]['tourName'] = $review->getTour()->getTitle();
                 $results[$key]['rating'] = $this->handleRatingUser($typeRatings);
                 $results[$key]['avatar'] = $review->getUser()->getAvatar()
-                    ? $review->getUser()->getAvatar()->getPath()
+                    ? $this->params->get('s3url') . $review->getUser()->getAvatar()->getPath()
                     : null;
                 $results[$key]['comment'] = $review->getComment();
             }
