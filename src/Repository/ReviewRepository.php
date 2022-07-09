@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Repository;
 
 use App\Entity\Review;
@@ -57,7 +58,9 @@ class ReviewRepository extends BaseRepository
     {
         $query = $this->createQueryBuilder(static::REVIEW_ALIAS);
         $query = $this->join($query);
+        $query = $this->sortBy($query, self::REVIEW_ALIAS, 'createdAt', 'desc');
         $query = $this->andIsNull($query, self::REVIEW_ALIAS, 'deletedAt');
+
         return $query;
     }
 
