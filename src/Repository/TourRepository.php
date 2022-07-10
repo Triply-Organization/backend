@@ -94,14 +94,14 @@ class TourRepository extends BaseRepository
         $services = $listTourRequest->getService();
         if (!empty($services)) {
             foreach ($services as $service) {
-                $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $service);
+                $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'name', $service);
             }
         }
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
             foreach ($guests as $guest) {
-                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $guest);
+                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'name', $guest);
             }
         }
         $query = $this->andBetween($query, self::PRICE_LIST_ALIAS, 'price', $listTourRequest->getStartPrice(), $listTourRequest->getEndPrice());
