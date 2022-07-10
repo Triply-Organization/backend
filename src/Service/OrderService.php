@@ -55,16 +55,12 @@ class OrderService
         return true;
     }
 
-    public function order(OrderRequest $orderRequest): Order
+    public function order(OrderRequest $orderRequest, User $user): Order
     {
-        /**
-         * @var User $currentUser
-         */
-        $currentUser = $this->security->getUser();
         $tax = $this->taxRepository->findOneBy(['currency' => $orderRequest->getCurrency()]);
         $order = new Order();
         $order->setDiscount(null)
-            ->setUser($currentUser)
+            ->setUser($user)
             ->setTotalPrice(0)
             ->setTax($tax)
             ->setStatus(self::STATUS_DEFAULT);
@@ -85,7 +81,7 @@ class OrderService
         return $this->ticketRepository->findBy(array('orderName' => $order));
     }
 
-    private function addTicket(OrderRequest $orderRequest, Order $order): float|int|null
+    public function addTicket(OrderRequest $orderRequest, Order $order): float|int|null
     {
         $totalpirce = 0;
         if ($orderRequest->getChildren() !== []) {
@@ -104,7 +100,7 @@ class OrderService
         return $totalpirce;
     }
 
-    private function createTicket(PriceList $priceList, $amount): Ticket
+    public function createTicket(PriceList $priceList, $amount): Ticket
     {
         $ticket = new Ticket();
         $ticket->setPriceList($priceList)
@@ -113,7 +109,7 @@ class OrderService
         return $ticket;
     }
 
-    private function addChildrenTicket(OrderRequest $orderRequest, Order $order): float|int|null
+    public function addChildrenTicket(OrderRequest $orderRequest, Order $order): float|int|null
     {
         $price = 0;
         $priceListChildren = $this->priceListRepository->find($orderRequest->getChildren()['priceListId']);
@@ -126,7 +122,7 @@ class OrderService
         return $price;
     }
 
-    private function addYouthTicket(OrderRequest $orderRequest, Order $order): float|int|null
+    public function addYouthTicket(OrderRequest $orderRequest, Order $order): float|int|null
     {
         $price = 0;
         $priceListYouth = $this->priceListRepository->find($orderRequest->getYouth()['priceListId']);
@@ -139,7 +135,7 @@ class OrderService
         return $price;
     }
 
-    private function addAdultTicket(OrderRequest $orderRequest, Order $order): float|int|null
+    public function addAdultTicket(OrderRequest $orderRequest, Order $order): float|int|null
     {
         $price = 0;
         $priceListAdult = $this->priceListRepository->find($orderRequest->getAdult()['priceListId']);

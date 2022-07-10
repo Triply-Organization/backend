@@ -21,23 +21,29 @@ class TaxService
         $this->taxUpdateMapper = $taxUpdateMapper;
     }
 
-    public function add(AddTaxRequest $addTaxRequest): void
+    public function add(AddTaxRequest $addTaxRequest)
     {
         $tax = new Tax();
         $tax->setCurrency($addTaxRequest->getCurrency());
         $tax->setPercent($addTaxRequest->getPercent());
         $this->taxRepository->add($tax, true);
+
+        return true;
     }
 
-    public function update(Tax $tax, BaseRequest $updateVoucherRequest): void
+    public function update(Tax $tax, BaseRequest $updateVoucherRequest)
     {
         $voucherUpdated = $this->taxUpdateMapper->mapping($tax, $updateVoucherRequest);
         $this->taxRepository->add($voucherUpdated, true);
+
+        return true;
     }
 
-    public function delete(Tax $tax): void
+    public function delete(Tax $tax)
     {
         $this->taxRepository->delete($tax->getId());
+
+        return true;
     }
 
     public function find(GetTaxRequest $getTaxRequest): Tax

@@ -8,6 +8,7 @@ use App\Mapper\UserUpdateMapper;
 use App\Repository\OrderRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
+use App\Request\PatchUpdateUserRequest;
 use App\Request\UserGetAllOrderRequest;
 use App\Request\UserRequest;
 use App\Service\UserService;
@@ -82,5 +83,30 @@ class UserServiceTest extends TestCase
 
         $undoDeleteUser = $userService->undoDeleteUser($userMock);
         $this->assertTrue($undoDeleteUser);
+    }
+
+    public function testDeleteUser()
+    {
+        $userMock = $this->getMockBuilder(User::class)->getMock();
+        $userMock->method('getId')->willReturn(1);
+        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $this->reviewRepositoryMock->expects($this->once())->method('deleteWithRelation');
+        $this->userRepositoryMock->expects($this->once())->method('delete');
+
+        $result = $userService->deleteUser($userMock);
+        $this->assertTrue($result);
+    }
+
+    public function testUpdateUser()
+    {
+        $user = new User();
+        $patchUpdateUserRequest = new PatchUpdateUserRequest();
+        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $this->userRepositoryMock->expects($this->once())->method('add');
+
+        $result = $userService->update($user, $patchUpdateUserRequest);
+        $this->assertTrue($result);
     }
 }
