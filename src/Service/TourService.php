@@ -63,22 +63,25 @@ class TourService
         return $path;
     }
 
-    public function delete(Tour $tour): void
+    public function delete(Tour $tour)
     {
         $this->tourPlanRepository->deleteWithRelation('tour', $tour->getId());
 
         $this->tourImageRepository->deleteWithRelation('tour', $tour->getId());
 
         $this->tourRepository->delete($tour->getId());
+
+        return true;
     }
 
-    public function undoDelete(Tour $tour): void
+    public function undoDelete(Tour $tour)
     {
         $this->tourPlanRepository->undoDeleteWithRelation('tour', $tour->getId());
 
         $this->tourImageRepository->undoDeleteWithRelation('tour', $tour->getId());
 
         $this->tourRepository->undoDelete($tour->getId());
+        return true;
     }
 
     public function addTour(TourRequest $tourRequest): Tour
@@ -109,11 +112,12 @@ class TourService
         return $tour;
     }
 
-    public function changeStatus(ChangeStatusOfTourRequest $statusOfTourRequest, Tour $tour): void
+    public function changeStatus(ChangeStatusOfTourRequest $statusOfTourRequest, Tour $tour)
     {
         $tourUpdate = $this->tourRepository->find($tour);
         $tourUpdate->setUpdatedAt(new \DateTimeImmutable())
         ->setStatus($statusOfTourRequest->getStatus());
         $this->tourRepository->add($tourUpdate, true);
+        return true;
     }
 }

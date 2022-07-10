@@ -21,24 +21,28 @@ class VoucherService
         $this->voucherUpdateMapper = $voucherUpdateMapper;
     }
 
-    public function add(AddVoucherRequest $addVoucherRequest): void
+    public function add(AddVoucherRequest $addVoucherRequest)
     {
         $voucher = new Voucher();
         $voucher->setCode($addVoucherRequest->getCode());
         $voucher->setDiscount($addVoucherRequest->getPercent());
         $voucher->setRemain($addVoucherRequest->getRemain());
         $this->voucherRepository->add($voucher, true);
+
+        return true;
     }
 
-    public function update(Voucher $voucher, BaseRequest $updateVoucherRequest): void
+    public function update(Voucher $voucher, BaseRequest $updateVoucherRequest)
     {
         $voucherUpdated = $this->voucherUpdateMapper->mapping($voucher, $updateVoucherRequest);
         $this->voucherRepository->add($voucherUpdated, true);
+        return true;
     }
 
-    public function delete(Voucher $voucher): void
+    public function delete(Voucher $voucher)
     {
         $this->voucherRepository->delete($voucher->getId());
+        return true;
     }
 
     public function find(GetVoucherRequest $getVoucherRequest): ?Voucher

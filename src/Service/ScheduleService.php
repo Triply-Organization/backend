@@ -53,7 +53,7 @@ class ScheduleService
         return $prices;
     }
 
-    public function addSchedule(ScheduleRequest $scheduleRequest, Tour $tour): void
+    public function addSchedule(ScheduleRequest $scheduleRequest, Tour $tour)
     {
         $startDay = \DateTime::createFromFormat('Y-m-d', $scheduleRequest->getDateStart());
         $schedule = new Schedule();
@@ -62,9 +62,11 @@ class ScheduleService
         ->setStartDate($startDay);
         $this->scheduleRepository->add($schedule, true);
         $this->priceListService->addListPrice($scheduleRequest, $schedule);
+
+        return true;
     }
 
-    public function updateSchedule(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule): void
+    public function updateSchedule(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule)
     {
         $startDay = \DateTime::createFromFormat('Y-m-d', $scheduleUpdateRequest->getDateStart());
         $newSchedule = new Schedule();
@@ -80,6 +82,8 @@ class ScheduleService
         }
         $schedule->setDeletedAt(new \DateTimeImmutable());
         $this->scheduleRepository->add($schedule, true);
+
+        return true;
     }
 
     public function checkTour(Tour $tour): bool
