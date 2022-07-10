@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Destination;
 use App\Entity\PriceList;
-use App\Entity\Review;
-use App\Entity\ReviewDetail;
 use App\Entity\Schedule;
 use App\Entity\Service;
 use App\Entity\TicketType;
@@ -93,7 +91,12 @@ class TourRepository extends BaseRepository
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
         $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
-        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
+        $services = $listTourRequest->getService();
+        if (!empty($services)) {
+            foreach ($services as $service) {
+                $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $service);
+            }
+        }
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {

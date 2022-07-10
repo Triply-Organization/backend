@@ -24,6 +24,7 @@ class ImageService
         $imagePath = $this->imageS3Manager->upload($file);
         $image->setPath($imagePath);
         $this->imageRepository->add($image, true);
+
         return $image;
     }
 }
