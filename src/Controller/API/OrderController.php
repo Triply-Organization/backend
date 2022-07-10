@@ -43,13 +43,14 @@ class OrderController extends AbstractController
         ValidatorInterface $validator,
         OrderTransformer $orderTransformer,
     ): JsonResponse {
+        $user = $this->getUser();
         $requestData = $request->toArray();
         $order = $orderRequest->fromArray($requestData);
         $errors = $validator->validate($order);
         if (count($errors) > 0) {
             return $this->errors(['Something wrong']);
         }
-        $orderData = $orderService->order($order);
+        $orderData = $orderService->order($order, $user);
         $result = $orderTransformer->orderToArray($orderData);
 
         return $this->success($result);

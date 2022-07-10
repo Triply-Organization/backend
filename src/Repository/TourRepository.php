@@ -96,7 +96,7 @@ class TourRepository extends BaseRepository
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
             foreach ($guests as $guest) {
-                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $guest);
+                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'name', $guest);
             }
         }
         $query = $this->andBetween($query, self::PRICE_LIST_ALIAS, 'price', $listTourRequest->getStartPrice(), $listTourRequest->getEndPrice());

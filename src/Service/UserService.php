@@ -79,10 +79,11 @@ class UserService
         return $results;
     }
 
-    public function update(User $user, PatchUpdateUserRequest $patchUpdateUserRequest): void
+    public function update(User $user, PatchUpdateUserRequest $patchUpdateUserRequest)
     {
         $user = $this->userUpdateMapper->mapping($user, $patchUpdateUserRequest);
         $this->userRepository->add($user, true);
+        return true;
     }
 
     public function deleteUser(User $user): bool
