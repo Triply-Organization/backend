@@ -10,7 +10,7 @@ class TourRequestTest extends TestCase
 {
     public function testTourRequest()
     {
-        $request = new TourUpdateRequest();
+        $request = new TourRequest();
         $request->setDuration(3);
         $request->setMaxPeople(5);
         $request->setMinAge(20);
