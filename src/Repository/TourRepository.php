@@ -91,7 +91,7 @@ class TourRepository extends BaseRepository
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
         $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
-        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'name', $listTourRequest->getService());
+        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
