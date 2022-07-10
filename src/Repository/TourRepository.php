@@ -91,27 +91,22 @@ class TourRepository extends BaseRepository
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
         $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
-        $services = $listTourRequest->getService();
-        if (!empty($services)) {
-            foreach ($services as $service) {
-                $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'name', $service);
-            }
-        }
+        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'name', $listTourRequest->getService());
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
             foreach ($guests as $guest) {
-                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'name', $guest);
+                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $guest);
             }
         }
         $query = $this->andBetween($query, self::PRICE_LIST_ALIAS, 'price', $listTourRequest->getStartPrice(), $listTourRequest->getEndPrice());
         $query = $this->andCustomFilter($query, self::TOUR_ALIAS, 'status', '=', 'enable');
         $query = $this->andIsNull($query, self::TOUR_ALIAS, 'deletedAt');
         $query = $this->sortBy($query, self::PRICE_LIST_ALIAS, $listTourRequest->getOrderType(), $listTourRequest->getOrderBy());
-        $query = $query->groupBy('t.id');
 
-        return $query;
+        return $query->groupBy('t.id');
     }
+
 
     public function queryAdminTours(ListTourRequest $listTourRequest): QueryBuilder
     {
@@ -144,16 +139,17 @@ class TourRepository extends BaseRepository
         return $query->getResult();
     }
 
-    private function join($query)
+    private function join(QueryBuilder $query)
     {
-        $query->join(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
+        $query->leftJoin(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
         $query->join(Destination::class, static::DESTINATION_ALIAS, 'WITH', 'tp.destination = d.id');
-        $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
+        $query->leftJoin(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
         $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
-        $query->join(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
+        $query->leftJoin(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
         $query->join(PriceList::class, static::PRICE_LIST_ALIAS, 'WITH', 'sch.id = pl.schedule');
         $query->join(TicketType::class, static::TICKET_TYPE_ALIAS, 'WITH', 'pl.type = tt.id');
 
         return $query;
     }
+
 }
