@@ -47,7 +47,7 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('array')]
     private $guests;
 
-    #[Assert\Type('array')]
+    #[Assert\Type('string')]
     private $service;
 
     #[Assert\Date]

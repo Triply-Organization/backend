@@ -22,6 +22,7 @@ class ScheduleTransformer extends BaseTransformer
         return [
             'id' => $schedule->getId(),
             'ticket' => $this->priceListService->getTicketType($schedule->getPriceLists()),
+            'ticketRemain' => $schedule->getTicketRemain(),
             'startDate' => $schedule->getStartDate()->format('Y-m-d')
         ];
     }

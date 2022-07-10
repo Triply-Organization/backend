@@ -142,4 +142,5 @@ abstract class BaseRepository extends ServiceEntityRepository
         }
         return $tours->andWhere($alias . '.' . $field . ' LIKE ' . '\'%' . $value . '%\'');
     }
+
 }
