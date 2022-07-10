@@ -6,6 +6,7 @@ use App\Entity\Bill;
 use App\Repository\BillRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
+use App\Repository\TourRepository;
 use App\Repository\VoucherRepository;
 use App\Request\CheckoutRequest;
 use App\Request\RefundRequest;
@@ -35,6 +36,7 @@ class StripeService
     private SendMailService $sendMailService;
     private OrderRepository $orderRepository;
     private ScheduleRepository $scheduleRepository;
+    private TourRepository $tourRepository;
     private BillService $billService;
     private VoucherRepository $voucherRepository;
 
@@ -44,6 +46,7 @@ class StripeService
         SendMailService $sendMailService,
         OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
+        TourRepository $tourRepository,
         VoucherRepository $voucherRepository,
         BillService $billService
     ) {
@@ -52,6 +55,7 @@ class StripeService
         $this->sendMailService = $sendMailService;
         $this->orderRepository = $orderRepository;
         $this->scheduleRepository = $scheduleRepository;
+        $this->tourRepository = $tourRepository;
         $this->voucherRepository = $voucherRepository;
         $this->billService = $billService;
         $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
@@ -100,7 +104,8 @@ class StripeService
         if ($type === self::CHECK_COMPLETED) {
             $order = $this->orderRepository->find($metadata['orderId']);
             $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
-            if (!$order || !$schedule) {
+            $tour = $this->tourRepository->find($metadata['tour_id']);
+            if (!$order || !$schedule || !$tour) {
                 throw new NotFoundHttpException();
             }
             $bill = $this->billService->add($metadata, $data);
@@ -112,7 +117,8 @@ class StripeService
             $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
             $this->scheduleRepository->add($schedule, true);
-            $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
+
+            $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill, $order, $tour );
 
             $this->stripe->checkout->sessions->expire(
                 $data['id'],

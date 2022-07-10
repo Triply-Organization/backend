@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Bill;
+use App\Entity\Order;
+use App\Entity\Tour;
 use App\Event\EmailEvent;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -28,44 +30,19 @@ class SendMailService
     /**
      * @throws Exception
      */
-    public function sendRegisterMail(string $email, string $subject): void
+    public function sendBillMail(string $email, string $subject, Bill $bill, Order $order, Tour $tour): void
     {
 
         $mail = $this->zohoMailConfig();
-
         try {
             //Recipients
             $mail->addAddress($email);
+            $body = $this->getEmailTemplate($order, $bill, $tour);
 
             //Content
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body = 'Welcome to our Website';
-            $mail->send();
-
-            $event = new EmailEvent($mail);
-            $this->dispatcher->dispatch($event, EmailEvent::SEND);
-        } catch (Exception $e) {
-            throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function sendBillMail(string $email, string $subject, Bill $bill): void
-    {
-
-        $mail = $this->zohoMailConfig();
-
-        try {
-            //Recipients
-            $mail->addAddress($email);
-
-            //Content
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
-            $mail->Body = 'This is your payment Total: ' . $bill->getTotalPrice();
+            $mail->Body = $body;
             $mail->send();
 
             $event = new EmailEvent($mail);
@@ -105,5 +82,17 @@ class SendMailService
         $mail->setFrom($username, 'Triply');
 
         return $mail;
+    }
+
+    private function getEmailTemplate(Order $order, Bill $bill, Tour $tour): string
+    {
+        $mailBody = file_get_contents(dirname(__DIR__, 2) . '/templates/email_invoice.html');
+        $mailBody = str_replace('%tourImage%', 'https://car-rent-nhivo.s3.ap-southeast-1.amazonaws.com/upload/vinpearl-hotel-can-tho-62c906ac1e18f.jpg', $mailBody);
+        $mailBody = str_replace('%orderPrice%', $order->getTotalPrice(), $mailBody);
+        $mailBody = str_replace('%taxPrice%', $bill->getTax(), $mailBody);
+        $mailBody = str_replace('%discountPrice%', $bill->getDiscount(), $mailBody);
+        $mailBody = str_replace('%totalPrice%', $bill->getTotalPrice(), $mailBody);
+
+        return $mailBody;
     }
 }

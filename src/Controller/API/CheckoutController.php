@@ -3,9 +3,9 @@
 namespace App\Controller\API;
 
 use App\Request\CheckoutRequest;
+use App\Service\SendMailService;
 use App\Service\StripeService;
 use App\Traits\ResponseTrait;
-use Psr\Log\LoggerInterface;
 use Stripe\Exception\ApiErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
