@@ -29,13 +29,14 @@ class OrderService
     private TaxRepository $taxRepository;
 
     public function __construct(
-        OrderRepository $orderRepository,
-        Security $security,
-        TicketRepository $ticketRepository,
+        OrderRepository     $orderRepository,
+        Security            $security,
+        TicketRepository    $ticketRepository,
         PriceListRepository $priceListRepository,
-        VoucherRepository $voucherRepository,
-        TaxRepository $taxRepository
-    ) {
+        VoucherRepository   $voucherRepository,
+        TaxRepository       $taxRepository
+    )
+    {
         $this->orderRepository = $orderRepository;
         $this->security = $security;
         $this->ticketRepository = $ticketRepository;
@@ -50,6 +51,7 @@ class OrderService
         if ($currentUser->getId() !== $order->getUser()->getId()) {
             return false;
         }
+
         return true;
     }
 
@@ -69,6 +71,7 @@ class OrderService
         $this->orderRepository->add($order, true);
         $totalPrice = $this->addTicket($orderRequest, $order);
         $this->orderRepository->add($order->setTotalPrice($totalPrice), true);
+
         return $order;
     }
 
@@ -97,6 +100,7 @@ class OrderService
             $priceTicketAdult = $this->addAdultTicket($orderRequest, $order);
             $totalpirce = $totalpirce + $priceTicketAdult;
         }
+
         return $totalpirce;
     }
 
@@ -145,6 +149,7 @@ class OrderService
             $this->ticketRepository->add($ticket, true);
             $price = $ticket->getTotalPrice();
         }
+
         return $price;
     }
 }
