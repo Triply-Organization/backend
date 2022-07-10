@@ -26,7 +26,7 @@ class TourImageService
         $this->tourImageTransformer = $tourImageTransformer;
     }
 
-    public function getGallary(Tour $tour): array
+    public function getGallery(Tour $tour): array
     {
         $tourImages = $this->tourImageRepository->findBy(['tour' => $tour]);
         $gallery = [];
