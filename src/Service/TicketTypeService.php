@@ -18,7 +18,7 @@ class TicketTypeService
         $this->ticketTypeRepository = $ticketTypeRepository;
     }
 
-    public function getTicket(): array
+    public function getTicketType(): array
     {
         $ticketTypes = $this->ticketTypeRepository->findAll();
         $result = [];

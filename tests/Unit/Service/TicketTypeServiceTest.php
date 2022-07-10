@@ -19,7 +19,7 @@ class TicketTypeServiceTest extends TestCase
         $ticketTypeRepositoryMock = $this->getMockBuilder(TicketTypeRepository::class)->disableOriginalConstructor()->getMock();
         $ticketTypeRepositoryMock->expects($this->once())->method('findAll')->willReturn(array($typeTicket));
         $ticketTypeService = new TicketTypeService($ticketTransformerMock, $ticketTypeRepositoryMock);
-        $result = $ticketTypeService->getTicket();
+        $result = $ticketTypeService->getTicketType();
 
         $this->assertIsArray($result);
     }

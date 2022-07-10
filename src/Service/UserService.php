@@ -61,7 +61,6 @@ class UserService
         $results['totalOrders'] = $data['totalOrders'];
 
         return $results;
-
     }
 
     public function getUsers(UserRequest $userRequest): array

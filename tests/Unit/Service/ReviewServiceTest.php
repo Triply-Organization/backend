@@ -53,4 +53,31 @@ class ReviewServiceTest extends TestCase
 
         $this->assertIsArray($results);
     }
+
+    public function testGetRatingDetail()
+    {
+        $tour = new Tour();
+        $reviewServiceMock = $this->getMockBuilder(ReviewService::class)->onlyMethods(['handleRating'])->disableOriginalConstructor()->getMock();
+        $reviewServiceMock->expects($this->once())->method('handleRating')->willReturn(array());
+        $getRatingDetail = $reviewServiceMock->getRatingDetail($tour);
+        $this->assertIsArray($getRatingDetail);
+    }
+
+    public function testGetRatingOverall()
+    {
+        $tour = new Tour();
+        $reviewServiceMock = $this->getMockBuilder(ReviewService::class)->onlyMethods(['handleRating'])->disableOriginalConstructor()->getMock();
+        $reviewServiceMock->expects($this->once())->method('handleRating')->willReturn(array());
+        $getRatingOverall = $reviewServiceMock->getRatingOverall($tour);
+        $this->assertIsArray($getRatingOverall);
+    }
+
+    public function testRatingForTour()
+    {
+        $tour = new Tour();
+        $reviewServiceMock = $this->getMockBuilder(ReviewService::class)->onlyMethods(['handleRating'])->disableOriginalConstructor()->getMock();
+        $reviewServiceMock->expects($this->once())->method('handleRating')->willReturn(array());
+        $ratingForTour = $reviewServiceMock->ratingForTour($tour);
+        $this->assertIsNumeric($ratingForTour);
+    }
 }
