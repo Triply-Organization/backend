@@ -110,7 +110,6 @@ class StripeService
                 throw new NotFoundHttpException();
             }
             $bill = $this->billService->add($metadata, $data);
-
             $order->setStatus('paid');
             $order->setBill($bill);
             $this->orderRepository->add($order, true);
@@ -118,7 +117,6 @@ class StripeService
             $schedule->setTicketRemain($schedule->getTicketRemain() - $metadata['numberOfTickets']);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
             $this->scheduleRepository->add($schedule, true);
-
             $this->sendMailService->sendBillMail(
                 'Thank you',
                 $bill,
@@ -220,6 +218,7 @@ class StripeService
     private function completeRefund(RefundRequest $refundRequestData): void
     {
         $order = $this->orderRepository->find($refundRequestData->getOrderId());
+
         if (!$order) {
             throw new NotFoundHttpException();
         }
