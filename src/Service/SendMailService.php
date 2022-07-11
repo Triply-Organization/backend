@@ -63,7 +63,6 @@ class SendMailService
         Order  $order,
         Tour   $tour,
     ): void {
-
         $mail = $this->zohoMailConfig();
 
         try {
@@ -131,6 +130,7 @@ class SendMailService
         $mailBody = str_replace('%email%', $data['email'], $mailBody);
         $mailBody = str_replace('%tourTitle%', $tour->getTitle(), $mailBody);
         $mailBody = str_replace('%totalBill%', $bill->getTotalPrice(), $mailBody);
+
 
         return $mailBody;
     }

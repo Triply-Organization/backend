@@ -117,6 +117,7 @@ class StripeService
             $schedule->setTicketRemain($schedule->getTicketRemain() - $metadata['numberOfTickets']);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
             $this->scheduleRepository->add($schedule, true);
+
             $this->sendMailService->sendBillMail(
                 'Thank you',
                 $bill,
