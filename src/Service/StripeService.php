@@ -6,6 +6,7 @@ use App\Entity\Bill;
 use App\Repository\BillRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
+use App\Repository\TourRepository;
 use App\Repository\VoucherRepository;
 use App\Request\CheckoutRequest;
 use App\Request\RefundRequest;
@@ -37,6 +38,7 @@ class StripeService
     private ScheduleRepository $scheduleRepository;
     private BillService $billService;
     private VoucherRepository $voucherRepository;
+    private TourRepository $tourRepository;
 
     public function __construct(
         ParameterBagInterface $params,
@@ -45,6 +47,7 @@ class StripeService
         OrderRepository $orderRepository,
         ScheduleRepository $scheduleRepository,
         VoucherRepository $voucherRepository,
+        TourRepository $tourRepository,
         BillService $billService
     ) {
         $this->params = $params;
@@ -54,6 +57,7 @@ class StripeService
         $this->scheduleRepository = $scheduleRepository;
         $this->voucherRepository = $voucherRepository;
         $this->billService = $billService;
+        $this->tourRepository = $tourRepository;
         $this->stripe = new StripeClient($this->params->get('stripe_secret_key'));
     }
 
@@ -100,7 +104,9 @@ class StripeService
         if ($type === self::CHECK_COMPLETED) {
             $order = $this->orderRepository->find($metadata['orderId']);
             $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
-            if (!$order || !$schedule) {
+            $tour = $this->tourRepository->find($metadata['tourId']);
+
+            if (!$order || !$schedule || !$tour) {
                 throw new NotFoundHttpException();
             }
             $bill = $this->billService->add($metadata, $data);
@@ -109,10 +115,18 @@ class StripeService
             $order->setBill($bill);
             $this->orderRepository->add($order, true);
 
-            $schedule->setTicketRemain($schedule->getTicketRemain() - 1);
+            $schedule->setTicketRemain($schedule->getTicketRemain() - $metadata['numberOfTickets']);
             $schedule->setUpdatedAt(new \DateTimeImmutable());
             $this->scheduleRepository->add($schedule, true);
-            $this->sendMailService->sendBillMail($data['customer_details']['email'], 'Thank you', $bill);
+
+            $this->sendMailService->sendBillMail(
+                'Thank you',
+                $bill,
+                $data['customer_details'],
+                $metadata['userPhone'],
+                $order,
+                $tour
+            );
 
             $this->stripe->checkout->sessions->expire(
                 $data['id'],
@@ -123,6 +137,7 @@ class StripeService
 
     private function sessionConfig(CheckoutRequest $checkoutRequestData): array
     {
+        $tour = $this->tourRepository->find($checkoutRequestData->getTourId());
         $locale = 'vi';
         $totalPrice = $checkoutRequestData->getTotalPrice() * self::VND_CONVERT;
         if ($checkoutRequestData->getCurrency() === self::USD_CURRENCY) {
@@ -134,7 +149,13 @@ class StripeService
                 'price_data' => [
                     'currency' => $checkoutRequestData->getCurrency(),
                     'product_data' => [
-                        'name' => $checkoutRequestData->getTourName(),
+                        'name' => $tour->getTitle(),
+                        'images' => [[
+                            $this->params->get('s3url') .
+                            $tour->getTourImages()[0]->getImage()->getPath(),
+                            $this->params->get('s3url') .
+                            $tour->getTourImages()[1]->getImage()->getPath(),
+                        ]],
                     ],
                     'unit_amount' => $totalPrice,
                 ],
@@ -143,7 +164,7 @@ class StripeService
             'metadata' => $this->metadata($checkoutRequestData),
             'customer_email' => $checkoutRequestData->getEmail(),
             'locale' => $locale,
-            'submit_type' => 'book',
+            'submit_type' => 'auto',
             'mode' => 'payment',
             'success_url' => $this->params->get('stripe_payment_success_url') . $checkoutRequestData->getOrderId(),
             'cancel_url' => $this->params->get('stripe_payment_cancel_url') . $checkoutRequestData->getOrderId(),
@@ -153,12 +174,14 @@ class StripeService
     private function metadata(CheckoutRequest $checkoutRequestData): array
     {
         return [
+            'userPhone' => $checkoutRequestData->getPhone(),
             'tourId' => $checkoutRequestData->getTourId(),
             'orderId' => $checkoutRequestData->getOrderId(),
             'scheduleId' => $checkoutRequestData->getScheduleId(),
             'totalPrice' => $checkoutRequestData->getTotalPrice(),
             'discountPrice' => $checkoutRequestData->getDiscountPrice(),
             'taxPrice' => $checkoutRequestData->getTaxPrice(),
+            'numberOfTickets' => $checkoutRequestData->getNumberOfTickets(),
         ];
     }
 

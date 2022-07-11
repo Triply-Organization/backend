@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Bill;
+use App\Entity\Order;
+use App\Entity\Tour;
 use App\Event\EmailEvent;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -53,19 +55,26 @@ class SendMailService
     /**
      * @throws Exception
      */
-    public function sendBillMail(string $email, string $subject, Bill $bill): void
+    public function sendBillMail(
+        string $subject,
+        Bill   $bill,
+        array  $data,
+        string $phone,
+        Order  $order,
+        Tour   $tour,
+    ): void
     {
 
         $mail = $this->zohoMailConfig();
 
         try {
             //Recipients
-            $mail->addAddress($email);
-
+            $mail->addAddress($data['email']);
+            $body = $this->getEmailTemplate($bill, $data, $phone, $order, $tour);
             //Content
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body = 'This is your payment Total: ' . $bill->getTotalPrice();
+            $mail->Body = $body;
             $mail->send();
 
             $event = new EmailEvent($mail);
@@ -105,5 +114,25 @@ class SendMailService
         $mail->setFrom($username, 'Triply');
 
         return $mail;
+    }
+
+    private function getEmailTemplate(
+        Bill  $bill,
+        array $data,
+        string $phone,
+        Order $order,
+        Tour  $tour
+    ): string {
+        $mailBody = file_get_contents(dirname(__DIR__, 2) . '/templates/emailBill.html');
+        $mailBody = str_replace('%orderId%', $order->getId(), $mailBody);
+        $mailBody = str_replace('%name%', $data['name'], $mailBody);
+        $mailBody = str_replace('%phone%', $phone, $mailBody);
+        $mailBody = str_replace('%tourImage%',$this->params->get('s3url') .
+            $tour->getTourImages()[0]->getImage()->getPath(), $mailBody);
+        $mailBody = str_replace('%email%', $data['email'], $mailBody);
+        $mailBody = str_replace('%tourTitle%', $tour->getTitle(), $mailBody);
+        $mailBody = str_replace('%tourTitle%', $bill->getTotalPrice(), $mailBody);
+
+        return $mailBody;
     }
 }

@@ -19,8 +19,10 @@ class WebhookController extends AbstractController
     #[Route('', name: 'webhook')]
     public function getData(
         Request $request,
+        LoggerInterface $logger,
         StripeService $stripeService
     ): JsonResponse {
+        $logger->debug($request->getContent());
         $event = $request->toArray();
         $data = $event['data']['object'];
         $metadata = $data['metadata'];
