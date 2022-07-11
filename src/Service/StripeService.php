@@ -110,7 +110,6 @@ class StripeService
                 throw new NotFoundHttpException();
             }
             $bill = $this->billService->add($metadata, $data);
-
             $order->setStatus('paid');
             $order->setBill($bill);
             $this->orderRepository->add($order, true);
@@ -220,6 +219,7 @@ class StripeService
     private function completeRefund(RefundRequest $refundRequestData): void
     {
         $order = $this->orderRepository->find($refundRequestData->getOrderId());
+
         if (!$order) {
             throw new NotFoundHttpException();
         }
