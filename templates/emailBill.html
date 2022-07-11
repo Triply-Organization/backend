@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>A simple, clean, and responsive HTML invoice template</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon" />
+
+    <!-- Invoice styling -->
+    <style>
+        body {
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            text-align: center;
+            color: #777;
+        }
+
+        body h1 {
+            font-weight: 300;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            color: #000;
+        }
+
+        body h3 {
+            font-weight: 300;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .information-title{
+            font-size: 1.1rem;
+        }
+
+        body a {
+            color: #06f;
+        }
+
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+
+        .information-img{
+            max-width: 250px;
+        }
+
+        .details-payments-img{
+            max-width: 100px;
+        }
+
+        .tour-name{
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .tour-total{
+            color: #f7931e;
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="invoice-box">
+    <table>
+        <tr class="top">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <img src="data:image/png;base64,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" alt="Company logo"/>
+                        </td>
+
+                        <td>
+                            Invoice #: %orderId%<br />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <h2 class="information-title">User information</h2>
+                            %name%<br />
+                            %phone%<br />
+                            %email%
+                        </td>
+
+                        <td>
+                            <img src="%tourImage" alt="" class="information-img">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td>Payment Method</td>
+
+            <td></td>
+        </tr>
+
+        <tr class="details">
+            <td><img src="https://triply.asia/assets/stripe-logo.b04c0123.png" alt="payment" class="details-payments-img"></td>
+
+            <td></td>
+        </tr>
+
+        <tr class="heading">
+            <td>Tour</td>
+
+            <td>Total</td>
+        </tr>
+        <tr class="total">
+            <td class="tour-name">%tourTitle%</td>
+
+            <td class="tour-total">%totalBill%</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

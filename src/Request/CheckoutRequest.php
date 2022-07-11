@@ -62,6 +62,11 @@ class CheckoutRequest extends BaseRequest
     #[Assert\NotNull]
     private $taxPrice;
 
+    #[Assert\Type('numeric')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    private $numberOfTickets;
+
     /**
      * @return mixed
      */
@@ -269,5 +274,21 @@ class CheckoutRequest extends BaseRequest
     public function setVoucherId($voucherId): void
     {
         $this->voucherId = $voucherId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumberOfTickets()
+    {
+        return $this->numberOfTickets;
+    }
+
+    /**
+     * @param mixed $numberOfTickets
+     */
+    public function setNumberOfTickets($numberOfTickets): void
+    {
+        $this->numberOfTickets = $numberOfTickets;
     }
 }
