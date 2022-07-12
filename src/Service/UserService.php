@@ -53,9 +53,11 @@ class UserService
             : null;
         $data = $this->orderRepository->getAllOrder($userGetAllOrderRequest, $currentUser);
         foreach ($data['orders'] as $key => $order) {
+            if ($this->orderTransformer->getOrderOfUser($order) === null) {
+                continue;
+            }
             $results['orders'][$key] = $this->orderTransformer->getOrderOfUser($order);
         }
-
         $results['totalPages'] = $data['totalPages'];
         $results['page'] = $data['page'];
         $results['totalOrders'] = $data['totalOrders'];
