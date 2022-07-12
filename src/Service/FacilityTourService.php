@@ -14,9 +14,10 @@ class FacilityTourService
     private TourServiceRepository $tourServiceRepository;
 
     public function __construct(
-        ServiceRepository $serviceRepository,
+        ServiceRepository     $serviceRepository,
         TourServiceRepository $tourServiceRepository
-    ) {
+    )
+    {
         $this->serviceRepository = $serviceRepository;
         $this->tourServiceRepository = $tourServiceRepository;
     }
