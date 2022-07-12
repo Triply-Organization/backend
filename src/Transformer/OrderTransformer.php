@@ -17,9 +17,10 @@ class OrderTransformer extends BaseTransformer
 
     public function __construct(
         ParameterBagInterface $params,
-        OrderService $orderService,
-        VoucherService $voucherService,
-    ) {
+        OrderService          $orderService,
+        VoucherService        $voucherService,
+    )
+    {
         $this->orderService = $orderService;
         $this->params = $params;
         $this->voucherService = $voucherService;
@@ -41,6 +42,7 @@ class OrderTransformer extends BaseTransformer
             $result['imageTour']['type'] = $image->getType();
         }
         $ticketsOfOrder = $this->orderService->findTicketsOfOrder($order);
+
         foreach ($ticketsOfOrder as $key => $ticket) {
             $ticketInfos[$key]['idTicket'] = $ticket->getId();
             $ticketInfos[$key]['amount'] = $ticket->getAmount();
@@ -54,13 +56,17 @@ class OrderTransformer extends BaseTransformer
         return $result;
     }
 
-    public function getOrderOfUser(Order $order): array
+    public function getOrderOfUser(Order $order): ?array
     {
         $result = $this->transform($order, static::USER_PARAMS);
-        $result['title'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTitle();
+        if ($order->getTickets()->first() === false) {
+            return null;
+        }
+        $result['title'] = $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTitle();
         $result['bookedAt'] = $order->getCreatedAt();
-        $result['startDay'] =  $order->getTickets()->first()->getPriceList()->getSchedule()->getStartDate();
-        $images =  $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTourImages();
+        $result['startDay'] = $order->getTickets()->first()->getPriceList()->getSchedule()->getStartDate();
+        $images = $order->getTickets()->first()->getPriceList()->getSchedule()->getTour()->getTourImages();
+
         foreach ($images as $image) {
             if ($image->getType() === 'cover') {
                 $result['cover'] = $this->params->get('s3url') . $image->getImage()->getPath();
@@ -82,7 +88,6 @@ class OrderTransformer extends BaseTransformer
             $result['bill']['discount'] = $order->getBill()->getDiscount();
             $result['bill']['stripe'] = $order->getBill()->getStripePaymentId();
         }
-
         return $result;
     }
 
