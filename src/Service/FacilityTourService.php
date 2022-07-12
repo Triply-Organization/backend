@@ -14,14 +14,15 @@ class FacilityTourService
     private TourServiceRepository $tourServiceRepository;
 
     public function __construct(
-        ServiceRepository $serviceRepository,
+        ServiceRepository     $serviceRepository,
         TourServiceRepository $tourServiceRepository
-    ) {
+    )
+    {
         $this->serviceRepository = $serviceRepository;
         $this->tourServiceRepository = $tourServiceRepository;
     }
 
-    public function addServiceToTour(TourRequest $tourRequest, Tour $tour): void
+    public function addServiceToTour(TourRequest $tourRequest, Tour $tour): bool
     {
         foreach ($tourRequest->getServices() as $serviceRequest) {
             $service = $this->serviceRepository->find($serviceRequest);
@@ -33,15 +34,19 @@ class FacilityTourService
             $tourService->setTour($tour);
             $this->tourServiceRepository->add($tourService);
         }
+
+        return true;
     }
 
-    public function updateServiceFromTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): void
+    public function updateServiceFromTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): bool
     {
         $this->addNewServiceToTour($tour, $tourUpdateRequest);
         $this->deleteServiceFromTour($tourUpdateRequest);
+
+        return true;
     }
 
-    private function addNewServiceToTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): void
+    public function addNewServiceToTour(Tour $tour, TourUpdateRequest $tourUpdateRequest): bool
     {
         if ($tourUpdateRequest->getServices()['newServiceToTour'] !== null) {
             $newServices = $tourUpdateRequest->getServices()['newServiceToTour'];
@@ -57,9 +62,11 @@ class FacilityTourService
                 $this->tourServiceRepository->add($newTourService);
             }
         }
+
+        return true;
     }
 
-    private function deleteServiceFromTour(TourUpdateRequest $tourUpdateRequest): void
+    public function deleteServiceFromTour(TourUpdateRequest $tourUpdateRequest): bool
     {
         if ($tourUpdateRequest->getServices()['deleteServiceFromTour'] !== null) {
             $deleteServices = $tourUpdateRequest->getServices()['deleteServiceFromTour'];
@@ -72,5 +79,7 @@ class FacilityTourService
                 $this->tourServiceRepository->add($tourService);
             }
         }
+
+        return true;
     }
 }
