@@ -86,7 +86,7 @@ class FacilityTourServiceTest extends TestCase
         $this->assertTrue($newServiceToTour);
     }
 
-    public function testDeleteServiceFormTour()
+    public function testDeleteServiceFormTour() :void
     {
         $service = new Service();
         $tourUpdateRequest = new TourUpdateRequest();
