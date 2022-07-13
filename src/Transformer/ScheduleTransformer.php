@@ -41,7 +41,7 @@ class ScheduleTransformer extends BaseTransformer
         return $result;
     }
 
-    private function getPriceList(Schedule $schedule)
+    public function getPriceList(Schedule $schedule): array
     {
         $result = [];
         foreach ($schedule->getPriceLists() as $key => $priceList) {
