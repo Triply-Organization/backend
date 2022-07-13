@@ -24,7 +24,7 @@ class TaxController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/', name: 'add', methods: 'POST')]
+    #[Route('', name: 'add', methods: 'POST')]
     public function addTax(
         Request $request,
         AddTaxRequest $addTaxRequest,

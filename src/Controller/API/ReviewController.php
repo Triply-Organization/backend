@@ -58,7 +58,7 @@ class ReviewController extends AbstractController
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 
-    #[Route('/', name: 'getAllReview', methods: 'GET')]
+    #[Route('', name: 'getAllReview', methods: 'GET')]
     #[isGranted('ROLE_ADMIN')]
     public function getAllReview(
         Request $request,

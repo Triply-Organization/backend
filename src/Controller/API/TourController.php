@@ -25,7 +25,7 @@ class TourController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/', name: 'lists', methods: 'GET')]
+    #[Route('', name: 'lists', methods: 'GET')]
     public function getAllTours(
         Request $request,
         ListTourRequest $listTourRequest,
@@ -49,7 +49,7 @@ class TourController extends AbstractController
         return $this->success($tourDetailTransformer->toArray($tour));
     }
 
-    #[Route('/', name: 'add', methods: 'POST')]
+    #[Route('', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_CUSTOMER')]
     public function addTour(
         Request $request,

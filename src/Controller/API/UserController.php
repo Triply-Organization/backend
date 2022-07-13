@@ -20,7 +20,7 @@ class UserController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/', name: 'getAllOrder', methods: 'GET')]
+    #[Route('', name: 'getAllOrder', methods: 'GET')]
     #[IsGranted('ROLE_USER')]
     public function getAllOrderOfUser(
         UserService $userService,

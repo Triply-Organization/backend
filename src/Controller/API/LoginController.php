@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api', name: 'api_')]
+#[Route('/api/login', name: 'api_')]
 class LoginController extends AbstractController
 {
     use ResponseTrait;
 
-    #[Route('/login', name: 'login')]
+    #[Route('', name: 'login')]
     public function login(JWTTokenManagerInterface $tokenManager, UserTransformer $userTransformer): JsonResponse
     {
         $user = $this->getUser();
