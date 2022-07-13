@@ -19,7 +19,7 @@ class RefundController extends AbstractController
     use ResponseTrait;
 
     #[isGranted('ROLE_USER')]
-    #[Route('/', name: 'stripe', methods: 'POST')]
+    #[Route('', name: 'stripe', methods: 'POST')]
     public function refund(
         Request $request,
         RefundRequest $refundRequest,

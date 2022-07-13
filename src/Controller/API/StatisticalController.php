@@ -28,7 +28,7 @@ class StatisticalController extends AbstractController
         return $this->success($statisticalService->statisticalBooking($year));
     }
 
-    #[Route('/', name: 'total', methods: 'GET')]
+    #[Route('', name: 'total', methods: 'GET')]
     #[IsGranted('ROLE_ADMIN')]
     public function statisticalTotal(StatisticalService $statisticalService): JsonResponse
     {

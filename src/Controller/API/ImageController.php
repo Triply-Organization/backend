@@ -20,7 +20,7 @@ class ImageController extends AbstractController
     use ResponseTrait;
 
     #[isGranted('ROLE_USER')]
-    #[Route('/', name: 'add_image', methods: 'POST')]
+    #[Route('', name: 'add_image', methods: 'POST')]
     public function addImage(
         Request $request,
         ImageService $imageService,

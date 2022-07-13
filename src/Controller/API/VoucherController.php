@@ -25,7 +25,7 @@ class VoucherController extends AbstractController
     use ResponseTrait;
 
     #[isGranted('ROLE_ADMIN')]
-    #[Route('/', name: 'add', methods: 'POST')]
+    #[Route('', name: 'add', methods: 'POST')]
     public function addVoucher(
         Request $request,
         AddVoucherRequest $addVoucherRequest,

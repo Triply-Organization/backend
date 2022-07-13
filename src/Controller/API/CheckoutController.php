@@ -20,7 +20,7 @@ class CheckoutController
     /**
      * @throws ApiErrorException
      */
-    #[Route('/', name: 'checkout', methods: 'POST')]
+    #[Route('', name: 'checkout', methods: 'POST')]
     public function checkout(
         Request $request,
         CheckoutRequest $checkoutRequest,

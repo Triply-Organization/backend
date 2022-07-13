@@ -34,7 +34,7 @@ class OrderController extends AbstractController
         return $this->success($orderTransformer->detailToArray($order));
     }
 
-    #[Route('/', name: 'add', methods: 'POST')]
+    #[Route('', name: 'add', methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function orderTour(
         Request $request,
