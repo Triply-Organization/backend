@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class OrderRepository extends BaseRepository
 {
     public const ORDER_ALIAS = 'o';
-    public const PAGE_SIZE = 1;
+    public const PAGE_SIZE = 3;
 
     public function __construct(ManagerRegistry $registry,)
     {
