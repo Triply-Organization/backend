@@ -23,11 +23,14 @@ class UserController extends AbstractController
     #[Route('', name: 'getAllOrder', methods: 'GET')]
     #[IsGranted('ROLE_USER')]
     public function getAllOrderOfUser(
+        Request $request,
         UserService $userService,
         UserGetAllOrderRequest $userGetAllOrderRequest
     ): JsonResponse {
         $currentUser = $this->getUser();
-        return  $this->success($userService->getAllOrder($userGetAllOrderRequest,$currentUser));
+        $query = $request->query->all();
+        $userGetAllOrderRequestData = $userGetAllOrderRequest->fromArray($query);
+        return  $this->success($userService->getAllOrder($userGetAllOrderRequestData,$currentUser));
     }
 
     #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]
