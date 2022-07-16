@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Bill;
+use App\Entity\Order;
+use App\Entity\Schedule;
 use App\Repository\BillRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
@@ -110,14 +112,7 @@ class StripeService
                 throw new NotFoundHttpException();
             }
             $bill = $this->billService->add($metadata, $data);
-            $order->setStatus('paid');
-            $order->setBill($bill);
-            $this->orderRepository->add($order, true);
-
-            $schedule->setTicketRemain($schedule->getTicketRemain() - $metadata['numberOfTickets']);
-            $schedule->setUpdatedAt(new \DateTimeImmutable());
-            $this->scheduleRepository->add($schedule, true);
-
+            $this->completeCheckout($order, $schedule, $bill, $metadata['numberOfTickets']);
             $this->sendMailService->sendBillMail(
                 'Thank you',
                 $bill,
@@ -126,7 +121,6 @@ class StripeService
                 $order,
                 $tour
             );
-
             $this->stripe->checkout->sessions->expire(
                 $data['id'],
                 []
@@ -182,6 +176,18 @@ class StripeService
             'taxPrice' => $checkoutRequestData->getTaxPrice(),
             'numberOfTickets' => $checkoutRequestData->getNumberOfTickets(),
         ];
+    }
+
+    private function completeCheckout(Order $order, Schedule $schedule, Bill $bill, int $numberOfTickets): void
+    {
+        $order->setStatus('paid');
+        $order->setBill($bill);
+        $this->orderRepository->add($order, true);
+
+        $schedule->setTicketRemain($schedule->getTicketRemain() - $numberOfTickets);
+        $schedule->setUpdatedAt(new \DateTimeImmutable());
+        $this->scheduleRepository->add($schedule, true);
+
     }
 
     private function minusVoucher(int $voucherId): void
