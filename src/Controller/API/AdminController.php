@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Tour;
 use App\Entity\User;
 use App\Request\PatchUpdateUserRequest;
 use App\Request\UserRequest;
@@ -24,11 +25,12 @@ class AdminController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/customers', name: 'getCustomers', methods: 'GET')]
     public function listCustomers(
-        Request $request,
+        Request            $request,
         ValidatorInterface $validator,
-        CustomerService $customerService,
-        UserRequest $userRequest,
-    ): JsonResponse {
+        CustomerService    $customerService,
+        UserRequest        $userRequest,
+    ): JsonResponse
+    {
         $query = $request->query->all();
         $userRequest = $userRequest->fromArray($query);
         $errors = $validator->validate($userRequest);
@@ -43,11 +45,12 @@ class AdminController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/users', name: 'getUsers', methods: 'GET')]
     public function listUsers(
-        Request $request,
+        Request            $request,
         ValidatorInterface $validator,
-        UserService $userService,
-        UserRequest $userRequest
-    ): JsonResponse {
+        UserService        $userService,
+        UserRequest        $userRequest
+    ): JsonResponse
+    {
         $query = $request->query->all();
         $userRequest = $userRequest->fromArray($query);
         $errors = $validator->validate($userRequest);
@@ -62,12 +65,13 @@ class AdminController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     #[Route('/users/{id<\d+>}', name: 'editUsers', methods: 'PATCH')]
     public function editUserRole(
-        User $user,
-        Request $request,
-        ValidatorInterface $validator,
-        UserService $userService,
+        User                   $user,
+        Request                $request,
+        ValidatorInterface     $validator,
+        UserService            $userService,
         PatchUpdateUserRequest $patchUpdateUserRequest
-    ): JsonResponse {
+    ): JsonResponse
+    {
         $dataRequest = $request->toArray();
         $editRoleRequestData = $patchUpdateUserRequest->fromArray($dataRequest);
         $errors = $validator->validate($editRoleRequestData);
@@ -119,5 +123,12 @@ class AdminController extends AbstractController
         }
 
         return $this->errors(['Something wrong']);
+    }
+
+    #[Route('/stripe/{id<\d+>}', name: 'list_all_stripe_id', methods: 'GET')]
+    public function listAllStripeId(Tour $tour, CustomerService $customerService): JsonResponse
+    {
+        $users = $customerService->getAllStripeId($tour);
+        return $this->success($users);
     }
 }

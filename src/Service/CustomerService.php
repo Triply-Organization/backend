@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Tour;
 use App\Entity\User;
+use App\Repository\BillRepository;
 use App\Repository\TourRepository;
 use App\Repository\UserRepository;
 use App\Request\UserRequest;
@@ -13,15 +15,18 @@ class CustomerService
     private UserRepository $userRepository;
     private UserTransformer $userTransformer;
     private TourRepository $tourRepository;
+    private BillRepository $billRepository;
 
     public function __construct(
         UserRepository $userRepository,
         UserTransformer $userTransformer,
-        TourRepository $tourRepository
+        TourRepository $tourRepository,
+        BillRepository $billRepository
     ) {
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->tourRepository = $tourRepository;
+        $this->billRepository = $billRepository;
     }
 
     public function getCustomers(UserRequest $userRequest): array
@@ -54,5 +59,11 @@ class CustomerService
         $this->userRepository->undoDelete($user->getId());
 
         return true;
+    }
+
+    public function getAllStripeId(Tour $tour): array
+    {
+        $result = $this->billRepository->getAllStripeId($tour->getId());
+        return $result;
     }
 }
