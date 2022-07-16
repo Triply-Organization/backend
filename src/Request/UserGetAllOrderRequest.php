@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserGetAllOrderRequest extends BaseRequest
 {
-    public const DEFAULT_LIMIT = 6;
+    public const DEFAULT_LIMIT = 3;
     public const DEFAULT_OFFSET = 1;
     public const DEFAULT_PAGE = 1;
 
