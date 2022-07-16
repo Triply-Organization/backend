@@ -24,6 +24,9 @@ class StripeService
 {
     private const USD_CURRENCY = 'usd';
     private const CHECK_COMPLETED = 'checkout.session.completed';
+    private const CHECK_REFUNDED = 'charge.refunded';
+    private const CHECKOUT_TITLE = 'Thank You';
+    private const REFUND_TITLE = 'Refund';
     private const DAYS_REMAIN_FIFTEEN = 15;
     private const DAYS_REMAIN_SEVEN = 7;
     private const DAYS_REMAIN_THREE = 3;
@@ -41,17 +44,19 @@ class StripeService
     private BillService $billService;
     private VoucherRepository $voucherRepository;
     private TourRepository $tourRepository;
+    private StripeClient $stripe;
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository $billRepository,
-        SendMailService $sendMailService,
-        OrderRepository $orderRepository,
-        ScheduleRepository $scheduleRepository,
-        VoucherRepository $voucherRepository,
-        TourRepository $tourRepository,
-        BillService $billService
-    ) {
+        BillRepository        $billRepository,
+        SendMailService       $sendMailService,
+        OrderRepository       $orderRepository,
+        ScheduleRepository    $scheduleRepository,
+        VoucherRepository     $voucherRepository,
+        TourRepository        $tourRepository,
+        BillService           $billService
+    )
+    {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
@@ -103,28 +108,40 @@ class StripeService
      */
     public function eventHandler(array $data, string $type, array $metadata): void
     {
-        if ($type === self::CHECK_COMPLETED) {
-            $order = $this->orderRepository->find($metadata['orderId']);
-            $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
-            $tour = $this->tourRepository->find($metadata['tourId']);
+        switch ($type) {
+            case self::CHECK_COMPLETED:
+            {
+                $order = $this->orderRepository->find($metadata['orderId']);
+                $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
+                $tour = $this->tourRepository->find($metadata['tourId']);
 
-            if (!$order || !$schedule || !$tour) {
-                throw new NotFoundHttpException();
+                if (!$order || !$schedule || !$tour) {
+                    throw new NotFoundHttpException();
+                }
+                $bill = $this->billService->add($metadata, $data);
+                $this->completeCheckout($order, $schedule, $bill, $metadata['numberOfTickets']);
+                $this->sendMailService->sendBillMail(
+                    self::CHECKOUT_TITLE,
+                    $bill,
+                    $data['customer_details'],
+                    $metadata['userPhone'],
+                    $order,
+                    $tour
+                );
+                $this->stripe->checkout->sessions->expire(
+                    $data['id'],
+                    []
+                );
             }
-            $bill = $this->billService->add($metadata, $data);
-            $this->completeCheckout($order, $schedule, $bill, $metadata['numberOfTickets']);
-            $this->sendMailService->sendBillMail(
-                'Thank you',
-                $bill,
-                $data['customer_details'],
-                $metadata['userPhone'],
-                $order,
-                $tour
-            );
-            $this->stripe->checkout->sessions->expire(
-                $data['id'],
-                []
-            );
+            break;
+            case self::CHECK_REFUNDED :
+            {
+                $this->sendMailService->sendRefundMail(
+                    self::REFUND_TITLE,
+                    $data
+                );
+            }
+            break;
         }
     }
 

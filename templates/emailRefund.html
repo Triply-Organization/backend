@@ -1,53 +1,52 @@
 <!DOCTYPE html>
-<!-- saved from url=(0066)file:///C:/Users/PC18/Downloads/Telegram%20Desktop/RefundMail.html -->
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
 </head>
 <body>
 <div
         class="payment"
         style="
-        text-align: center;
-        color: #fff;
-        font-family: sans-serif !important;
-        max-width: 500px;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-      "
+  text-align: center;
+  color: #fff;
+  font-family: sans-serif !important;
+  max-width: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  "
 >
-    <div class="header" style="padding: 15px">
+    <div class="header" style="background-color: #1890ff; padding: 15px;">
         <img
-                src="./assets/Wavy_Bus-14_Single-04.jpg"
+                src="https://cdn4.iconfinder.com/data/icons/banking-and-finance-12/64/Refund-512.png"
                 alt="Thank you image"
-                style="max-width: 100%; max-height: 200px; object-fit: contain"
+                style="max-width: 100%; max-height: 200px; object-fit: contain;"
         />
-        <h3 style="color: #000">Hi %user%</h3>
-        <h2 style="color: #000">Refund successfully</h2>
+        <h3>Hi %email%</h3>
+        <h2>Refund successfully</h2>
     </div>
-    <div class="body" style="background-color: #fff; padding: 20px">
+    <div
+            class="body"
+            style="color: #444; background-color: #efefef; padding: 20px;"
+    >
         <div class="ticket-info">
-            <p style="margin-top: 0; color: #000">
+            <p style="margin-top: 0;">
                 Payment ID:
-                <span style="font-weight: 600; color: #000">%paymentId%</span>
+                <span style="font-weight: 600;">%paymentId%</span>
             </p>
-            <p style="color: #000">
+            <p>
                 Refund Date:
-                <span style="font-weight: 600; color: #000">%now%</span>
+                <span style="font-weight: 600;">%now%</span>
             </p>
         </div>
-        <hr style="max-width: 50%" />
-        <h3 style="font-size: 24px; color: #000">Total Price: $%totalPrice%</h3>
+        <hr style="max-width: 50%;" />
+        <h3 style="color: #003688; font-size: 24px;">Total Price: $%totalPrice%</h3>
+        <h3 style="color: #003688; font-size: 24px;">Total Price: $%totalRefund%</h3>
     </div>
-    <div class="footer" style="padding: 15px">
-        <p style="color: #000">Contact us if you have any problems</p>
-        <p style="color: #000">
-            <i>Copyright © 2022 Triply Booking Designed by Akatsuki Team</i>
-        </p>
+    <div class="footer" style="background-color: #1890ff; padding: 15px;">
+        <p>Contact us triplysupport@triply.asia if you have any problems</p>
+        <p><i>Copyright © 2022 Triply Booking Designed by Akatsuki</i></p>
     </div>
 </div>
 </body>

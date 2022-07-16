@@ -68,7 +68,39 @@ class SendMailService
         try {
             //Recipients
             $mail->addAddress($data['email']);
-            $body = $this->getEmailTemplate($bill, $data, $phone, $order, $tour);
+            $body = $this->getEmailBillTemplate($bill, $data, $phone, $order, $tour);
+            //Content
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+            $mail->send();
+
+            $event = new EmailEvent($mail);
+            $this->dispatcher->dispatch($event, EmailEvent::SEND);
+        } catch (Exception $e) {
+            throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function sendRefundMail(
+        string $subject,
+        array $data,
+    ): void {
+        $mail = $this->zohoMailConfig();
+
+        try {
+            //Recipients
+            $mail->addAddress($data['billing_details']['email']);
+
+            $body = $this->getEmailRefundTemplate(
+                $data['amount_captured'],
+                $data['payment_intent'],
+                $data['billing_details']['email'],
+                $data['amount_refunded'],
+            );
             //Content
             $mail->isHTML(true);
             $mail->Subject = $subject;
@@ -114,7 +146,7 @@ class SendMailService
         return $mail;
     }
 
-    private function getEmailTemplate(
+    private function getEmailBillTemplate(
         Bill  $bill,
         array $data,
         string $phone,
@@ -131,6 +163,24 @@ class SendMailService
         $mailBody = str_replace('%tourTitle%', $tour->getTitle(), $mailBody);
         $mailBody = str_replace('%totalBill%', $bill->getTotalPrice(), $mailBody);
 
+
+        return $mailBody;
+    }
+
+    private function getEmailRefundTemplate(
+        float $totalPrice,
+        string $paymentId,
+        string $email,
+        float $amountRefund,
+    ): string {
+        $now = new \DateTime();
+        $refundDate = $now->format('Y-m-d');
+        $mailBody = file_get_contents(dirname(__DIR__, 2) . '/templates/emailRefund.html');
+        $mailBody = str_replace('%email%', $email, $mailBody);
+        $mailBody = str_replace('%paymentId%', $paymentId, $mailBody);
+        $mailBody = str_replace('%now%', $refundDate, $mailBody);
+        $mailBody = str_replace('%totalPrice%', $totalPrice/100, $mailBody);
+        $mailBody = str_replace('%totalRefund%', $amountRefund/100, $mailBody);
 
         return $mailBody;
     }
