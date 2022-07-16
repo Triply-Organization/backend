@@ -31,7 +31,7 @@ class OrderRepository extends BaseRepository
 
     public function getAllOrder(UserGetAllOrderRequest $userGetAllOrderRequest, UserInterface $user): array
     {
-        $query = $this->queryTours($user);
+        $query = $this->queryOrders($user);
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $totalOrders = count($paginator);
         $pageCount = ceil($totalOrders / self::PAGE_SIZE);
@@ -51,7 +51,7 @@ class OrderRepository extends BaseRepository
         ];
     }
 
-    public function queryTours(UserInterface $user): QueryBuilder
+    public function queryOrders(UserInterface $user): QueryBuilder
     {
         $query = $this->createQueryBuilder(static::ORDER_ALIAS);
         $query = $this->filter($query, self::ORDER_ALIAS, 'user', $user->getId());

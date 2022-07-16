@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Bill;
+use App\Entity\Order;
+use App\Entity\Schedule;
 use App\Repository\BillRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ScheduleRepository;
@@ -22,6 +24,9 @@ class StripeService
 {
     private const USD_CURRENCY = 'usd';
     private const CHECK_COMPLETED = 'checkout.session.completed';
+    private const CHECK_REFUNDED = 'charge.refunded';
+    private const CHECKOUT_TITLE = 'Thank You';
+    private const REFUND_TITLE = 'Refund';
     private const DAYS_REMAIN_FIFTEEN = 15;
     private const DAYS_REMAIN_SEVEN = 7;
     private const DAYS_REMAIN_THREE = 3;
@@ -39,17 +44,19 @@ class StripeService
     private BillService $billService;
     private VoucherRepository $voucherRepository;
     private TourRepository $tourRepository;
+    private StripeClient $stripe;
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository $billRepository,
-        SendMailService $sendMailService,
-        OrderRepository $orderRepository,
-        ScheduleRepository $scheduleRepository,
-        VoucherRepository $voucherRepository,
-        TourRepository $tourRepository,
-        BillService $billService
-    ) {
+        BillRepository        $billRepository,
+        SendMailService       $sendMailService,
+        OrderRepository       $orderRepository,
+        ScheduleRepository    $scheduleRepository,
+        VoucherRepository     $voucherRepository,
+        TourRepository        $tourRepository,
+        BillService           $billService
+    )
+    {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;
@@ -101,36 +108,40 @@ class StripeService
      */
     public function eventHandler(array $data, string $type, array $metadata): void
     {
-        if ($type === self::CHECK_COMPLETED) {
-            $order = $this->orderRepository->find($metadata['orderId']);
-            $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
-            $tour = $this->tourRepository->find($metadata['tourId']);
+        switch ($type) {
+            case self::CHECK_COMPLETED:
+            {
+                $order = $this->orderRepository->find($metadata['orderId']);
+                $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
+                $tour = $this->tourRepository->find($metadata['tourId']);
 
-            if (!$order || !$schedule || !$tour) {
-                throw new NotFoundHttpException();
+                if (!$order || !$schedule || !$tour) {
+                    throw new NotFoundHttpException();
+                }
+                $bill = $this->billService->add($metadata, $data);
+                $this->completeCheckout($order, $schedule, $bill, $metadata['numberOfTickets']);
+                $this->sendMailService->sendBillMail(
+                    self::CHECKOUT_TITLE,
+                    $bill,
+                    $data['customer_details'],
+                    $metadata['userPhone'],
+                    $order,
+                    $tour
+                );
+                $this->stripe->checkout->sessions->expire(
+                    $data['id'],
+                    []
+                );
             }
-            $bill = $this->billService->add($metadata, $data);
-            $order->setStatus('paid');
-            $order->setBill($bill);
-            $this->orderRepository->add($order, true);
-
-            $schedule->setTicketRemain($schedule->getTicketRemain() - $metadata['numberOfTickets']);
-            $schedule->setUpdatedAt(new \DateTimeImmutable());
-            $this->scheduleRepository->add($schedule, true);
-
-            $this->sendMailService->sendBillMail(
-                'Thank you',
-                $bill,
-                $data['customer_details'],
-                $metadata['userPhone'],
-                $order,
-                $tour
-            );
-
-            $this->stripe->checkout->sessions->expire(
-                $data['id'],
-                []
-            );
+            break;
+            case self::CHECK_REFUNDED :
+            {
+                $this->sendMailService->sendRefundMail(
+                    self::REFUND_TITLE,
+                    $data
+                );
+            }
+            break;
         }
     }
 
@@ -182,6 +193,18 @@ class StripeService
             'taxPrice' => $checkoutRequestData->getTaxPrice(),
             'numberOfTickets' => $checkoutRequestData->getNumberOfTickets(),
         ];
+    }
+
+    private function completeCheckout(Order $order, Schedule $schedule, Bill $bill, int $numberOfTickets): void
+    {
+        $order->setStatus('paid');
+        $order->setBill($bill);
+        $this->orderRepository->add($order, true);
+
+        $schedule->setTicketRemain($schedule->getTicketRemain() - $numberOfTickets);
+        $schedule->setUpdatedAt(new \DateTimeImmutable());
+        $this->scheduleRepository->add($schedule, true);
+
     }
 
     private function minusVoucher(int $voucherId): void
