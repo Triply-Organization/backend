@@ -96,7 +96,7 @@ class TourRepository extends BaseRepository
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
             foreach ($guests as $guest) {
-                $query = $this->moreFilter($query, self::TICKET_TYPE_ALIAS, 'id', $guest);
+                $query = $this->moreFilter($query, self::PRICE_LIST_ALIAS, 'type', $guest);
             }
         }
         $query = $this->andBetween($query, self::PRICE_LIST_ALIAS, 'price', $listTourRequest->getStartPrice(), $listTourRequest->getEndPrice());
@@ -142,13 +142,13 @@ class TourRepository extends BaseRepository
 
     private function join(QueryBuilder $query)
     {
-        $query->leftJoin(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
+
+        $query->join(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
         $query->join(Destination::class, static::DESTINATION_ALIAS, 'WITH', 'tp.destination = d.id');
-        $query->leftJoin(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
+        $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
         $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
-        $query->leftJoin(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
-        $query->leftJoin(PriceList::class, static::PRICE_LIST_ALIAS, 'WITH', 'sch.id = pl.schedule');
-        $query->join(TicketType::class, static::TICKET_TYPE_ALIAS, 'WITH', 'pl.type = tt.id');
+        $query->join(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
+        $query->join(PriceList::class, static::PRICE_LIST_ALIAS, 'WITH', 'sch.id = pl.schedule');
 
         return $query;
     }
