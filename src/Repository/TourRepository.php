@@ -91,7 +91,12 @@ class TourRepository extends BaseRepository
         $query = $this->createQueryBuilder(static::TOUR_ALIAS);
         $query = $this->join($query);
         $query = $this->filter($query, self::DESTINATION_ALIAS, 'name', $listTourRequest->getDestination());
-        $query = $this->moreFilter($query, self::SERVICE_ALIAS, 'id', $listTourRequest->getService());
+        $services = $listTourRequest->getServices();
+        if (!empty($services)) {
+            foreach ($services as $service) {
+                $query = $this->moreFilter($query, self::TOUR_SERVICE_ALIAS, 'service', $service);
+            }
+        }
         $query = $this->moreFilter($query, self::SCHEDULE_ALIAS, 'startDate', $listTourRequest->getStartDate());
         $guests = $listTourRequest->getGuests();
         if (!empty($guests)) {
@@ -142,11 +147,9 @@ class TourRepository extends BaseRepository
 
     private function join(QueryBuilder $query)
     {
-
         $query->join(TourPlan::class, static::TOUR_PLAN_ALIAS, 'WITH', 't.id = tp.tour');
         $query->join(Destination::class, static::DESTINATION_ALIAS, 'WITH', 'tp.destination = d.id');
         $query->join(TourService::class, static::TOUR_SERVICE_ALIAS, 'WITH', 't.id = ts.tour');
-        $query->join(Service::class, static::SERVICE_ALIAS, 'WITH', 'ts.service = s.id');
         $query->join(Schedule::class, static::SCHEDULE_ALIAS, 'WITH', 't.id = sch.tour');
         $query->join(PriceList::class, static::PRICE_LIST_ALIAS, 'WITH', 'sch.id = pl.schedule');
 
