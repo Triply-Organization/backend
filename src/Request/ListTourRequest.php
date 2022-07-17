@@ -11,7 +11,7 @@ class ListTourRequest extends BaseRequest
     public const ORDER_BY_LIST = ['asc', 'desc'];
     public const DEFAULT_ORDER_TYPE = 'createdAt';
     public const DEFAULT_ORDER_BY = 'desc';
-    public const DEFAULT_OFFSET = 1;
+    public const DEFAULT_OFFSET = 0;
     public const DEFAULT_PAGE = 1;
 
     #[Assert\Type('numeric')]
@@ -47,8 +47,8 @@ class ListTourRequest extends BaseRequest
     #[Assert\Type('array')]
     private $guests;
 
-    #[Assert\Type('numeric')]
-    private $service;
+    #[Assert\Type('array')]
+    private $services;
 
     #[Assert\Date]
     private $startDate;
@@ -88,18 +88,19 @@ class ListTourRequest extends BaseRequest
     /**
      * @return mixed
      */
-    public function getService()
+    public function getServices()
     {
-        return $this->service;
+        return $this->services;
     }
 
     /**
-     * @param mixed $service
+     * @param mixed $services
      */
-    public function setService($service): void
+    public function setServices($services): void
     {
-        $this->service = $service;
+        $this->services = $services;
     }
+
 
     /**
      * @return int
