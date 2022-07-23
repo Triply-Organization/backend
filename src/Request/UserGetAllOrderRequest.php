@@ -66,5 +66,4 @@ class UserGetAllOrderRequest extends BaseRequest
     {
         $this->page = $page;
     }
-
 }

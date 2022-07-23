@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class BillServiceTest extends TestCase
 {
-
     public function testAddBill()
     {
         $billRepositoryMock = $this->getMockBuilder(BillRepository::class)->disableOriginalConstructor()->getMock();

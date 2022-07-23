@@ -49,8 +49,15 @@ class UserServiceTest extends TestCase
         $array['page'] = 1;
         $array['totalOrders'] = 1;
         $this->orderRepositoryMock->expects($this->once())->method('getAllOrder')->willReturn($array);
-        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
-            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $userService = new UserService(
+            $this->userRepositoryMock,
+            $this->userTransformerMock,
+            $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock,
+            $this->orderRepositoryMock,
+            $this->orderTransformerMock,
+            $this->paramsMock
+        );
         $userGetAllOrder = $userService->getAllOrder($getAllOrderRequest, $user);
 
         $this->assertIsArray($userGetAllOrder);
@@ -65,8 +72,15 @@ class UserServiceTest extends TestCase
         $array['page'] = 1;
         $array['totalUsers'] = 1;
         $this->userRepositoryMock->expects($this->once())->method('getAll')->willReturn($array);
-        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
-            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $userService = new UserService(
+            $this->userRepositoryMock,
+            $this->userTransformerMock,
+            $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock,
+            $this->orderRepositoryMock,
+            $this->orderTransformerMock,
+            $this->paramsMock
+        );
         $getUser = $userService->getUsers($userRequest);
 
         $this->assertIsArray($getUser);
@@ -78,8 +92,15 @@ class UserServiceTest extends TestCase
         $userMock->method('getId')->willReturn(1);
         $this->reviewRepositoryMock->expects($this->once())->method('undoDeleteWithRelation')->willReturn(array());
         $this->userRepositoryMock->expects($this->once())->method('undoDelete')->willReturn(array());
-        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
-            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $userService = new UserService(
+            $this->userRepositoryMock,
+            $this->userTransformerMock,
+            $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock,
+            $this->orderRepositoryMock,
+            $this->orderTransformerMock,
+            $this->paramsMock
+        );
 
         $undoDeleteUser = $userService->undoDeleteUser($userMock);
         $this->assertTrue($undoDeleteUser);
@@ -89,8 +110,15 @@ class UserServiceTest extends TestCase
     {
         $userMock = $this->getMockBuilder(User::class)->getMock();
         $userMock->method('getId')->willReturn(1);
-        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
-            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $userService = new UserService(
+            $this->userRepositoryMock,
+            $this->userTransformerMock,
+            $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock,
+            $this->orderRepositoryMock,
+            $this->orderTransformerMock,
+            $this->paramsMock
+        );
         $this->reviewRepositoryMock->expects($this->once())->method('deleteWithRelation');
         $this->userRepositoryMock->expects($this->once())->method('delete');
 
@@ -102,8 +130,15 @@ class UserServiceTest extends TestCase
     {
         $user = new User();
         $patchUpdateUserRequest = new PatchUpdateUserRequest();
-        $userService = new UserService($this->userRepositoryMock, $this->userTransformerMock, $this->userUpdateMapperMock,
-            $this->reviewRepositoryMock, $this->orderRepositoryMock, $this->orderTransformerMock,  $this->paramsMock);
+        $userService = new UserService(
+            $this->userRepositoryMock,
+            $this->userTransformerMock,
+            $this->userUpdateMapperMock,
+            $this->reviewRepositoryMock,
+            $this->orderRepositoryMock,
+            $this->orderTransformerMock,
+            $this->paramsMock
+        );
         $this->userRepositoryMock->expects($this->once())->method('add');
 
         $result = $userService->update($user, $patchUpdateUserRequest);

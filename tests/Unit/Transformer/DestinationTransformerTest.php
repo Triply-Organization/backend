@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class DestinationTransformerTest extends TestCase
 {
-
     public function testToArray(): void
     {
         $destination = new Destination();
@@ -21,7 +20,6 @@ class DestinationTransformerTest extends TestCase
             "name" => "Can Tho",
         ];
         $this->assertEquals($expectedArray, $destinationTransformer);
-
     }
 
     public function testTransform()
@@ -37,6 +35,4 @@ class DestinationTransformerTest extends TestCase
             'destination' => 'Can Tho'
         ], $result);
     }
-
-
 }

@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageTransformerTest extends TestCase
 {
-
     public function testFromArray()
     {
         $image = new Image();

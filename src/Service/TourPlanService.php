@@ -30,7 +30,7 @@ class TourPlanService
         $this->destinationTransformer = $destinationTransformer;
     }
 
-    public function addTourPlan(TourRequest $tourRequest, Tour $tour): void
+    public function addTourPlan(TourRequest $tourRequest, Tour $tour): bool
     {
         foreach ($tourRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
@@ -45,6 +45,7 @@ class TourPlanService
             $tourPlan->setTour($tour);
             $this->tourPlanRepository->add($tourPlan);
         }
+        return true;
     }
 
     public function getTourPlan($plans): array
@@ -67,7 +68,7 @@ class TourPlanService
         return $listDestinations;
     }
 
-    public function updateTourPlan(TourUpdateRequest $tourUpdateRequest): void
+    public function updateTourPlan(TourUpdateRequest $tourUpdateRequest): bool
     {
         foreach ($tourUpdateRequest->getTourPlans() as $tourPlanRequest) {
             $destination = $this->destinationRepository->find($tourPlanRequest['destination']);
@@ -85,5 +86,6 @@ class TourPlanService
             $tourPlan->setUpdatedAt(new \DateTimeImmutable());
             $this->tourPlanRepository->add($tourPlan);
         }
+        return true;
     }
 }

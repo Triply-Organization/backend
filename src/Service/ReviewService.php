@@ -229,7 +229,7 @@ class ReviewService
         return $results;
     }
 
-    private function addRate(ReviewRequest $reviewRequest, Review $review): bool
+    public function addRate(ReviewRequest $reviewRequest, Review $review): bool
     {
         $bool = true;
         foreach ($reviewRequest->getRate() as $rate) {

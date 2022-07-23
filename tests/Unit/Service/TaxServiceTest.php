@@ -38,7 +38,7 @@ class TaxServiceTest extends TestCase
 
     public function testAddTaxService()
     {
-        $addTaxRequest = new AddTaxRequest;
+        $addTaxRequest = new AddTaxRequest();
         $addTaxRequest->setPercent(12);
         $addTaxRequest->setCurrency('STRING');
         $taxRepositoryMock = $this->getMockBuilder(TaxRepository::class)->disableOriginalConstructor()->getMock();

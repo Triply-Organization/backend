@@ -56,7 +56,7 @@ class OrderRepository extends BaseRepository
         $query = $this->createQueryBuilder(static::ORDER_ALIAS);
         $query = $this->filter($query, self::ORDER_ALIAS, 'user', $user->getId());
         $query = $this->andIsNull($query, self::ORDER_ALIAS, 'deletedAt');
-        $query = $this->sortBy($query, self::ORDER_ALIAS, 'createdAt' , 'DESC');
+        $query = $this->sortBy($query, self::ORDER_ALIAS, 'createdAt', 'DESC');
         $query = $query->groupBy('o.id');
 
         return $query;

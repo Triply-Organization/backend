@@ -17,10 +17,9 @@ class OrderTransformer extends BaseTransformer
 
     public function __construct(
         ParameterBagInterface $params,
-        OrderService          $orderService,
-        VoucherService        $voucherService,
-    )
-    {
+        OrderService $orderService,
+        VoucherService $voucherService,
+    ) {
         $this->orderService = $orderService;
         $this->params = $params;
         $this->voucherService = $voucherService;
@@ -91,7 +90,7 @@ class OrderTransformer extends BaseTransformer
         return $result;
     }
 
-    public function orderToArray(Order $order)
+    public function orderToArray(Order $order): array
     {
         $result = $this->toArray($order);
         foreach ($this->voucherService->getAllDisCount() as $key => $voucher) {
@@ -110,7 +109,7 @@ class OrderTransformer extends BaseTransformer
         return $result;
     }
 
-    public function detailToArray(Order $order)
+    public function detailToArray(Order $order): array
     {
         $result = $this->toArray($order);
         if ($order->getBill() !== null) {
@@ -124,7 +123,7 @@ class OrderTransformer extends BaseTransformer
         return $result;
     }
 
-    private function ticketInfoReturn(array $ticketInfos): array
+    public function ticketInfoReturn(array $ticketInfos): array
     {
         $arrayResult = [];
         foreach ($ticketInfos as $ticketInfo) {

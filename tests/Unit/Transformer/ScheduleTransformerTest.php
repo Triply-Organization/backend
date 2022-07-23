@@ -25,7 +25,7 @@ class ScheduleTransformerTest extends TestCase
             'id' => null,
             'ticket' => [],
             'ticketRemain' => 50,
-            'startDate' => '2022-07-12'
+            'startDate' => '2022-07-23'
         ], $result);
     }
 

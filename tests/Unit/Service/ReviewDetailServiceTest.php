@@ -7,7 +7,7 @@ use App\Entity\TypeReview;
 use App\Service\ReviewDetailService;
 use PHPUnit\Framework\TestCase;
 
-class ReviewDetailServiceTest extends  TestCase
+class ReviewDetailServiceTest extends TestCase
 {
     public function testGetTypeRating()
     {

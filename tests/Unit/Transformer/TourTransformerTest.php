@@ -31,7 +31,6 @@ class TourTransformerTest extends TestCase
         $this->paramsMock = $this->getMockBuilder(ParameterBagInterface::class)->disableOriginalConstructor()->getMock();
         $this->tourPlanServiceMock = $this->getMockBuilder(TourPlanService::class)->disableOriginalConstructor()->getMock();
         $this->reviewServiceMock = $this->getMockBuilder(ReviewService::class)->disableOriginalConstructor()->getMock();
-
     }
 
     public function testToArray(): void
@@ -70,8 +69,13 @@ class TourTransformerTest extends TestCase
         $tour = new Tour();
         $tour->setCreatedUser($user);
         $this->scheduleServiceMock->expects($this->once())->method('getPrice')->willReturn(array());
-        $tourTransformer = new TourTransformer($this->tourServiceMock, $this->scheduleServiceMock,
-            $this->paramsMock, $this->tourPlanServiceMock, $this->reviewServiceMock);
+        $tourTransformer = new TourTransformer(
+            $this->tourServiceMock,
+            $this->scheduleServiceMock,
+            $this->paramsMock,
+            $this->tourPlanServiceMock,
+            $this->reviewServiceMock
+        );
         $result = $tourTransformer->toArrayOfAdmin($tour);
         $this->assertIsArray($result);
     }
@@ -84,10 +88,14 @@ class TourTransformerTest extends TestCase
         $tourPlan = new TourPlan();
         $tourPlan->setDestination($destination);
         $tour->addSchedule($schedule)->addTourPlan($tourPlan);
-        $tourTransformer = new TourTransformer($this->tourServiceMock, $this->scheduleServiceMock,
-            $this->paramsMock, $this->tourPlanServiceMock, $this->reviewServiceMock);
+        $tourTransformer = new TourTransformer(
+            $this->tourServiceMock,
+            $this->scheduleServiceMock,
+            $this->paramsMock,
+            $this->tourPlanServiceMock,
+            $this->reviewServiceMock
+        );
         $result = $tourTransformer->toArrayOfCustomer($tour);
         $this->assertIsArray($result);
-
     }
 }

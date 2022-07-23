@@ -20,8 +20,7 @@ class ReviewTransformerTest extends TestCase
         $review->setOrderDetail($orderDetail);
         $reviewTransformer = new ReviewTransformer();
         $result = $reviewTransformer->toArray($review);
-        $this->assertEquals(['idOrder' => null, 'idReview' => null], $result
-        );
+        $this->assertEquals(['idOrder' => null, 'idReview' => null], $result);
     }
 
     public function testToArrayAdmin()

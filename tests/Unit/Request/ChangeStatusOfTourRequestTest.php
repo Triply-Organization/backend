@@ -2,7 +2,6 @@
 
 namespace App\Tests\Unit\Request;
 
-
 use App\Request\ChangeStatusOfTourRequest;
 use PHPUnit\Framework\TestCase;
 
