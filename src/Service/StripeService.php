@@ -111,23 +111,8 @@ class StripeService
         switch ($type) {
             case self::CHECK_COMPLETED:
             {
-                $order = $this->orderRepository->find($metadata['orderId']);
-                $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
-                $tour = $this->tourRepository->find($metadata['tourId']);
+                $this->completeCheckout($data, $metadata);
 
-                if (!$order || !$schedule || !$tour) {
-                    throw new NotFoundHttpException();
-                }
-                $bill = $this->billService->add($metadata, $data);
-                $this->completeCheckout($order, $schedule, $bill, $metadata['numberOfTickets']);
-                $this->sendMailService->sendBillMail(
-                    self::CHECKOUT_TITLE,
-                    $bill,
-                    $data['customer_details'],
-                    $metadata['userPhone'],
-                    $order,
-                    $tour
-                );
                 $this->stripe->checkout->sessions->expire(
                     $data['id'],
                     []
@@ -195,16 +180,37 @@ class StripeService
         ];
     }
 
-    private function completeCheckout(Order $order, Schedule $schedule, Bill $bill, int $numberOfTickets): void
+    /**
+     * @throws Exception
+     */
+    private function completeCheckout(array $data, array $metadata): void
     {
+        $order = $this->orderRepository->find($metadata['orderId']);
+        $schedule = $this->scheduleRepository->find($metadata['scheduleId']);
+        $tour = $this->tourRepository->find($metadata['tourId']);
+
+        if (!$order || !$schedule || !$tour) {
+            throw new NotFoundHttpException();
+        }
+
+        $bill = $this->billService->add($metadata, $data);
+
         $order->setStatus('paid');
         $order->setBill($bill);
         $this->orderRepository->add($order, true);
 
-        $schedule->setTicketRemain($schedule->getTicketRemain() - $numberOfTickets);
+        $schedule->setTicketRemain($schedule->getTicketRemain() - $metadata['numberOfTickets']);
         $schedule->setUpdatedAt(new \DateTimeImmutable());
         $this->scheduleRepository->add($schedule, true);
 
+        $this->sendMailService->sendBillMail(
+            self::CHECKOUT_TITLE,
+            $bill,
+            $data['customer_details'],
+            $metadata['userPhone'],
+            $order,
+            $tour
+        );
     }
 
     private function minusVoucher(int $voucherId): void
