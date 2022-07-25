@@ -2,7 +2,9 @@
 
 namespace App\Tests\Unit\Service;
 
+use App\Entity\Tour;
 use App\Entity\User;
+use App\Repository\BillRepository;
 use App\Repository\TourRepository;
 use App\Repository\UserRepository;
 use App\Request\UserRequest;
@@ -24,7 +26,8 @@ class CustomerServiceTest extends TestCase
         ]);
         $userTransformerMock = $this->getMockBuilder(UserTransformer::class)->disableOriginalConstructor()->getMock();
         $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
-        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock);
+        $billRepositoryMock = $this->getMockBuilder(BillRepository::class)->disableOriginalConstructor()->getMock();
+        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock, $billRepositoryMock);
         $result = $customerService->getCustomers($customerRequest);
         $this->assertIsArray($result);
     }
@@ -38,7 +41,8 @@ class CustomerServiceTest extends TestCase
         $userTransformerMock = $this->getMockBuilder(UserTransformer::class)->disableOriginalConstructor()->getMock();
         $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
         $tourRepositoryMock->expects($this->once())->method('deleteWithRelation')->willReturn([]);
-        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock);
+        $billRepositoryMock = $this->getMockBuilder(BillRepository::class)->disableOriginalConstructor()->getMock();
+        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock, $billRepositoryMock);
         $result = $customerService->deleteCustomer($user);
 
         $this->assertTrue($result);
@@ -52,10 +56,25 @@ class CustomerServiceTest extends TestCase
         $userRepositoryMock->expects($this->once())->method('undoDelete')->willReturn([]);
         $userTransformerMock = $this->getMockBuilder(UserTransformer::class)->disableOriginalConstructor()->getMock();
         $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
+        $billRepositoryMock = $this->getMockBuilder(BillRepository::class)->disableOriginalConstructor()->getMock();
         $tourRepositoryMock->expects($this->once())->method('undoDeleteWithRelation')->willReturn([]);
-        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock);
+        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock, $billRepositoryMock);
         $result = $customerService->undoDeleteCustomer($user);
 
         $this->assertTrue($result);
+    }
+
+    public function testGetAllStripeId()
+    {
+        $tourMock = $this->getMockBuilder(Tour::class)->getMock();
+        $tourMock->method('getId')->willReturn(1);
+        $userRepositoryMock = $this->getMockBuilder(UserRepository::class)->disableOriginalConstructor()->getMock();
+        $userTransformerMock = $this->getMockBuilder(UserTransformer::class)->disableOriginalConstructor()->getMock();
+        $tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
+        $billRepositoryMock = $this->getMockBuilder(BillRepository::class)->disableOriginalConstructor()->getMock();
+        $billRepositoryMock->expects($this->once())->method('getAllStripeId')->willReturn(array());
+        $customerService = new CustomerService($userRepositoryMock, $userTransformerMock, $tourRepositoryMock, $billRepositoryMock);
+        $result = $customerService->getAllStripeId($tourMock);
+        $this->assertIsArray($result);
     }
 }

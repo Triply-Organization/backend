@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TourImageTransformerTest extends TestCase
 {
-
     public function testToArray()
     {
         $image = new Image();

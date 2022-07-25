@@ -24,7 +24,7 @@ class RegisterMapperTest extends TestCase
         $registerRequest->setRoles(['ROLE_USER']);
         $registerRequest->setPhone('0123456789');
         $registerRequest->setImageId(1);
-        $registerMapper= new RegisterMapper($imageRepositoryMock);
+        $registerMapper = new RegisterMapper($imageRepositoryMock);
         $result = $registerMapper->mapping($registerRequest);
 
         $this->assertEquals(null, $result->getId());

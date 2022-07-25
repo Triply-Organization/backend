@@ -39,8 +39,14 @@ class ScheduleServiceTest extends TestCase
     public function testGetFunction()
     {
         $this->scheduleRepositoryMock->expects($this->once())->method('findBy')->willReturn(array());
-        $scheduleService = new ScheduleService($this->scheduleTransformerMock, $this->tourRepositoryMock, $this->scheduleRepositoryMock,
-        $this->securityMock, $this->priceListRepositoryMock, $this->priceListServiceMock);
+        $scheduleService = new ScheduleService(
+            $this->scheduleTransformerMock,
+            $this->tourRepositoryMock,
+            $this->scheduleRepositoryMock,
+            $this->securityMock,
+            $this->priceListRepositoryMock,
+            $this->priceListServiceMock
+        );
         $tour = new Tour();
         $schedules = [];
         $resultOne = $scheduleService->getAllScheduleOfCustomer($tour);
@@ -57,8 +63,14 @@ class ScheduleServiceTest extends TestCase
         $tour->setCreatedUser($user);
         $this->tourRepositoryMock->expects($this->once())->method('find')->willReturn($tour);
         $this->securityMock->expects($this->once())->method('getUser')->willReturn($user);
-        $scheduleService = new ScheduleService($this->scheduleTransformerMock, $this->tourRepositoryMock, $this->scheduleRepositoryMock,
-            $this->securityMock, $this->priceListRepositoryMock, $this->priceListServiceMock);
+        $scheduleService = new ScheduleService(
+            $this->scheduleTransformerMock,
+            $this->tourRepositoryMock,
+            $this->scheduleRepositoryMock,
+            $this->securityMock,
+            $this->priceListRepositoryMock,
+            $this->priceListServiceMock
+        );
 
         $result = $scheduleService->checkTour($tour);
         $this->assertTrue($result);
@@ -68,8 +80,14 @@ class ScheduleServiceTest extends TestCase
     {
         $tour = new Tour();
         $this->tourRepositoryMock->expects($this->once())->method('find')->willReturn(null);
-        $scheduleService = new ScheduleService($this->scheduleTransformerMock, $this->tourRepositoryMock, $this->scheduleRepositoryMock,
-            $this->securityMock, $this->priceListRepositoryMock, $this->priceListServiceMock);
+        $scheduleService = new ScheduleService(
+            $this->scheduleTransformerMock,
+            $this->tourRepositoryMock,
+            $this->scheduleRepositoryMock,
+            $this->securityMock,
+            $this->priceListRepositoryMock,
+            $this->priceListServiceMock
+        );
 
         $result = $scheduleService->checkTour($tour);
         $this->assertFalse($result);
@@ -83,8 +101,14 @@ class ScheduleServiceTest extends TestCase
         $scheduleRequest->setRemain(5);
         $this->scheduleRepositoryMock->expects($this->once())->method('add');
         $this->priceListServiceMock->expects($this->once())->method('addListPrice');
-        $scheduleService = new ScheduleService($this->scheduleTransformerMock, $this->tourRepositoryMock, $this->scheduleRepositoryMock,
-            $this->securityMock, $this->priceListRepositoryMock, $this->priceListServiceMock);
+        $scheduleService = new ScheduleService(
+            $this->scheduleTransformerMock,
+            $this->tourRepositoryMock,
+            $this->scheduleRepositoryMock,
+            $this->securityMock,
+            $this->priceListRepositoryMock,
+            $this->priceListServiceMock
+        );
         $result = $scheduleService->addSchedule($scheduleRequest, $tour);
         $this->assertTrue($result);
     }
@@ -100,8 +124,14 @@ class ScheduleServiceTest extends TestCase
         $this->priceListServiceMock->expects($this->once())->method('updateListPrice');
         $this->scheduleRepositoryMock->expects($this->any())->method('add');
         $this->priceListRepositoryMock->expects($this->once())->method('add');
-        $scheduleService = new ScheduleService($this->scheduleTransformerMock, $this->tourRepositoryMock, $this->scheduleRepositoryMock,
-            $this->securityMock, $this->priceListRepositoryMock, $this->priceListServiceMock);
+        $scheduleService = new ScheduleService(
+            $this->scheduleTransformerMock,
+            $this->tourRepositoryMock,
+            $this->scheduleRepositoryMock,
+            $this->securityMock,
+            $this->priceListRepositoryMock,
+            $this->priceListServiceMock
+        );
         $result = $scheduleService->updateSchedule($scheduleUpdateRequest, $schedule);
         $this->assertTrue($result);
     }

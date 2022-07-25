@@ -51,7 +51,7 @@ class TourTransformer extends BaseTransformer
     {
         $result = $this->transform($tour, static::ADMIN_PARAMS);
         $result['schedule'] = $this->scheduleService->getPrice($tour->getSchedules()->toArray());
-        if(!$tour->getSchedules()->getValues()) {
+        if (!$tour->getSchedules()->getValues()) {
             $result['schedule'] = null;
         }
         $result['createdUser'] = $tour->getCreatedUser()->getEmail();

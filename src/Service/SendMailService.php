@@ -57,11 +57,11 @@ class SendMailService
      */
     public function sendBillMail(
         string $subject,
-        Bill   $bill,
-        array  $data,
+        Bill $bill,
+        array $data,
         string $phone,
-        Order  $order,
-        Tour   $tour,
+        Order $order,
+        Tour $tour,
     ): void {
         $mail = $this->zohoMailConfig();
 
@@ -147,17 +147,17 @@ class SendMailService
     }
 
     private function getEmailBillTemplate(
-        Bill  $bill,
+        Bill $bill,
         array $data,
         string $phone,
         Order $order,
-        Tour  $tour
+        Tour $tour
     ): string {
         $mailBody = file_get_contents(dirname(__DIR__, 2) . '/templates/emailBill.html');
         $mailBody = str_replace('%orderId%', $order->getId(), $mailBody);
         $mailBody = str_replace('%name%', $data['name'], $mailBody);
         $mailBody = str_replace('%phone%', $phone, $mailBody);
-        $mailBody = str_replace('%tourImage%',$this->params->get('s3url') .
+        $mailBody = str_replace('%tourImage%', $this->params->get('s3url') .
             $tour->getTourImages()[0]->getImage()->getPath(), $mailBody);
         $mailBody = str_replace('%email%', $data['email'], $mailBody);
         $mailBody = str_replace('%tourTitle%', $tour->getTitle(), $mailBody);
@@ -179,8 +179,8 @@ class SendMailService
         $mailBody = str_replace('%email%', $email, $mailBody);
         $mailBody = str_replace('%paymentId%', $paymentId, $mailBody);
         $mailBody = str_replace('%now%', $refundDate, $mailBody);
-        $mailBody = str_replace('%totalPrice%', $totalPrice/100, $mailBody);
-        $mailBody = str_replace('%totalRefund%', $amountRefund/100, $mailBody);
+        $mailBody = str_replace('%totalPrice%', $totalPrice / 100, $mailBody);
+        $mailBody = str_replace('%totalRefund%', $amountRefund / 100, $mailBody);
 
         return $mailBody;
     }

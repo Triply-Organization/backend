@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class TicketTransformerTest extends TestCase
 {
-
     public function testToArray()
     {
 

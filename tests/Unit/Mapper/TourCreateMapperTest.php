@@ -33,5 +33,4 @@ class TourCreateMapperTest extends TestCase
         $this->assertEquals('Good tour', $result->getOverView());
         $this->assertEquals($user, $result->getCreatedUser());
     }
-
 }

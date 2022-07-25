@@ -19,11 +19,11 @@ class ListTourRequestTest extends TestCase
         $request->setLimit(6);
         $request->setOffset(0);
         $request->setPage(1);
-        $request->setService(3);
+        $request->setServices(3);
         $request->setStartPrice(100);
 
         $this->assertEquals('2022-06-22', $request->getStartDate());
-        $this->assertEquals(3, $request->getService());
+        $this->assertEquals(3, $request->getServices());
         $this->assertEquals(1, $request->getPage());
         $this->assertEquals('Can Tho', $request->getDestination());
         $this->assertEquals(1, $request->getGuests());
@@ -33,6 +33,5 @@ class ListTourRequestTest extends TestCase
         $this->assertEquals(200, $request->getEndPrice());
         $this->assertEquals(0, $request->getOffset());
         $this->assertEquals(100, $request->getStartPrice());
-
     }
 }

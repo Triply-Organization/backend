@@ -48,15 +48,14 @@ class StripeService
 
     public function __construct(
         ParameterBagInterface $params,
-        BillRepository        $billRepository,
-        SendMailService       $sendMailService,
-        OrderRepository       $orderRepository,
-        ScheduleRepository    $scheduleRepository,
-        VoucherRepository     $voucherRepository,
-        TourRepository        $tourRepository,
-        BillService           $billService
-    )
-    {
+        BillRepository $billRepository,
+        SendMailService $sendMailService,
+        OrderRepository $orderRepository,
+        ScheduleRepository $scheduleRepository,
+        VoucherRepository $voucherRepository,
+        TourRepository $tourRepository,
+        BillService $billService
+    ) {
         $this->params = $params;
         $this->billRepository = $billRepository;
         $this->sendMailService = $sendMailService;

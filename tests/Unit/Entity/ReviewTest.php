@@ -9,7 +9,6 @@ use App\Entity\Tour;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
-
 class ReviewTest extends TestCase
 {
     public function testReviewCreate(): void

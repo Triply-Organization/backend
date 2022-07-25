@@ -44,7 +44,7 @@ class PriceListService
         return $ticketPrice->getPrice();
     }
 
-    public function addListPrice(ScheduleRequest $scheduleRequest, Schedule $schedule): void
+    public function addListPrice(ScheduleRequest $scheduleRequest, Schedule $schedule): bool
     {
         if ($scheduleRequest->getChildren() !== null) {
             $this->addPriceListTypeChildren($scheduleRequest, $schedule);
@@ -55,9 +55,10 @@ class PriceListService
         if ($scheduleRequest->getAdult() !== null) {
             $this->addPriceListTypeAdult($scheduleRequest, $schedule);
         }
+        return true;
     }
 
-    public function updateListPrice(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule): void
+    public function updateListPrice(ScheduleUpdateRequest $scheduleUpdateRequest, Schedule $schedule): bool
     {
         if ($scheduleUpdateRequest->getChildren() !== null) {
             $this->addPriceListTypeChildren($scheduleUpdateRequest, $schedule);
@@ -68,12 +69,14 @@ class PriceListService
         if ($scheduleUpdateRequest->getAdult() !== null) {
             $this->addPriceListTypeAdult($scheduleUpdateRequest, $schedule);
         }
+
+        return true;
     }
 
-    private function addPriceListTypeChildren(
+    public function addPriceListTypeChildren(
         $scheduleRequest,
         Schedule $schedule
-    ): void {
+    ): bool {
         $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'children']);
         if ($ticketType) {
@@ -83,12 +86,14 @@ class PriceListService
                 ->setCurrency('usd');
             $this->priceListRepository->add($priceList, true);
         }
+
+        return true;
     }
 
-    private function addPriceListTypeYouth(
+    public function addPriceListTypeYouth(
         $scheduleRequest,
         Schedule $schedule
-    ): void {
+    ): bool {
         $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'youth']);
         if ($ticketType) {
@@ -98,12 +103,14 @@ class PriceListService
                 ->setCurrency('usd');
             $this->priceListRepository->add($priceList, true);
         }
+
+        return true;
     }
 
-    private function addPriceListTypeAdult(
+    public function addPriceListTypeAdult(
         $scheduleRequest,
         Schedule $schedule
-    ): void {
+    ): bool {
         $priceList = new PriceList();
         $ticketType = $this->ticketTypeRepository->findOneBy(['name' => 'adult']);
         if ($ticketType) {
@@ -113,5 +120,7 @@ class PriceListService
                 ->setCurrency('usd');
             $this->priceListRepository->add($priceList, true);
         }
+
+        return true;
     }
 }

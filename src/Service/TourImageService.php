@@ -37,7 +37,7 @@ class TourImageService
         return $gallery;
     }
 
-    public function addTourImage(TourRequest $tourRequest, Tour $tour): void
+    public function addTourImage(TourRequest $tourRequest, Tour $tour): bool
     {
         foreach ($tourRequest->getTourImages() as $tourImageRequest) {
             $image = $this->imageRepository->find($tourImageRequest['id']);
@@ -50,6 +50,8 @@ class TourImageService
             $tourImage->setImage($image);
             $this->tourImageRepository->add($tourImage);
         }
+
+        return true;
     }
 
     public function updateTourImage(Tour $tour, TourUpdateRequest $tourUpdateRequest): Tour

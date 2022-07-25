@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ServiceTest extends TestCase
 {
-
     public function testServiceCreate(): void
     {
         $service = new Service();

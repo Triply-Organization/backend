@@ -4,6 +4,7 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Order;
 use App\Entity\PriceList;
+use App\Entity\Tax;
 use App\Entity\Ticket;
 use App\Entity\User;
 use App\Repository\OrderRepository;
@@ -18,12 +19,12 @@ use Symfony\Component\Security\Core\Security;
 
 class OrderServiceTest extends TestCase
 {
-    private $orderRepository;
-    private $security;
-    private $ticketRepository;
-    private $priceListRepository;
-    private $voucherRepository;
-    private $taxRepository;
+    private $orderRepositoryMock;
+    private $securityMock;
+    private $ticketRepositoryMock;
+    private $priceListRepositoryMock;
+    private $voucherRepositoryMock;
+    private $taxRepositoryMock;
 
     public function setUp(): void
     {
@@ -42,8 +43,14 @@ class OrderServiceTest extends TestCase
         $userMock->method('getId')->willReturn(1);
         $order->setUser($userMock);
         $this->securityMock->expects($this->once())->method('getUser')->willReturn($userMock);
-        $orderService = new OrderService($this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
-            $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock);
+        $orderService = new OrderService(
+            $this->orderRepositoryMock,
+            $this->securityMock,
+            $this->ticketRepositoryMock,
+            $this->priceListRepositoryMock,
+            $this->voucherRepositoryMock,
+            $this->taxRepositoryMock
+        );
         $result = $orderService->checkUserOfOrder($order);
         $this->assertTrue($result);
     }
@@ -57,8 +64,14 @@ class OrderServiceTest extends TestCase
         $userFailMock->method('getId')->willReturn(2);
         $order->setUser($userFailMock);
         $this->securityMock->expects($this->once())->method('getUser')->willReturn($userMock);
-        $orderService = new OrderService($this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
-            $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock);
+        $orderService = new OrderService(
+            $this->orderRepositoryMock,
+            $this->securityMock,
+            $this->ticketRepositoryMock,
+            $this->priceListRepositoryMock,
+            $this->voucherRepositoryMock,
+            $this->taxRepositoryMock
+        );
         $result = $orderService->checkUserOfOrder($order);
         $this->assertFalse($result);
     }
@@ -68,8 +81,14 @@ class OrderServiceTest extends TestCase
         $order = new Order();
         $ticket = new Ticket();
         $this->ticketRepositoryMock->expects($this->once())->method('findOneBy')->willReturn($ticket);
-        $orderService = new OrderService($this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
-            $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock);
+        $orderService = new OrderService(
+            $this->orderRepositoryMock,
+            $this->securityMock,
+            $this->ticketRepositoryMock,
+            $this->priceListRepositoryMock,
+            $this->voucherRepositoryMock,
+            $this->taxRepositoryMock
+        );
         $result = $orderService->findOneTicketOfOrder($order);
         $this->assertInstanceOf(Ticket::class, $result);
     }
@@ -80,8 +99,14 @@ class OrderServiceTest extends TestCase
         $ticket = new Ticket();
         $tickets = [$ticket];
         $this->ticketRepositoryMock->expects($this->once())->method('findBy')->willReturn($tickets);
-        $orderService = new OrderService($this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
-            $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock);
+        $orderService = new OrderService(
+            $this->orderRepositoryMock,
+            $this->securityMock,
+            $this->ticketRepositoryMock,
+            $this->priceListRepositoryMock,
+            $this->voucherRepositoryMock,
+            $this->taxRepositoryMock
+        );
         $result = $orderService->findTicketsOfOrder($order);
         $this->assertIsArray($result);
     }
@@ -104,9 +129,90 @@ class OrderServiceTest extends TestCase
     {
         $priceList = new PriceList();
         $amount = 50;
-        $orderService = new OrderService($this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
-            $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock);
+        $orderService = new OrderService(
+            $this->orderRepositoryMock,
+            $this->securityMock,
+            $this->ticketRepositoryMock,
+            $this->priceListRepositoryMock,
+            $this->voucherRepositoryMock,
+            $this->taxRepositoryMock
+        );
         $result = $orderService->createTicket($priceList, $amount);
         $this->assertInstanceOf(Ticket::class, $result);
+    }
+
+    public function testOrder()
+    {
+        $tax = new Tax();
+        $orderRequest = new OrderRequest();
+        $user = new User();
+        $this->taxRepositoryMock->expects($this->once())->method('findOneBy')->willReturn($tax);
+        $this->orderRepositoryMock->expects($this->any())->method('add');
+        $orderServiceMock = $this->getMockBuilder(OrderService::class)->onlyMethods(['addTicket'])
+            ->setConstructorArgs([$this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
+                $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock])->getMock();
+        $orderServiceMock->expects($this->once())->method('addTicket')->willReturn(500);
+        $result = $orderServiceMock->order($orderRequest, $user);
+        $this->assertInstanceOf(Order::class, $result);
+    }
+
+    public function testAddChildrenTicket()
+    {
+        $ticketRequest['priceListId'] = 1;
+        $ticketRequest['amount'] = 10;
+        $orderRequest = new OrderRequest();
+        $orderRequest->setChildren($ticketRequest);
+        $priceList = new PriceList();
+        $ticket = new Ticket();
+        $ticket->setTotalPrice(5.0);
+        $order = new Order();
+        $this->priceListRepositoryMock->expects($this->once())->method('find')->willReturn($priceList);
+        $this->ticketRepositoryMock->expects($this->once())->method('add');
+        $orderServiceMock = $this->getMockBuilder(OrderService::class)->onlyMethods(['createTicket'])
+            ->setConstructorArgs([$this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
+                $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock])->getMock();
+        $orderServiceMock->expects($this->once())->method('createTicket')->willReturn($ticket);
+        $result = $orderServiceMock->addChildrenTicket($orderRequest, $order);
+        $this->assertIsFloat($result);
+    }
+
+    public function testAddYouthTicket()
+    {
+        $ticketRequest['priceListId'] = 1;
+        $ticketRequest['amount'] = 10;
+        $orderRequest = new OrderRequest();
+        $orderRequest->setYouth($ticketRequest);
+        $priceList = new PriceList();
+        $ticket = new Ticket();
+        $ticket->setTotalPrice(5.0);
+        $order = new Order();
+        $this->priceListRepositoryMock->expects($this->once())->method('find')->willReturn($priceList);
+        $this->ticketRepositoryMock->expects($this->once())->method('add');
+        $orderServiceMock = $this->getMockBuilder(OrderService::class)->onlyMethods(['createTicket'])
+            ->setConstructorArgs([$this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
+                $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock])->getMock();
+        $orderServiceMock->expects($this->once())->method('createTicket')->willReturn($ticket);
+        $result = $orderServiceMock->addYouthTicket($orderRequest, $order);
+        $this->assertIsFloat($result);
+    }
+
+    public function testAddAdultTicket()
+    {
+        $ticketRequest['priceListId'] = 1;
+        $ticketRequest['amount'] = 10;
+        $orderRequest = new OrderRequest();
+        $orderRequest->setAdult($ticketRequest);
+        $priceList = new PriceList();
+        $ticket = new Ticket();
+        $ticket->setTotalPrice(5.0);
+        $order = new Order();
+        $this->priceListRepositoryMock->expects($this->once())->method('find')->willReturn($priceList);
+        $this->ticketRepositoryMock->expects($this->once())->method('add');
+        $orderServiceMock = $this->getMockBuilder(OrderService::class)->onlyMethods(['createTicket'])
+            ->setConstructorArgs([$this->orderRepositoryMock, $this->securityMock, $this->ticketRepositoryMock,
+                $this->priceListRepositoryMock, $this->voucherRepositoryMock, $this->taxRepositoryMock])->getMock();
+        $orderServiceMock->expects($this->once())->method('createTicket')->willReturn($ticket);
+        $result = $orderServiceMock->addAdultTicket($orderRequest, $order);
+        $this->assertIsFloat($result);
     }
 }

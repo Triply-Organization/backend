@@ -30,7 +30,7 @@ class UserController extends AbstractController
         $currentUser = $this->getUser();
         $query = $request->query->all();
         $userGetAllOrderRequestData = $userGetAllOrderRequest->fromArray($query);
-        return  $this->success($userService->getAllOrder($userGetAllOrderRequestData,$currentUser));
+        return  $this->success($userService->getAllOrder($userGetAllOrderRequestData, $currentUser));
     }
 
     #[Route('/{id<\d+>}', name: 'update', methods: 'PATCH')]

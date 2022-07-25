@@ -44,8 +44,16 @@ class TourServiceTest extends TestCase
     {
         $this->tourRepositoryMock->expects($this->once())->method('getAll')->willReturn(array());
         $listTourRequest = new ListTourRequest();
-        $tourService = new TourService($this->tourRepositoryMock, $this->tourImageRepositoryMock, $this->tourPlanRepositoryMock,
-            $this->tourCreateMapperMock, $this->tourUpdateMapperMock, $this->tourPlanServiceMock, $this->tourImageServiceMock, $this->facilityTourServiceMock);
+        $tourService = new TourService(
+            $this->tourRepositoryMock,
+            $this->tourImageRepositoryMock,
+            $this->tourPlanRepositoryMock,
+            $this->tourCreateMapperMock,
+            $this->tourUpdateMapperMock,
+            $this->tourPlanServiceMock,
+            $this->tourImageServiceMock,
+            $this->facilityTourServiceMock
+        );
         $result = $tourService->findAll($listTourRequest);
 
         $this->assertEquals(array(), $result);
@@ -55,8 +63,16 @@ class TourServiceTest extends TestCase
     {
         $this->tourCreateMapperMock->expects($this->once())->method('mapping')->willReturn(new Tour());
         $tourRequest = new TourRequest();
-        $tourService = new TourService($this->tourRepositoryMock, $this->tourImageRepositoryMock, $this->tourPlanRepositoryMock,
-            $this->tourCreateMapperMock, $this->tourUpdateMapperMock, $this->tourPlanServiceMock, $this->tourImageServiceMock, $this->facilityTourServiceMock);
+        $tourService = new TourService(
+            $this->tourRepositoryMock,
+            $this->tourImageRepositoryMock,
+            $this->tourPlanRepositoryMock,
+            $this->tourCreateMapperMock,
+            $this->tourUpdateMapperMock,
+            $this->tourPlanServiceMock,
+            $this->tourImageServiceMock,
+            $this->facilityTourServiceMock
+        );
         $result = $tourService->addTour($tourRequest);
 
         $this->assertInstanceOf(Tour::class, $result);
@@ -70,8 +86,16 @@ class TourServiceTest extends TestCase
         $this->tourPlanRepositoryMock->expects($this->once())->method('deleteWithRelation');
         $this->tourRepositoryMock->expects($this->once())->method('delete');
 
-        $tourService = new TourService($this->tourRepositoryMock, $this->tourImageRepositoryMock, $this->tourPlanRepositoryMock,
-            $this->tourCreateMapperMock, $this->tourUpdateMapperMock, $this->tourPlanServiceMock, $this->tourImageServiceMock, $this->facilityTourServiceMock);
+        $tourService = new TourService(
+            $this->tourRepositoryMock,
+            $this->tourImageRepositoryMock,
+            $this->tourPlanRepositoryMock,
+            $this->tourCreateMapperMock,
+            $this->tourUpdateMapperMock,
+            $this->tourPlanServiceMock,
+            $this->tourImageServiceMock,
+            $this->facilityTourServiceMock
+        );
         $result = $tourService->delete($tourMock);
         $this->assertTrue($result);
     }
@@ -84,21 +108,37 @@ class TourServiceTest extends TestCase
         $this->tourPlanRepositoryMock->expects($this->once())->method('undoDeleteWithRelation');
         $this->tourRepositoryMock->expects($this->once())->method('undoDelete');
 
-        $tourService = new TourService($this->tourRepositoryMock, $this->tourImageRepositoryMock, $this->tourPlanRepositoryMock,
-            $this->tourCreateMapperMock, $this->tourUpdateMapperMock, $this->tourPlanServiceMock, $this->tourImageServiceMock, $this->facilityTourServiceMock);
+        $tourService = new TourService(
+            $this->tourRepositoryMock,
+            $this->tourImageRepositoryMock,
+            $this->tourPlanRepositoryMock,
+            $this->tourCreateMapperMock,
+            $this->tourUpdateMapperMock,
+            $this->tourPlanServiceMock,
+            $this->tourImageServiceMock,
+            $this->facilityTourServiceMock
+        );
         $result = $tourService->undoDelete($tourMock);
         $this->assertTrue($result);
     }
 
     public function testChangeStatus()
     {
-        $tour = new Tour;
-        $statusOfTourRequest = new ChangeStatusOfTourRequest;
+        $tour = new Tour();
+        $statusOfTourRequest = new ChangeStatusOfTourRequest();
         $statusOfTourRequest->setStatus('STRING');
         $this->tourRepositoryMock->expects($this->once())->method('find')->willReturn($tour);
         $this->tourRepositoryMock->expects($this->once())->method('add');
-        $tourService = new TourService($this->tourRepositoryMock, $this->tourImageRepositoryMock, $this->tourPlanRepositoryMock,
-            $this->tourCreateMapperMock, $this->tourUpdateMapperMock, $this->tourPlanServiceMock, $this->tourImageServiceMock, $this->facilityTourServiceMock);
+        $tourService = new TourService(
+            $this->tourRepositoryMock,
+            $this->tourImageRepositoryMock,
+            $this->tourPlanRepositoryMock,
+            $this->tourCreateMapperMock,
+            $this->tourUpdateMapperMock,
+            $this->tourPlanServiceMock,
+            $this->tourImageServiceMock,
+            $this->facilityTourServiceMock
+        );
 
         $result = $tourService->changeStatus($statusOfTourRequest, $tour);
         $this->assertTrue($result);

@@ -34,7 +34,6 @@ class ListTourServiceTest extends TestCase
         $this->destinationServiceMock = $this->getMockBuilder(DestinationService::class)->disableOriginalConstructor()->getMock();
         $this->ticketTypeServiceMock = $this->getMockBuilder(TicketTypeService::class)->disableOriginalConstructor()->getMock();
         $this->tourRepositoryMock = $this->getMockBuilder(TourRepository::class)->disableOriginalConstructor()->getMock();
-
     }
 
     public function testGetAll()
@@ -47,8 +46,15 @@ class ListTourServiceTest extends TestCase
             'totalTours' => 0,
         ]);
 
-        $listTourService = new ListTourService($this->tourRepositoryMock, $this->tourTransformerMock, $this->securityMock,
-            $this->userRepositoryMock, $this->facilityServiceMock, $this->destinationServiceMock, $this->ticketTypeServiceMock);
+        $listTourService = new ListTourService(
+            $this->tourRepositoryMock,
+            $this->tourTransformerMock,
+            $this->securityMock,
+            $this->userRepositoryMock,
+            $this->facilityServiceMock,
+            $this->destinationServiceMock,
+            $this->ticketTypeServiceMock
+        );
         $result = $listTourService->getAll($listTourRequest);
 
         $this->assertIsArray($result);
@@ -69,8 +75,15 @@ class ListTourServiceTest extends TestCase
         $this->ticketTypeServiceMock->expects($this->once())->method('getTicketType')->willReturn(array());
         $this->facilityServiceMock->expects($this->once())->method('getPopularTour')->willReturn(array());
 
-        $listTourService = new ListTourService($this->tourRepositoryMock, $this->tourTransformerMock, $this->securityMock,
-            $this->userRepositoryMock, $this->facilityServiceMock, $this->destinationServiceMock, $this->ticketTypeServiceMock);
+        $listTourService = new ListTourService(
+            $this->tourRepositoryMock,
+            $this->tourTransformerMock,
+            $this->securityMock,
+            $this->userRepositoryMock,
+            $this->facilityServiceMock,
+            $this->destinationServiceMock,
+            $this->ticketTypeServiceMock
+        );
         $result = $listTourService->findAll($listTourRequest);
         $this->assertIsArray($result);
     }
@@ -86,8 +99,15 @@ class ListTourServiceTest extends TestCase
         $this->securityMock->expects($this->once())->method('getUser')->willReturn($userMock);
         $this->userRepositoryMock->expects($this->once())->method('find')->willReturn($userMock);
         $this->tourRepositoryMock->expects($this->once())->method('findBy')->willReturn($tours);
-        $listTourService = new ListTourService($this->tourRepositoryMock, $this->tourTransformerMock, $this->securityMock,
-            $this->userRepositoryMock, $this->facilityServiceMock, $this->destinationServiceMock, $this->ticketTypeServiceMock);
+        $listTourService = new ListTourService(
+            $this->tourRepositoryMock,
+            $this->tourTransformerMock,
+            $this->securityMock,
+            $this->userRepositoryMock,
+            $this->facilityServiceMock,
+            $this->destinationServiceMock,
+            $this->ticketTypeServiceMock
+        );
         $result = $listTourService->getTourOfCustomer();
         $this->assertIsArray($result);
     }

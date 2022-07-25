@@ -58,8 +58,14 @@ class TourDetailTransformerTest extends TestCase
         $this->tourPlanServiceMock->expects($this->once())->method('getTourPlan')->willReturn(array());
         $this->reviewServiceMock->expects($this->once())->method('getRatingDetail')->willReturn(array());
         $this->reviewServiceMock->expects($this->once())->method('getAllReviews')->willReturn(array());
-        $tourDetailTransformer = new TourDetailTransformer($this->facilityServiceMock, $this->tourImageServiceMock, $this->tourPlanServiceMock,
-        $this->scheduleServiceMock, $this->relatedTourServiceMock, $this->reviewServiceMock);
+        $tourDetailTransformer = new TourDetailTransformer(
+            $this->facilityServiceMock,
+            $this->tourImageServiceMock,
+            $this->tourPlanServiceMock,
+            $this->scheduleServiceMock,
+            $this->relatedTourServiceMock,
+            $this->reviewServiceMock
+        );
         $result = $tourDetailTransformer->toArray($tourMock);
         $this->assertIsArray($result);
     }

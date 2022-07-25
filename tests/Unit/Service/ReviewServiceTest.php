@@ -3,12 +3,15 @@
 namespace App\Tests\Unit\Service;
 
 use App\Entity\Review;
+use App\Entity\ReviewDetail;
 use App\Entity\Tour;
+use App\Entity\TypeReview;
 use App\Entity\User;
 use App\Repository\ReviewDetailRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\TypeReviewRepository;
 use App\Request\GetReviewAllRequest;
+use App\Request\ReviewRequest;
 use App\Service\OrderService;
 use App\Service\ReviewDetailService;
 use App\Service\ReviewService;
@@ -47,10 +50,16 @@ class ReviewServiceTest extends TestCase
         $this->reviewRepositoryMock->expects($this->once())->method('findBy')->willReturn([$tour]);
         $this->reviewDetailRepositoryMock->expects($this->once())->method('findBy')->willReturn([$review]);
 
-        $reviewService = new ReviewService($this->securityMock, $this->orderServiceMock,
-            $this->reviewRepositoryMock, $this->typeReviewRepositoryMock,
-            $this->reviewDetailRepositoryMock, $this->reviewDetailServiceMock,
-            $this->reviewTransformerMock, $this->params);
+        $reviewService = new ReviewService(
+            $this->securityMock,
+            $this->orderServiceMock,
+            $this->reviewRepositoryMock,
+            $this->typeReviewRepositoryMock,
+            $this->reviewDetailRepositoryMock,
+            $this->reviewDetailServiceMock,
+            $this->reviewTransformerMock,
+            $this->params
+        );
         $results = $reviewService->handleRating($tour);
 
         $this->assertIsArray($results);
@@ -112,17 +121,23 @@ class ReviewServiceTest extends TestCase
 
     public function testAdminGetAllReviews()
     {
-        $getReviewAllRequest = new GetReviewAllRequest;
+        $getReviewAllRequest = new GetReviewAllRequest();
         $review = new Review();
         $array['reviews'] = $review;
         $array['totalPages'] = 1;
         $array['page'] = 1;
         $array['totalReviews'] = 1;
         $this->reviewRepositoryMock->expects($this->once())->method('getAllReviewAdmin')->willReturn($array);
-        $reviewService = new ReviewService($this->securityMock, $this->orderServiceMock,
-            $this->reviewRepositoryMock, $this->typeReviewRepositoryMock,
-            $this->reviewDetailRepositoryMock, $this->reviewDetailServiceMock,
-            $this->reviewTransformerMock, $this->params);
+        $reviewService = new ReviewService(
+            $this->securityMock,
+            $this->orderServiceMock,
+            $this->reviewRepositoryMock,
+            $this->typeReviewRepositoryMock,
+            $this->reviewDetailRepositoryMock,
+            $this->reviewDetailServiceMock,
+            $this->reviewTransformerMock,
+            $this->params
+        );
         $result = $reviewService->adminGetAllReviews($getReviewAllRequest);
 
         $this->assertIsArray($result);
@@ -130,17 +145,23 @@ class ReviewServiceTest extends TestCase
 
     public function testGetAllReviews()
     {
-        $tour = new Tour;
-        $user = new user;
+        $tour = new Tour();
+        $user = new user();
         $review = new Review();
         $review->setUser($user)->setTour($tour);
         $reviews = [$review];
         $this->reviewRepositoryMock->expects($this->once())->method('findBy')->willReturn($reviews);
         $this->reviewDetailRepositoryMock->expects($this->once())->method('findBy')->willReturn($reviews);
-        $reviewService = new ReviewService($this->securityMock, $this->orderServiceMock,
-            $this->reviewRepositoryMock, $this->typeReviewRepositoryMock,
-            $this->reviewDetailRepositoryMock, $this->reviewDetailServiceMock,
-            $this->reviewTransformerMock, $this->params);
+        $reviewService = new ReviewService(
+            $this->securityMock,
+            $this->orderServiceMock,
+            $this->reviewRepositoryMock,
+            $this->typeReviewRepositoryMock,
+            $this->reviewDetailRepositoryMock,
+            $this->reviewDetailServiceMock,
+            $this->reviewTransformerMock,
+            $this->params
+        );
         $results = $reviewService->getAllReviews($tour);
 
         $this->assertIsArray($results);
@@ -155,11 +176,66 @@ class ReviewServiceTest extends TestCase
             'price' => 5,
             'amenities' => 5
         ];
-        $reviewService = new ReviewService($this->securityMock, $this->orderServiceMock,
-            $this->reviewRepositoryMock, $this->typeReviewRepositoryMock,
-            $this->reviewDetailRepositoryMock, $this->reviewDetailServiceMock,
-            $this->reviewTransformerMock, $this->params);
+        $reviewService = new ReviewService(
+            $this->securityMock,
+            $this->orderServiceMock,
+            $this->reviewRepositoryMock,
+            $this->typeReviewRepositoryMock,
+            $this->reviewDetailRepositoryMock,
+            $this->reviewDetailServiceMock,
+            $this->reviewTransformerMock,
+            $this->params
+        );
         $result = $reviewService->handleRatingUser($data);
         $this->assertIsArray($result);
+    }
+
+    public function testDeleteReviewWithTrueRequest()
+    {
+        $userMock = $this->getMockBuilder(User::class)->getMock();
+        $userMock->method('getId')->willReturn(1);
+        $userMock->setRoles(["ROLE_ADMIN"]);
+        $reviewDetail = new ReviewDetail();
+        $review = new Review();
+        $review->setUser($userMock)->addReviewDetail($reviewDetail);
+        $this->securityMock->expects($this->once())->method('getUser')->willReturn($userMock);
+        $this->reviewDetailRepositoryMock->expects($this->once())->method('add');
+        $this->reviewRepositoryMock->expects($this->once())->method('add');
+        $reviewService = new ReviewService(
+            $this->securityMock,
+            $this->orderServiceMock,
+            $this->reviewRepositoryMock,
+            $this->typeReviewRepositoryMock,
+            $this->reviewDetailRepositoryMock,
+            $this->reviewDetailServiceMock,
+            $this->reviewTransformerMock,
+            $this->params
+        );
+        $result = $reviewService->deleteReview($review);
+        $this->assertTrue($result);
+    }
+
+    public function testAddRate()
+    {
+        $review = new Review();
+        $rate['id'] = 1;
+        $rate['rate'] = 5;
+        $reviewRequest = new ReviewRequest();
+        $reviewRequest->setRate([$rate]);
+        $typeReview = new TypeReview();
+        $this->typeReviewRepositoryMock->expects($this->once())->method('find')->willReturn($typeReview);
+        $this->reviewDetailRepositoryMock->expects($this->once())->method('add');
+        $reviewService = new ReviewService(
+            $this->securityMock,
+            $this->orderServiceMock,
+            $this->reviewRepositoryMock,
+            $this->typeReviewRepositoryMock,
+            $this->reviewDetailRepositoryMock,
+            $this->reviewDetailServiceMock,
+            $this->reviewTransformerMock,
+            $this->params
+        );
+        $result = $reviewService->addRate($reviewRequest, $review);
+        $this->assertTrue($result);
     }
 }
